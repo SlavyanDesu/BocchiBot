@@ -1,0 +1,21 @@
+{
+  "name": "kosaki-wa-bot",
+  "version": "1.0.0",
+  "description": "WhatsApp bot using @open-wa/wa-automate library.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "SlavyanDesu",
+  "license": "MIT",
+  "dependencies": {
+    "@open-wa/wa-automate": "^3.0.6",
+    "chalk": "^4.1.0",
+    "fs-extra": "^9.0.1",
+    "moment-timezone": "^0.5.31",
+    "node-fetch": "^2.6.1",
+    "tiktok-scraper": "^1.3.5",
+    "video-url-link": "^0.1.5"
+  }
+}
