@@ -6,22 +6,22 @@ Command list:
 1. *$say*
 Ya gitu.
 Aliases: -
-Penggunaan: $say <teks>
+Penggunaan: *$say* <teks>
 
 2. *$ping*
 Cek speed bot, bukan koneksi kamu.
 Aliases: *p*
-Penggunaan: $ping
+Penggunaan: *$ping*
 
-3. *$help*
+3. *$menu*
 Cek command list.
 Aliases: -
-Penggunaan: $menu
+Penggunaan: *$menu*
 
 4. *$sticker*
 Bikin stiker dari gambar yang dikirim atau di-reply.
 Aliases: *stiker*
-Penggunaan: Kirim gamber dengan caption $sticker atau reply gambar dengan caption $sticker.
+Penggunaan: Kirim gamber dengan caption *$sticker* atau reply gambar dengan caption *$sticker*.
     `
 }
 
