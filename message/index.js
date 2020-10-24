@@ -2,6 +2,7 @@ const { decryptMedia, Client } = require('@open-wa/wa-automate')
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 const { msgFilter, color, processTime } = require('../tools')
+const config = require('../config.json')
 const { menu } = require('./text')
 
 module.exports = msgHandler = async (client = new Client(), message) => {
@@ -12,7 +13,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         let { pushname, verifiedName } = sender
         pushname = pushname || verifiedName
         const blockNumber = await client.getBlockedIds()
-        const ownerNumber = '6281294958473@c.us'
+        const ownerNumber = config.ownerBot
         const isBlocked = blockNumber.includes(sender.id)
         const isOwner = sender.id === ownerNumber
 
