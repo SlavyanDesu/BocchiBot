@@ -22,16 +22,7 @@ const start = async (client = new Client()) => {
     })
 
     // Listening added to group
-    client.onAddedToGroup((chat) => {
-        let totalMem = chat.groupMetadata.participants.length
-        if (totalMem < 20) {
-            client.sendText(chat.id, `Jumlah member hanya *${totalMem}*. Minimal member harus *20*.`)
-                .then(() => client.leaveGroup(chat.id))
-                .then(() => client.deleteChat(chat.id))
-        } else {
-            client.sendText(chat.groupMetadata.id, `Terima kasih grup ${chat.contact.name} telah mengundangku!`)
-        }
-    })
+    client.onAddedToGroup(chat => client.sendText(chat.groupMetadata.id, `Terima kasih grup ${chat.contact.name} telah mengundangku!`))
 
     // Listening on message
     client.onMessage((message) => {
