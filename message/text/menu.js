@@ -24,3 +24,13 @@ Aliases: *stiker*
 Penggunaan: Kirim gamber dengan caption $sticker atau reply gambar dengan caption $sticker.
     `
 }
+
+exports.textNsfw = () => {
+    return `
+NSFW list:
+1. *$multilewds*
+Kirim gambar anime lewd sebanyak 5 gambar.
+Aliases: *multilewd* - *mlewds* - *mlewd*
+Penggunaan: *$multilewds*
+    `
+}

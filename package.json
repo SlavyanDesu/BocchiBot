@@ -14,6 +14,7 @@
     "chalk": "^4.1.0",
     "fs-extra": "^9.0.1",
     "moment-timezone": "^0.5.31",
+    "nekos.life": "^2.0.7",
     "node-fetch": "^2.6.1",
     "tiktok-scraper": "^1.3.5",
     "video-url-link": "^0.1.5"
