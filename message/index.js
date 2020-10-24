@@ -17,12 +17,12 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         const isBlocked = blockNumber.includes(sender.id)
         const isOwner = sender.id === ownerNumber
 
-        const prefix  = '$'
+        const prefix  = config.prefix
         body = (type === 'chat' && body.startsWith(prefix)) ? body : ((type === 'image' && caption) && caption.startsWith(prefix)) ? caption : ''
         const command = body.slice(1).trim().split(/ +/).shift().toLowerCase()
         const args = body.trim().split(/ +/).slice(1)
         const isCmd = body.startsWith(prefix)
-        const uaOverride = 'WhatsApp/2.2037.6 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36'
+        const uaOverride = config.uaOverride
         const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
 
         if (isBlocked) return
