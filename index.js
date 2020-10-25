@@ -1,5 +1,6 @@
 const { create, Client } = require('@open-wa/wa-automate')
 const { color } = require('./tools')
+const { id, en, jp } = require('./message/text/lang/')
 const options = require('./tools/options')
 const msgHandler = require('./message')
 
@@ -39,7 +40,7 @@ const start = async (client = new Client()) => {
 
     // When someone trying to call bot, he will be blocked
     client.onIncomingCall(async (callData) => {
-        await client.sendText(callData.peerJid, 'Bot tidak menerima panggilan! Karena kamu telah melanggar rules, maka kamu telah diblok.')
+        await client.sendText(callData.peerJid, jp.blocked())
             .then(() => client.contactBlock(callData.peerJid))
     })
 }
