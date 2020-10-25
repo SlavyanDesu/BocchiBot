@@ -161,13 +161,14 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     if (!cvk.isReadOnly) await client.sendText(bcs, `[ DEV BROADCAST ]\n\n${kata}`)
                 }
                 client.reply(from, jp.doneOwner(), id)
+            break
             case 'clearall':
                 if (!isOwner) return client.reply(from, jp.ownerOnly(), id)
                 const allChats = await client.getAllChats()
                 for (let delChats of allChats) {
                     await client.deleteChat(delChats.id)
                 }
-                client.reply(from, jp.doneOwner(), id)
+                await client.reply(from, jp.doneOwner(), id)
             break
             case 'leaveall':
                 if (!isOwner) return client.reply(from, jp.ownerOnly(), id)
@@ -178,6 +179,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     await client.leaveGroup(gclist.contact.id)
                 }
                 client.reply(from, jp.doneOwner())
+            break
             case 'getses':
                 if (!isOwner) return client.reply(from, jp.ownerOnly(), id)
                 const ses = await client.getSnapshot()
