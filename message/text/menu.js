@@ -27,7 +27,7 @@ Usage: Kirim gambar dengan caption *$sticker* atau reply gambar dengan caption *
 
 exports.textMenuJp = (pushname) => {
     return `
-こんにちは${pushname}さん〜
+こんにちは *${pushname}* さん〜
 
 コマンドリスト:
 1. *$say*
@@ -48,7 +48,7 @@ Usage: *$menu*
 4. *$sticker*
 送信された画像からステッカーを作成する。
 Aliases: *stiker*
-Usage: 「*$sticker*」というキャプション付きの画像を送信するか、「*$sticker*」というキャプション付きの画像に返信します。
+Usage: 「 *$sticker* 」というキャプション付きの画像を送信するか、「 *$sticker* 」というキャプション付きの画像に返信します。
     `
 }
 
