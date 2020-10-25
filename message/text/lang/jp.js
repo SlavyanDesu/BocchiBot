@@ -24,7 +24,13 @@ exports.emptyMess = () => {
 
 exports.cmdNotFound = () => {
     return `
-コマンドが見つかりません!
+コマンドが見つかりません！
+    `
+}
+
+exports.blocked = () => {
+    return `
+ボットは電話を受けることができません。 ルールに違反したため、ブロックされました！\n\nオーナーにご連絡ください： wa.me/6281294958473
     `
 }
 
