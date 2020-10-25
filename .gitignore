@@ -1,6 +1,17 @@
+# Modules directory
 node_modules
+
+# Session file
 *.data.json
+
+# Lock file
 package-lock.json
+
+# Debug file
 debug.log
+
+# Config file
 config.json
+
+# Dot files
 .*

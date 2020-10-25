@@ -9,6 +9,7 @@ const { msgFilter, color, processTime } = require('../tools')
 const { nsfw } = require('../lib')
 const config = require('../config.json')
 const { menu } = require('./text')
+const { id, en, jp } = require('./text/lang/')
 const _nsfw = JSON.parse(fs.readFileSync('./ingfo/nsfw.json'))
 
 module.exports = msgHandler = async (client = new Client(), message) => {
@@ -38,6 +39,10 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         const kata = args.join(' ')
         const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
 
+        // Ignore non-cmd
+        if (!isCmd) return
+
+        // Ignore blocked users
         if (isBlocked) return
 
         // Anti-spam
@@ -45,8 +50,6 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         if (isCmd && msgFilter.isFiltered(from) && isGroupMsg) { return console.log(color('[SPAM]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle)) }
 
         // Log
-        if (!isCmd && !isGroupMsg) return
-        if (!isCmd && isGroupMsg) return
         if (isCmd && !isGroupMsg) { console.log(color('[EXEC]'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname)) }
         if (isCmd && isGroupMsg) { console.log(color('[EXEC]'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle)) }
 
@@ -57,26 +60,28 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             // Utility
             case 'ping':
             case 'p':
-                await client.sendText(from, `Pong!\nSpeed: ${processTime(t, moment())} detik`)
+                await client.sendText(from, `Pong!\nSpeed: ${processTime(t, moment())} s`)
             break
             case 'say':
+                if (!kata) return client.reply(from, jp.emptyMess(), id)
                 client.sendText(from, kata)
             break
             case 'menu':
-                client.sendText(from, menu.textMenu(pushname))
+                client.sendText(from, menu.textMenuJp(pushname))
             break
 
             // Sticker
             case 'sticker':
             case 'stiker':
                 if (isMedia || isQuotedImage) {
+                    client.reply(from, jp.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const _mimetype = isQuotedImage ? quotedMsg.mimetype : mimetype
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
                     const imageBase64 = `data:${_mimetype};base64,${mediaData.toString('base64')}`
                     await client.sendImageAsSticker(from, imageBase64)
                         .then(() => {
-                            client.sendText(from, 'Ok desu~')
+                            client.sendText(from, jp.ok())
                             console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                         })
                         .catch((err) => {
@@ -84,7 +89,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                             client.reply(from, `Error:\n${err}`)
                         })
                 } else {
-                    client.reply(from, 'Format salah!', id)
+                    client.reply(from, jp.wrongFormat(), id)
                 }
             break
 
@@ -148,40 +153,40 @@ module.exports = msgHandler = async (client = new Client(), message) => {
 
             // Owner command
             case 'bc':
-                if (!isOwner) return client.reply(from, 'Command ini khusus Slavyan-sama seorang!', id)
-                if (!kata) return client.reply(from, 'Masukkan pesan yang ini disampaikan, Slavyan-sama.')
+                if (!isOwner) return client.reply(from, jp.ownerOnly(), id)
+                if (!kata) return client.reply(from, jp.emptyMess(), id)
                 const chats = await client.getAllChatIds()
                 for (let bcs of chats) {
                     let cvk = await client.getChatById(bcs)
                     if (!cvk.isReadOnly) await client.sendText(bcs, `[ DEV BROADCAST ]\n\n${kata}`)
                 }
-                client.reply(from, 'Sudah selesai, Slavyan-sama~', id)
+                client.reply(from, jp.doneOwner(), id)
             case 'clearall':
-                if (!isOwner) return client.reply(from, 'Command ini khusus Slavyan-sama seorang!', id)
+                if (!isOwner) return client.reply(from, jp.ownerOnly(), id)
                 const allChats = await client.getAllChats()
                 for (let delChats of allChats) {
                     await client.deleteChat(delChats.id)
                 }
-                client.reply(from, 'Sudah selesai, Slavyan-sama~', id)
+                client.reply(from, jp.doneOwner(), id)
             break
             case 'leaveall':
-                if (!isOwner) return client.reply(from, 'Command ini khusus Slavyan-sama seorang!', id)
-                if (!kata) return client.reply(from, 'Masukkan pesan yang ini disampaikan, Slavyan-sama.')
+                if (!isOwner) return client.reply(from, jp.ownerOnly(), id)
+                if (!kata) return client.reply(from, jp.emptyMess(), id)
                 const allGroup = await client.getAllGroups()
                 for (let gclist of allGroup) {
                     await client.sendText(gclist.contact.id, kata)
                     await client.leaveGroup(gclist.contact.id)
                 }
-                client.reply(from, 'Sudah selesai, Slavyan-sama~')
+                client.reply(from, jp.doneOwner())
             case 'getses':
-                if (!isOwner) return client.reply(from, 'Command ini khusus owner bot!', id)
+                if (!isOwner) return client.reply(from, jp.ownerOnly(), id)
                 const ses = await client.getSnapshot()
-                client.sendFile(from, ses, 'session.png', 'Douzo...')
+                client.sendFile(from, ses, 'session.png', jp.doneOwner())
             break
 
             default:
                 console.log(color('[ERROR]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), 'Unregistered command from', color(pushname))
-                client.reply(from, 'Command tidak tersedia.', id)
+                client.reply(from, jp.cmdNotFound(), id)
             break
         }
     } catch (err) {
