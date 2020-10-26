@@ -11,10 +11,11 @@ const config = require('../config.json')
 const { menu } = require('./text')
 const { ind, eng } = require('./text/lang/')
 const _nsfw = JSON.parse(fs.readFileSync('./ingfo/nsfw.json'))
+const _ban = JSON.parse(fs.readFileSync('./ingfo/banned.json'))
 
 module.exports = msgHandler = async (client = new Client(), message) => {
     try {
-        const { type, id, from, t, sender, isGroupMsg, chat, caption, isMedia, mimetype, quotedMsg, quotedMsgObj } = message
+        const { type, id, from, t, sender, isGroupMsg, chat, caption, isMedia, mimetype, quotedMsg, quotedMsgObj, mentionedJidList } = message
         let { body } = message
         const { name, formattedTitle } = chat
         let { pushname, verifiedName } = sender
@@ -29,6 +30,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         const isGroupAdmins = groupAdmins.includes(sender.id) || false
         const isBotGroupAdmins = groupAdmins.includes(botNumber) || false
         const isNsfw = isGroupMsg ? _nsfw.includes(chat.id) : false
+        const isBanned = _ban.includes(sender.id)
 
         const prefix  = config.prefix
         body = (type === 'chat' && body.startsWith(prefix)) ? body : ((type === 'image' && caption) && caption.startsWith(prefix)) ? caption : ''
@@ -46,7 +48,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         if (isCmd && !isGroupMsg) return client.sendText(from, 'Bot ini sedang dalam pengembangan dan hanya tersedia secara ekslusif untuk grup FGA saja.')
 
         // Ignore blocked users
-        if (isBlocked) return
+        if (isBlocked || isBanned) return
 
         // Anti-spam
         if (isCmd && msgFilter.isFiltered(from) && !isGroupMsg) { return console.log(color('[SPAM]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname)) }
@@ -86,15 +88,31 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break
 
             // Weeb zone
-            case 'waifu':
-            case 'w':
-                client.sendFileFromUrl(from, (await neko.sfw.waifu()), 'waifu.jpg', '', null, null, true)
-                    .then(() => console.log('Success sending waifu image!'))
+            case 'neko':
+                client.sendFileFromUrl(from, (await neko.sfw.wallpaper()).url, 'waifu.png', '', null, null, true)
+                    .then(() => console.log('Success sending neko image!'))
                     .catch((err) => {
                         console.error(err)
-                        client.reply(from, `Error:\n\n${err}`, id)
+                        client.reply(from, `Error:\n${err}`, id)
                     })
             break 
+            case 'wallpaper':
+            case 'wp':
+                client.sendFileFromUrl(from, (await neko.sfw.wallpaper()).url, 'wallpaper.png', '', null, null, true)
+                    .then(() => console.log('Success sending wallpaper image!'))
+                    .catch((err) => {
+                        console.error(err)
+                        client.reply(from, `Error:\n${err}`)
+                    })
+            break
+            case 'kemono':
+                client.sendFileFromUrl(from, (await neko.sfw.kemonomimi()).url, 'kemono.png', '', null, null, true)
+                    .then(() => console.log('Success sending kemonomimi image!'))
+                    .catch((err) => {
+                        console.error(err)
+                        client.reply(from, `Error;\n${err}`)
+                    })
+            break
 
             // Sticker
             case 'sticker':
@@ -211,6 +229,21 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
                 const ses = await client.getSnapshot()
                 client.sendFile(from, ses, 'session.png', ind.doneOwner())
+            break
+            case 'ban':
+                if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
+                for (let blist of mentionedJidList) {
+                    _ban.push(blist)
+                    fs.writeFileSync('./ingfo/banned.json', JSON.stringify(_ban))
+                }
+                client.reply(from, ind.doneOwner(), id)
+            break
+            case 'unban':
+                if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
+                let benet = _ban.indexOf(mentionedJidList[0])
+                _ban.splice(benet, 1)
+                fs.writeFileSync('./ingfo/banned.json', JSON.stringify(_ban))
+                client.reply(from, ind.doneOwner(), id)
             break
 
             default:

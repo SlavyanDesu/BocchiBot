@@ -27,7 +27,7 @@ exports.ownerOnly = () => {
 }
 
 exports.doneOwner = () => {
-    return `Sudah selesai, Slavyan-sama`
+    return `Sudah selesai, Slavyan-sama~`
 }
 
 exports.groupOnly = () => {

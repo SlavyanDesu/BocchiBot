@@ -28,7 +28,7 @@ Usage: Kirim gambar dengan caption *$sticker* atau reply gambar dengan caption *
 5. *$nsfw*
 H3h3.
 Aliases: -
-Usage: *$nsfw* <enabled/disable>
+Usage: *$nsfw* <enable/disable>
     `
 }
 
