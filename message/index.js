@@ -86,6 +86,22 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             case 'rule':
                 client.sendText(from, menu.textRulesId())
             break
+            case 'nsfw':
+                if (!isGroupMsg) return client.reply(from, ind.groupOnly(), id)
+                if (!isGroupAdmins) return client.reply(from, ind.adminOnly(), id)
+                if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
+                if (args[0] === 'enable') {
+                    _nsfw.push(chat.id)
+                    fs.writeFileSync('./ingfo/nsfw.json', JSON.stringify(_nsfw))
+                    client.reply(from, ind.nsfwOn(), id)
+                } else if (args[0] === 'disable') {
+                    _nsfw.splice(chat.id, 1)
+                    fs.writeFileSync('./ingfo/nsfw.json', JSON.stringify(_nsfw))
+                    client.reply(from, ind.nsfwOff(), id)
+                } else {
+                    client.reply(from, ind.wrongFormat(), id)
+                }
+            break
 
             // Weeb zone
             case 'neko':
@@ -138,22 +154,6 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break
 
             // NSFW
-            case 'nsfw':
-                if (!isGroupMsg) return client.reply(from, ind.groupOnly(), id)
-                if (!isGroupAdmins) return client.reply(from, ind.adminOnly(), id)
-                if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
-                if (args[0] === 'enable') {
-                    _nsfw.push(chat.id)
-                    fs.writeFileSync('./ingfo/nsfw.json', JSON.stringify(_nsfw))
-                    client.reply(from, ind.nsfwOn(), id)
-                } else if (args[0] === 'disable') {
-                    _nsfw.splice(chat.id, 1)
-                    fs.writeFileSync('./ingfo/nsfw.json', JSON.stringify(_nsfw))
-                    client.reply(from, ind.nsfwOff(), id)
-                } else {
-                    client.reply(from, ind.wrongFormat(), id)
-                }
-            break
             case 'nsfwmenu':
                 if (!isNsfw) return client.reply(from, ind.notNsfw(), id)
                 client.sendText(from, menu.textNsfw())
