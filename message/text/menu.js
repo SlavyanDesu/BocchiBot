@@ -2,6 +2,8 @@ exports.textMenuId = (pushname) => {
     return `
 Halo *${pushname}*~
 
+Gak usah pake <>
+
 Command list:
 1. *$say*
 Ya gitu.
@@ -22,42 +24,35 @@ Usage: *$menu*
 Bikin stiker dari gambar yang dikirim atau di-reply.
 Aliases: *stiker*
 Usage: Kirim gambar dengan caption *$sticker* atau reply gambar dengan caption *$sticker*.
+
+5. *$nsfw*
+H3h3.
+Aliases: -
+Usage: *$nsfw* <enabled/disable>
     `
 }
 
-exports.textMenuJp = (pushname) => {
+exports.textRulesId = () => {
     return `
-こんにちは *${pushname}* さん〜
+    *[ THE RULES ]*
+1. Jangan spam bot. 
+Sanksi: *WARN/SOFT BLOCK*
 
-コマンドリスト:
-1. *$say*
-わかんない...
-Aliases: -
-Usage: *$say* <text>
+2. Jangan telepon bot.
+Sanksi: *SOFT BLOCK*
 
-2. *$ping*
-ボットの速度を確認する。
-Aliases: *p*
-Usage: *$ping*
+3. Eksploitasi bot.
+Sanksi: *PERMANENT BLOCK*
 
-3. *$menu*
-すべてのコマンドリストを表示。
-Aliases: -
-Usage: *$menu*
+Jika sudah dipahamin rules-nya, silakan ketik *$menu* untuk memulai.
 
-4. *$sticker*
-送信された画像からステッカーを作成する。
-Aliases: *stiker*
-Usage: 「 *$sticker* 」というキャプション付きの画像を送信するか、「 *$sticker* 」というキャプション付きの画像に返信します。
+Owner:
+wa.me/6281294958473 (Kal)
     `
 }
 
 exports.textNsfw = () => {
     return `
-NSFW list:
-1. *$multilewds*
-Kirim gambar anime lewd sebanyak 5 gambar.
-Aliases: *multilewd* - *mlewds* - *mlewd*
-Usage: *$multilewds*
+Belum ada h3h3, masih on-development.
     `
 }

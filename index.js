@@ -1,6 +1,6 @@
 const { create, Client } = require('@open-wa/wa-automate')
 const { color } = require('./tools')
-const { id, en, jp } = require('./message/text/lang/')
+const { id, en } = require('./message/text/lang/')
 const options = require('./tools/options')
 const msgHandler = require('./message')
 
@@ -23,7 +23,7 @@ const start = async (client = new Client()) => {
     })
 
     // Listening added to group
-    client.onAddedToGroup(chat => client.sendText(chat.groupMetadata.id, `Terima kasih grup ${chat.contact.name} telah mengundangku!`))
+    client.onAddedToGroup(chat => client.sendText(chat.groupMetadata.id, ind.addedGroup(chat)))
 
     // Listening on message
     client.onMessage((message) => {
@@ -40,7 +40,7 @@ const start = async (client = new Client()) => {
 
     // When someone trying to call bot, he will be blocked
     client.onIncomingCall(async (callData) => {
-        await client.sendText(callData.peerJid, jp.blocked())
+        await client.sendText(callData.peerJid, ind.blocked())
             .then(() => client.contactBlock(callData.peerJid))
     })
 }
