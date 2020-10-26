@@ -22,6 +22,11 @@ Nyalain command NSFW.
 Aliases: -
 Usage: *$nsfw* <enable/disable>
 
+4. *$menuowner*
+Cek owner command list.
+Aliases: -
+Usage: *$menuowner*
+
 Utility:
 1. *$say*
 Ya gitu.

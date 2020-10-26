@@ -102,6 +102,9 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     client.reply(from, ind.wrongFormat(), id)
                 }
             break
+            case 'menuowner':
+                client.sendText(from, menu.textOwner())
+            break
 
             // Weeb zone
             case 'neko':
