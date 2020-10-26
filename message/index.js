@@ -103,6 +103,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 }
             break
             case 'menuowner':
+                if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
                 client.sendText(from, menu.textOwner())
             break
 
