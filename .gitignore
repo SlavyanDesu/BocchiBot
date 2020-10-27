@@ -17,5 +17,5 @@ config.json
 .*
 
 #Local files
-nsfw.json
-banned.json
+ingfo/nsfw.json
+ingfo/banned.json
