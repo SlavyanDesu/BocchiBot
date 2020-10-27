@@ -1,6 +1,6 @@
 const { create, Client } = require('@open-wa/wa-automate')
 const { color } = require('./tools')
-const { id, en } = require('./message/text/lang/')
+const { ind, eng } = require('./message/text/lang/')
 const options = require('./tools/options')
 const msgHandler = require('./message')
 
