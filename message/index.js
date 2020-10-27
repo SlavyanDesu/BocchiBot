@@ -22,7 +22,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         pushname = pushname || verifiedName
         const botNumber = await client.getHostNumber() + '@c.us'
         const blockNumber = await client.getBlockedIds()
-        const ownerNumber = config.ownerBot
+        const ownerNumber = config.ownerBot1 || config.ownerBot2
         const isBlocked = blockNumber.includes(sender.id)
         const isOwner = sender.id === ownerNumber
         const groupId = isGroupMsg ? chat.groupMetadata.id : ''

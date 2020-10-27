@@ -23,11 +23,11 @@ exports.blocked = () => {
 }
 
 exports.ownerOnly = () => {
-    return `Command ini khusus Slavyan-sama!`
+    return `Command ini khusus Owner-sama!`
 }
 
 exports.doneOwner = () => {
-    return `Sudah selesai, Slavyan-sama~`
+    return `Sudah selesai, Owner-sama~`
 }
 
 exports.groupOnly = () => {

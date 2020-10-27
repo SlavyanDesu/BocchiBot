@@ -84,12 +84,13 @@ Jika sudah dipahamin rules-nya, silakan ketik *$menu* untuk memulai.
 
 Owner:
 wa.me/6281294958473 (Kal)
+wa.me/6282125076212 (Riz)
     `
 }
 
 exports.textOwner = () => {
     return `
-Halo Slavyan-sama ヽ(・∀・)ﾉ!
+Halo Owner-sama ヽ(・∀・)ﾉ!
 
 1. *$bc*
 Kirim broadcast.
