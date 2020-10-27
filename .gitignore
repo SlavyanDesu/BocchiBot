@@ -15,3 +15,7 @@ config.json
 
 # Dot files
 .*
+
+#Local files
+nsfw.json
+banned.json

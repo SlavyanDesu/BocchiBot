@@ -5,12 +5,12 @@ const options = require('./tools/options')
 const msgHandler = require('./message')
 
 const start = async (client = new Client()) => {
-    console.log('[DEV]', color('Slavyan', 'orange'))
-    console.log('[CLIENT]', color('Bot is now online!', 'lime'))
+    console.log('[ELAINA]', color('Welcome Slavyan-sama!', 'orange'))
+    console.log('[ELAINA]', color('Elaina is now online!', 'lime'))
 
     // Force it to keep the current session
     client.onStateChanged((state) => {
-        console.log('[CLIENT STATE]', state)
+        console.log('[ELAINA STATE]', state)
         if (state === 'UNPAIRED') client.forceRefocus()
         if (state === 'CONFLICT') client.forceRefocus()
         if (state === 'UNLAUNCHED') client.forceRefocus()
@@ -30,7 +30,7 @@ const start = async (client = new Client()) => {
         client.getAmountOfLoadedMessages()
             .then((msg) => {
                 if (msg >= 3000) {
-                    console.log('[CLIENT]', color(`Loaded message reach ${msg}, cuting message cache...`, 'yellow'))
+                    console.log('[ELAINA]', color(`Loaded message reach ${msg}, cuting message cache...`, 'yellow'))
                     client.cutMsgCache()
                         .then(() => console.log('Done!'))
                 }

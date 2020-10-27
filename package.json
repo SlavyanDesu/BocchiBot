@@ -1,7 +1,7 @@
 {
-  "name": "kosaki-wa-bot",
-  "version": "1.0.0",
-  "description": "WhatsApp bot using @open-wa/wa-automate library.",
+  "name": "Elaina-Bot",
+  "version": "0.1.6-Beta",
+  "description": "Elaina is a WhatsApp bot using wa-automate-nodejs library.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
