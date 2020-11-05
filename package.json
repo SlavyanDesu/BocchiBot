@@ -1,7 +1,7 @@
 {
   "name": "elaina-bot",
   "version": "0.1.6-Beta",
-  "description": "Elaina is a WhatsApp bot using wa-automate-nodejs library.",
+  "description": "Elaina is a multipurpose WhatsApp bot.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
