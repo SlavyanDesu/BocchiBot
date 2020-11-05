@@ -1,6 +1,6 @@
 {
   "name": "elaina-bot",
-  "version": "0.1.6-Beta",
+  "version": "0.2.0",
   "description": "Elaina is a multipurpose WhatsApp bot.",
   "main": "index.js",
   "scripts": {
