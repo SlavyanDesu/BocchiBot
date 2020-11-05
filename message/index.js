@@ -4,9 +4,10 @@ moment.tz.setDefault('Asia/Jakarta').locale('id')
 const fs = require('fs-extra')
 const Nekos = require('nekos.life')
 const neko = new Nekos()
+const os = require('os')
 
 const { msgFilter, color, processTime } = require('../tools')
-const { nsfw } = require('../lib')
+const { nsfw, lirik, shortener, qr } = require('../lib')
 const config = require('../config.json')
 const { menu } = require('./text')
 const { ind, eng } = require('./text/lang/')
@@ -38,7 +39,8 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         const args = body.trim().split(/ +/).slice(1)
         const isCmd = body.startsWith(prefix)
         const uaOverride = config.uaOverride
-        const kata = args.join(' ')
+        const q = args.join(' ')
+        const url = args.length !== 0 ? args[0] : ''
         const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
 
         // Ignore non-cmd
@@ -68,8 +70,8 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 await client.sendText(from, `Pong!\nSpeed: ${processTime(t, moment())} s`)
             break
             case 'say':
-                if (!kata) return client.reply(from, ind.emptyMess(), id)
-                client.sendText(from, kata)
+                if (!q) return client.reply(from, ind.emptyMess(), id)
+                client.sendText(from, q)
             break
             case 'delete':
             case 'del':
@@ -77,7 +79,58 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (!quotedMsgObj.fromMe) return client.reply(from, ind.wrongFormat(), id)
                 await client.deleteMessage(quotedMsgObj.chatId, quotedMsgObj.id, false)
             break
-
+            case 'lirik':
+                if (!q) return client.reply(from, ind.wrongFormat(), id)
+                client.reply(from, ind.wait(), id)
+                lirik(q)
+                    .then(({ status, result, pesan }) => {
+                        if (status === 'error') {
+                            return client.reply(from, pesan, id)
+                        } else {
+                            client.sendText(from, result)
+                                .then(() => console.log('Done!'))
+                        }
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                        client.reply(from, `Error:\n${err}`, id)
+                    })
+            break
+            case 'qr':
+                if (!q) return client.reply(from, ind.wrongFormat(), id)
+                client.reply(from, ind.wait(), id)
+                qr(q)
+                    .then(({ status, result, pesan }) => {
+                        if (status === 'error') {
+                            return client.reply(from, pesan, id)
+                        } else {
+                            client.sendFileFromUrl(from, result, 'qr.jpg', '', null, null, true)
+                                .then(() => console.log('Done!'))
+                        }
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                        client.reply(from, `Error:\n${err}`, id)
+                    })
+            break
+            case 'shortlink':
+                if (!url) return client.reply(from, ind.wrongFormat(), id)
+                client.reply(from, ind.wait(), id)
+                shortener(url)
+                    .then(({ status, result, pesan }) => {
+                        if (status === 'error') {
+                            return client.reply(from, pesan, id)
+                        } else {
+                            client.sendText(from, `Shortened link: ${result}`)
+                                .then(() => console.log('Done!'))
+                        }
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                        client.reply(from, `Error:\n${err}`, id)
+                    })
+            break
+            
             // Bot
             case 'menu':
                 client.sendText(from, menu.textMenuId(pushname))
@@ -105,6 +158,9 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             case 'menuowner':
                 if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
                 client.sendText(from, menu.textOwner())
+            break
+            case 'usage':
+                client.sendText(from, `Penggunaan RAM: *${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB* / *${Math.round(os.totalmem / 1024 / 1024)} MB*\nCPU: *${os.cpus()[0].model}*`)
             break
 
             // Weeb zone
@@ -203,11 +259,11 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             // Owner command
             case 'bc':
                 if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
-                if (!kata) return client.reply(from, ind.emptyMess(), id)
+                if (!q) return client.reply(from, ind.emptyMess(), id)
                 const chats = await client.getAllChatIds()
                 for (let bcs of chats) {
                     let cvk = await client.getChatById(bcs)
-                    if (!cvk.isReadOnly) await client.sendText(bcs, `${kata}\n\n- Slavyan (Kal)\n_Broadcasted message_`)
+                    if (!cvk.isReadOnly) await client.sendText(bcs, `${q}\n\n- Slavyan (Kal)\n_Broadcasted message_`)
                 }
                 client.reply(from, ind.doneOwner(), id)
             break
@@ -221,10 +277,10 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break
             case 'leaveall':
                 if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
-                if (!kata) return client.reply(from, ind.emptyMess(), id)
+                if (!q) return client.reply(from, ind.emptyMess(), id)
                 const allGroup = await client.getAllGroups()
                 for (let gclist of allGroup) {
-                    await client.sendText(gclist.contact.id, kata)
+                    await client.sendText(gclist.contact.id, q)
                     await client.leaveGroup(gclist.contact.id)
                 }
                 client.reply(from, ind.doneOwner())

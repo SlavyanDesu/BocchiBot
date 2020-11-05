@@ -4,7 +4,7 @@ Halo *${pushname}*~
 
 *[ COMMANDS ]*
 
-Gak usah pake <>
+Abaikan tanda <>
 
 Bot:
 1. *$rules*
@@ -27,6 +27,11 @@ Cek owner command list.
 Aliases: -
 Usage: *$menuowner*
 
+5. *$usage*
+Cek server usage.
+Aliases: -
+Usage: *$usage*
+
 Utility:
 1. *$say*
 Ya gitu.
@@ -42,6 +47,21 @@ Usage: *$ping*
 Hapus pesan bot.
 Aliases: *del*
 Usage: reply pesan yang dihapus dengan caption *$del*.
+
+4. *$lirik*
+Mencari lirik lagu.
+Aliases: -
+Usage: *$lirik* <judul lagu>
+
+5. *$qr*
+Membuat QR code.
+Aliases: -
+Usage: *$qr* <text/link>
+
+6. *$shortlink*
+Membuat shortlink.
+Aliases: -
+Usage: *$shortlink* <link>
 
 Sticker:
 1. *$sticker*

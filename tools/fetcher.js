@@ -18,23 +18,6 @@ const fetchJson = (url, options) => {
 }
 
 /**
- * Fetch text from URL
- * @param {String} url 
- * @param {Object} options 
- */
-const fetchText = (url, options) => {
-    return new Promise((resolve, reject) => {
-        return fetch(url, options)
-            .then(response => response.text())
-            .then(text => resolve(text))
-            .catch(err => {
-                console.error(err)
-                reject(err)
-            })
-    })
-}
-
-/**
  * Fetch Base64 from URL
  * @param {String} url 
  */
@@ -55,6 +38,5 @@ const fetchBase64 = (url, mimetype) => {
 
 module.exports = {
     fetchJson,
-    fetchText,
     fetchBase64
 }

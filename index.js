@@ -1,11 +1,12 @@
 const { create, Client } = require('@open-wa/wa-automate')
 const { color } = require('./tools')
 const { ind, eng } = require('./message/text/lang/')
+const figlet = require('figlet')
 const options = require('./tools/options')
 const msgHandler = require('./message')
 
 const start = async (client = new Client()) => {
-    console.log('[ELAINA]', color('Welcome Slavyan-sama!', 'orange'))
+    console.log(color(figlet.textSync('Elaina-Bot', 'Larry 3D'), 'cyan'))
     console.log('[ELAINA]', color('Elaina is now online!', 'lime'))
 
     // Force it to keep the current session
@@ -38,7 +39,7 @@ const start = async (client = new Client()) => {
         msgHandler(client, message) // Message handler
     })
 
-    // When someone trying to call bot, he will be blocked
+    // Block person who called bot
     client.onIncomingCall(async (callData) => {
         await client.sendText(callData.peerJid, ind.blocked())
             .then(() => client.contactBlock(callData.peerJid))
