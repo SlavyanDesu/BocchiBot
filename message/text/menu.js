@@ -141,6 +141,11 @@ Usage: *$unban* @user1
 Keluar dari semua grup.
 Aliases: -
 Usage: *$leaveall*
+
+7. *$eval*
+Evaluates JS code.
+Aliases: *ev*
+Usage: *$eval*
     `
 }
 
