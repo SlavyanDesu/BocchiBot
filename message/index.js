@@ -2,8 +2,8 @@ const { decryptMedia, Client } = require('@open-wa/wa-automate')
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 const fs = require('fs-extra')
-const nekos = require('nekos.life')
-const neko = new nekos()
+const Nekos = require('nekos.life')
+const neko = new Nekos()
 
 const { msgFilter, color, processTime } = require('../tools')
 const { nsfw } = require('../lib')
@@ -22,7 +22,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         pushname = pushname || verifiedName
         const botNumber = await client.getHostNumber() + '@c.us'
         const blockNumber = await client.getBlockedIds()
-        const ownerNumber = config.ownerBot1 || config.ownerBot2
+        const ownerNumber = config.ownerBot
         const isBlocked = blockNumber.includes(sender.id)
         const isOwner = sender.id === ownerNumber
         const groupId = isGroupMsg ? chat.groupMetadata.id : ''
