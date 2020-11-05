@@ -305,6 +305,18 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 fs.writeFileSync('./ingfo/banned.json', JSON.stringify(_ban))
                 client.reply(from, ind.doneOwner(), id)
             break
+            case 'eval':
+            case 'ev':
+                if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
+                if (!q) return client.reply(from, ind.wrongFormat(), id)
+                try {
+                    let evaled = eval(q)
+                    if (typeof evaled !== 'string') evaled = require('util').inspect(evaled)
+                    client.sendText(from, evaled)
+                } catch (err) {
+                    client.sendText(from, `Error: ${err}`)
+                }
+            break
 
             default:
                 console.log(color('[ERROR]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), 'Unregistered command from', color(pushname))
