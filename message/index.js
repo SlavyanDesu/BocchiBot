@@ -47,7 +47,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         if (!isCmd) return
 
         // Ignore private chat (for development)
-        if (isCmd && !isGroupMsg) return client.sendText(from, 'Bot ini sedang dalam pengembangan dan hanya tersedia secara ekslusif untuk grup FGA saja.')
+        if (isCmd && !isGroupMsg) return client.sendText(from, 'Bot ini sedang dalam pengembangan dan hanya tersedia secara eksklusif untuk grup FGA saja.')
 
         // Ignore blocked users
         if (isBlocked || isBanned) return
