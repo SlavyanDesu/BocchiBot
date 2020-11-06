@@ -1,6 +1,6 @@
 /**
  * Get client options
- * @param {Function} start functtion
+ * @param {Function} start function
  * @param {Boolean} headless
  */
 module.exports = options = (headless, start) => {
