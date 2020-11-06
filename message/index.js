@@ -320,12 +320,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             case 'shutdown':
                 if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
                 client.sendText(from, 'Otsukaresama deshita~ 👋')
-                    .then(() => console.log('Shutdowning the bot...'))
                     .then(async() => await client.kill())
-                    .catch((err) => {
-                        console.error(err)
-                        client.reply(from, `Error: ${err}`, id)
-                    })
             break
 
             default:
