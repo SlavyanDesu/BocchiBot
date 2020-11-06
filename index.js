@@ -24,7 +24,7 @@ const start = async (client = new Client()) => {
     })
 
     // Listening added to group
-    client.onAddedToGroup(chat => client.sendText(chat.groupMetadata.id, ind.addedGroup(chat)))
+    client.onAddedToGroup((chat) => client.sendText(chat.groupMetadata.id, ind.addedGroup(chat)))
 
     // Listening on message
     client.onMessage((message) => {
