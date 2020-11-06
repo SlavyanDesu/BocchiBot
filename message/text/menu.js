@@ -146,6 +146,11 @@ Usage: *$leaveall*
 Evaluates JS code.
 Aliases: *ev*
 Usage: *$eval*
+
+8. *$shutdown*
+Mematikan bot.
+Aliases: -
+Usage: *$shutdown*
     `
 }
 

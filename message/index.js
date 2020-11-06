@@ -317,6 +317,16 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     client.sendText(from, `Error: ${err}`)
                 }
             break
+            case 'shutdown':
+                if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
+                client.sendText(from, 'Otsukaresama deshita~ 👋')
+                    .then(() => console.log('Shutdowning the bot...'))
+                    .then(async() => await client.kill())
+                    .catch((err) => {
+                        console.error(err)
+                        client.reply(from, `Error: ${err}`, id)
+                    })
+            break
 
             default:
                 console.log(color('[ERROR]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), 'Unregistered command from', color(pushname))
