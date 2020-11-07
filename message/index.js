@@ -320,7 +320,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             case 'shutdown':
                 if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
                 client.sendText(from, 'Otsukaresama deshita~ 👋')
-                    .then(async() => await client.kill())
+                    .then(() => await client.kill())
             break
 
             default:
