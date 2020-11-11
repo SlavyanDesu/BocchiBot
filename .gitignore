@@ -10,12 +10,10 @@ package-lock.json
 # Debug file
 debug.log
 
-# Config file
-config.json
-
 # Dot files
 .*
 
 # Local files
+config.json
 ingfo/nsfw.json
 ingfo/banned.json
