@@ -160,7 +160,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 client.sendText(from, menu.textOwner())
             break
             case 'usage':
-                client.sendText(from, `Penggunaan RAM: *${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB* / *${Math.round(os.totalmem / 1024 / 1024)} MB*\nCPU: *${os.cpus()[0].model}*`)
+                client.sendText(from, `RAM usage: *${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB* / *${Math.round(os.totalmem / 1024 / 1024)} MB*\nCPU: *${os.cpus()[0].model}*`)
             break
 
             // Weeb zone
