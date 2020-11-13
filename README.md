@@ -75,7 +75,7 @@ After that scan the QR code using your WhatsApp apps in your phone!
 | NSFW             |      ✔️      |
 | Menu owner       |      ✔️      |
 | Server usage     |      ✔️      |
-| Listblock        |      ✔️      |
+| List block       |      ✔️      |
 
 |       Owner      | Availability |
 | :--------------: | :----------: |
