@@ -71,7 +71,7 @@ Usage: Kirim gambar dengan caption *$sticker* atau reply gambar dengan caption *
 
 Weeb zone:
 1. *$neko*
-Kirim foto neko anime girl. :3
+Kirim foto neko anime girl! :3
 Aliases: -
 Usage: *$neko*
 
@@ -81,10 +81,98 @@ Aliases: *wp*
 Usage: *$wallpaper*
 
 3. *$kemono*
-Kirim foto kemonomimi anime girl. UwU
+Kirim foto kemonomimi anime girl! UwU
 Aliases: -
 Usage: *$kemono*
+    `
+}
 
+exports.textMenuEn = (pushname) => {
+    return `
+Hello ${pushname}~
+
+[ COMMANDS ]
+
+Ignore <>
+
+Bot:
+1. $rules
+MUST READ.
+Aliases: rule
+Usage: $rules
+
+2. $menu
+Check commands list.
+Aliases: -
+Usage: $menu
+
+3. $nsfw
+Turn on NSFW commands.
+Aliases: -
+Usage: $nsfw <enable/disable>
+
+4. $menuowner
+Check owner commands list.
+Aliases: -
+Usage: $menuowner
+
+5. $usage
+Check server's usage.
+Aliases: -
+Usage: $usage
+
+Utility:
+1. $say
+Make the bot say something!
+Aliases: -
+Usage: $say <text>
+
+2. $ping
+Cek bot's speed, not YOUR connection.
+Aliases: p
+Usage: $ping
+
+3. $delete
+Delete bot's message.
+Aliases: del
+Usage: Reply the message that is going to be deleted by using caption $del. ( Ini gw gak maksud lu mau ngomong apa)
+
+4. $lirik
+Search for a song's lyric.
+Aliases: -
+Usage: $lirik <judul lagu>
+
+5. $qr
+Create a QR code.
+Aliases: -
+Usage: $qr <text/link>
+
+6. $shortlink
+Create a shortlink
+Aliases: -
+Usage: $shortlink <link>
+
+Sticker:
+1. $sticker
+Create a sticker from sending or replying an image.
+Aliases: stiker
+Usage: Send an image with caption $sticker or reply an image with caption $sticker.
+
+Weeb zone:
+1. $neko
+Send neko anime girl picture :3
+Aliases: -
+Usage: $neko
+
+2. $wallpaper
+Send an anime wallpaper
+Aliases: wp
+Usage: $wallpaper
+
+3. $kemono
+Send a kemonomini anime girl picture! UwU
+Aliases: -
+Usage: $kemono
     `
 }
 
@@ -97,10 +185,10 @@ Sanksi: *WARN/SOFT BLOCK*
 2. Jangan telepon bot.
 Sanksi: *SOFT BLOCK*
 
-3. Eksploitasi bot.
+3. Jangan mengeksploitasi bot.
 Sanksi: *PERMANENT BLOCK*
 
-Jika sudah dipahamin rules-nya, silakan ketik *$menu* untuk memulai.
+Jika sudah dipahamin rules-nya, silakan ketik *$menu* untuk memulai!
 
 Owner:
 wa.me/6281294958473 (Kal)
@@ -108,7 +196,27 @@ wa.me/6282125076212 (Riz)
     `
 }
 
-exports.textOwner = () => {
+exports.textRulesEn = () => {
+    return `
+    *[ THE RULES ]*
+1. Do NOT spam the bot.
+Penalty: *WARN/SOFT BLOCK*
+
+2. Do NOT call the bot.
+Penalty: *SOFT BLOCK*
+
+3. Do NOT exploiting the bot.
+Penalty: *PERMANENT BLOCK*
+
+If you understand the rules, type *$menu* to start!
+
+Owner:
+wa.me/6281294958473 (Kal)
+wa.me/6282125076212 (Riz)
+    `
+}
+
+exports.textOwnerId = () => {
     return `
 Halo Owner-sama ヽ(・∀・)ﾉ!
 
@@ -154,8 +262,60 @@ Usage: *$shutdown*
     `
 }
 
-exports.textNsfw = () => {
+exports.textOwnerEn = () => {
     return `
-Belum ada h3h3, masih on-development.
+Hello Owner-sama ヽ(・∀・)ﾉ!
+
+1. *$bc*
+Create a brodcast message.
+Aliases: -
+Usage: *$bc* <text> 
+
+2. *$clearall*
+Delete all chats from the bot account.
+Aliases: -
+Usage: *$clearall*
+
+3. *$getses*
+Take a screenshot from the current session.
+Aliases: -
+Usage: *$getses*
+
+4. *$ban*
+Ban user.
+Aliases: -
+Usage: *$ban* @user1 @user2
+
+5. *$unban*
+Unban user.
+Aliases: -
+Usage: *$unban* @user1
+
+6. *$leaveall*
+Leave from all groups.
+Aliases: -
+Usage: *$leaveall*
+
+7. *$eval*
+Evaluates JS code.
+Aliases: *ev*
+Usage: *$eval*
+
+8. *$shutdown*
+Shutdown the bot.
+Aliases: -
+Usage: *$shutdown*
+    `
+}
+
+exports.textNsfwId = () => {
+    return `
+Belum ada gan, nanti aja habis NNN.
+    `
+}
+
+exports.textNsfwEn = () => {
+    return `
+There's nothing here... Wait until NNN end.
     `
 }
