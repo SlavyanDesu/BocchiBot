@@ -53,3 +53,7 @@ exports.nsfwOff = () => {
 exports.addedGroup = (chat) => {
     return `Thank you for inviting me, *${chat.contact.name}* members!\n\nType *$rules* first ok~`
 }
+
+exports.nhFalse = () => {
+    return `Invalid code!`
+}

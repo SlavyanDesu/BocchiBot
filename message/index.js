@@ -5,6 +5,11 @@ const fs = require('fs-extra')
 const Nekos = require('nekos.life')
 const neko = new Nekos()
 const os = require('os')
+const nhentai = require('nhentai-js')
+const { API } = require('nhentai-api')
+const api = new API()
+const { spawn, exec } = require('child_process')
+const { stdout } = require('process')
 
 const { msgFilter, color, processTime } = require('../tools')
 const { nsfw, lirik, shortener, qr } = require('../lib')
@@ -218,7 +223,6 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (!isNsfw) return client.reply(from, ind.notNsfw(), id)
                 client.sendText(from, menu.textNsfw())
             break
-            /*
             case 'multilewds':
             case 'multilewd':
             case 'mlewds':
@@ -254,7 +258,53 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                         })
                 }
             break
-            */
+            case 'nh':
+                if (isGroupMsg) {
+                    if (!isNsfw) {
+                        client.reply(from, ind.wait(), id)
+                        const kode = args[0]
+                        const validate = await nhentai.exists(kode)
+                        if (validate === true) {
+                            try {
+                                const pic = await api.getBook(kode)
+                                    .then((book) => {
+                                        return api.getImageURL(book.cover)
+                                    })
+                                const dojin = await nhentai.getDoujin(kode)
+                                const { title, details, link } = dojin
+                                const { parodies, tags, artists, groups, languages, categories } = await details
+                                client.sendFileFromUrl(from, pic, 'nhentai.jpg', `*Title*: ${title}\n\n*Parodies*: ${parodies}\n\n*Tags*: ${tags.join(', ')}\n\n*Artists*: ${artists.join(', ')}\n\n*Groups*: ${groups.join(', ')}\n\n*Languages*: ${languages.join(', ')}\n\n*Categories*: ${categories}\n\n*Link*: ${link}`, null, null, true)
+                            } catch (err) {
+                                console.error(err)
+                                client.reply(from, `Error:\n${err}`, id)
+                            }
+                        } else {
+                            client.reply(from, ind.nhFalse(), id)
+                        }
+                    }
+                } else {
+                    client.reply(from, ind.wait(), id)
+                    const kode = args[0]
+                    const validate = await nhentai.exists(kode)
+                    if (validate === true) {
+                        try {
+                            const pic = await api.getBook(kode)
+                                .then((book) => {
+                                    return api.getImageURL(book.cover)
+                                })
+                            const dojin = await nhentai.getDoujin(kode)
+                            const { title, details, link } = dojin
+                            const { parodies, tags, artists, groups, languages, categories } = await details
+                            client.sendFileFromUrl(from, pic, 'nhentai.jpg', `*Title*: ${title}\n\n*Parodies*: ${parodies}\n\n*Tags*: ${tags.join(', ')}\n\n*Artists*: ${artists.join(', ')}\n\n*Groups*: ${groups.join(', ')}\n\n*Languages*: ${languages.join(', ')}\n\n*Categories*: ${categories}\n\n*Link*: ${link}`, null, null, true)
+                        } catch (err) {
+                            console.error(err)
+                            client.reply(from, `Error:\n${err}`, id)
+                        }
+                    } else {
+                        client.reply(from, ind.nhFalse(), id)
+                    }
+                }
+            break
 
             // Owner command
             case 'bc':
@@ -320,7 +370,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             case 'shutdown':
                 if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
                 client.sendText(from, 'Otsukaresama deshita~ 👋')
-                    .then(() => await client.kill())
+                    .then(() => client.kill())
             break
 
             default:
