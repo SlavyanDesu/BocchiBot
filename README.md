@@ -36,6 +36,17 @@
 > cd elaina-bot
 ```
 
+## ✍️ Edit the file
+Edit the required value in `config.example.json`, after that rename the file to `config.json`.
+```json
+{
+    "ownerBot": "62812xxxxxxxx@c.us", 
+    "prefix": "$",
+    "uaOverride": "WhatsApp/2.2037.6 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36",
+    "token": "insert-your-open-api-i-tech-token"
+}
+```
+
 ## 🔍 Installing the dependencies
 ```bash
 > npm install
