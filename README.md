@@ -19,11 +19,11 @@
   <a href="https://github.com/slavyandesu/elaina-bot/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/slavyandesu/elaina-bot?label=Watchers&color=blue&style=flat-square"></a>
 </p>
 <p align="center">
-  <a href="https://github.com/SlavyanDesu/elaina-bot/tree/master#installation">Installation</a> •
-  <a href="https://github.com/SlavyanDesu/elaina-bot/tree/master#features">Features</a> •
-  <a href="https://github.com/SlavyanDesu/elaina-bot/tree/master#thanks-to">Thanks to</a> •
-  <a href="https://github.com/SlavyanDesu/elaina-bot/tree/master#license">License</a> •
-  <a href="https://github.com/SlavyanDesu/elaina-bot/tree/master#contact">Contact</a>
+  <a href="https://github.com/SlavyanDesu/elaina-bot#installation">Installation</a> •
+  <a href="https://github.com/SlavyanDesu/elaina-bot#features">Features</a> •
+  <a href="https://github.com/SlavyanDesu/elaina-bot#thanks-to">Thanks to</a> •
+  <a href="https://github.com/SlavyanDesu/elaina-bot#license">License</a> •
+  <a href="https://github.com/SlavyanDesu/elaina-bot#contact">Contact</a>
 </p>
 </div>
 
