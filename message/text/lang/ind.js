@@ -59,8 +59,5 @@ exports.nhFalse = () => {
 }
 
 exports.listBlock = (blockNumber) => {
-    return `
-    *[ HALL OF SHAME ]*
-Total diblokir: *${blockNumber.length}* user\n
-`
+    return `    *[ HALL OF SHAME ]*Total diblokir: *${blockNumber.length}* user\n`
 }
