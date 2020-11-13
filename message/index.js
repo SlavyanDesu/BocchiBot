@@ -8,8 +8,6 @@ const os = require('os')
 const nhentai = require('nhentai-js')
 const { API } = require('nhentai-api')
 const api = new API()
-const { spawn, exec } = require('child_process')
-const { stdout } = require('process')
 
 const { msgFilter, color, processTime } = require('../tools')
 const { nsfw, lirik, shortener, qr } = require('../lib')
