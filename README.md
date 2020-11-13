@@ -17,7 +17,7 @@
   <img src="https://img.shields.io/node/v/@open-wa/wa-automate" />
   <a href="https://github.com/slavyandesu/elaina-bot"><img title="Stars" src="https://img.shields.io/github/stars/slavyandesu/elaina-bot?color=red&style=flat-square"></a>
   <a href="https://github.com/slavyandesu/elaina-bot/network/members"><img title="Forks" src="https://img.shields.io/github/forks/slavyandesu/elaina-bot?color=red&style=flat-square"></a>
-  <a href="https://github.com/slavyandesu/elaina-bot/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/slavyandesu/elaina-bot?label=Watchers&color=blue&style=flat-square"></a>
+  <a href="https://github.com/slavyandesu/elaina-bot/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/slavyandesu/elaina-bot?label=watchers&color=blue&style=flat-square"></a>
 </p>
 <p align="center">
   <a href="https://github.com/SlavyanDesu/elaina-bot#installation">Installation</a> •
