@@ -32,6 +32,11 @@ Cek server usage.
 Aliases: -
 Usage: *$usage*
 
+6. *$listblock*
+Cek nomor yang diblokir.
+Aliases: -
+Usage: *$listblock*
+
 Utility:
 1. *$say*
 Ya gitu.
@@ -96,83 +101,88 @@ Hello ${pushname}~
 Ignore <>
 
 Bot:
-1. $rules
+1. *$rules*
 MUST READ.
-Aliases: rule
-Usage: $rules
+Aliases: *rule*
+Usage: *$rules*
 
-2. $menu
+2. *$menu*
 Check commands list.
 Aliases: -
-Usage: $menu
+Usage: *$menu*
 
-3. $nsfw
-Turn on NSFW commands.
+3. *$nsfw*
+Toogle NSFW command.
 Aliases: -
-Usage: $nsfw <enable/disable>
+Usage: *$nsfw* <enable/disable>
 
-4. $menuowner
+4. *$menuowner*
 Check owner commands list.
 Aliases: -
-Usage: $menuowner
+Usage: *$menuowner*
 
-5. $usage
+5. *$usage*
 Check server's usage.
 Aliases: -
-Usage: $usage
+Usage: *$usage*
+
+6. *$listblock*
+Check a blocked person(s) by bot.
+Aliases: -
+Usage: *listblock*
 
 Utility:
-1. $say
+1. *$say*
 Make the bot say something!
 Aliases: -
-Usage: $say <text>
+Usage: *$say* <text>
 
-2. $ping
-Cek bot's speed, not YOUR connection.
-Aliases: p
-Usage: $ping
+2. *$ping*
+Check bot's speed, not YOUR connection.
+Aliases: *p*
+Usage: *$ping*
 
-3. $delete
+3. *$delete*
 Delete bot's message.
-Aliases: del
-Usage: Reply the message that is going to be deleted by using caption $del. ( Ini gw gak maksud lu mau ngomong apa)
+Aliases: *del*
+Usage: Reply the message that is going to be deleted by using caption *$delete*.
 
-4. $lirik
+4. *$lyric*
 Search for a song's lyric.
-Aliases: -
-Usage: $lirik <judul lagu>
+Aliases: *lirik*
+Usage: *$lyric* <song's title>
 
-5. $qr
+5. *$qr*
 Create a QR code.
 Aliases: -
-Usage: $qr <text/link>
+Usage: *$qr* <text/link>
 
-6. $shortlink
+6. *$shortlink*
 Create a shortlink
 Aliases: -
-Usage: $shortlink <link>
+Usage: *$shortlink* <link>
 
 Sticker:
-1. $sticker
+1. *$sticker*
 Create a sticker from sending or replying an image.
-Aliases: stiker
-Usage: Send an image with caption $sticker or reply an image with caption $sticker.
+Aliases: *stiker*
+Usage: Send an image with caption $sticker or reply an image with caption *$sticker*.
 
 Weeb zone:
-1. $neko
+1. *$neko*
 Send neko anime girl picture :3
 Aliases: -
-Usage: $neko
+Usage: *$neko*
 
-2. $wallpaper
+2. *$wallpaper*
 Send an anime wallpaper
-Aliases: wp
-Usage: $wallpaper
+Aliases: *wp*
+Usage: *$wallpaper*
 
-3. $kemono
+3. *$kemono*
 Send a kemonomini anime girl picture! UwU
 Aliases: -
-Usage: $kemono
+Usage: *$kemono*
     `
 }
 

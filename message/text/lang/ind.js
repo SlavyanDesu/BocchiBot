@@ -57,3 +57,10 @@ exports.addedGroup = (chat) => {
 exports.nhFalse = () => {
     return `Kode tidak valid!`
 }
+
+exports.listBlock = (blockNumber) => {
+    return `
+    *[ HALL OF SHAME ]*
+Total diblokir: *${blockNumber.length}* user\n
+`
+}

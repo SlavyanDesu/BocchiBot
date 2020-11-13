@@ -85,6 +85,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 await client.deleteMessage(quotedMsgObj.chatId, quotedMsgObj.id, false)
             break
             case 'lirik':
+            case 'lyric':
                 if (!q) return client.reply(from, ind.wrongFormat(), id)
                 client.reply(from, ind.wait(), id)
                 lirik(q)
@@ -162,10 +163,17 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break
             case 'menuowner':
                 if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
-                client.sendText(from, menu.textOwner())
+                client.sendText(from, menu.textOwnerId())
             break
             case 'usage':
                 client.sendText(from, `RAM usage: *${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB* / *${Math.round(os.totalmem / 1024 / 1024)} MB*\nCPU: *${os.cpus()[0].model}*`)
+            break
+            case 'listblock':
+                let block = ind.listBlock(blockNumber)
+                for (let i of blockNumber) {
+                    block += `@${i.replace(/@c.us/g, '')}\n`
+                }
+                client.sendTextWithMentions(from, block)
             break
 
             // Weeb zone
@@ -221,7 +229,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             // NSFW
             case 'nsfwmenu':
                 if (!isNsfw) return client.reply(from, ind.notNsfw(), id)
-                client.sendText(from, menu.textNsfw())
+                client.sendText(from, menu.textNsfwId())
             break
             case 'multilewds':
             case 'multilewd':
@@ -260,27 +268,27 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break
             case 'nh':
                 if (isGroupMsg) {
-                    if (!isNsfw) {
-                        client.reply(from, ind.wait(), id)
-                        const kode = args[0]
-                        const validate = await nhentai.exists(kode)
-                        if (validate === true) {
-                            try {
-                                const pic = await api.getBook(kode)
-                                    .then((book) => {
-                                        return api.getImageURL(book.cover)
-                                    })
-                                const dojin = await nhentai.getDoujin(kode)
-                                const { title, details, link } = dojin
-                                const { parodies, tags, artists, groups, languages, categories } = await details
-                                client.sendFileFromUrl(from, pic, 'nhentai.jpg', `*Title*: ${title}\n\n*Parodies*: ${parodies}\n\n*Tags*: ${tags.join(', ')}\n\n*Artists*: ${artists.join(', ')}\n\n*Groups*: ${groups.join(', ')}\n\n*Languages*: ${languages.join(', ')}\n\n*Categories*: ${categories}\n\n*Link*: ${link}`, null, null, true)
-                            } catch (err) {
-                                console.error(err)
-                                client.reply(from, `Error:\n${err}`, id)
-                            }
-                        } else {
-                            client.reply(from, ind.nhFalse(), id)
+                    if (!isNsfw) return client.reply(from, ind.notNsfw(), id)
+                    client.reply(from, ind.wait(), id)
+                    const kode = args[0]
+                    const validate = await nhentai.exists(kode)
+                    if (validate === true) {
+                        try {
+                            const pic = await api.getBook(kode)
+                                .then((book) => {
+                                     return api.getImageURL(book.cover)
+                                })
+                            const dojin = await nhentai.getDoujin(kode)
+                            const { title, details, link } = dojin
+                            const { parodies, tags, artists, groups, languages, categories } = await details
+                            let teks = `*Title*: ${title}\n\n*Parodies*: ${parodies}\n\n*Tags*: ${tags.join(', ')}\n\n*Artists*: ${artists.join(', ')}\n\n*Groups*: ${groups.join(', ')}\n\n*Languages*: ${languages.join(', ')}\n\n*Categories*: ${categories}\n\n*Link*: ${link}`
+                            client.sendFileFromUrl(from, pic, 'nhentai.jpg', teks, null, null, true)
+                        } catch (err) {
+                            console.error(err)
+                            client.reply(from, `Error:\n${err}`, id)
                         }
+                    } else {
+                        client.reply(from, ind.nhFalse(), id)
                     }
                 } else {
                     client.reply(from, ind.wait(), id)
@@ -295,7 +303,8 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                             const dojin = await nhentai.getDoujin(kode)
                             const { title, details, link } = dojin
                             const { parodies, tags, artists, groups, languages, categories } = await details
-                            client.sendFileFromUrl(from, pic, 'nhentai.jpg', `*Title*: ${title}\n\n*Parodies*: ${parodies}\n\n*Tags*: ${tags.join(', ')}\n\n*Artists*: ${artists.join(', ')}\n\n*Groups*: ${groups.join(', ')}\n\n*Languages*: ${languages.join(', ')}\n\n*Categories*: ${categories}\n\n*Link*: ${link}`, null, null, true)
+                            let teks = `*Title*: ${title}\n\n*Parodies*: ${parodies}\n\n*Tags*: ${tags.join(', ')}\n\n*Artists*: ${artists.join(', ')}\n\n*Groups*: ${groups.join(', ')}\n\n*Languages*: ${languages.join(', ')}\n\n*Categories*: ${categories}\n\n*Link*: ${link}`
+                            client.sendFileFromUrl(from, pic, teks, null, null, true)
                         } catch (err) {
                             console.error(err)
                             client.reply(from, `Error:\n${err}`, id)
