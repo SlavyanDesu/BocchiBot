@@ -1,4 +1,4 @@
-exports.wait = () => {
+Vexports.wait = () => {
     return `Mohon tunggu sebentar~`
 }
 
@@ -59,5 +59,5 @@ exports.nhFalse = () => {
 }
 
 exports.listBlock = (blockNumber) => {
-    return `    *[ HALL OF SHAME ]*Total diblokir: *${blockNumber.length}* user\n`
+    return `\t*[ HALL OF SHAME ]*\nTotal diblokir: *${blockNumber.length}* user\n`
 }
