@@ -15,9 +15,9 @@
   <a href="https://www.codefactor.io/repository/github/slavyandesu/elaina-bot"><img src="https://www.codefactor.io/repository/github/slavyandesu/elaina-bot/badge" /></a>
   <a href="https://www.npmjs.com/package/@open-wa/wa-automate"><img src="https://img.shields.io/npm/v/@open-wa/wa-automate.svg?color=green" /></a>
   <img src="https://img.shields.io/node/v/@open-wa/wa-automate" />
-  <a href="https://github.com/slavyandesu/elaina-bot"><img title="Stars" src="https://img.shields.io/github/stars/slavyandesu/elaina-bot?color=red&style=flat-square"></a>
-  <a href="https://github.com/slavyandesu/elaina-bot/network/members"><img title="Forks" src="https://img.shields.io/github/forks/slavyandesu/elaina-bot?color=red&style=flat-square"></a>
-  <a href="https://github.com/slavyandesu/elaina-bot/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/slavyandesu/elaina-bot?label=watchers&color=blue&style=flat-square"></a>
+  <a href="https://github.com/slavyandesu/elaina-bot"><img title="Stars" src="https://img.shields.io/github/stars/slavyandesu/elaina-bot?color=red&style=flat-square" /></a>
+  <a href="https://github.com/slavyandesu/elaina-bot/network/members"><img title="Forks" src="https://img.shields.io/github/forks/slavyandesu/elaina-bot?color=red&style=flat-square" /></a>
+  <a href="https://github.com/slavyandesu/elaina-bot/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/slavyandesu/elaina-bot?label=watchers&color=blue&style=flat-square" /></a>
 </p>
 <p align="center">
   <a href="https://github.com/SlavyanDesu/elaina-bot#installation">Installation</a> •
@@ -33,7 +33,7 @@
 # Installation
 ## 📝 Cloning this repo
 ```bash
-> git clone https://github.com/slavyandesu/elaina-bot
+> git clone https://github.com/SlavyanDesu/elaina-bot
 > cd elaina-bot
 ```
 
@@ -47,6 +47,10 @@ Edit the required value in `config.example.json`, after that rename the file to 
     "token": "insert-your-open-api-i-tech-token"
 }
 ```
+`ownerBot`: your WhatsApp number.
+`prefix`: bot's prefix.
+`uaOverride`: your user agent.
+`token`: API token. You can get it [here](https://api.i-tech.id/) by creating an account.
 
 ## 🔍 Installing the dependencies
 ```bash
