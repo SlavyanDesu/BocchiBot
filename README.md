@@ -59,6 +59,17 @@ Edit the required value in `config.example.json`, after that rename the file to 
 ```
 After that scan the QR code using your WhatsApp apps in your phone!
 
+## 🗣️ Changing language
+Wanna change the language of the bot to English? Simply replace all `ind.` in `message/index.js` to `eng.`
+Example:
+```js
+client.reply(from, ind.wrongFormat(), id)
+```
+To
+```js
+client.reply(from, eng.wrongFormat(), id)
+```
+
 # Features
 |  Sticker Maker  | Availability |
 | :-------------: | :----------: |
