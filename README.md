@@ -47,9 +47,9 @@ Edit the required value in `config.example.json`, after that rename the file to 
     "token": "insert-your-open-api-i-tech-token"
 }
 ```
-`ownerBot`: your WhatsApp number.
-`prefix`: bot's prefix.
-`uaOverride`: your user agent.
+`ownerBot`: your WhatsApp number.  
+`prefix`: bot's prefix.  
+`uaOverride`: your user agent.  
 `token`: API token. You can get it [here](https://api.i-tech.id/) by creating an account.
 
 ## 🔍 Installing the dependencies
@@ -64,7 +64,7 @@ Edit the required value in `config.example.json`, after that rename the file to 
 After that scan the QR code using your WhatsApp apps in your phone!
 
 ## 🗣️ Changing language
-Wanna change the language of the bot to English? Simply replace all `ind.` in `message/index.js` to `eng.`
+Wanna change the language of the bot to English? Simply replace all `ind.` in `message/index.js` to `eng.`  
 Example:
 ```js
 client.reply(from, ind.wrongFormat(), id)
