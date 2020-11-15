@@ -8,6 +8,7 @@ const os = require('os')
 const nhentai = require('nhentai-js')
 const { API } = require('nhentai-api')
 const api = new API()
+const { exec } = require('child_process')
 
 const { msgFilter, color, processTime } = require('../tools')
 const { nsfw, lirik, shortener, qr } = require('../lib')
@@ -49,9 +50,6 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         // Ignore non-cmd
         if (!isCmd) return
 
-        // Ignore private chat (for development)
-        if (isCmd && !isGroupMsg) return client.sendText(from, 'Bot ini sedang dalam pengembangan dan hanya tersedia secara eksklusif untuk grup FGA saja.')
-
         // Ignore blocked users
         if (isBlocked || isBanned) return
 
@@ -82,8 +80,8 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (!quotedMsgObj.fromMe) return client.reply(from, ind.wrongFormat(), id)
                 await client.deleteMessage(quotedMsgObj.chatId, quotedMsgObj.id, false)
             break
-            case 'lirik':
             case 'lyric':
+            case 'lirik':
                 if (!q) return client.reply(from, ind.wrongFormat(), id)
                 client.reply(from, ind.wait(), id)
                 lirik(q)
@@ -176,7 +174,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
 
             // Weeb zone
             case 'neko':
-                client.sendFileFromUrl(from, (await neko.sfw.wallpaper()).url, 'waifu.png', '', null, null, true)
+                client.sendFileFromUrl(from, (await neko.sfw.wallpaper()).url, 'neko.jpg', '', null, null, true)
                     .then(() => console.log('Success sending neko image!'))
                     .catch((err) => {
                         console.error(err)
@@ -185,7 +183,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break 
             case 'wallpaper':
             case 'wp':
-                client.sendFileFromUrl(from, (await neko.sfw.wallpaper()).url, 'wallpaper.png', '', null, null, true)
+                client.sendFileFromUrl(from, (await neko.sfw.wallpaper()).url, 'wallpaper.jpg', '', null, null, true)
                     .then(() => console.log('Success sending wallpaper image!'))
                     .catch((err) => {
                         console.error(err)
@@ -193,7 +191,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     })
             break
             case 'kemono':
-                client.sendFileFromUrl(from, (await neko.sfw.kemonomimi()).url, 'kemono.png', '', null, null, true)
+                client.sendFileFromUrl(from, (await neko.sfw.kemonomimi()).url, 'kemono.jpg', '', null, null, true)
                     .then(() => console.log('Success sending kemonomimi image!'))
                     .catch((err) => {
                         console.error(err)
@@ -237,11 +235,10 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     if (!isNsfw) return client.reply(from, ind.notNsfw(), id)
                     nsfw.randomLewd()
                         .then(({ memes }) => {
-                            for (i = 0; i < memes.length; i++) {
-                                let bahan = memes[i]
+                            for (let bahan of memes) {
                                 client.sendFileFromUrl(from, bahan.url, 'lewd.jpg', '', null, null, true)
                                     .then(() => console.log('Success sending lewd!'))
-                                    .catch(err => console.error(err))
+                                    .catch((err) => console.error(err))
                             }
                         })
                         .catch((err) => {
@@ -251,11 +248,10 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 } else {
                     nsfw.randomLewd()
                         .then(({ memes }) => {
-                            for (i = 0; i < memes.length; i++) {
-                                let bahan = memes[i]
+                            for (let bahan of memes) {
                                 client.sendFileFromUrl(from, bahan.url, 'lewd.jpg', '', null, null, true)
                                     .then(() => console.log('Success sending lewd!'))
-                                    .catch(err => console.error(err))
+                                    .catch((err) => console.error(err))
                             }
                         })
                         .catch((err) => {
@@ -278,8 +274,8 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                                 })
                             const dojin = await nhentai.getDoujin(kode)
                             const { title, details, link } = dojin
-                            const { parodies, tags, artists, groups, languages, categories } = await details
-                            let teks = `*Title*: ${title}\n\n*Parodies*: ${parodies}\n\n*Tags*: ${tags.join(', ')}\n\n*Artists*: ${artists.join(', ')}\n\n*Groups*: ${groups.join(', ')}\n\n*Languages*: ${languages.join(', ')}\n\n*Categories*: ${categories}\n\n*Link*: ${link}`
+                            const { tags, artists, groups, languages, categories } = await details
+                            let teks = `*Title*: ${title}\n\n*Tags*: ${tags}\n\n*Artists*: ${artists}\n\n*Groups*: ${groups}\n\n*Languages*: ${languages}\n\n*Categories*: ${categories}\n\n*Link*: ${link}`
                             client.sendFileFromUrl(from, pic, 'nhentai.jpg', teks, null, null, true)
                         } catch (err) {
                             console.error(err)
@@ -300,9 +296,55 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                                 })
                             const dojin = await nhentai.getDoujin(kode)
                             const { title, details, link } = dojin
-                            const { parodies, tags, artists, groups, languages, categories } = await details
-                            let teks = `*Title*: ${title}\n\n*Parodies*: ${parodies}\n\n*Tags*: ${tags.join(', ')}\n\n*Artists*: ${artists.join(', ')}\n\n*Groups*: ${groups.join(', ')}\n\n*Languages*: ${languages.join(', ')}\n\n*Categories*: ${categories}\n\n*Link*: ${link}`
+                            const { tags, artists, groups, languages, categories } = await details
+                            let teks = `*Title*: ${title}\n\n*Tags*: ${tags}\n\n*Artists*: ${artists}\n\n*Groups*: ${groups}\n\n*Languages*: ${languages}\n\n*Categories*: ${categories}\n\n*Link*: ${link}`
                             client.sendFileFromUrl(from, pic, teks, null, null, true)
+                        } catch (err) {
+                            console.error(err)
+                            client.reply(from, `Error:\n${err}`, id)
+                        }
+                    } else {
+                        client.reply(from, ind.nhFalse(), id)
+                    }
+                }
+            break
+            case 'nhdl':
+                if (isGroupMsg) {
+                    if (!isNsfw) return client.reply(from, ind.notNsfw(), id)
+                    client.reply(from, ind.wait(), id)
+                    const kode = args[0]
+                    const validate = await nhentai.exists(kode)
+                    if (validate === true) {
+                        try {
+                            const dojin = await nhentai.getDoujin(kode)
+                            const { title } = dojin
+                            exec(`nhentai --id=${kode} -P -o ./asupan/${kode}.pdf --format ${kode}.pdf`, '', (error, stdout, stderr) => {
+                                client.sendFile(from, `./asupan/${kode}.pdf/${kode}.pdf.pdf`, `${title}.pdf`, '', null, null, true)
+                                if (error) return console.log('error:', error.message)
+                                if (stderr) return console.log('stderr:', stderr)
+                                if (stdout) console.log('stdout:', stdout)
+                            })
+                        } catch (err) {
+                            console.error(err)
+                            client.reply(from, `Error:\n${err}`, id)
+                        }
+                    } else {
+                        client.reply(from, ind.nhFalse(), id)
+                    }
+                } else {
+                    client.reply(from, ind.wait(), id)
+                    const kode = args[0]
+                    const validate = await nhentai.exists(kode)
+                    if (validate === true) {
+                        try {
+                            const dojin = await nhentai.getDoujin(kode)
+                            const { title } = dojin
+                            exec(`nhentai --id=${kode} -P -o ./asupan/${kode}.pdf --format ${kode}.pdf`, '', (error, stdout, stderr) => {
+                                client.sendFile(from, `./asupan/${kode}.pdf/${kode}.pdf.pdf`, `${title}.pdf`, '', null, null, true)
+                                if (error) return console.log('error:', error.message)
+                                if (stderr) return console.log('stderr:', stderr)
+                                if (stdout) console.log('stdout:', stdout)
+                            })
                         } catch (err) {
                             console.error(err)
                             client.reply(from, `Error:\n${err}`, id)
