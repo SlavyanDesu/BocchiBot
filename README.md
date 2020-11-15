@@ -116,7 +116,7 @@ client.reply(from, eng.wrongFormat(), id)
 
 |       NSFW       | Availability |
 | :--------------: | :----------: |
-| Lewd             |     Soon     |
+| Lewd             |      ✔️      |
 | Fetish           |     Soon     |
 | Nhentai          |     Soon     |
 
