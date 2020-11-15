@@ -1,4 +1,4 @@
-Vexports.wait = () => {
+exports.wait = () => {
     return `Mohon tunggu sebentar~`
 }
 
