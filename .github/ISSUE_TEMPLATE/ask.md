@@ -1,6 +1,6 @@
 ---
 name: Ask
-about: Ask anything.
+about: Ask anything
 title: ''
 labels: ask
 assignees: ''
