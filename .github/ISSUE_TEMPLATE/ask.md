@@ -1,8 +1,8 @@
 ---
-name: Ask
+name: Question
 about: Ask anything
 title: ''
-labels: ask
+labels: question
 assignees: ''
 
 ---
