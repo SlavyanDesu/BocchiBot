@@ -116,11 +116,12 @@ After that scan the QR code using your WhatsApp apps in your phone!
 | Eval             |      ✔️      |
 | Shutdown         |      ✔️      |
 
-|       NSFW       | Availability |
-| :--------------: | :----------: |
-| Lewd             |      ✔️      |
-| Fetish           |     Soon     |
-| Nhentai          |     Soon     |
+|        NSFW        | Availability |
+| :----------------: | :----------: |
+| Lewd               |      ✔️      |
+| Fetish             |     Soon     |
+| nHentai lookup     |      ✔️      |
+| nHentai downloader |     Soon     |
 
 # Thanks to
 * [`Open-Wa/wa-automate-nodejs`](https://github.com/open-wa/wa-automate-nodejs)
