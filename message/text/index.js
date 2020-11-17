@@ -1,1 +1,0 @@
-exports.menu = require('./menu')
