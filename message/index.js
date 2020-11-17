@@ -294,9 +294,9 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (isGroupMsg) {
                     if (!isNsfw) return client.reply(from, ind.notNsfw(), id)
                     client.reply(from, ind.wait(), id)
-                    nsfw.randomLewd(1)
-                        .then(({ memes }) => {
-                            client.sendFileFromUrl(from, memes.url, 'lewd.jpg', '', null, null, true)
+                    nsfw.randomLewd()
+                        .then(({ url }) => {
+                            client.sendFileFromUrl(from, url, 'lewd.jpg', '', null, null, true)
                                 .then(() => console.log('Success sending lewd!'))
                                 .catch((err) => console.error(err))
                         })
@@ -306,9 +306,9 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                         })
                 } else {
                     client.reply(from, ind.wait(), id)
-                    nsfw.randomLewd(1)
-                        .then(({ memes }) => {
-                            client.sendFileFromUrl(from, memes.url, 'lewd.jpg', '', null, null, true)
+                    nsfw.randomLewd()
+                        .then(({ url }) => {
+                            client.sendFileFromUrl(from, url, 'lewd.jpg', '', null, null, true)
                                 .then(() => console.log('Success sending lewd!'))
                                 .catch((err) => console.error(err))
                         })

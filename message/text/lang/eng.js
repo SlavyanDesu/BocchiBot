@@ -239,6 +239,30 @@ Usage: *$premium* @user1
 
 exports.textNsfw = () => {
     return `
-There's nothing here... Wait until NNN end.
+    *[ NSFW ]*
+1. *$lewds*
+Sending anime lewds.
+Aliases: *lewd*
+Usage: *$lewds*
+
+2. *$multilewds*
+Sending anime lewds up to 5 images. (PREMIUM ONLY)
+Aliases: *multilewds multilewd mlewd mlewds*
+Usage: *$multilewds*
+
+3. *$nh*
+Sending doujinshi info from nHentai.
+Aliases: -
+Usage: *$nh* <code>
+
+4. *$nhdl*
+Download doujinshi from nHentai and sending it as PDF file. (PREMIUM ONLY)
+Aliases: -
+Usage: *$nhdl* <code>
+
+5. *$xnxx*
+Download video from XNXX. (PREMIUM ONLY)
+Aliases: -
+Usage: *$xnxx* <link>
     `
 }
