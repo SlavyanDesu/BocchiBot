@@ -10,7 +10,7 @@ const { API } = require('nhentai-api')
 const api = new API()
 
 const { msgFilter, color, processTime } = require('../tools')
-const { nsfw, lirik, shortener, qr } = require('../lib')
+const { nsfw, lirik, shortener, qr, wiki, kbbi } = require('../lib')
 const config = require('../config.json')
 const { ind, eng } = require('./text/lang/')
 const _nsfw = JSON.parse(fs.readFileSync('./ingfo/nsfw.json'))
@@ -65,20 +65,10 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         msgFilter.isFiltered(from)
 
         switch (command) {
-            // Utility
-            case 'ping':
-            case 'p':
-                await client.sendText(from, `Pong!\nSpeed: ${processTime(t, moment())} s`)
-            break
+            // Misc
             case 'say':
                 if (!q) return client.reply(from, ind.emptyMess(), id)
                 client.sendText(from, q)
-            break
-            case 'delete':
-            case 'del':
-                if (!quotedMsg) return client.reply(from, ind.wrongFormat(), id)
-                if (!quotedMsgObj.fromMe) return client.reply(from, ind.wrongFormat(), id)
-                await client.deleteMessage(quotedMsgObj.chatId, quotedMsgObj.id, false)
             break
             case 'lyric':
             case 'lirik':
@@ -132,6 +122,37 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                         client.reply(from, `Error:\n${err}`, id)
                     })
             break
+            case 'wikipedia':
+            case 'wiki':
+                if (!q) return client.reply(from, ind.wrongFormat(), id)
+                client.reply(from, ind.wait(), id)
+                wiki(q)
+                    .then(({ result }) => {
+                        client.reply(from, result, id)
+                            .then(() => console.log('Success sending Wikipedia!'))
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                        client.reply(from, `Error:\n${err}`, id)
+                    })
+            break
+            case 'kbbi':
+                if (!q) return client.reply(from, ind.wrongFormat(), id)
+                client.reply(from, ind.wait(), id)
+                kbbi(q)
+                    .then(({ status, result, pesan }) => {
+                        if (status === 'error') {
+                            client.reply(from, pesan, id)
+                        } else {
+                            client.reply(from, result, id)
+                                .then(() =>  console.log('Success sending lyric!'))
+                        }
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                        client.reply(from, `Error:\n${err}`, id)
+                    })
+            break
             
             // Bot
             case 'menu':
@@ -170,6 +191,16 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     block += `@${i.replace(/@c.us/g, '')}\n`
                 }
                 client.sendTextWithMentions(from, block)
+            break
+            case 'ping':
+            case 'p':
+                await client.sendText(from, `Pong!\nSpeed: ${processTime(t, moment())} s`)
+            break
+            case 'delete':
+            case 'del':
+                if (!quotedMsg) return client.reply(from, ind.wrongFormat(), id)
+                if (!quotedMsgObj.fromMe) return client.reply(from, ind.wrongFormat(), id)
+                await client.deleteMessage(quotedMsgObj.chatId, quotedMsgObj.id, false)
             break
 
             // Weeb zone
