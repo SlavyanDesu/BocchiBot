@@ -10,7 +10,7 @@ const { API } = require('nhentai-api')
 const api = new API()
 
 const { msgFilter, color, processTime, isUrl } = require('../tools')
-const { nsfw, lirik, shortener, qr, wiki, kbbi } = require('../lib')
+const { nsfw, lirik, shortener, qr, wiki, kbbi, bmkg, weeabo } = require('../lib')
 const config = require('../config.json')
 const { ind, eng } = require('./text/lang/')
 const _nsfw = JSON.parse(fs.readFileSync('./ingfo/nsfw.json'))
@@ -85,7 +85,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     })
                     .catch((err) => {
                         console.error(err)
-                        client.reply(from, `Error:\n${err}`, id)
+                        client.reply(from, err, id)
                     })
             break
             case 'qr':
@@ -102,7 +102,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     })
                     .catch((err) => {
                         console.error(err)
-                        client.reply(from, `Error:\n${err}`, id)
+                        client.reply(from, err, id)
                     })
             break
             case 'shortlink':
@@ -119,7 +119,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     })
                     .catch((err) => {
                         console.error(err)
-                        client.reply(from, `Error:\n${err}`, id)
+                        client.reply(from, err, id)
                     })
             break
             case 'wikipedia':
@@ -133,7 +133,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     })
                     .catch((err) => {
                         console.error(err)
-                        client.reply(from, `Error:\n${err}`, id)
+                        client.reply(from, err, id)
                     })
             break
             case 'kbbi':
@@ -150,7 +150,20 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     })
                     .catch((err) => {
                         console.error(err)
-                        client.reply(from, `Error:\n${err}`, id)
+                        client.reply(from, err, id)
+                    })
+            break
+            case 'gempa':
+                client.reply(from, ind.wait(), id)
+                bmkg()
+                    .then(({ kedalaman, koordinat, lokasi, magnitude, map, potensi, waktu }) => {
+                        let teksInfo = `${lokasi}\n\nKoordinat: ${koordinat}\nKedalaman: ${kedalaman}\nMagnitudo: ${magnitude}\nPotensi: ${potensi}\n\n${waktu}`
+                        client.sendFileFromUrl(from, map, 'gempa.jpg', teksInfo, null, null, true)
+                            .then(() => console.log('Success sending info!'))
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                        client.reply(from, err, id)
                     })
             break
             
@@ -209,7 +222,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     .then(() => console.log('Success sending neko image!'))
                     .catch((err) => {
                         console.error(err)
-                        client.reply(from, `Error:\n${err}`, id)
+                        client.reply(from, err, id)
                     })
             break 
             case 'wallpaper':
@@ -218,7 +231,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     .then(() => console.log('Success sending wallpaper image!'))
                     .catch((err) => {
                         console.error(err)
-                        client.reply(from, `Error:\n${err}`)
+                        client.reply(from, err)
                     })
             break
             case 'kemono':
@@ -227,6 +240,34 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     .catch((err) => {
                         console.error(err)
                         client.reply(from, `Error;\n${err}`)
+                    })
+            break
+            case 'animeinfo':
+                if (!q) return client.reply(from, ind.wrongFormat(), id)
+                client.reply(from, ind.wait(), id)
+                weeabo.anime(q)
+                    .then(({ info, link_dl, sinopsis, thumb, title }) => {
+                        let animek = `${title}\n\n${info}\n\nSinopsis: ${sinopsis}\n\nLink download: ${link_dl}`
+                        client.sendFileFromUrl(from, thumb, 'animek.jpg', animek, null, null, true)
+                            .then(() => console.log('Success sending anime info!'))
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                        client.reply(from, err, id)
+                    })
+            break
+            case 'mangainfo':
+                if (!q) return client.reply(from, ind.wrongFormat(), id)
+                client.reply(from, ind.wait(), id)
+                weeabo.manga(q)
+                    .then(({ genre, info, link_dl, sinopsis, thumb }) => {
+                        let mangak = `${info}\n${genre}\nSinopsis: ${sinopsis}\nLink download: ${link_dl}`
+                        client.sendFileFromUrl(from, thumb, 'mangak.jpg', mangak, null, null, true)
+                            .then(() => console.log('Success sending manga info!'))
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                        client.reply(from, err, id)
                     })
             break
 
@@ -246,7 +287,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                         })
                         .catch((err) => {
                             console.error(err)
-                            client.reply(from, `Error:\n${err}`)
+                            client.reply(from, err)
                         })
                 } else {
                     client.reply(from, ind.wrongFormat(), id)
@@ -278,7 +319,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                         })
                         .catch((err) => {
                             console.error(err)
-                            client.reply(from, `Error:\n${err}`, id)
+                            client.reply(from, err, id)
                         })
                 } else {
                     if (!isNsfw) return client.reply(from, ind.notNsfw(), id)
@@ -291,7 +332,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                         })
                         .catch((err) => {
                             console.error(err)
-                            client.reply(from, `Error:\n${err}`, id)
+                            client.reply(from, err, id)
                         })
                 }
             break
@@ -315,7 +356,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                                 .then(() => console.log('Success sending nHentai info!'))
                         } catch (err) {
                             console.error(err)
-                            client.reply(from, `Error:\n${err}`, id)
+                            client.reply(from, err, id)
                         }
                     } else {
                         client.reply(from, ind.nhFalse(), id)
@@ -337,7 +378,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                             client.sendFileFromUrl(from, pic, teks, id)
                         } catch (err) {
                             console.error(err)
-                            client.reply(from, `Error:\n${err}`, id)
+                            client.reply(from, err, id)
                         }
                     } else {
                         client.reply(from, ind.nhFalse(), id)
@@ -345,6 +386,10 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 }
             break
             case 'nhdl':
+                // Premium feature, contact the owner.
+                if (!isPremium) return client.reply(from, ind.notPremium(), id)
+            break
+            case 'xnxx':
                 // Premium feature, contact the owner.
                 if (!isPremium) return client.reply(from, ind.notPremium(), id)
             break
