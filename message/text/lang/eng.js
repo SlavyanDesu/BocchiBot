@@ -138,7 +138,7 @@ Aliases: *wiki*
 Usage: *$wikipedia* <text>
 
 5. *$kbbi*
-Send a definition of Indonesian verb.
+Send a definition of Indonesian vocab.
 Aliases: -
 Usage: *$kbbi* <text>
 
