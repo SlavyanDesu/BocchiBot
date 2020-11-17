@@ -105,36 +105,46 @@ Cek nomor yang diblokir.
 Aliases: -
 Usage: *$listblock*
 
-Utility:
+7. *$ping*
+Cek speed bot, bukan koneksi kamu.
+Aliases: *p*
+Usage: *$ping*
+
+8. *$delete*
+Hapus pesan bot.
+Aliases: *del*
+Usage: reply pesan yang dihapus dengan caption *$del*.
+
+Misc:
 1. *$say*
 Ya gitu.
 Aliases: -
 Usage: *$say* <text>
 
-2. *$ping*
-Cek speed bot, bukan koneksi kamu.
-Aliases: *p*
-Usage: *$ping*
-
-3. *$delete*
-Hapus pesan bot.
-Aliases: *del*
-Usage: reply pesan yang dihapus dengan caption *$del*.
-
-4. *$lirik*
+2. *$lirik*
 Mencari lirik lagu.
 Aliases: -
 Usage: *$lirik* <judul lagu>
 
-5. *$qr*
+3. *$qr*
 Membuat QR code.
 Aliases: -
 Usage: *$qr* <text/link>
 
-6. *$shortlink*
+4. *$shortlink*
 Membuat shortlink.
 Aliases: -
 Usage: *$shortlink* <link>
+
+5. *$wikipedia*
+Mengirim Wikipedia dari teks yang diberikan.
+Aliases: *wiki*
+Usage: *$wikipedia* <text>
+
+6. *$kbbi*
+Mengirim definisi kata dari KBBI.
+Aliases: -
+Usage: *$kbbi* <text>
 
 Sticker:
 1. *$sticker*
@@ -223,6 +233,11 @@ Usage: *$eval*
 Mematikan bot.
 Aliases: -
 Usage: *$shutdown*
+
+9. *$premium*
+Menambah user premium.
+Aliases: -
+Usage: *$premium* @user1
     `
 }
 

@@ -80,7 +80,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                             return client.reply(from, pesan, id)
                         } else {
                             client.sendText(from, result)
-                                .then(() => console.log('Done!'))
+                                .then(() => console.log('Success sending lyric!'))
                         }
                     })
                     .catch((err) => {
@@ -97,7 +97,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                             return client.reply(from, pesan, id)
                         } else {
                             client.sendFileFromUrl(from, result, 'qr.jpg', '', null, null, true)
-                                .then(() => console.log('Done!'))
+                                .then(() => console.log('Success sending QR!'))
                         }
                     })
                     .catch((err) => {
@@ -114,7 +114,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                             return client.reply(from, pesan, id)
                         } else {
                             client.sendText(from, `Shortened link: ${result}`)
-                                .then(() => console.log('Done!'))
+                                .then(() => console.log('Success sending shortlink!'))
                         }
                     })
                     .catch((err) => {
@@ -145,7 +145,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                             client.reply(from, pesan, id)
                         } else {
                             client.reply(from, result, id)
-                                .then(() =>  console.log('Success sending lyric!'))
+                                .then(() =>  console.log('Success sending definition!'))
                         }
                     })
                     .catch((err) => {
@@ -312,6 +312,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                             const { tags, artists, groups, languages, categories } = await details
                             let teks = `*Title*: ${title}\n\n*Tags*: ${tags}\n\n*Artists*: ${artists}\n\n*Groups*: ${groups}\n\n*Languages*: ${languages}\n\n*Categories*: ${categories}\n\n*Link*: ${link}`
                             client.sendFileFromUrl(from, pic, 'nhentai.jpg', teks, id)
+                                .then(() => console.log('Success sending nHentai info!'))
                         } catch (err) {
                             console.error(err)
                             client.reply(from, `Error:\n${err}`, id)

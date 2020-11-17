@@ -105,36 +105,47 @@ Check a blocked person(s) by bot.
 Aliases: -
 Usage: *listblock*
 
+7. *$ping*
+Check bot's speed, not YOUR connection.
+Aliases: *p*
+Usage: *$ping*
+
+8. *$delete*
+Delete bot's message.
+Aliases: *del*
+Usage: Reply the message that is going to be deleted by using caption *$delete*.
+
+
 Utility:
 1. *$say*
 Make the bot say something!
 Aliases: -
 Usage: *$say* <text>
 
-2. *$ping*
-Check bot's speed, not YOUR connection.
-Aliases: *p*
-Usage: *$ping*
-
-3. *$delete*
-Delete bot's message.
-Aliases: *del*
-Usage: Reply the message that is going to be deleted by using caption *$delete*.
-
-4. *$lyric*
+2. *$lyric*
 Search for a song's lyric.
 Aliases: *lirik*
 Usage: *$lyric* <song's title>
 
-5. *$qr*
+3. *$qr*
 Create a QR code.
 Aliases: -
 Usage: *$qr* <text/link>
 
-6. *$shortlink*
+4. *$shortlink*
 Create a shortlink
 Aliases: -
 Usage: *$shortlink* <link>
+
+5. *$wikipedia*
+Search Wikipedia from given text.
+Aliases: *wiki*
+Usage: *$wikipedia* <text>
+
+6. *$kbbi*
+Send a definition of Indonesian verb.
+Aliases: -
+Usage: *$kbbi* <text>
 
 Sticker:
 1. *$sticker*
@@ -202,7 +213,7 @@ Usage: *$getses*
 4. *$ban*
 Ban user.
 Aliases: -
-Usage: *$ban* @user1 @user2
+Usage: *$ban* @user1
 
 5. *$unban*
 Unban user.
@@ -223,6 +234,11 @@ Usage: *$eval*
 Shutdown the bot.
 Aliases: -
 Usage: *$shutdown*
+
+9. *$premium*
+Add a premium user.
+Aliases: -
+Usage: *$premium* @user1
     `
 }
 
