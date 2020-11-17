@@ -4,9 +4,6 @@ node_modules
 # Session file
 *.data.json
 
-# Lock file
-package-lock.json
-
 # Debug file
 debug.log
 
@@ -17,3 +14,4 @@ debug.log
 config.json
 ingfo/nsfw.json
 ingfo/banned.json
+ingfo/premium.json
