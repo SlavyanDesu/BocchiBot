@@ -9,7 +9,7 @@ const nhentai = require('nhentai-js')
 const { API } = require('nhentai-api')
 const api = new API()
 
-const { msgFilter, color, processTime } = require('../tools')
+const { msgFilter, color, processTime, isUrl } = require('../tools')
 const { nsfw, lirik, shortener, qr, wiki, kbbi } = require('../lib')
 const config = require('../config.json')
 const { ind, eng } = require('./text/lang/')
@@ -106,7 +106,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     })
             break
             case 'shortlink':
-                if (!url) return client.reply(from, ind.wrongFormat(), id)
+                if (!isUrl) return client.reply(from, ind.wrongFormat(), id)
                 client.reply(from, ind.wait(), id)
                 shortener(url)
                     .then(({ status, result, pesan }) => {
