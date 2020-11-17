@@ -62,7 +62,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         if (isCmd && isGroupMsg) console.log(color('[EXEC]'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
 
         // Anti-spam
-        msgFilter.isFiltered(from)
+        msgFilter.addFilter(from)
 
         switch (command) {
             // Misc
