@@ -46,7 +46,7 @@ const start = async (client = new Client()) => {
     })
 }
 
-// Creating session.data.json
-create(options(true, start))
+// Creating Slavyan.data.json
+create({ sessionId: 'Slavyan' }, options(true, start))
     .then((client) => start(client))
     .catch((err) => new Error(err))

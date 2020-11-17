@@ -305,7 +305,6 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                             client.reply(from, err, id)
                         })
                 } else {
-                    if (!isNsfw) return client.reply(from, ind.notNsfw(), id)
                     client.reply(from, ind.wait(), id)
                     nsfw.randomLewd(1)
                         .then(({ memes }) => {
@@ -441,7 +440,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             case 'shutdown':
                 if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
                 client.sendText(from, 'Otsukaresama deshita~ 👋')
-                    .then(() => client.kill())
+                    .then(async () => await client.kill())
             break
             case 'premium':
                 if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
