@@ -119,9 +119,9 @@ After that scan the QR code using your WhatsApp apps in your phone!
 |        NSFW        | Availability |
 | :----------------: | :----------: |
 | Lewd               |      ✔️      |
-| Fetish             |     Soon     |
+| Fetish             |    Not yet   |
 | nHentai lookup     |      ✔️      |
-| nHentai downloader |     Soon     |
+| nHentai downloader |    Premium   |
 
 # Thanks to
 * [`Open-Wa/wa-automate-nodejs`](https://github.com/open-wa/wa-automate-nodejs)

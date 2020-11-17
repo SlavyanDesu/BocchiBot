@@ -231,32 +231,36 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             case 'multilewd':
             case 'mlewds':
             case 'mlewd':
+                // Premium feature, contact the owner.
+                if (!isPremium) return client.reply(from, ind.notPremium(), id)
+            break
+            case 'lewds':
+            case 'lewd':
                 if (isGroupMsg) {
                     if (!isNsfw) return client.reply(from, ind.notNsfw(), id)
-                    nsfw.randomLewd()
+                    client.reply(from, ind.wait(), id)
+                    nsfw.randomLewd(1)
                         .then(({ memes }) => {
-                            for (let bahan of memes) {
-                                client.sendFileFromUrl(from, bahan.url, 'lewd.jpg', '', null, null, true)
-                                    .then(() => console.log('Success sending lewd!'))
-                                    .catch((err) => console.error(err))
-                            }
+                            client.sendFileFromUrl(from, memes.url, 'lewd.jpg', '', null, null, true)
+                                .then(() => console.log('Success sending lewd!'))
+                                .catch((err) => console.error(err))
                         })
                         .catch((err) => {
                             console.error(err)
-                            client.reply(from, `Error:\n${err}`)
+                            client.reply(from, `Error:\n${err}`, id)
                         })
                 } else {
-                    nsfw.randomLewd()
+                    if (!isNsfw) return client.reply(from, ind.notNsfw(), id)
+                    client.reply(from, ind.wait(), id)
+                    nsfw.randomLewd(1)
                         .then(({ memes }) => {
-                            for (let bahan of memes) {
-                                client.sendFileFromUrl(from, bahan.url, 'lewd.jpg', '', null, null, true)
-                                    .then(() => console.log('Success sending lewd!'))
-                                    .catch((err) => console.error(err))
-                            }
+                            client.sendFileFromUrl(from, memes.url, 'lewd.jpg', '', null, null, true)
+                                .then(() => console.log('Success sending lewd!'))
+                                .catch((err) => console.error(err))
                         })
                         .catch((err) => {
                             console.error(err)
-                            client.reply(from, `Error:\n${err}`)
+                            client.reply(from, `Error:\n${err}`, id)
                         })
                 }
             break
