@@ -88,23 +88,6 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                         client.reply(from, err, id)
                     })
             break
-            case 'qr':
-                if (!q) return client.reply(from, ind.wrongFormat(), id)
-                client.reply(from, ind.wait(), id)
-                qr(q)
-                    .then(({ status, result, pesan }) => {
-                        if (status === 'error') {
-                            return client.reply(from, pesan, id)
-                        } else {
-                            client.sendFileFromUrl(from, result, 'qr.jpg', '', null, null, true)
-                                .then(() => console.log('Success sending QR!'))
-                        }
-                    })
-                    .catch((err) => {
-                        console.error(err)
-                        client.reply(from, err, id)
-                    })
-            break
             case 'shortlink':
                 if (!isUrl) return client.reply(from, ind.wrongFormat(), id)
                 client.reply(from, ind.wait(), id)
@@ -247,7 +230,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 client.reply(from, ind.wait(), id)
                 weeabo.anime(q)
                     .then(({ info, link_dl, sinopsis, thumb, title }) => {
-                        let animek = `${title}\n\n${info}\n\nSinopsis: ${sinopsis}\n\nLink download: ${link_dl}`
+                        let animek = `${title}\n\n${info}\n\nSinopsis: ${sinopsis}\n\nLink download:\n${link_dl}`
                         client.sendFileFromUrl(from, thumb, 'animek.jpg', animek, null, null, true)
                             .then(() => console.log('Success sending anime info!'))
                     })
@@ -261,7 +244,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 client.reply(from, ind.wait(), id)
                 weeabo.manga(q)
                     .then(({ genre, info, link_dl, sinopsis, thumb }) => {
-                        let mangak = `${info}\n${genre}\nSinopsis: ${sinopsis}\nLink download: ${link_dl}`
+                        let mangak = `${info}${genre}\nSinopsis: ${sinopsis}\nLink download:\n${link_dl}`
                         client.sendFileFromUrl(from, thumb, 'mangak.jpg', mangak, null, null, true)
                             .then(() => console.log('Success sending manga info!'))
                     })

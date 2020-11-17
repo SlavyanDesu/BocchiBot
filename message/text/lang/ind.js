@@ -126,22 +126,17 @@ Mencari lirik lagu.
 Aliases: -
 Usage: *$lirik* <judul lagu>
 
-3. *$qr*
-Membuat QR code.
-Aliases: -
-Usage: *$qr* <text/link>
-
-4. *$shortlink*
+3. *$shortlink*
 Membuat shortlink.
 Aliases: -
 Usage: *$shortlink* <link>
 
-5. *$wikipedia*
+4. *$wikipedia*
 Mengirim Wikipedia dari teks yang diberikan.
 Aliases: *wiki*
 Usage: *$wikipedia* <text>
 
-6. *$kbbi*
+5. *$kbbi*
 Mengirim definisi kata dari KBBI.
 Aliases: -
 Usage: *$kbbi* <text>

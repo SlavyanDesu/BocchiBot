@@ -127,22 +127,17 @@ Search for a song's lyric.
 Aliases: *lirik*
 Usage: *$lyric* <song's title>
 
-3. *$qr*
-Create a QR code.
-Aliases: -
-Usage: *$qr* <text/link>
-
-4. *$shortlink*
+3. *$shortlink*
 Create a shortlink
 Aliases: -
 Usage: *$shortlink* <link>
 
-5. *$wikipedia*
+4. *$wikipedia*
 Search Wikipedia from given text.
 Aliases: *wiki*
 Usage: *$wikipedia* <text>
 
-6. *$kbbi*
+5. *$kbbi*
 Send a definition of Indonesian verb.
 Aliases: -
 Usage: *$kbbi* <text>
