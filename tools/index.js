@@ -12,7 +12,7 @@ const color = (text, color) => {
 }
 
 /**
- * URl validator
+ * URL validator
  * @param {String} url 
  */
 const isUrl = (url) => {

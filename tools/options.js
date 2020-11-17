@@ -1,7 +1,7 @@
 /**
  * Get client options
- * @param {Function} start function
  * @param {Boolean} headless
+ * @param {Function} start function
  */
 module.exports = options = (headless, start) => {
     const options = {
