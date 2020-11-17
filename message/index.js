@@ -8,15 +8,14 @@ const os = require('os')
 const nhentai = require('nhentai-js')
 const { API } = require('nhentai-api')
 const api = new API()
-const { exec } = require('child_process')
 
 const { msgFilter, color, processTime } = require('../tools')
 const { nsfw, lirik, shortener, qr } = require('../lib')
 const config = require('../config.json')
-const { menu } = require('./text')
 const { ind, eng } = require('./text/lang/')
 const _nsfw = JSON.parse(fs.readFileSync('./ingfo/nsfw.json'))
 const _ban = JSON.parse(fs.readFileSync('./ingfo/banned.json'))
+const _premium = JSON.parse(fs.readFileSync('./ingfo/premium.json'))
 
 module.exports = msgHandler = async (client = new Client(), message) => {
     try {
@@ -36,6 +35,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         const isBotGroupAdmins = groupAdmins.includes(botNumber) || false
         const isNsfw = isGroupMsg ? _nsfw.includes(chat.id) : false
         const isBanned = _ban.includes(sender.id)
+        const isPremium = _premium.includes(sender.id)
 
         const prefix  = config.prefix
         body = (type === 'chat' && body.startsWith(prefix)) ? body : ((type === 'image' && caption) && caption.startsWith(prefix)) ? caption : ''
@@ -135,11 +135,11 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             
             // Bot
             case 'menu':
-                client.sendText(from, menu.textMenuId(pushname))
+                client.sendText(from, ind.textMenu(pushname))
             break
             case 'rules':
             case 'rule':
-                client.sendText(from, menu.textRulesId())
+                client.sendText(from, ind.textRules())
             break
             case 'nsfw':
                 if (!isGroupMsg) return client.reply(from, ind.groupOnly(), id)
@@ -159,7 +159,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break
             case 'menuowner':
                 if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
-                client.sendText(from, menu.textOwnerId())
+                client.sendText(from, ind.textOwner())
             break
             case 'usage':
                 client.sendText(from, `RAM usage: *${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB* / *${Math.round(os.totalmem / 1024 / 1024)} MB*\nCPU: *${os.cpus()[0].model}*`)
@@ -225,7 +225,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             // NSFW
             case 'nsfwmenu':
                 if (!isNsfw) return client.reply(from, ind.notNsfw(), id)
-                client.sendText(from, menu.textNsfwId())
+                client.sendText(from, ind.textNsfw())
             break
             case 'multilewds':
             case 'multilewd':
@@ -276,7 +276,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                             const { title, details, link } = dojin
                             const { tags, artists, groups, languages, categories } = await details
                             let teks = `*Title*: ${title}\n\n*Tags*: ${tags}\n\n*Artists*: ${artists}\n\n*Groups*: ${groups}\n\n*Languages*: ${languages}\n\n*Categories*: ${categories}\n\n*Link*: ${link}`
-                            client.sendFileFromUrl(from, pic, 'nhentai.jpg', teks, null, null, true)
+                            client.sendFileFromUrl(from, pic, 'nhentai.jpg', teks, id)
                         } catch (err) {
                             console.error(err)
                             client.reply(from, `Error:\n${err}`, id)
@@ -298,7 +298,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                             const { title, details, link } = dojin
                             const { tags, artists, groups, languages, categories } = await details
                             let teks = `*Title*: ${title}\n\n*Tags*: ${tags}\n\n*Artists*: ${artists}\n\n*Groups*: ${groups}\n\n*Languages*: ${languages}\n\n*Categories*: ${categories}\n\n*Link*: ${link}`
-                            client.sendFileFromUrl(from, pic, teks, null, null, true)
+                            client.sendFileFromUrl(from, pic, teks, id)
                         } catch (err) {
                             console.error(err)
                             client.reply(from, `Error:\n${err}`, id)
@@ -309,50 +309,8 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 }
             break
             case 'nhdl':
-                if (isGroupMsg) {
-                    if (!isNsfw) return client.reply(from, ind.notNsfw(), id)
-                    client.reply(from, ind.wait(), id)
-                    const kode = args[0]
-                    const validate = await nhentai.exists(kode)
-                    if (validate === true) {
-                        try {
-                            const dojin = await nhentai.getDoujin(kode)
-                            const { title } = dojin
-                            exec(`nhentai --id=${kode} -P -o ./asupan/${kode}.pdf --format ${kode}.pdf`, '', (error, stdout, stderr) => {
-                                client.sendFile(from, `./asupan/${kode}.pdf/${kode}.pdf.pdf`, `${title}.pdf`, '', null, null, true)
-                                if (error) return console.log('error:', error.message)
-                                if (stderr) return console.log('stderr:', stderr)
-                                if (stdout) console.log('stdout:', stdout)
-                            })
-                        } catch (err) {
-                            console.error(err)
-                            client.reply(from, `Error:\n${err}`, id)
-                        }
-                    } else {
-                        client.reply(from, ind.nhFalse(), id)
-                    }
-                } else {
-                    client.reply(from, ind.wait(), id)
-                    const kode = args[0]
-                    const validate = await nhentai.exists(kode)
-                    if (validate === true) {
-                        try {
-                            const dojin = await nhentai.getDoujin(kode)
-                            const { title } = dojin
-                            exec(`nhentai --id=${kode} -P -o ./asupan/${kode}.pdf --format ${kode}.pdf`, '', (error, stdout, stderr) => {
-                                client.sendFile(from, `./asupan/${kode}.pdf/${kode}.pdf.pdf`, `${title}.pdf`, '', null, null, true)
-                                if (error) return console.log('error:', error.message)
-                                if (stderr) return console.log('stderr:', stderr)
-                                if (stdout) console.log('stdout:', stdout)
-                            })
-                        } catch (err) {
-                            console.error(err)
-                            client.reply(from, `Error:\n${err}`, id)
-                        }
-                    } else {
-                        client.reply(from, ind.nhFalse(), id)
-                    }
-                }
+                // Premium feature, contact the owner.
+                if (!isPremium) return client.reply(from, ind.notPremium(), id)
             break
 
             // Owner command
@@ -420,6 +378,14 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
                 client.sendText(from, 'Otsukaresama deshita~ 👋')
                     .then(() => client.kill())
+            break
+            case 'premium':
+                if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
+                for (let premi of mentionedJidList) {
+                    _premium.push(premi)
+                    fs.writeFileSync('./ingfo/premium.json', JSON.stringify(_premium))
+                }
+                client.reply(from, ind.doneOwner(), id)
             break
 
             default:
