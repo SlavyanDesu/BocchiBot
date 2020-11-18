@@ -10,7 +10,7 @@ const { API } = require('nhentai-api')
 const api = new API()
 
 const { msgFilter, color, processTime, isUrl } = require('../tools')
-const { nsfw, lirik, shortener, qr, wiki, kbbi, bmkg, weeabo } = require('../lib')
+const { nsfw, lirik, shortener, wiki, kbbi, bmkg, weeabo } = require('../lib')
 const config = require('../config.json')
 const { ind, eng } = require('./text/lang/')
 const _nsfw = JSON.parse(fs.readFileSync('./ingfo/nsfw.json'))
