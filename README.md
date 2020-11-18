@@ -77,6 +77,7 @@ client.reply(from, eng.wrongFormat(), id)
 After that scan the QR code using your WhatsApp apps in your phone!
 
 # Features
+If you want to unlock premium commands, please contact me~
 |  Sticker Maker  | Availability |
 | :-------------: | :----------: |
 | Send image      |      ✔️      |
@@ -88,7 +89,6 @@ After that scan the QR code using your WhatsApp apps in your phone!
 | Say              |      ✔️      |
 | Delete           |      ✔️      |
 | Lyric            |      ✔️      |
-| QR maker         |      ✔️      |
 | Shortlink        |      ✔️      |
 
 |      Weeb Zone     | Availability |
@@ -118,10 +118,13 @@ After that scan the QR code using your WhatsApp apps in your phone!
 
 |        NSFW        | Availability |
 | :----------------: | :----------: |
-| Lewd               |      ✔️      |
+| Lewds              |      ✔️      |
 | Fetish             |    Not yet   |
 | nHentai lookup     |      ✔️      |
 | nHentai downloader |    Premium   |
+| XNXX downloader    |    Premium   |
+| Multi lewds        |    Premium   |
+| Multi fetish       |    Premium   |
 
 # Thanks to
 * [`Open-Wa/wa-automate-nodejs`](https://github.com/open-wa/wa-automate-nodejs)
@@ -132,6 +135,7 @@ After that scan the QR code using your WhatsApp apps in your phone!
 Authored and maintained by SlavyanDesu.
 
 # Contact
+* [`WhatsApp`](https://wa.me/6281294958473)
 * [`Facebook`](https://faecbook.com/jazz.overdose)
 * [`Twitter`](https://twitter.com/sl_avyan)
 * [`Instagram`](https://www.instagram.com/rl_slavyan)
