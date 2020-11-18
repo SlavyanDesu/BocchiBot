@@ -29,11 +29,11 @@
 </p>
 <details>
   <summary>Contact me!</summary>
-  [`WhatsApp`](https://wa.me/6281294958473)
-  [`Facebook`](https://faecbook.com/jazz.overdose)
-  [`Twitter`](https://twitter.com/sl_avyan)
-  [`Instagram`](https://www.instagram.com/rl_slavyan)
-  [`Discord`](https://discord.com/users/446297580431998977)
+  [WhatsApp](https://wa.me/6281294958473)
+  [Facebook](https://faecbook.com/jazz.overdose)
+  [Twitter](https://twitter.com/sl_avyan)
+  [Instagram](https://www.instagram.com/rl_slavyan)
+  [Discord](https://discord.com/users/446297580431998977)
 </details>
 </div>
 
