@@ -89,7 +89,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     })
             break
             case 'shortlink':
-                if (!isUrl) return client.reply(from, ind.wrongFormat(), id)
+                if (!isUrl(url)) return client.reply(from, ind.wrongFormat(), id)
                 client.reply(from, ind.wait(), id)
                 shortener(url)
                     .then(({ status, result, pesan }) => {
