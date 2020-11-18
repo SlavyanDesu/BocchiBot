@@ -60,7 +60,7 @@ exports.nhFalse = () => {
 
 exports.listBlock = (blockNumber) => {
     return `
-    \t*[ HALL OF SHAME ]*
+\t*[ HALL OF SHAME ]*
     
 Total diblokir: *${blockNumber.length}* user\n`
 }
@@ -171,6 +171,7 @@ Usage: *$kemono*
 exports.textRules = () => {
     return `
 \t*[ THE RULES ]*
+
 1. Jangan spam bot. 
 Sanksi: *WARN/SOFT BLOCK*
 
@@ -242,6 +243,7 @@ Usage: *$premium* @user1
 exports.textNsfw = () => {
     return `
 \t*[ NSFW ]*
+
 1. *$lewds*
 Mengirim gambar anime lewd.
 Aliases: *lewd*

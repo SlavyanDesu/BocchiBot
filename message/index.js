@@ -201,7 +201,9 @@ module.exports = msgHandler = async (client = new Client(), message) => {
 
             // Weeb zone
             case 'neko':
-                client.sendFileFromUrl(from, (await neko.sfw.wallpaper()).url, 'neko.jpg', '', null, null, true)
+                client.reply(from, ind.wait(), id)
+                console.log('Getting neko image...')
+                client.sendFileFromUrl(from, (await neko.sfw.neko()).url, 'neko.jpg', '', null, null, true)
                     .then(() => console.log('Success sending neko image!'))
                     .catch((err) => {
                         console.error(err)
@@ -210,6 +212,8 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break 
             case 'wallpaper':
             case 'wp':
+                client.reply(from, ind.wait(), id)
+                console.log('Getting wallpaper image...')
                 client.sendFileFromUrl(from, (await neko.sfw.wallpaper()).url, 'wallpaper.jpg', '', null, null, true)
                     .then(() => console.log('Success sending wallpaper image!'))
                     .catch((err) => {
@@ -218,6 +222,8 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     })
             break
             case 'kemono':
+                client.reply(from, ind.wait(), id)
+                console.log('Getting kemonomimi image...')
                 client.sendFileFromUrl(from, (await neko.sfw.kemonomimi()).url, 'kemono.jpg', '', null, null, true)
                     .then(() => console.log('Success sending kemonomimi image!'))
                     .catch((err) => {
