@@ -70,7 +70,7 @@ exports.textMenu = (pushname) => {
     return `
 Hello ${pushname}~
 
-[ COMMANDS ]
+\t[ COMMANDS ]
 
 Ignore <>
 
@@ -168,7 +168,7 @@ Usage: *$kemono*
 
 exports.textRules = () => {
     return `
-    *[ THE RULES ]*
+\t*[ THE RULES ]*
 1. Do NOT spam the bot.
 Penalty: *WARN/SOFT BLOCK*
 
@@ -188,7 +188,7 @@ wa.me/6282125076212 (Riz)
 
 exports.textOwner = () => {
     return `
-Hello Owner-sama ヽ(・∀・)ﾉ!
+\tHello Owner-sama ヽ(・∀・)ﾉ!
 
 1. *$bc*
 Create a brodcast message.
@@ -239,7 +239,7 @@ Usage: *$premium* @user1
 
 exports.textNsfw = () => {
     return `
-    *[ NSFW ]*
+\t*[ NSFW ]*
 1. *$lewds*
 Sending anime lewds.
 Aliases: *lewd*
