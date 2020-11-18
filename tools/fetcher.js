@@ -8,9 +8,9 @@ const fetch = require('node-fetch')
 const fetchJson = (url, options) => {
     return new Promise((resolve, reject) => {
         return fetch(url, options)
-            .then(response => response.json())
-            .then(json => resolve(json))
-            .catch(err => {
+            .then((response) => response.json())
+            .then((json) => resolve(json))
+            .catch((err) => {
                 console.error(err)
                 reject(err)
             })
