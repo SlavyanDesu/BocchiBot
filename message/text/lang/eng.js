@@ -59,7 +59,10 @@ exports.nhFalse = () => {
 }
 
 exports.listBlock = (blockNumber) => {
-    return `\t*[ HALL OF SHAME ]*\nTotal blocked: *${blockNumber.length}* user(s)\n`
+    return `
+-----[ HALL OF SHAME ]-----
+
+Total blocked: *${blockNumber.length}* user(s)\n`
 }
 
 exports.notPremium = () => {
@@ -68,9 +71,9 @@ exports.notPremium = () => {
 
 exports.textMenu = (pushname) => {
     return `
-Hello ${pushname}~
+-----[ COMMANDS ]-----
 
-\t[ COMMANDS ]
+Hello ${pushname}~
 
 Ignore <>
 
@@ -168,7 +171,7 @@ Usage: *$kemono*
 
 exports.textRules = () => {
     return `
-\t*[ THE RULES ]*
+-----[ THE RULES ]-----
 1. Do NOT spam the bot.
 Penalty: *WARN/SOFT BLOCK*
 
@@ -188,7 +191,7 @@ wa.me/6282125076212 (Riz)
 
 exports.textOwner = () => {
     return `
-\tHello Owner-sama ヽ(・∀・)ﾉ!
+Hello Owner-sama ヽ(・∀・)ﾉ!
 
 1. *$bc*
 Create a brodcast message.
@@ -239,7 +242,7 @@ Usage: *$premium* @user1
 
 exports.textNsfw = () => {
     return `
-\t*[ NSFW ]*
+-----[ NSFW ]-----
 1. *$lewds*
 Sending anime lewds.
 Aliases: *lewd*
