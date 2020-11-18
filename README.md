@@ -146,10 +146,3 @@ If you want to unlock premium commands, please contact me~
 # License
 **elaina-bot** © [SlavyanDesu](https://github.com/SlavyanDesu), released under the MIT License.
 Authored and maintained by SlavyanDesu.
-
-# Contact
-* [`WhatsApp`](https://wa.me/6281294958473)
-* [`Facebook`](https://faecbook.com/jazz.overdose)
-* [`Twitter`](https://twitter.com/sl_avyan)
-* [`Instagram`](https://www.instagram.com/rl_slavyan)
-* [`Discord`](https://discord.com/users/446297580431998977)
