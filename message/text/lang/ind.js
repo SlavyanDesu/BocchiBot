@@ -59,7 +59,10 @@ exports.nhFalse = () => {
 }
 
 exports.listBlock = (blockNumber) => {
-    return `\t*[ HALL OF SHAME ]*\nTotal diblokir: *${blockNumber.length}* user\n`
+    return `
+    \t*[ HALL OF SHAME ]*
+    
+Total diblokir: *${blockNumber.length}* user\n`
 }
 
 exports.notPremium = () => {
@@ -70,7 +73,7 @@ exports.textMenu = (pushname) => {
     return `
 Halo *${pushname}*~
 
-*[ COMMANDS ]*
+\t*[ COMMANDS ]*
 
 Abaikan tanda <>
 
@@ -167,7 +170,7 @@ Usage: *$kemono*
 
 exports.textRules = () => {
     return `
-    *[ THE RULES ]*
+\t*[ THE RULES ]*
 1. Jangan spam bot. 
 Sanksi: *WARN/SOFT BLOCK*
 
@@ -187,7 +190,7 @@ wa.me/6282125076212 (Riz)
 
 exports.textOwner = () => {
     return `
-Halo Owner-sama ヽ(・∀・)ﾉ!
+\tHalo Owner-sama ヽ(・∀・)ﾉ!
 
 1. *$bc*
 Kirim broadcast.
@@ -238,7 +241,7 @@ Usage: *$premium* @user1
 
 exports.textNsfw = () => {
     return `
-    *[ NSFW ]*
+\t*[ NSFW ]*
 1. *$lewds*
 Mengirim gambar anime lewd.
 Aliases: *lewd*
