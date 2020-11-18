@@ -140,7 +140,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 client.reply(from, ind.wait(), id)
                 bmkg()
                     .then(({ kedalaman, koordinat, lokasi, magnitude, map, potensi, waktu }) => {
-                        let teksInfo = `${lokasi}\n\nKoordinat: ${koordinat}\nKedalaman: ${kedalaman}\nMagnitudo: ${magnitude}\nPotensi: ${potensi}\n\n${waktu}`
+                        let teksInfo = `${lokasi}\n\nKoordinat: ${koordinat}\nKedalaman: ${kedalaman}\nMagnitudo: ${magnitude} SR\nPotensi: ${potensi}\n\n${waktu}`
                         client.sendFileFromUrl(from, map, 'gempa.jpg', teksInfo, null, null, true)
                             .then(() => console.log('Success sending info!'))
                     })
