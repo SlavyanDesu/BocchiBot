@@ -231,21 +231,25 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                         client.reply(from, `Error;\n${err}`)
                     })
             break
-            case 'animeinfo':
+            case 'kusonime':
                 if (!q) return client.reply(from, ind.wrongFormat(), id)
                 client.reply(from, ind.wait(), id)
                 weeabo.anime(q)
-                    .then(({ info, link_dl, sinopsis, thumb, title }) => {
-                        let animek = `${title}\n\n${info}\n\nSinopsis: ${sinopsis}\n\nLink download:\n${link_dl}`
-                        client.sendFileFromUrl(from, thumb, 'animek.jpg', animek, null, null, true)
-                            .then(() => console.log('Success sending anime info!'))
+                    .then(({ info, link_dl, sinopsis, thumb, title, error, status }) => {
+                        if (status ==== false) {
+                            return client.reply(from, error, id)
+                        } else {
+                            let animek = `${title}\n\n${info}\n\nSinopsis: ${sinopsis}\n\nLink download:\n${link_dl}`
+                            client.sendFileFromUrl(from, thumb, 'animek.jpg', animek, null, null, true)
+                                .then(() => console.log('Success sending anime info!'))
+                        }
                     })
                     .catch((err) => {
                         console.error(err)
                         client.reply(from, err, id)
                     })
             break
-            case 'mangainfo':
+            case 'komiku':
                 if (!q) return client.reply(from, ind.wrongFormat(), id)
                 client.reply(from, ind.wait(), id)
                 weeabo.manga(q)
