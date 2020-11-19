@@ -3,6 +3,7 @@
  * @param {Boolean} headless
  * @param {Function} start function
  */
+// eslint-disable-next-line no-undef
 module.exports = options = (headless, start) => {
     const options = {
         headless: headless,
