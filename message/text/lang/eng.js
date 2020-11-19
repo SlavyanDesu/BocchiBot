@@ -43,7 +43,7 @@ exports.notNsfw = () => {
 }
 
 exports.nsfwOn = () => {
-    return `NSFW command successufully *enabled*!\nType *$nsfwmenu* to see command list.`
+    return `NSFW command successfully *enabled*!\nType *$nsfwmenu* to see command list.`
 }
 
 exports.nsfwOff = () => {
@@ -59,8 +59,7 @@ exports.nhFalse = () => {
 }
 
 exports.listBlock = (blockNumber) => {
-    return `
------[ HALL OF SHAME ]-----
+    return `-----[ HALL OF SHAME ]-----
 
 Total blocked: *${blockNumber.length}* user(s)\n`
 }
@@ -166,6 +165,16 @@ Usage: *$wallpaper*
 Send a kemonomini anime girl picture! UwU
 Aliases: -
 Usage: *$kemono*
+
+4. *$kusonime*
+Search for anime info and batch download link from Kusonime.
+Aliases: -
+Usage: *$kusonime* <anime title>
+
+5. *$komiku*
+Search for manga info and downloas link from Komiku.
+Aliases: -
+Usage: *$komiku* <manga title>
     `
 }
 
