@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-case-declarations */
 const { decryptMedia, Client } = require('@open-wa/wa-automate')
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
@@ -17,6 +19,7 @@ const _nsfw = JSON.parse(fs.readFileSync('./ingfo/nsfw.json'))
 const _ban = JSON.parse(fs.readFileSync('./ingfo/banned.json'))
 const _premium = JSON.parse(fs.readFileSync('./ingfo/premium.json'))
 
+// eslint-disable-next-line no-undef
 module.exports = msgHandler = async (client = new Client(), message) => {
     try {
         const { type, id, from, t, sender, isGroupMsg, chat, caption, isMedia, mimetype, quotedMsg, quotedMsgObj, mentionedJidList } = message

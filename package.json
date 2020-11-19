@@ -19,5 +19,8 @@
     "nhentai-api": "^3.0.2",
     "nhentai-js": "^4.0.0",
     "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.13.0"
   }
 }
