@@ -236,7 +236,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 client.reply(from, ind.wait(), id)
                 weeabo.anime(q)
                     .then(({ info, link_dl, sinopsis, thumb, title, error, status }) => {
-                        if (status ==== false) {
+                        if (status === false) {
                             return client.reply(from, error, id)
                         } else {
                             let animek = `${title}\n\n${info}\n\nSinopsis: ${sinopsis}\n\nLink download:\n${link_dl}`
