@@ -59,8 +59,7 @@ exports.nhFalse = () => {
 }
 
 exports.listBlock = (blockNumber) => {
-    return `
-------[ HALL OF SHAME ]------
+    return `------[ HALL OF SHAME ]------
     
 Total diblokir: *${blockNumber.length}* user\n`
 }
@@ -165,6 +164,16 @@ Usage: *$wallpaper*
 Kirim foto kemonomimi anime girl! UwU
 Aliases: -
 Usage: *$kemono*
+
+4. *$kusonime*
+Mencari info anime dan link download batch di Kusonime.
+Aliases: -
+Usage: *$kusonime* <judul anime>
+
+5. *$komiku*
+Mencari info manga dan link download di Komiku.
+Aliases: -
+Usage: *$komiku* <judul manga>
     `
 }
 
