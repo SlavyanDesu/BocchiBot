@@ -68,6 +68,10 @@ exports.notPremium = () => {
     return `Maaf! Command ini khusus untuk user premium saja.`
 }
 
+exports.botNotPremium = () => {
+    return `Bot ini tidak mendukung command premium. Silakan hubungi pemilik bot ini.`
+}
+
 exports.textMenu = (pushname) => {
     return `
 -----[ COMMANDS ]-----
@@ -115,7 +119,7 @@ Usage: *$ping*
 8. *$delete*
 Hapus pesan bot.
 Aliases: *del*
-Usage: reply pesan yang dihapus dengan caption *$del*.
+Usage: Reply pesan yang dihapus dengan caption *$del*.
 
 Misc:
 1. *$say*
@@ -142,6 +146,11 @@ Usage: *$wikipedia* <text>
 Mengirim definisi kata dari KBBI.
 Aliases: -
 Usage: *$kbbi* <text>
+
+6. *$igstalk*
+Stalk akun Instagram.
+Aliases: -
+Usage: *$igstalk* <username>
 
 Sticker:
 1. *$sticker*
@@ -192,7 +201,7 @@ Sanksi: *PERMANENT BLOCK*
 
 Jika sudah dipahamin rules-nya, silakan ketik *$menu* untuk memulai!
 
-Owner:
+Source code oleh:
 wa.me/6281294958473 (Kal)
 wa.me/6282125076212 (Riz)
     `
@@ -242,10 +251,15 @@ Mematikan bot.
 Aliases: -
 Usage: *$shutdown*
 
-9. *$premium*
+9. *$pradd*
 Menambah user premium.
 Aliases: -
-Usage: *$premium* @user1
+Usage: *$pradd* @user1
+
+10. *$prdel*
+Menghapus user premium.
+Aliases: -
+Usage: *$prdel* @user1
     `
 }
 

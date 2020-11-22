@@ -68,6 +68,10 @@ exports.notPremium = () => {
     return `Sorry! This command is for premium user only.`
 }
 
+exports.botNotPremium = () => {
+    return `The bot is not supported premium commands. Please contact the owner of the bot.`
+}
+
 exports.textMenu = (pushname) => {
     return `
 -----[ COMMANDS ]-----
@@ -117,7 +121,6 @@ Delete bot's message.
 Aliases: *del*
 Usage: Reply the message that is going to be deleted by using caption *$delete*.
 
-
 Utility:
 1. *$say*
 Make the bot say something!
@@ -143,6 +146,11 @@ Usage: *$wikipedia* <text>
 Send a definition of Indonesian vocab.
 Aliases: -
 Usage: *$kbbi* <text>
+
+6. *$igstalk*
+Stalk Instagram account.
+Aliases: -
+Usage: *$igstalk* <username>
 
 Sticker:
 1. *$sticker*
@@ -192,7 +200,7 @@ Penalty: *PERMANENT BLOCK*
 
 If you understand the rules, type *$menu* to start!
 
-Owner:
+Source code by:
 wa.me/6281294958473 (Kal)
 wa.me/6282125076212 (Riz)
     `
@@ -242,10 +250,15 @@ Shutdown the bot.
 Aliases: -
 Usage: *$shutdown*
 
-9. *$premium*
-Add a premium user.
+9. *$pradd*
+Add premium user.
 Aliases: -
-Usage: *$premium* @user1
+Usage: *$pradd* @user1
+
+10. *$prdel*
+Delete premium user.
+Aliases: -
+Usage: *$prdel* @user1
     `
 }
 

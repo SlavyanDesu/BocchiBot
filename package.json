@@ -10,7 +10,7 @@
   "author": "SlavyanDesu",
   "license": "MIT",
   "dependencies": {
-    "@open-wa/wa-automate": "^3.0.13",
+    "@open-wa/wa-automate": "^3.1.0",
     "chalk": "^4.1.0",
     "figlet": "^1.5.0",
     "fs-extra": "^9.0.1",
@@ -21,6 +21,6 @@
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
-    "eslint": "^7.13.0"
+    "eslint": "^7.14.0"
   }
 }

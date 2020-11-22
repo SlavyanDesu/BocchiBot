@@ -12,7 +12,7 @@ const { API } = require('nhentai-api')
 const api = new API()
 
 const { msgFilter, color, processTime, isUrl } = require('../tools')
-const { nsfw, lirik, shortener, wiki, kbbi, bmkg, weeabo } = require('../lib')
+const { nsfw, lirik, shortener, wiki, kbbi, bmkg, weeabo, medsos } = require('../lib')
 const config = require('../config.json')
 const { ind, eng } = require('./text/lang/')
 const _nsfw = JSON.parse(fs.readFileSync('./ingfo/nsfw.json'))
@@ -146,6 +146,24 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                         let teksInfo = `${lokasi}\n\nKoordinat: ${koordinat}\nKedalaman: ${kedalaman}\nMagnitudo: ${magnitude} SR\nPotensi: ${potensi}\n\n${waktu}`
                         client.sendFileFromUrl(from, map, 'gempa.jpg', teksInfo, null, null, true)
                             .then(() => console.log('Success sending info!'))
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                        client.reply(from, err, id)
+                    })
+            break
+            case 'igstalk':
+            if (!q) return client.reply(from, ind.wrongFormat(), id)
+            client.reply(from, ind.wait(), id)
+            medsos.igstalk(q)
+                    .then(({ Biodata, Jumlah_Followers, Jumlah_Following, Jumlah_Post, Profile_pic, Username, status, error }) => {
+                        if (status === false) {
+                            return client.reply(from, error, id)
+                        } else {
+                            let igCaption = `${Biodata.split('\nby: ArugaZ').join('')}\n\nUsername: ${Username}\nFollowers: ${Jumlah_Followers}\nFollowing: ${Jumlah_Following}\nPost: ${Jumlah_Post}`
+                            client.sendFileFromUrl(from, Profile_pic, `${Username}.jpg`, igCaption, null, null, true)
+                                .then(() => console.log('Success sending Instagram info!'))
+                        }
                     })
                     .catch((err) => {
                         console.error(err)
@@ -455,12 +473,19 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 client.sendText(from, 'Otsukaresama deshita~ 👋')
                     .then(async () => await client.kill())
             break
-            case 'premium':
+            case 'pradd':
                 if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
                 for (let premi of mentionedJidList) {
                     _premium.push(premi)
                     fs.writeFileSync('./ingfo/premium.json', JSON.stringify(_premium))
                 }
+                client.reply(from, ind.doneOwner(), id)
+            break
+            case 'prdel':
+                if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
+                let predel = _premium.indexOf(mentionedJidList[0])
+                _premium.splice(predel, 1)
+                fs.writeFileSync('./ingfo/premium.json', JSON.stringify(_premium))
                 client.reply(from, ind.doneOwner(), id)
             break
 
