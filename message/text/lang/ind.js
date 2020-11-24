@@ -68,8 +68,20 @@ exports.notPremium = () => {
     return `Maaf! Command ini khusus untuk user premium saja.`
 }
 
+exports.notAdmin = () => {
+    return `Pengguna bukan admin!`
+}
+
+exports.adminAlready = () => {
+    return `Tidak dapat promote pengguna yang merupakan admin!`
+}
+
 exports.botNotPremium = () => {
     return `Bot ini tidak mendukung command premium. Silakan hubungi pemilik bot ini.`
+}
+
+exports.botNotAdmin = () => {
+    return `Jadikan bot sebagai admin terlebih dahulu!`
 }
 
 exports.textMenu = (pushname) => {

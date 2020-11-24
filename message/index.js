@@ -153,9 +153,9 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     })
             break
             case 'igstalk':
-            if (!q) return client.reply(from, ind.wrongFormat(), id)
-            client.reply(from, ind.wait(), id)
-            medsos.igstalk(q)
+                if (!q) return client.reply(from, ind.wrongFormat(), id)
+                client.reply(from, ind.wait(), id)
+                medsos.igstalk(q)
                     .then(({ Biodata, Jumlah_Followers, Jumlah_Following, Jumlah_Post, Profile_pic, Username, status, error }) => {
                         if (status === false) {
                             return client.reply(from, error, id)
@@ -319,6 +319,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             case 'mlewd':
                 // Premium feature, contact the owner.
                 if (!isPremium) return client.reply(from, ind.notPremium(), id)
+                client.reply(from, ind.botNotPremium(), id)
             break
             case 'lewds':
             case 'lewd':
@@ -363,8 +364,8 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                                 })
                             const dojin = await nhentai.getDoujin(kode)
                             const { title, details, link } = dojin
-                            const { tags, artists, groups, languages, categories } = await details
-                            let teks = `*Title*: ${title}\n\n*Tags*: ${tags}\n\n*Artists*: ${artists}\n\n*Groups*: ${groups}\n\n*Languages*: ${languages}\n\n*Categories*: ${categories}\n\n*Link*: ${link}`
+                            const { tags, artists, languages, categories } = await details
+                            let teks = `*Title*: ${title}\n\n*Tags*: ${tags.join(', ')}\n\n*Artists*: ${artists}\n\n*Languages*: ${languages.join(', ')}\n\n*Categories*: ${categories}\n\n*Link*: ${link}`
                             client.sendFileFromUrl(from, pic, 'nhentai.jpg', teks, id)
                                 .then(() => console.log('Success sending nHentai info!'))
                         } catch (err) {
@@ -386,9 +387,9 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                                 })
                             const dojin = await nhentai.getDoujin(kode)
                             const { title, details, link } = dojin
-                            const { tags, artists, groups, languages, categories } = await details
-                            let teks = `*Title*: ${title}\n\n*Tags*: ${tags}\n\n*Artists*: ${artists}\n\n*Groups*: ${groups}\n\n*Languages*: ${languages}\n\n*Categories*: ${categories}\n\n*Link*: ${link}`
-                            client.sendFileFromUrl(from, pic, teks, id)
+                            const { tags, artists, languages, categories } = await details
+                            let teks = `*Title*: ${title}\n\n*Tags*: ${tags.join(', ')}\n\n*Artists*: ${artists}\n\n*Languages*: ${languages.join(', ')}\n\n*Categories*: ${categories}\n\n*Link*: ${link}`
+                            client.sendFileFromUrl(from, pic, 'nhentai.jpg', teks, id)
                         } catch (err) {
                             console.error(err)
                             client.reply(from, err, id)
@@ -401,10 +402,77 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             case 'nhdl':
                 // Premium feature, contact the owner.
                 if (!isPremium) return client.reply(from, ind.notPremium(), id)
+                client.reply(from, ind.botNotPremium(), id)
             break
             case 'xnxx':
                 // Premium feature, contact the owner.
                 if (!isPremium) return client.reply(from, ind.notPremium(), id)
+                client.reply(from, ind.botNotPremium(), id)
+            break
+
+            // Moderation command
+            case 'add':
+                if (!isGroupMsg) return client.reply(from, ind.groupOnly(), id)
+                if (!isGroupAdmins) return client.reply(from, ind.adminOnly(), id)
+                if (!isBotGroupAdmins) return client.reply(from, ind.botNotAdmin(), id)
+                if (args.length !== 1) return client.reply(from, ind.wrongFormat(), id)
+                try {
+                    await client.addParticipant(from, `${args[0]}@c.us`)
+                    await client.sendText(from, '🎉 Welcome! 🎉')
+                } catch (err) {
+                    console.error(err)
+                    client.reply(from, err, id)
+                }
+            break
+            case 'kick':
+                if (!isGroupMsg) return client.reply(from, ind.groupOnly(), id)
+                if (!isGroupAdmins) return client.reply(from, ind.adminOnly(), id)
+                if (!isBotGroupAdmins) return client.reply(from, ind.botNotAdmin(), id)
+                if (mentionedJidList.length === 0) return client.reply(from, ind.wrongFormat(), id)
+                if (mentionedJidList[0] === botNumber) return client.reply(from, ind.wrongFormat(), id)
+                client.sendTextWithMentions(from, `Good bye~\n${mentionedJidList.map(x => `@${x.replace('@c.us', '')}`).join('\n')}`)
+                for (let i = 0; i < mentionedJidList.length; i++) {
+                    if (groupAdmins.includes(mentionedJidList[i])) return client.sendText(from, ind.wrongFormat())
+                    await client.removeParticipant(groupId, mentionedJidList[i])
+                }
+            break
+            case 'promote':
+                if (!isGroupMsg) return client.reply(from, ind.groupOnly(), id)
+                if (!isGroupAdmins) return client.reply(from, ind.adminOnly(), id)
+                if (!isBotGroupAdmins) return client.reply(from, ind.botNotAdmin(), id)
+                if (mentionedJidList.length !== 1) return client.reply(from, ind.wrongFormat(), id)
+                if (mentionedJidList[0] === botNumber) return client.reply(from, ind.wrongFormat(), id)
+                if (groupAdmins.includes(mentionedJidList[0])) return client.reply(from, ind.adminAlready(), id)
+                await client.promoteParticipant(groupId, mentionedJidList[0])
+                await client.reply(from, ind.ok(), id)
+            break
+            case 'demote':
+                if (!isGroupMsg) return client.reply(from, ind.groupOnly(), id)
+                if (!isGroupAdmins) return client.reply(from, ind.adminOnly(), id)
+                if (!isBotGroupAdmins) return client.reply(from, ind.botNotAdmin(), id)
+                if (mentionedJidList.length !== 1) return client.reply(from, ind.wrongFormat(), id)
+                if (mentionedJidList[0] === botNumber) return client.reply(from, ind.wrongFormat(), id)
+                if (!groupAdmins.includes(mentionedJidList[0])) return client.reply(from, ind.notAdmin(), id)
+                await client.demoteParticipant(groupId, mentionedJidList[0])
+                await client.reply(from, ind.ok(), id)
+            break
+            case 'leave':
+                if (!isGroupMsg) return client.reply(from, ind.groupOnly(), id)
+                if (!isGroupAdmins) return client.reply(from, ind.adminOnly(), id)
+                client.sendText(from, 'Sayounara~ 👋')
+                    .then(() => client.leaveGroup(groupId))
+            break
+            case 'everyone': // Thanks to ArugaZ
+                if (!isGroupMsg) return client.reply(from, ind.groupOnly(), id)
+                if (!isGroupAdmins) return client.reply(from, ind.adminOnly(), id)
+                const groupMem = await client.getGroupMembers(groupId)
+                let txt = '╔══✪〘 Mention All 〙✪══\n'
+                for (let i = 0; i < groupMem.length; i++) {
+                    txt += '╠➥'
+                    txt += ` @${groupMem[i].id.replace(/@c.us/g, '')}\n`
+                }
+                txt += '╚═〘 *E L A I N A  B O T* 〙'
+                await client.sendTextWithMentions(from, txt)
             break
 
             // Owner command

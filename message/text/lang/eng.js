@@ -68,8 +68,20 @@ exports.notPremium = () => {
     return `Sorry! This command is for premium user only.`
 }
 
+exports.notAdmin = () => {
+    return `The user is not an admin!`
+}
+
+exports.adminAlready = () => {
+    return `Can't promote user who is an admin!`
+}
+
 exports.botNotPremium = () => {
     return `The bot is not supported premium commands. Please contact the owner of the bot.`
+}
+
+exports.botNotAdmin = () => {
+    return `Set bot to admin first!`
 }
 
 exports.textMenu = (pushname) => {
