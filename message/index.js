@@ -431,9 +431,9 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (mentionedJidList.length === 0) return client.reply(from, ind.wrongFormat(), id)
                 if (mentionedJidList[0] === botNumber) return client.reply(from, ind.wrongFormat(), id)
                 client.sendTextWithMentions(from, `Good bye~\n${mentionedJidList.map(x => `@${x.replace('@c.us', '')}`).join('\n')}`)
-                for (let i = 0; i < mentionedJidList.length; i++) {
-                    if (groupAdmins.includes(mentionedJidList[i])) return client.sendText(from, ind.wrongFormat())
-                    await client.removeParticipant(groupId, mentionedJidList[i])
+                for (let i of mentionedJidList) {
+                    if (groupAdmins.includes(i)) return client.sendText(from, ind.wrongFormat())
+                    await client.removeParticipant(groupId, i)
                 }
             break
             case 'promote':
@@ -492,7 +492,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 for (let delChats of allChats) {
                     await client.deleteChat(delChats.id)
                 }
-                await client.reply(from, ind.doneOwner(), id)
+                client.reply(from, ind.doneOwner(), id)
             break
             case 'leaveall':
                 if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
@@ -501,6 +501,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 for (let gclist of allGroup) {
                     await client.sendText(gclist.contact.id, q)
                     await client.leaveGroup(gclist.contact.id)
+                   
                 }
                 client.reply(from, ind.doneOwner())
             break
@@ -511,6 +512,8 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break
             case 'ban':
                 if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
+                if (mentionedJidList.length === 0) return client.reply(from, ind.wrongFormat(), id)
+                if (mentionedJidList[0] === botNumber) return client.reply(from, ind.wrongFormat(), id)
                 for (let blist of mentionedJidList) {
                     _ban.push(blist)
                     fs.writeFileSync('./ingfo/banned.json', JSON.stringify(_ban))
@@ -519,6 +522,8 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break
             case 'unban':
                 if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
+                if (mentionedJidList.length === 0) return client.reply(from, ind.wrongFormat(), id)
+                if (mentionedJidList[0] === botNumber) return client.reply(from, ind.wrongFormat(), id)
                 let benet = _ban.indexOf(mentionedJidList[0])
                 _ban.splice(benet, 1)
                 fs.writeFileSync('./ingfo/banned.json', JSON.stringify(_ban))
@@ -533,7 +538,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     if (typeof evaled !== 'string') evaled = require('util').inspect(evaled)
                     client.sendText(from, evaled)
                 } catch (err) {
-                    client.sendText(from, `Error: ${err}`)
+                    client.reply(from, err, id)
                 }
             break
             case 'shutdown':
@@ -543,6 +548,8 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break
             case 'pradd':
                 if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
+                if (mentionedJidList.length === 0) return client.reply(from, ind.wrongFormat(), id)
+                if (mentionedJidList[0] === botNumber) return client.reply(from, ind.wrongFormat(), id)
                 for (let premi of mentionedJidList) {
                     _premium.push(premi)
                     fs.writeFileSync('./ingfo/premium.json', JSON.stringify(_premium))
@@ -551,12 +558,13 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break
             case 'prdel':
                 if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
+                if (mentionedJidList.length === 0) return client.reply(from, ind.wrongFormat(), id)
+                if (mentionedJidList[0] === botNumber) return client.reply(from, ind.wrongFormat(), id)
                 let predel = _premium.indexOf(mentionedJidList[0])
                 _premium.splice(predel, 1)
                 fs.writeFileSync('./ingfo/premium.json', JSON.stringify(_premium))
                 client.reply(from, ind.doneOwner(), id)
             break
-
             default:
                 console.log(color('[ERROR]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), 'Unregistered command from', color(pushname))
                 client.reply(from, ind.cmdNotFound(), id)
