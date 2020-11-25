@@ -70,7 +70,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         switch (command) {
             // Misc
             case 'say':
-                if (!q) return client.reply(from, ind.emptyMess(), id)
+                if (!q) return client.reply(from, ind.wrongFormat(), id)
                 client.sendText(from, q)
             break
             case 'lyric':
@@ -157,7 +157,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 client.reply(from, ind.wait(), id)
                 medsos.igstalk(q)
                     .then(({ Biodata, Jumlah_Followers, Jumlah_Following, Jumlah_Post, Profile_pic, Username, status, error }) => {
-                        if (status === false) {
+                        if (status !== 200) {
                             return client.reply(from, error, id)
                         } else {
                             let igCaption = `${Biodata.split('\nby: ArugaZ').join('')}\n\nUsername: ${Username}\nFollowers: ${Jumlah_Followers}\nFollowing: ${Jumlah_Following}\nPost: ${Jumlah_Post}`
