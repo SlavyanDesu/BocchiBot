@@ -96,13 +96,14 @@ If you want to unlock premium commands, please contact me~
 | Send image      |      ✔️      |
 | Reply to image  |      ✔️      |
 
-|      Utility     | Availability |
+|       Misc       | Availability |
 | :--------------: | :----------: |
-| Ping             |      ✔️      |
 | Say              |      ✔️      |
-| Delete           |      ✔️      |
 | Lyric            |      ✔️      |
 | Shortlink        |      ✔️      |
+| Wikipedia        |      ✔️      |
+| KBBI search      |      ✔️      |
+| IG stalk         |      ✔️      |
 
 |      Weeb Zone     | Availability |
 | :----------------: | :----------: |
@@ -112,12 +113,11 @@ If you want to unlock premium commands, please contact me~
 
 |        Bot       | Availability |
 | :--------------: | :----------: |
-| Rules            |      ✔️      |
-| Menu             |      ✔️      |
-| NSFW             |      ✔️      |
-| Menu owner       |      ✔️      |
+| NSFW toogle      |      ✔️      |
 | Server usage     |      ✔️      |
 | List block       |      ✔️      |
+| Ping             |      ✔️      |
+| Delete           |      ✔️      |
 
 |       Owner      | Availability |
 | :--------------: | :----------: |
@@ -129,15 +129,24 @@ If you want to unlock premium commands, please contact me~
 | Eval             |      ✔️      |
 | Shutdown         |      ✔️      |
 
+|    Moderation    | Availability |
+| :--------------: | :----------: |
+| Add              |      ✔️      |
+| Kick             |      ✔️      |
+| Promote          |      ✔️      |
+| Demote           |      ✔️      |
+| Leave            |      ✔️      |
+| Everyone         |      ✔️      |
+
 |        NSFW        | Availability |
 | :----------------: | :----------: |
 | Lewds              |      ✔️      |
-| Fetish             |    Not yet   |
 | nHentai lookup     |      ✔️      |
 | nHentai downloader |    Premium   |
 | XNXX downloader    |    Premium   |
 | Multi lewds        |    Premium   |
 | Multi fetish       |    Premium   |
+| Nekopoi            |      ✔️      |
 
 # Thanks to
 * [`Open-Wa/wa-automate-nodejs`](https://github.com/open-wa/wa-automate-nodejs)

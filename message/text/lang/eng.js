@@ -133,6 +133,11 @@ Delete bot's message.
 Aliases: *del*
 Usage: Reply the message that is going to be deleted by using caption *$delete*.
 
+9. *$moderation*
+Check moderation commands list.
+Aliases: -
+Usage: *$moderation*
+
 Utility:
 1. *$say*
 Make the bot say something!
@@ -301,5 +306,45 @@ Usage: *$nhdl* <code>
 Download video from XNXX. (PREMIUM ONLY)
 Aliases: -
 Usage: *$xnxx* <link>
+
+6. *$nekopoi*
+Sending latest video link from Nekopoi.
+Aliases: -
+Usage: *$nekopoi*
+    `
+}
+
+exports.textModeration = () => {
+    return `
+-----[ MODERATION ]-----
+1. *$add*
+Add user to group.
+Aliases: -
+Usage: *$add* 628xxxxxxxxxx
+
+2. *$kick*
+Kick member from group.
+Aliases: -
+Usage: *$kick* @member1
+
+3. *$promote*
+Promote member to admin.
+Aliases: -
+Usage: *$promote* @member1
+
+4. *$demote*
+Demote member from admin.
+Aliases: -
+Usage: *$demote* @member1
+
+5. *$leave*
+Bot will leave the current group.
+Aliases: -
+Usage: *$leave*
+
+6. *$everyone*
+Mention all group members.
+Aliases: -
+Usage: *$everyone*
     `
 }

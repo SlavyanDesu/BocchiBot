@@ -12,7 +12,7 @@ const { API } = require('nhentai-api')
 const api = new API()
 
 const { msgFilter, color, processTime, isUrl } = require('../tools')
-const { nsfw, lirik, shortener, wiki, kbbi, bmkg, weeabo, medsos } = require('../lib')
+const { nsfw, lirik, shortener, wiki, kbbi, bmkg, weeabo, medsos, nekopoi } = require('../lib')
 const config = require('../config.json')
 const { ind, eng } = require('./text/lang/')
 const _nsfw = JSON.parse(fs.readFileSync('./ingfo/nsfw.json'))
@@ -52,6 +52,9 @@ module.exports = msgHandler = async (client = new Client(), message) => {
 
         // Ignore non-cmd
         if (!isCmd) return
+  
+        // Ignore private chat
+        if (!isGroupMsg) return
 
         // Ignore blocked users
         if (isBlocked || isBanned) return
@@ -219,6 +222,10 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (!quotedMsgObj.fromMe) return client.reply(from, ind.wrongFormat(), id)
                 await client.deleteMessage(quotedMsgObj.chatId, quotedMsgObj.id, false)
             break
+            case 'moderation':
+                if (!isGroupMsg) return client.reply(from, ind.groupOnly(), id)
+                client.sendText(from, ind.textModeration())
+            break
 
             // Weeb zone
             case 'neko':
@@ -318,8 +325,15 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             case 'mlewds':
             case 'mlewd':
                 // Premium feature, contact the owner.
-                if (!isPremium) return client.reply(from, ind.notPremium(), id)
-                client.reply(from, ind.botNotPremium(), id)
+                if (isGroupMsg) {
+                    if (!isNsfw) return client.reply(from, ind.notNsfw(), id)
+                    if (!isPremium) return client.reply(from, ind.notPremium(), id)
+                    client.reply(from, ind.botNotPremium(), id)
+                } else {
+                    if (!isNsfw) return client.reply(from, ind.notNsfw(), id)
+                    if (!isPremium) return client.reply(from, ind.notPremium(), id)
+                    client.reply(from, ind.botNotPremium(), id)
+                }
             break
             case 'lewds':
             case 'lewd':
@@ -401,13 +415,65 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break
             case 'nhdl':
                 // Premium feature, contact the owner.
-                if (!isPremium) return client.reply(from, ind.notPremium(), id)
-                client.reply(from, ind.botNotPremium(), id)
+                if (isGroupMsg) {
+                    if (!isNsfw) return client.reply(from, ind.notNsfw(), id)
+                    if (!isPremium) return client.reply(from, ind.notPremium(), id)
+                    client.reply(from, ind.botNotPremium(), id)
+                } else {
+                    if (!isNsfw) return client.reply(from, ind.notNsfw(), id)
+                    if (!isPremium) return client.reply(from, ind.notPremium(), id)
+                    client.reply(from, ind.botNotPremium(), id)
+                }
             break
             case 'xnxx':
                 // Premium feature, contact the owner.
-                if (!isPremium) return client.reply(from, ind.notPremium(), id)
-                client.reply(from, ind.botNotPremium(), id)
+                if (isGroupMsg) {
+                    if (!isNsfw) return client.reply(from, ind.notNsfw(), id)
+                    if (!isPremium) return client.reply(from, ind.notPremium(), id)
+                    client.reply(from, ind.botNotPremium(), id)
+                } else {
+                    if (!isNsfw) return client.reply(from, ind.notNsfw(), id)
+                    if (!isPremium) return client.reply(from, ind.notPremium(), id)
+                    client.reply(from, ind.botNotPremium(), id)
+                }
+            break
+            case 'nekopoi':
+                if (isGroupMsg) {
+                    if (!isNsfw) return client.reply(from, ind.notNsfw(), id)
+                    client.reply(from, ind.wait(), id)
+                    nekopoi.getLatest()
+                        .then((result) => {
+                            nekopoi.getVideo(result.link)
+                                .then((res) => {
+                                    let heheq = '\n'
+                                    for (let i of res.links) {
+                                        heheq += `${i}\n`
+                                    }
+                                    client.sendText(from, `Title: ${res.title}\n\nLink:${heheq}`)
+                                })
+                        })
+                        .catch((err) => {
+                            console.error(err)
+                            client.reply(from, err, id)
+                        })
+                } else {
+                    client.reply(from, ind.wait(), id)
+                    nekopoi.getLatest()
+                        .then((result) => {
+                            nekopoi.getVideo(result.link)
+                                .then((res) => {
+                                    let heheq = '\n'
+                                    for (let i of res.links) {
+                                        heheq += `${i}\n`
+                                    }
+                                    client.sendText(from, `Title: ${res.title}\n\nLink:${heheq}`)
+                                })
+                        })
+                        .catch((err) => {
+                            console.error(err)
+                            client.reply(from, err, id)
+                        })
+                }
             break
 
             // Moderation command

@@ -1,6 +1,6 @@
 {
   "name": "elaina-bot",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Elaina is a multipurpose WhatsApp bot.",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,9 @@
   "license": "MIT",
   "dependencies": {
     "@open-wa/wa-automate": "^3.1.0",
+    "axios": "^0.21.0",
     "chalk": "^4.1.0",
+    "cheerio": "^1.0.0-rc.3",
     "figlet": "^1.5.0",
     "fs-extra": "^9.0.1",
     "moment-timezone": "^0.5.31",

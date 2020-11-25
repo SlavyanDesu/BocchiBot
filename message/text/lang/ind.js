@@ -133,6 +133,11 @@ Hapus pesan bot.
 Aliases: *del*
 Usage: Reply pesan yang dihapus dengan caption *$del*.
 
+9. *$moderation*
+Cek moderation command list.
+Aliases: -
+Usage: *$moderation*
+
 Misc:
 1. *$say*
 Ya gitu.
@@ -303,5 +308,45 @@ Usage: *$nhdl* <kode>
 Mendownload video dari XNXX. (PREMIUM ONLY)
 Aliases: -
 Usage: *$xnxx* <link>
+
+6. *$nekopoi*
+Mengirim video link Nekopoi terbaru.
+Aliases: -
+Usage: *$nekopoi*
+    `
+}
+
+exports.textModeration = () => {
+    return `
+-----[ MODERATION ]-----
+1. *$add*
+Menambah user ke dalam group.
+Aliases: -
+Usage: *$add* 628xxxxxxxxxx
+
+2. *$kick*
+Mengeluarkan member dari grup.
+Aliases: -
+Usage: *$kick* @member1
+
+3. *$promote*
+Promote member menjadi admin.
+Aliases: -
+Usage: *$promote* @member1
+
+4. *$demote*
+Demote member dari admin.
+Aliases: -
+Usage: *$demote* @member1
+
+5. *$leave*
+Bot akan meninggalkan grup.
+Aliases: -
+Usage: *$leave*
+
+6. *$everyone*
+Mention semua member group.
+Aliases: -
+Usage: *$everyone*
     `
 }
