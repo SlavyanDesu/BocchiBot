@@ -1,9 +1,9 @@
+/* eslint-disable no-undef */
 /**
- * Get client options
+ * Get client options.
  * @param {Boolean} headless
- * @param {Function} start function
+ * @param {Function} start
  */
-// eslint-disable-next-line no-undef
 module.exports = options = (headless, start) => {
     const options = {
         headless: headless,

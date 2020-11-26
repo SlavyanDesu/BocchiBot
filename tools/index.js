@@ -3,7 +3,7 @@ const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 
 /**
- * Get text with color
+ * Get text with color.
  * @param {String} text 
  * @param {String} color 
  */
@@ -12,7 +12,7 @@ const color = (text, color) => {
 }
 
 /**
- * URL validator
+ * URL validator.
  * @param {String} url 
  */
 const isUrl = (url) => {
@@ -20,7 +20,7 @@ const isUrl = (url) => {
 }
 
 /**
- * Get time duration
+ * Get time duration.
  * @param {Date} timestamp 
  * @param {Date} now 
  */
@@ -32,7 +32,7 @@ const processTime = (timestamp, now) => {
 const usedCommandRecently = new Set()
 
 /**
- * Check is number filtered
+ * Check is number filtered.
  * @param {String} from 
  */
 const isFiltered = (from) => {
@@ -40,7 +40,7 @@ const isFiltered = (from) => {
 }
 
 /**
- * Add number to filter
+ * Add number to filter.
  * @param {String} from 
  */
 const addFilter = (from) => {
