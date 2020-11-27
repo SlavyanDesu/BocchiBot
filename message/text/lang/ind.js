@@ -84,6 +84,14 @@ exports.botNotAdmin = () => {
     return `Jadikan bot sebagai admin terlebih dahulu!`
 }
 
+exports.ytLimit = () => {
+    return `Size video terlalu besar!`
+}
+
+exports.ytFound = (result) => {
+    return `Video ditemukan!\n\nTitle:\n${result.title}\n\nDescription:\n${result.desc}\n\nSize: ${result.filesize} / 50.0 MB\n\nMedia sedang dikirim, mohon tunggu...`
+}
+
 exports.textMenu = (pushname) => {
     return `
 -----[ COMMANDS ]-----
@@ -91,6 +99,22 @@ exports.textMenu = (pushname) => {
 Halo *${pushname}*~
 
 Abaikan tanda <>
+
+Downloader [BETA]:
+1. *$facebook*
+Download Facebook video.
+Aliases: *fb*
+Usage: *$facebook* <video link>
+
+2. *$ytmp3*
+Download YouTube audio.
+Aliases: -
+Usage: *$ytmp3* <link>
+
+3. *$ytmp4*
+Download YouTube video.
+Aliases: -
+Usage: *$ytmp4* <link>
 
 Bot:
 1. *$rules*

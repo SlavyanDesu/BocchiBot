@@ -48,6 +48,6 @@ const start = async (client = new Client()) => {
 }
 
 // Creating Slavyan.data.json
-create({ sessionId: 'Slavyan' }, options(true, start))
+create(options(true, start))
     .then((client) => start(client))
     .catch((err) => new Error(err))

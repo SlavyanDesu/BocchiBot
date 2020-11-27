@@ -84,6 +84,14 @@ exports.botNotAdmin = () => {
     return `Set bot to admin first!`
 }
 
+exports.ytLimit = () => {
+    return `Video size is too large!`
+}
+
+exports.ytFound = (result) => {
+    return `Video found!\n\nTitle:\n${result.title}\n\nDescription:\n${result.desc}\n\nSize: ${result.filesize} / 50.0 MB\n\nSending media, please wait...`
+}
+
 exports.textMenu = (pushname) => {
     return `
 -----[ COMMANDS ]-----

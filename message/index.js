@@ -12,7 +12,7 @@ const { API } = require('nhentai-api')
 const api = new API()
 
 const { msgFilter, color, processTime, isUrl } = require('../tools')
-const { nsfw, lirik, shortener, wiki, kbbi, bmkg, weeabo, medsos, nekopoi } = require('../lib')
+const { nsfw, lirik, shortener, wiki, kbbi, bmkg, weeabo, medsos, nekopoi, downloader } = require('../lib')
 const config = require('../config.json')
 const { ind, eng } = require('./text/lang/')
 const _nsfw = JSON.parse(fs.readFileSync('./ingfo/nsfw.json'))
@@ -53,24 +53,87 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         // Ignore non-cmd
         if (!isCmd) return
   
-        // Ignore private chat
-        if (!isGroupMsg) return
+        // Ignore private chat (for development)
+        if (isCmd && !isGroupMsg) return client.sendText(from, 'I\'m not ready for public yet! So you wouldn\'t get any response from me.\n\nAlso, *DO NOT* call me. You will *GET BLOCKED* if you did so.\n\nMy master: wa.me/6281294958473')
 
-        // Ignore blocked users
-        if (isBlocked || isBanned) return
+        // Ignore banned and blocked users
+        if (isCmd && !isGroupMsg && isBanned) return console.log(color('[BANNED]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
+        if (isCmd && isGroupMsg && isBanned) return console.log(color('[BANNED]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
+        if (isCmd && !isGroupMsg && isBlocked) return console.log(color('[BLOCKED]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
+        if (isCmd && isGroupMsg && isBlocked) return console.log(color('[BLOCKED]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
 
         // Anti-spam
         if (isCmd && msgFilter.isFiltered(from) && !isGroupMsg) return console.log(color('[SPAM]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
         if (isCmd && msgFilter.isFiltered(from) && isGroupMsg) return console.log(color('[SPAM]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
 
         // Log
-        if (isCmd && !isGroupMsg) console.log(color('[EXEC]'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
+        // if (isCmd && !isGroupMsg) console.log(color('[EXEC]'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
         if (isCmd && isGroupMsg) console.log(color('[EXEC]'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
 
         // Anti-spam
         msgFilter.addFilter(from)
 
         switch (command) {
+            // Downloader
+            case 'facebook':
+            case 'fb':
+                if (!isUrl(url) && !url.includes('facebook.com')) return client.reply(from, ind.wrongFormat(), id)
+                client.reply(from, ind.wait(), id)
+                downloader.facebook(url)
+                    .then(({ status, title, link, pesan }) => {
+                        if (status === 'error') {
+                            return client.reply(from, pesan, id)
+                        } else {
+                            client.sendFileFromUrl(from, link, `${title}.mp4`, `${title}`, null, null, true)
+                                .then(() => console.log('Success sending Facebook media!'))
+                        }
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                        client.reply(from, err, id)
+                    })
+            break
+            case 'ytmp3':
+                if (!isUrl(url) && !url.includes('youtu.be')) return client.reply(from, ind.wrongFormat(), id)
+                client.reply(from, ind.wait(), id)
+                downloader.ytmp3(url)
+                    .then(({ result, status, url, error }) => {
+                        if (status !== 200) {
+                            return client.sendFileFromUrl(from, url, 'error.jpg', error, null, null, true)
+                        } else if (Number(result.filesize.split(' MB')[0]) > 50.00) {
+                            return client.reply(from, ind.ytLimit(), id)
+                        } else {
+                            client.sendFileFromUrl(from, result.thumb, `${result.title}.jpg`, ind.ytFound(result), id)
+                            client.sendFileFromUrl(from, result.url, `${result.title}.mp3`, '', id)
+                                .then(() => console.log('Success sending YouTube audio!'))
+                        }
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                        client.reply(from, err, id)
+                    })
+            break
+            case 'ytmp4':
+                if (!isUrl(url) && !url.includes('youtu.be')) return client.reply(from, ind.wrongFormat(), id)
+                client.reply(from, ind.wait(), id)
+                downloader.ytmp4(url)
+                    .then(({ result, status, url, error }) => {
+                        if (status !== 200) {
+                            return client.sendFileFromUrl(from, url, 'error.jpg', error, null, null, true)
+                        } else if (Number(result.filesize.split(' MB')[0]) > 50.00) {
+                            return client.reply(from, ind.ytLimit(), id)
+                        } else {
+                            client.sendFileFromUrl(from, result.thumb, `${result.title}.jpg`, ind.ytFound(result), id)
+                            client.sendFileFromUrl(from, result.url, `${result.title}.mp4`, '', id)
+                                .then(() => console.log('Success sending YouTube video!'))
+                        }
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                        client.reply(from, err, id)
+                    })
+            break
+
             // Misc
             case 'say':
                 if (!q) return client.reply(from, ind.wrongFormat(), id)
@@ -158,7 +221,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             case 'igstalk':
                 if (!q) return client.reply(from, ind.wrongFormat(), id)
                 client.reply(from, ind.wait(), id)
-                medsos.igstalk(q)
+                medsos.igStalk(q)
                     .then(({ Biodata, Jumlah_Followers, Jumlah_Following, Jumlah_Post, Profile_pic, Username, status, error }) => {
                         if (status !== 200) {
                             return client.reply(from, error, id)
@@ -185,12 +248,12 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             case 'nsfw':
                 if (!isGroupMsg) return client.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return client.reply(from, ind.adminOnly(), id)
-                if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
-                if (args[0] === 'enable') {
+                const ar = args.map((v) => v.toLowerCase())
+                if (ar[0] === 'enable') {
                     _nsfw.push(chat.id)
                     fs.writeFileSync('./ingfo/nsfw.json', JSON.stringify(_nsfw))
                     client.reply(from, ind.nsfwOn(), id)
-                } else if (args[0] === 'disable') {
+                } else if (ar[0] === 'disable') {
                     _nsfw.splice(chat.id, 1)
                     fs.writeFileSync('./ingfo/nsfw.json', JSON.stringify(_nsfw))
                     client.reply(from, ind.nsfwOff(), id)
@@ -600,7 +663,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (!isOwner) return client.reply(from, ind.ownerOnly(), id)
                 if (!q) return client.reply(from, ind.wrongFormat(), id)
                 try {
-                    let evaled = eval(q)
+                    let evaled = await eval(q)
                     if (typeof evaled !== 'string') evaled = require('util').inspect(evaled)
                     client.sendText(from, evaled)
                 } catch (err) {
