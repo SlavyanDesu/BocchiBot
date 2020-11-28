@@ -68,7 +68,7 @@ Edit the required value in `config.example.json`, after that rename the file to 
 `token`: API token. You can get it [here](https://api.i-tech.id/) by creating an account.
 
 ## 🗣️ Changing language
-Wanna change the language of the bot to English? Simply replace all `ind.` in `message/index.js` to `eng.`  
+Wanna change the language of the bot to English? Simply replace all `ind` in `message/index.js` to `eng`  
 Example:
 ```js
 client.reply(from, ind.wrongFormat(), id)
