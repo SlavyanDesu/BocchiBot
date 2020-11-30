@@ -112,6 +112,10 @@ If you want to unlock premium commands, please contact me~
 | Neko               |      ✔️      |
 | Wallpaper          |      ✔️      |
 | Kemono             |      ✔️      |
+| Kusonime           |      ✔️      |
+| Komiku             |      ✔️      |
+| Anime trace        |      ✔️      |
+| Source finder      |      ✔️      |
 
 |        Bot       | Availability |
 | :--------------: | :----------: |
