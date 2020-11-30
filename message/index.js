@@ -4,16 +4,19 @@ const { decryptMedia, Client } = require('@open-wa/wa-automate')
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 const fs = require('fs-extra')
+const config = require('../config.json')
 const Nekos = require('nekos.life')
 const neko = new Nekos()
 const os = require('os')
 const nhentai = require('nhentai-js')
 const { API } = require('nhentai-api')
 const api = new API()
+const sagiri = require('sagiri')
+const saus = sagiri(config.nao)
 
 const { msgFilter, color, processTime, isUrl } = require('../tools')
 const { nsfw, lirik, shortener, wiki, kbbi, bmkg, weeabo, medsos, nekopoi, downloader } = require('../lib')
-const config = require('../config.json')
+const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
 const _nsfw = JSON.parse(fs.readFileSync('./ingfo/nsfw.json'))
 const _ban = JSON.parse(fs.readFileSync('./ingfo/banned.json'))
@@ -356,13 +359,13 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break
             case 'wait':
                 if (isMedia && type === 'image' || isQuotedImage) {
+                    client.reply(from, ind.wait(), id)
+                    console.log('Searching for anime source...')
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const _mimetype = isQuotedImage ? quotedMsg.mimetype : mimetype
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
                     const imageBase64 = `data:${_mimetype};base64,${mediaData.toString('base64')}`
                     const fetch = require('node-fetch')
-                    client.reply(from, ind.wait(), id)
-                    console.log('Searching for anime source...')
                     fetch('https://trace.moe/api/search', {
                         method: 'POST',
                         body: JSON.stringify({ image: imageBase64 }),
@@ -378,11 +381,35 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                             if (similarity < 0.92) {
                                 teks = 'Low similarity. 🤔\n\n'
                             }
-                            teks += `*Title*: ${title}\n\n*Romaji*: ${title_romaji}\n\n*English*: ${title_english}\n\n*Episode*: ${episode}\n\n*Similarity*: ${(similarity * 100).toFixed(1)}%`
+                            teks += `*Title*: ${title}\n*Romaji*: ${title_romaji}\n*English*: ${title_english}\n*Episode*: ${episode}\n*Similarity*: ${(similarity * 100).toFixed(1)}%`
                             let vid = `https://media.trace.moe/video/${anilist_id}/${encodeURIComponent(filename)}?t=${at}&token=${tokenthumb}`
                             client.sendFileFromUrl(from, vid, `${title_romaji}.mp4`, teks, id)
                                 .then(() => console.log('Success sending anime source!'))
                         })
+                        .catch((err) => {
+                            console.error(err)
+                            client.reply(from, err, id)
+                        })
+                } else {
+                    client.reply(from, ind.wrongFormat(), id)
+                }
+            break
+            case 'source':
+            case 'sauce':
+                if (isMedia && type === 'image' || isQuotedImage) {
+                    client.reply(from, ind.wait(), id)
+                    console.log('Searching for source...')
+                    const encryptMedia = isQuotedImage ? quotedMsg : message
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const imageLink = await uploadImages(mediaData)
+                    const results = await saus(imageLink)
+                    let teks = ''
+                    if (results[0].similarity < 0.92) {
+                        teks = 'Low similarity. 🤔\n\n'
+                    }
+                    teks += `*Link*: ${results[0].url}\n*Site*: ${results[0].site}\n*Author name*: ${results[0].authorName}\n*Author link*: ${results[0].authorUrl}\n*Similarity*: ${results[0].similarity}%`
+                    client.sendLinkWithAutoPreview(from, results[0].url, teks)
+                        .then(() => console.log('Source found!'))
                         .catch((err) => {
                             console.error(err)
                             client.reply(from, err, id)

@@ -213,6 +213,11 @@ Usage: *$komiku* <manga title>
 Search for anime source from screenshot scene.
 Aliases: -
 Usage: Send a screenshot with caption *$wait* or reply a screenshot with caption *$wait*.
+
+7. *$source*
+Search for source from doujin panel, illustration, and anime images related.
+Aliases: *sauce*
+Usage: Send an image with caption *$source* or reply an image with caption *$sorce*.
     `
 }
 
