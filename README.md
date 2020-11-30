@@ -66,7 +66,7 @@ Edit the required value in `config.example.json`, after that rename the file to 
 `ownerBot`: your WhatsApp number.  
 `prefix`: bot's prefix.  
 `uaOverride`: your user agent.  
-`token`: API token. You can get it [here](https://api.i-tech.id) by creating an account.
+`token`: API token. You can get it [here](https://api.i-tech.id) by creating an account.  
 `nao`: SauceNAO API token. You can get it [here](https://saucenao.com/user.php) by creating an account.
 
 ## 🗣️ Changing language
