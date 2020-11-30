@@ -181,7 +181,7 @@ Sticker:
 1. *$sticker*
 Create a sticker from sending or replying an image.
 Aliases: *stiker*
-Usage: Send an image with caption $sticker or reply an image with caption *$sticker*.
+Usage: Send an image with caption *$sticker* or reply an image with caption *$sticker*.
 
 Weeb zone:
 1. *$neko*
@@ -208,6 +208,11 @@ Usage: *$kusonime* <anime title>
 Search for manga info and downloas link from Komiku.
 Aliases: -
 Usage: *$komiku* <manga title>
+
+6. *$wait*
+Search for anime source from screenshot scene.
+Aliases: -
+Usage: Send a screenshot with caption *$wait* or reply a screenshot with caption *$wait*.
     `
 }
 

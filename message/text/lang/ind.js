@@ -224,6 +224,11 @@ Usage: *$kusonime* <judul anime>
 Mencari info manga dan link download di Komiku.
 Aliases: -
 Usage: *$komiku* <judul manga>
+
+6. *$wait*
+Mencari source anime dari screenshot cuplikan.
+Aliases: -
+Usage: Kirim screenshot dengan caption *$wait* atau reply screenshot dengan caption *$wait*.
     `
 }
 

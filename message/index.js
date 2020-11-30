@@ -354,11 +354,48 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                         client.reply(from, err, id)
                     })
             break
+            case 'wait':
+                if (isMedia && type === 'image' || isQuotedImage) {
+                    const encryptMedia = isQuotedImage ? quotedMsg : message
+                    const _mimetype = isQuotedImage ? quotedMsg.mimetype : mimetype
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const imageBase64 = `data:${_mimetype};base64,${mediaData.toString('base64')}`
+                    const fetch = require('node-fetch')
+                    client.reply(from, ind.wait(), id)
+                    console.log('Searching for anime source...')
+                    fetch('https://trace.moe/api/search', {
+                        method: 'POST',
+                        body: JSON.stringify({ image: imageBase64 }),
+                        headers: { "Content-Type": "application/json" }
+                    })
+                        .then((response) => response.json())
+                        .then((result) => {
+                            if (result.docs && result.docs.length <= 0) {
+                                client.reply(from, 'Not found! :(', id)
+                            }
+                            const { title, title_romaji, title_english, episode, similarity, filename, at, tokenthumb, anilist_id } = result.docs[0]
+                            let teks = ''
+                            if (similarity < 0.92) {
+                                teks = 'Low similarity. 🤔\n\n'
+                            }
+                            teks += `*Title*: ${title}\n\n*Romaji*: ${title_romaji}\n\n*English*: ${title_english}\n\n*Episode*: ${episode}\n\n*Similarity*: ${(similarity * 100).toFixed(1)}%`
+                            let vid = `https://media.trace.moe/video/${anilist_id}/${encodeURIComponent(filename)}?t=${at}&token=${tokenthumb}`
+                            client.sendFileFromUrl(from, vid, `${title_romaji}.mp4`, teks, id)
+                                .then(() => console.log('Success sending anime source!'))
+                        })
+                        .catch((err) => {
+                            console.error(err)
+                            client.reply(from, err, id)
+                        })
+                } else {
+                    client.reply(from, ind.wrongFormat(), id)
+                }
+            break
 
             // Sticker
             case 'sticker':
             case 'stiker':
-                if (isMedia || isQuotedImage) {
+                if (isMedia && type === 'image' || isQuotedImage) {
                     client.reply(from, ind.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const _mimetype = isQuotedImage ? quotedMsg.mimetype : mimetype
@@ -430,8 +467,10 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             case 'nh':
                 if (isGroupMsg) {
                     if (!isNsfw) return client.reply(from, ind.notNsfw(), id)
-                    client.reply(from, ind.wait(), id)
                     const kode = args[0]
+                    if (!kode) return client.reply(from, ind.wrongFormat(), id)
+                    client.reply(from, ind.wait(), id)
+                    console.log(`Searching nHentai for ${kode}...`)
                     const validate = await nhentai.exists(kode)
                     if (validate === true) {
                         try {
