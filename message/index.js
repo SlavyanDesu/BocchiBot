@@ -398,13 +398,13 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             case 'sauce':
                 if (isMedia && type === 'image' || isQuotedImage) {
                     client.reply(from, ind.wait(), id)
-                    console.log('Searching for source...')
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
                     const imageLink = await uploadImages(mediaData)
+                    console.log('Searching for source...')
                     const results = await saus(imageLink)
                     let teks = ''
-                    if (results[0].similarity < 0.92) {
+                    if (results[0].similarity < 80.00) {
                         teks = 'Low similarity. 🤔\n\n'
                     }
                     teks += `*Link*: ${results[0].url}\n*Site*: ${results[0].site}\n*Author name*: ${results[0].authorName}\n*Author link*: ${results[0].authorUrl}\n*Similarity*: ${results[0].similarity}%`
