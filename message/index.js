@@ -12,7 +12,7 @@ const nhentai = require('nhentai-js')
 const { API } = require('nhentai-api')
 const api = new API()
 const sagiri = require('sagiri')
-const saus = sagiri(config.nao)
+const saus = sagiri(config.nao, { results: 5 })
 
 const { msgFilter, color, processTime, isUrl } = require('../tools')
 const { nsfw, lirik, shortener, wiki, kbbi, bmkg, weeabo, medsos, nekopoi, downloader } = require('../lib')
@@ -403,17 +403,15 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     const imageLink = await uploadImages(mediaData)
                     console.log('Searching for source...')
                     const results = await saus(imageLink)
-                    let teks = ''
-                    if (results[0].similarity < 80.00) {
-                        teks = 'Low similarity. 🤔\n\n'
+                    for (let i = 0; i < results.length; i++) {
+                        let teks = ''
+                        if (results[i].similarity < 80.00) {
+                            teks = 'Low similarity. 🤔\n\n'
+                        }
+                        teks += `*Link*: ${results[i].url}\n*Site*: ${results[i].site}\n*Author name*: ${results[i].authorName}\n*Author link*: ${results[i].authorUrl}\n*Similarity*: ${results[i].similarity}%`
+                        client.sendLinkWithAutoPreview(from, results[i].url, teks)
+                            .then(() => console.log('Source found!'))
                     }
-                    teks += `*Link*: ${results[0].url}\n*Site*: ${results[0].site}\n*Author name*: ${results[0].authorName}\n*Author link*: ${results[0].authorUrl}\n*Similarity*: ${results[0].similarity}%`
-                    client.sendLinkWithAutoPreview(from, results[0].url, teks)
-                        .then(() => console.log('Source found!'))
-                        .catch((err) => {
-                            console.error(err)
-                            client.reply(from, err, id)
-                        })
                 } else {
                     client.reply(from, ind.wrongFormat(), id)
                 }
