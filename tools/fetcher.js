@@ -28,8 +28,8 @@ const fetchJson = (url, options) => {
 const fetchBase64 = (url, mimetype) => {
     return new Promise((resolve, reject) => {
         return fetch(url)
-            .then((res) => {
-                const _mimetype = mimetype || res.headers.get('content-type')
+            .then((response) => {
+                const _mimetype = mimetype || response.headers.get('content-type')
                 res.buffer()
                     .then((result) => resolve(`data:${_mimetype};base64,` + result.toString('base64')))
             })
@@ -71,10 +71,10 @@ const uploadImages = (buffData) => {
                 method: 'POST',
                 body: form
             })
-                .then((res) => res.json())
-                .then((res) => {
-                    if (res.error) return reject(res.error)
-                    resolve('https://telegra.ph' + res[0].src)
+                .then((response) => response.json())
+                .then((result) => {
+                    if (result.error) return reject(result.error)
+                    resolve('https://telegra.ph' + result[0].src)
                 })
                 .then(() => fs.unlinkSync(filePath))
                 .catch((err) => reject(err))
