@@ -34,7 +34,7 @@
 
   [WhatsApp](https://wa.me/6281294958473)
 
-  [Facebook](https://faecbook.com/jazz.overdose)
+  [Facebook](https://facebook.com/jazz.overdose)
 
   [Twitter](https://twitter.com/sl_avyan)
 
