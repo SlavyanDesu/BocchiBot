@@ -45,13 +45,9 @@
 </details>
 </div>
 
+
 ---
 
-
-
-<p align="center">
-  <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FSlavyanDesu%2Felaina-bot?ref=badge_large"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FSlavyanDesu%2Felaina-bot.svg?type=large" />
-</p>
 
 
 # Installation
@@ -72,6 +68,7 @@ Edit the required value in `config.example.json`, after that rename the file to 
     "nao": "put-your-token-here"
 }
 ```
+
 `ownerBot`: your WhatsApp number.  
 `prefix`: bot's prefix.  
 `uaOverride`: your user agent.  
@@ -170,3 +167,7 @@ If you want to unlock premium commands, please contact me~
 # License
 **elaina-bot** © [SlavyanDesu](https://github.com/SlavyanDesu), released under the MIT License.
 Authored and maintained by SlavyanDesu.
+
+<p align="center">
+  <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FSlavyanDesu%2Felaina-bot?ref=badge_large"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FSlavyanDesu%2Felaina-bot.svg?type=large" />
+</p>  
