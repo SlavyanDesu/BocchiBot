@@ -3,7 +3,6 @@ const { create, Client } = require('@open-wa/wa-automate')
 const { color } = require('./tools')
 const { ind, eng } = require('./message/text/lang/')
 const figlet = require('figlet')
-const options = require('./tools/options')
 const msgHandler = require('./message')
 
 const start = async (client = new Client()) => {
@@ -48,6 +47,27 @@ const start = async (client = new Client()) => {
 }
 
 // Creating session
-create(options(true, start))
+const options = {
+    sessionId: 'SlavyanDesu',
+    headless: true,
+    qrTimeout: 0,
+    authTimeout: 0,
+    restartOnCrash: start,
+    cacheEnabled: false,
+    useChrome: true,
+    killProcessOnBrowserClose: true,
+    throwErrorOnTosBlock: false,
+    chromiumArgs: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--aggressive-cache-discard',
+        '--disable-cache',
+        '--disable-application-cache',
+        '--disable-offline-load-stale-cache',
+        '--disk-cache-size=0'
+    ]
+}
+
+create(options)
     .then((client) => start(client))
     .catch((err) => new Error(err))
