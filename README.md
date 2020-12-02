@@ -114,7 +114,7 @@ If you want to unlock premium commands, please contact me~
 | Kemono             |      ✔️      |
 | Kusonime           |      ✔️      |
 | Komiku             |      ✔️      |
-| Anime trace        |      ✔️      |
+| Anime tracer       |      ✔️      |
 | Source finder      |      ✔️      |
 
 |        Bot       | Availability |
