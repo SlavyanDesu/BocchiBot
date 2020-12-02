@@ -14,13 +14,13 @@
   <a href="https://github.com/slavyandesu"><img title="Author" src="https://img.shields.io/badge/Author-SlavyanDesu-purple.svg?style=for-the-badge&logo=github" /></a>
 </p>
 <p align="center">
+  <a href="https://github.com/slavyandesu/elaina-bot"><img title="Stars" src="https://img.shields.io/github/stars/slavyandesu/elaina-bot?color=red&style=flat-square" /></a>
+  <a href="https://github.com/slavyandesu/elaina-bot/network/members"><img title="Forks" src="https://img.shields.io/github/forks/slavyandesu/elaina-bot?color=red&style=flat-square" /></a>
+  <a href="https://github.com/slavyandesu/elaina-bot/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/slavyandesu/elaina-bot?label=watchers&color=blue&style=flat-square" /></a> <br>
   <a href="https://www.codefactor.io/repository/github/slavyandesu/elaina-bot"><img src="https://www.codefactor.io/repository/github/slavyandesu/elaina-bot/badge" /></a>
   <a href="https://www.npmjs.com/package/@open-wa/wa-automate"><img src="https://img.shields.io/npm/v/@open-wa/wa-automate.svg?color=green" /></a>
   <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FSlavyanDesu%2Felaina-bot?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FSlavyanDesu%2Felaina-bot.svg?type=shield"/></a>
   <img src="https://img.shields.io/node/v/@open-wa/wa-automate" />
-  <a href="https://github.com/slavyandesu/elaina-bot"><img title="Stars" src="https://img.shields.io/github/stars/slavyandesu/elaina-bot?color=red&style=flat-square" /></a>
-  <a href="https://github.com/slavyandesu/elaina-bot/network/members"><img title="Forks" src="https://img.shields.io/github/forks/slavyandesu/elaina-bot?color=red&style=flat-square" /></a>
-  <a href="https://github.com/slavyandesu/elaina-bot/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/slavyandesu/elaina-bot?label=watchers&color=blue&style=flat-square" /></a>
   <img src="https://img.shields.io/badge/maintained%3F-yes-green.svg?style=flat" />
 </p>
 <p align="center">
