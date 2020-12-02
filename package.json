@@ -8,6 +8,14 @@
     "start": "node index.js"
   },
   "author": "SlavyanDesu",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SlavyanDesu/elaina-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SlavyanDesu/elaina-bot/issues"
+  },
+  "homepage": "https://github.com/SlavyanDesu/elaina-bot",
   "license": "MIT",
   "dependencies": {
     "@open-wa/wa-automate": "^3.1.0",
