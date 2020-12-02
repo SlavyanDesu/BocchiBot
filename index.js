@@ -48,7 +48,6 @@ const start = async (client = new Client()) => {
 
 // Creating session
 const options = {
-    sessionId: 'SlavyanDesu',
     headless: true,
     qrTimeout: 0,
     authTimeout: 0,
