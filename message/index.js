@@ -57,7 +57,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         if (!isCmd) return
   
         // Ignore private chat (for development)
-        if (isCmd && !isGroupMsg) return client.sendText(from, 'I\'m not ready for public yet! So you wouldn\'t get any response from me.\n\nAlso, *DO NOT* call me. You will *GET BLOCKED* if you did so.\n\nMy master: wa.me/6281294958473')
+        // if (isCmd && !isGroupMsg) return client.sendText(from, 'I\'m not ready for public yet! So you wouldn\'t get any response from me.\n\nAlso, *DO NOT* call me. You will *GET BLOCKED* if you did so.\n\nMy master: wa.me/6281294958473')
 
         // Ignore banned and blocked users
         if (isCmd && !isGroupMsg && isBanned) return console.log(color('[BANNED]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
@@ -70,7 +70,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         if (isCmd && msgFilter.isFiltered(from) && isGroupMsg) return console.log(color('[SPAM]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
 
         // Log
-        // if (isCmd && !isGroupMsg) console.log(color('[EXEC]'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
+        if (isCmd && !isGroupMsg) console.log(color('[EXEC]'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
         if (isCmd && isGroupMsg) console.log(color('[EXEC]'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
 
         // Anti-spam
@@ -564,7 +564,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     client.reply(from, ind.botNotPremium(), id)
                 }
             break
-            case 'nekopoi':
+            case 'nekopoi': // Thanks to ArugaZ
                 if (isGroupMsg) {
                     if (!isNsfw) return client.reply(from, ind.notNsfw(), id)
                     client.reply(from, ind.wait(), id)
