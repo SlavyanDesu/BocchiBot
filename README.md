@@ -58,7 +58,7 @@
 ```
 
 ## ✍️ Editing the file
-Edit the required value in `config.example.json`, after that rename the file to `config.json`.
+Edit the required value in `config.json`.
 ```json
 {
     "ownerBot": "62812xxxxxxxx@c.us", 
