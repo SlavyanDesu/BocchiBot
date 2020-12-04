@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 const { create, Client } = require('@open-wa/wa-automate')
 const { color } = require('./tools')
 const { ind, eng } = require('./message/text/lang/')
