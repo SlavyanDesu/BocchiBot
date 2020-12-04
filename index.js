@@ -3,7 +3,6 @@ const { color, options } = require('./tools')
 const { ind, eng } = require('./message/text/lang/')
 const figlet = require('figlet')
 const msgHandler = require('./message')
-const options = require('./tools')
 
 const start = async (client = new Client()) => {
     console.log(color(figlet.textSync('Elaina-Bot', 'Larry 3D'), 'cyan'))
