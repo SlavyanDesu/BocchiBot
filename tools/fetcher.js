@@ -14,7 +14,6 @@ const fetchJson = (url, options) => {
             .then((response) => response.json())
             .then((json) => resolve(json))
             .catch((err) => {
-                console.error(err)
                 reject(err)
             })
     })
@@ -34,7 +33,6 @@ const fetchBase64 = (url, mimetype) => {
                     .then((result) => resolve(`data:${_mimetype};base64,` + result.toString('base64')))
             })
             .catch((err) => {
-                console.error(err)
                 reject(err)
             })
     })
@@ -51,12 +49,15 @@ const fetchText = (url, options) => {
             .then((response) => response.text())
             .then((text) => resolve(text))
             .catch((err) => {
-                console.error(err)
                 reject(err)
             })
     })
 }
 
+/**
+ * Upload images to telegra.ph server.
+ * @param {Buffer} buffData 
+ */
 const uploadImages = (buffData) => {
     return new Promise((resolve, reject) => {
         const { ext } = fromBuffer(buffData)

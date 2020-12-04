@@ -1,6 +1,4 @@
 const { decryptMedia, Client } = require('@open-wa/wa-automate')
-const moment = require('moment-timezone')
-moment.tz.setDefault('Asia/Jakarta').locale('id')
 const fs = require('fs-extra')
 const config = require('../config.json')
 const Nekos = require('nekos.life')
@@ -11,6 +9,8 @@ const { API } = require('nhentai-api')
 const api = new API()
 const sagiri = require('sagiri')
 const saus = sagiri(config.nao, { results: 5 })
+const moment = require('moment-timezone')
+moment.tz.setDefault('Asia/Jakarta').locale('id')
 
 const { msgFilter, color, processTime, isUrl } = require('../tools')
 const { nsfw, lirik, shortener, wiki, kbbi, bmkg, weeabo, medsos, nekopoi, downloader } = require('../lib')
@@ -57,10 +57,8 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         // if (isCmd && !isGroupMsg) return client.sendText(from, 'I\'m not ready for public yet! So you wouldn\'t get any response from me.\n\nAlso, *DO NOT* call me. You will *GET BLOCKED* if you did so.\n\nMy master: wa.me/6281294958473')
 
         // Ignore banned and blocked users
-        if (isCmd && !isGroupMsg && isBanned) return console.log(color('[BANNED]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
-        if (isCmd && isGroupMsg && isBanned) return console.log(color('[BANNED]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
-        if (isCmd && !isGroupMsg && isBlocked) return console.log(color('[BLOCKED]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
-        if (isCmd && isGroupMsg && isBlocked) return console.log(color('[BLOCKED]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
+        if (isCmd && (isBanned || isBlocked) && !isGroupMsg) return console.log(color('[BAN]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
+        if (isCmd && (isBanned || isBlocked) && isGroupMsg) return console.log(color('[BAN]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
 
         // Anti-spam
         if (isCmd && msgFilter.isFiltered(from) && !isGroupMsg) return console.log(color('[SPAM]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
@@ -80,16 +78,12 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (!isUrl(url) && !url.includes('facebook.com')) return await client.reply(from, ind.wrongFormat(), id)
                 await client.reply(from, ind.wait(), id)
                 downloader.facebook(url)
-                    .then(async ({ status, result }) => {
-                        if (status !== 200) {
-                            await client.sendFileFromUrl(from, result, 'error.jpg', 'Error!', id)
+                    .then(async ({ status, title, link, pesan }) => {
+                        if (status === 'error') {
+                            return await client.reply(from, pesan, id)
                         } else {
-                            await client.sendFileFromUrl(from, result.hd, 'fb.mp4', '', id)
-                                .then(() => console.log('Success sending Facebook media!'))
-                                .catch(async () => {
-                                    await client.sendFileFromUrl(from, result.sd, 'fb.mp4', '', id)
-                                        .then(() => console.log('Success sending Facebook media!'))
-                                })
+                            await client.sendFileFromUrl(from, link, `${title}.mp4`, title, id)
+                                .then(() => console.log(from, 'Success sending Facebook video!'))
                         }
                     })
                     .catch(async (err) => {

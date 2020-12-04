@@ -1,12 +1,13 @@
 const { create, Client } = require('@open-wa/wa-automate')
-const { color } = require('./tools')
+const { color, options } = require('./tools')
 const { ind, eng } = require('./message/text/lang/')
 const figlet = require('figlet')
 const msgHandler = require('./message')
+const options = require('./tools')
 
 const start = async (client = new Client()) => {
     console.log(color(figlet.textSync('Elaina-Bot', 'Larry 3D'), 'cyan'))
-    console.log('[ELAINA]', color('Elaina is now online!', 'lime'))
+    console.log('[ELAINA]', color('Elaina is now online!'))
 
     // Force it to keep the current session
     client.onStateChanged((state) => {
@@ -29,10 +30,10 @@ const start = async (client = new Client()) => {
     client.onMessage((message) => {
         client.getAmountOfLoadedMessages()
             .then((msg) => {
-                if (msg >= 3000) {
+                if (msg >= 1000) {
                     console.log('[ELAINA]', color(`Loaded message reach ${msg}, cuting message cache...`, 'yellow'))
                     client.cutMsgCache()
-                        .then(() => console.log('Done!'))
+                        .then(() => console.log('[ELAINA]', color('Cache deleted!', 'yellow')))
                 }
             })
         msgHandler(client, message) // Message handler
@@ -41,31 +42,12 @@ const start = async (client = new Client()) => {
     // Block person who called bot
     client.onIncomingCall(async (callData) => {
         await client.sendText(callData.peerJid, ind.blocked())
-            .then(() => client.contactBlock(callData.peerJid))
+        await client.contactBlock(callData.peerJid)
+            .then(() => console.log(color('[BLOCK]', 'red'), color(`${callData.peerJid} has been blocked. Reason:`, 'yellow'), color('CALLING THE BOT', 'cyan')))
     })
 }
 
 // Creating session
-const options = {
-    headless: true,
-    qrTimeout: 0,
-    authTimeout: 0,
-    restartOnCrash: start,
-    cacheEnabled: false,
-    useChrome: true,
-    killProcessOnBrowserClose: true,
-    throwErrorOnTosBlock: false,
-    chromiumArgs: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--aggressive-cache-discard',
-        '--disable-cache',
-        '--disable-application-cache',
-        '--disable-offline-load-stale-cache',
-        '--disk-cache-size=0'
-    ]
-}
-
-create(options)
+create(options(start))
     .then((client) => start(client))
     .catch((err) => new Error(err))
