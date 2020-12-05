@@ -78,9 +78,9 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             // Register
             case 'register':
                 if (isRegistered) return await client.reply(from, ind.registeredAlready(), id)
+                if (!q.includes('|')) return await client.reply(from, ind.wrongFormat(), id)
                 const dataDiri = q.split('|').join('-')
                 if (!dataDiri) return await client.reply(from, ind.wrongFormat(), id)
-                if (!dataDiri.includes('|')) return await client.reply(from, ind.wrongFormat(), id)
                 _registered.push(sender.id)
                 _biodata.push(dataDiri)
                 fs.writeFileSync('./ingfo/registered.json', JSON.stringify(_registered))
