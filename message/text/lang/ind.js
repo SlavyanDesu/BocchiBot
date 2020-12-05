@@ -350,12 +350,7 @@ Mendownload doujin dari nHentai sebagai file PDF. (PREMIUM ONLY)
 Aliases: -
 Usage: *$nhdl* <kode>
 
-5. *$xnxx*
-Mendownload video dari XNXX. (PREMIUM ONLY)
-Aliases: -
-Usage: *$xnxx* <link>
-
-6. *$nekopoi*
+5. *$nekopoi*
 Mengirim video link Nekopoi terbaru.
 Aliases: -
 Usage: *$nekopoi*
