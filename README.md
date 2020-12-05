@@ -155,7 +155,7 @@ If you want to unlock premium commands, please contact me~
 | Lewds              |      ✔️      |
 | nHentai lookup     |      ✔️      |
 | nHentai downloader |    Premium   |
-| XNXX downloader    |    Premium   |
+| XNXX downloader    |     Soon     |
 | Multi lewds        |    Premium   |
 | Multi fetish       |    Premium   |
 | Nekopoi            |      ✔️      |
