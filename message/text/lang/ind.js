@@ -336,7 +336,7 @@ Aliases: *lewd*
 Usage: *$lewds*
 
 2. *$multilewds*
-Mengirim up to 5 gambar anime lewd. (PREMIUM ONLY)
+Mengirim up to 5 anime lewd pics. (PREMIUM ONLY)
 Aliases: *multilewds multilewd mlewd mlewds*
 Usage: *$multilewds*
 
