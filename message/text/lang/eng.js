@@ -318,7 +318,7 @@ Aliases: *lewd*
 Usage: *$lewds*
 
 2. *$multilewds*
-Sending anime lewds up to 5 images. (PREMIUM ONLY)
+Sending anime lewds pics up to 5 images. (PREMIUM ONLY)
 Aliases: *multilewds multilewd mlewd mlewds*
 Usage: *$multilewds*
 
@@ -336,6 +336,11 @@ Usage: *$nhdl* <code>
 Sending latest video link from Nekopoi.
 Aliases: -
 Usage: *$nekopoi*
+
+6. *$multifetish*
+Sending fetish pics up to 5 images. (PREMIUM ONLY)
+Aliases: *mfetish*
+Usage: *$multifetish* <armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao>
     `
 }
 
