@@ -586,19 +586,6 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     await client.reply(from, ind.botNotPremium(), id)
                 }
             break
-            case 'xnxx':
-                // Premium feature, contact the owner.
-                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
-                if (isGroupMsg) {
-                    if (!isNsfw) return await client.reply(from, ind.notNsfw(), id)
-                    if (!isPremium) return await client.reply(from, ind.notPremium(), id)
-                    await client.reply(from, ind.botNotPremium(), id)
-                } else {
-                    if (!isNsfw) return await client.reply(from, ind.notNsfw(), id)
-                    if (!isPremium) return await client.reply(from, ind.notPremium(), id)
-                    await client.reply(from, ind.botNotPremium(), id)
-                }
-            break
             case 'nekopoi': // Thanks to ArugaZ
                 if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) {
