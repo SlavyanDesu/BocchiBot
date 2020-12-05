@@ -320,12 +320,7 @@ Download doujinshi from nHentai and sending it as PDF file. (PREMIUM ONLY)
 Aliases: -
 Usage: *$nhdl* <code>
 
-5. *$xnxx*
-Download video from XNXX. (PREMIUM ONLY)
-Aliases: -
-Usage: *$xnxx* <link>
-
-6. *$nekopoi*
+5. *$nekopoi*
 Sending latest video link from Nekopoi.
 Aliases: -
 Usage: *$nekopoi*
