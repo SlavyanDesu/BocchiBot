@@ -354,6 +354,11 @@ Usage: *$nhdl* <kode>
 Mengirim video link Nekopoi terbaru.
 Aliases: -
 Usage: *$nekopoi*
+
+6. *$multifetish*
+Mengirim up to 5 fetish pics. (PREMIUM ONLY)
+Aliases: *mfetish*
+Usage: *$multifetish* <armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao>
     `
 }
 
