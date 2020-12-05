@@ -93,7 +93,7 @@ exports.ytFound = (result) => {
 }
 
 exports.notRegistered = () => {
-    return `Kamu belum terdafar di database!\n\nSilakan register dengan format:\n*$register* <nama | daerah>\n\nTanpa tanda <>.`
+    return `Kamu belum terdafar di database!\n\nSilakan register dengan format:\n*$register* <nama | daerah>\n\nTanpa tanda <>`
 }
 
 exports.registered = () => {
