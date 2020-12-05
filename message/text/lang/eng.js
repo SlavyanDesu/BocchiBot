@@ -92,6 +92,18 @@ exports.ytFound = (result) => {
     return `Video found!\n\nTitle:\n${result.title}\n\nDescription:\n${result.desc}\n\nSize: ${result.filesize} / 50.0 MB\n\nSending media, please wait...`
 }
 
+exports.notRegistered = () => {
+    return `Your account is not registered in my database!\n\nPlease register using this format:\n*$register* <name | region>\n\nWithout <>`
+}
+
+exports.registered = () => {
+    return `Congratulations! You have been registered. Type *$rules* first ok~`
+}
+
+exports.registeredAlready = () => {
+    return `Your account is already registered.`
+}
+
 exports.textMenu = (pushname) => {
     return `
 -----[ COMMANDS ]-----
