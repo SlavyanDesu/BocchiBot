@@ -92,6 +92,18 @@ exports.ytFound = (result) => {
     return `Video ditemukan!\n\nTitle:\n${result.title}\n\nDescription:\n${result.desc}\n\nSize: ${result.filesize} / 50.0 MB\n\nMedia sedang dikirim, mohon tunggu...`
 }
 
+exports.notRegistered = () => {
+    return `Kamu belum terdafar di database!\n\nSilakan register dengan format:\n*$register* <nama | daerah>\n\nTanpa tanda <>.`
+}
+
+exports.registered = () => {
+    return `Selamat! Kamu telah terdaftar.\nKetik *$rules* terlebih dahulu ya~`
+}
+
+exports.registeredAlready = () => {
+    return `Kamu sudah mendaftar sebelumnya.`
+}
+
 exports.textMenu = (pushname) => {
     return `
 -----[ COMMANDS ]-----

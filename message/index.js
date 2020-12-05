@@ -19,6 +19,8 @@ const { ind, eng } = require('./text/lang/')
 const _nsfw = JSON.parse(fs.readFileSync('./ingfo/nsfw.json'))
 const _ban = JSON.parse(fs.readFileSync('./ingfo/banned.json'))
 const _premium = JSON.parse(fs.readFileSync('./ingfo/premium.json'))
+const _biodata = JSON.parse(fs.readFileSync('./ingfo/biodata.json'))
+const _registered = JSON.parse(fs.readFileSync('./ingfo/registered.json'))
 
 module.exports = msgHandler = async (client = new Client(), message) => {
     try {
@@ -39,6 +41,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         const isNsfw = isGroupMsg ? _nsfw.includes(chat.id) : false
         const isBanned = _ban.includes(sender.id)
         const isPremium = _premium.includes(sender.id)
+        const isRegistered = _registered.includes(sender.id)
 
         const prefix  = config.prefix
         body = (type === 'chat' && body.startsWith(prefix)) ? body : ((type === 'image' && caption) && caption.startsWith(prefix)) ? caption : ''
@@ -72,9 +75,23 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         msgFilter.addFilter(from)
 
         switch (command) {
+            // Register
+            case 'register':
+                if (isRegistered) return await client.reply(from, ind.registeredAlready(), id)
+                const dataDiri = q.split('|').join('-')
+                if (!dataDiri) return await client.reply(from, ind.wrongFormat(), id)
+                if (!dataDiri.includes('|')) return await client.reply(from, ind.wrongFormat(), id)
+                _registered.push(sender.id)
+                _biodata.push(dataDiri)
+                fs.writeFileSync('./ingfo/registered.json', JSON.stringify(_registered))
+                fs.writeFileSync('./ingfo/biodata.json', JSON.stringify(_biodata))
+                await client.reply(from, ind.registered(), id)
+            break
+
             // Downloader
             case 'facebook':
             case 'fb':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('facebook.com')) return await client.reply(from, ind.wrongFormat(), id)
                 await client.reply(from, ind.wait(), id)
                 downloader.facebook(url)
@@ -92,6 +109,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     })
             break
             case 'ytmp3':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('youtu.be')) return await client.reply(from, ind.wrongFormat(), id)
                 await client.reply(from, ind.wait(), id)
                 downloader.ytmp3(url)
@@ -112,6 +130,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     })
             break
             case 'ytmp4':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('youtu.be')) return await client.reply(from, ind.wrongFormat(), id)
                 await client.reply(from, ind.wait(), id)
                 downloader.ytmp4(url)
@@ -134,11 +153,13 @@ module.exports = msgHandler = async (client = new Client(), message) => {
 
             // Misc
             case 'say':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!q) return await client.reply(from, ind.wrongFormat(), id)
                 await client.sendText(from, q)
             break
             case 'lyric':
             case 'lirik':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!q) return await client.reply(from, ind.wrongFormat(), id)
                 await client.reply(from, ind.wait(), id)
                 lirik(q)
@@ -156,12 +177,15 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     })
             break
             case 'shortlink':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url)) return await client.reply(from, ind.wrongFormat(), id)
+                const urlShort = await shortener(url)
                 await client.reply(from, ind.wait(), id)
-                await client.reply(from, shortener(url), id)
+                await client.reply(from, urlShort, id)
             break
             case 'wikipedia':
             case 'wiki':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!q) return await client.reply(from, ind.wrongFormat(), id)
                 await client.reply(from, ind.wait(), id)
                 wiki(q)
@@ -179,6 +203,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     })
             break
             case 'kbbi':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!q) return await client.reply(from, ind.wrongFormat(), id)
                 await client.reply(from, ind.wait(), id)
                 kbbi(q)
@@ -196,6 +221,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     })
             break
             case 'gempa':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 await client.reply(from, ind.wait(), id)
                 bmkg()
                     .then(async ({ kedalaman, koordinat, lokasi, magnitude, map, potensi, waktu }) => {
@@ -209,6 +235,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     })
             break
             case 'igstalk':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!q) return await client.reply(from, ind.wrongFormat(), id)
                 await client.reply(from, ind.wait(), id)
                 medsos.igStalk(q)
@@ -229,13 +256,16 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             
             // Bot
             case 'menu':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 await client.sendText(from, ind.textMenu(pushname))
             break
             case 'rules':
             case 'rule':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 await client.sendText(from, ind.textRules())
             break
             case 'nsfw':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await client.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await client.reply(from, ind.adminOnly(), id)
                 const ar = args.map((v) => v.toLowerCase())
@@ -252,13 +282,16 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 }
             break
             case 'menuowner':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!isOwner) return await client.reply(from, ind.ownerOnly(), id)
                 await client.sendText(from, ind.textOwner())
             break
             case 'usage':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 await client.sendText(from, `RAM usage: *${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB* / *${Math.round(os.totalmem / 1024 / 1024)} MB*\nCPU: *${os.cpus()[0].model}*`)
             break
             case 'listblock':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 let block = ind.listBlock(blockNumber)
                 for (let i of blockNumber) {
                     block += `@${i.replace(/@c.us/g, '')}\n`
@@ -267,21 +300,25 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break
             case 'ping':
             case 'p':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 await client.sendText(from, `Pong!\nSpeed: ${processTime(t, moment())} secs`)
             break
             case 'delete':
             case 'del':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!quotedMsg) return await client.reply(from, ind.wrongFormat(), id)
                 if (!quotedMsgObj.fromMe) return await client.reply(from, ind.wrongFormat(), id)
                 await client.deleteMessage(quotedMsgObj.chatId, quotedMsgObj.id, false)
             break
             case 'moderation':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await client.reply(from, ind.groupOnly(), id)
                 await client.sendText(from, ind.textModeration())
             break
 
             // Weeb zone
             case 'neko':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 await client.reply(from, ind.wait(), id)
                 console.log('Getting neko image...')
                 await client.sendFileFromUrl(from, (await neko.sfw.neko()).url, 'neko.jpg', '', null, null, true)
@@ -293,6 +330,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break 
             case 'wallpaper':
             case 'wp':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 await client.reply(from, ind.wait(), id)
                 console.log('Getting wallpaper image...')
                 await client.sendFileFromUrl(from, (await neko.sfw.wallpaper()).url, 'wallpaper.jpg', '', null, null, true)
@@ -303,6 +341,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     })
             break
             case 'kemono':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 await client.reply(from, ind.wait(), id)
                 console.log('Getting kemonomimi image...')
                 await client.sendFileFromUrl(from, (await neko.sfw.kemonomimi()).url, 'kemono.jpg', '', null, null, true)
@@ -313,6 +352,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     })
             break
             case 'kusonime':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!q) return await client.reply(from, ind.wrongFormat(), id)
                 await client.reply(from, ind.wait(), id)
                 weeabo.anime(q)
@@ -331,6 +371,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     })
             break
             case 'komiku':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!q) return await client.reply(from, ind.wrongFormat(), id)
                 await client.reply(from, ind.wait(), id)
                 weeabo.manga(q)
@@ -345,6 +386,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     })
             break
             case 'wait':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (isMedia && type === 'image' || isQuotedImage) {
                     await client.reply(from, ind.wait(), id)
                     console.log('Searching for anime source...')
@@ -383,6 +425,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break
             case 'source':
             case 'sauce':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (isMedia && type === 'image' || isQuotedImage) {
                     await client.reply(from, ind.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
@@ -407,6 +450,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             // Sticker
             case 'sticker':
             case 'stiker':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (isMedia && type === 'image' || isQuotedImage) {
                     await client.reply(from, ind.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
@@ -429,6 +473,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
 
             // NSFW
             case 'nsfwmenu':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!isNsfw) return await client.reply(from, ind.notNsfw(), id)
                 await client.sendText(from, ind.textNsfw())
             break
@@ -437,6 +482,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             case 'mlewds':
             case 'mlewd':
                 // Premium feature, contact the owner.
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) {
                     if (!isNsfw) return await client.reply(from, ind.notNsfw(), id)
                     if (!isPremium) return await client.reply(from, ind.notPremium(), id)
@@ -449,6 +495,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break
             case 'lewds':
             case 'lewd':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) {
                     if (!isNsfw) return await client.reply(from, ind.notNsfw(), id)
                     await client.reply(from, ind.wait(), id)
@@ -475,6 +522,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 }
             break
             case 'nh':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) {
                     if (!isNsfw) return await client.reply(from, ind.notNsfw(), id)
                     const kode = args[0]
@@ -527,6 +575,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break
             case 'nhdl':
                 // Premium feature, contact the owner.
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) {
                     if (!isNsfw) return await client.reply(from, ind.notNsfw(), id)
                     if (!isPremium) return await client.reply(from, ind.notPremium(), id)
@@ -539,6 +588,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             break
             case 'xnxx':
                 // Premium feature, contact the owner.
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) {
                     if (!isNsfw) return await client.reply(from, ind.notNsfw(), id)
                     if (!isPremium) return await client.reply(from, ind.notPremium(), id)
@@ -550,6 +600,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 }
             break
             case 'nekopoi': // Thanks to ArugaZ
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) {
                     if (!isNsfw) return await client.reply(from, ind.notNsfw(), id)
                     await client.reply(from, ind.wait(), id)
@@ -590,6 +641,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
 
             // Moderation command
             case 'add':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await client.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await client.reply(from, ind.adminOnly(), id)
                 if (!isBotGroupAdmins) return await client.reply(from, ind.botNotAdmin(), id)
@@ -603,6 +655,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 }
             break
             case 'kick':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await client.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await client.reply(from, ind.adminOnly(), id)
                 if (!isBotGroupAdmins) return await client.reply(from, ind.botNotAdmin(), id)
@@ -615,6 +668,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 }
             break
             case 'promote':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await client.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await client.reply(from, ind.adminOnly(), id)
                 if (!isBotGroupAdmins) return await client.reply(from, ind.botNotAdmin(), id)
@@ -625,6 +679,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 await client.reply(from, ind.ok(), id)
             break
             case 'demote':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await client.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await client.reply(from, ind.adminOnly(), id)
                 if (!isBotGroupAdmins) return await client.reply(from, ind.botNotAdmin(), id)
@@ -635,12 +690,14 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 await client.reply(from, ind.ok(), id)
             break
             case 'leave':
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await client.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await client.reply(from, ind.adminOnly(), id)
                 await client.sendText(from, 'Sayounara~ 👋')
                     .then(async () => await client.leaveGroup(groupId))
             break
             case 'everyone': // Thanks to ArugaZ
+                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await client.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await client.reply(from, ind.adminOnly(), id)
                 const groupMem = await client.getGroupMembers(groupId)
