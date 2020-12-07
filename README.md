@@ -104,6 +104,11 @@ If you want to unlock premium commands, please contact me~
 | Send image      |      ✔️      |
 | Reply to image  |      ✔️      |
 
+|      Downloader     | Availability |
+| :-----------------: | :----------: |
+| Facebook video      |      ✔️      |
+| YouTube audio/video |      ✔️      |
+
 |       Misc       | Availability |
 | :--------------: | :----------: |
 | Say              |      ✔️      |
@@ -122,6 +127,7 @@ If you want to unlock premium commands, please contact me~
 | Komiku             |      ✔️      |
 | Anime tracer       |      ✔️      |
 | Source finder      |      ✔️      |
+| Random waifu       |      ✔️      |
 
 |        Bot       | Availability |
 | :--------------: | :----------: |
@@ -130,6 +136,7 @@ If you want to unlock premium commands, please contact me~
 | List block       |      ✔️      |
 | Ping             |      ✔️      |
 | Delete           |      ✔️      |
+| Report bug       |      ✔️      |
 
 |       Owner      | Availability |
 | :--------------: | :----------: |
@@ -154,10 +161,13 @@ If you want to unlock premium commands, please contact me~
 | :----------------: | :----------: |
 | Lewds              |      ✔️      |
 | nHentai lookup     |      ✔️      |
+| Fetish             |      ✔️      |
+| Nekopoi            |      ✔️      |
+| Waifu NSFW         |      ✔️      |
 | nHentai downloader |    Premium   |
 | Multi lewds        |    Premium   |
 | Multi fetish       |    Premium   |
-| Nekopoi            |      ✔️      |
+
 
 # Thanks to
 * [`Open-Wa/wa-automate-nodejs`](https://github.com/open-wa/wa-automate-nodejs)
