@@ -780,7 +780,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                          fs.writeFileSync('./ingfo/premium.json', JSON.stringify(_premium))
                     }
                     await client.reply(from, ind.doneOwner(), id)
-                } else if (ar === 'del') 
+                } else if (ar === 'del') {
                     let predel = _premium.indexOf(mentionedJidList[0])
                     _premium.splice(predel, 1)
                     fs.writeFileSync('./ingfo/premium.json', JSON.stringify(_premium))
