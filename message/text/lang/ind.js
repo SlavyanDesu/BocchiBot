@@ -51,7 +51,7 @@ exports.nsfwOff = () => {
 }
 
 exports.addedGroup = (chat) => {
-    return `Terima kasih telah mengundangku, para member *${chat.contact.name}*!\n\nKetik $rules terlebih dahulu ya~`
+    return `Terima kasih telah mengundangku, para member *${chat.contact.name}*!\n\nKetik *$rules* terlebih dahulu ya~`
 }
 
 exports.nhFalse = () => {

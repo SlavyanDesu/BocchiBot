@@ -238,7 +238,7 @@ Usage: Send a screenshot with caption *$wait* or reply a screenshot with caption
 7. *$source*
 Search for source from doujin panel, illustration, and anime images related.
 Aliases: *sauce*
-Usage: Send an image with caption *$source* or reply an image with caption *$sorce*.
+Usage: Send an image with caption *$source* or reply an image with caption *$source*.
 
 8. *$waifu*
 Sending for random waifu pics.
