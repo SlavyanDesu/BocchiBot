@@ -1,33 +1,33 @@
 <div align="center">
-<img src="./material/Elaina.png" alt="Elaina" width="500" />
+<img src="https://images5.alphacoders.com/911/911614.png" alt="BocchiBot" width="500" />
 
-# Elaina-Bot
+# BocchiBot
 
-> Elaina is a multipurpose WhatsApp bot using wa-automate-nodejs library!
+> BocchiBot is a multipurpose WhatsApp bot using wa-automate-nodejs library!
 >
 >
 
 <p align="center">
-  <a href="https://github.com/slavyandesu"><img src="https://avatars3.githubusercontent.com/u/28254882?s=400&u=25765902db0b709938966cf4127ac11af5eafb5d&v=4" height="128" width="128" /></a>
+  <a href="https://github.com/SlavyanDesu"><img src="https://avatars3.githubusercontent.com/u/28254882?s=400&u=25765902db0b709938966cf4127ac11af5eafb5d&v=4" height="128" width="128" /></a>
 </p>
 <p align="center">
-  <a href="https://github.com/slavyandesu"><img title="Author" src="https://img.shields.io/badge/Author-SlavyanDesu-purple.svg?style=for-the-badge&logo=github" /></a>
+  <a href="https://github.com/SlavyanDesu"><img title="Author" src="https://img.shields.io/badge/Author-SlavyanDesu-purple.svg?style=for-the-badge&logo=github" /></a>
 </p>
 <p align="center">
-  <a href="https://github.com/slavyandesu/elaina-bot"><img title="Stars" src="https://img.shields.io/github/stars/slavyandesu/elaina-bot?color=red&style=flat-square" /></a>
-  <a href="https://github.com/slavyandesu/elaina-bot/network/members"><img title="Forks" src="https://img.shields.io/github/forks/slavyandesu/elaina-bot?color=red&style=flat-square" /></a>
-  <a href="https://github.com/slavyandesu/elaina-bot/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/slavyandesu/elaina-bot?label=watchers&color=blue&style=flat-square" /></a> <br>
-  <a href="https://www.codefactor.io/repository/github/slavyandesu/elaina-bot"><img src="https://www.codefactor.io/repository/github/slavyandesu/elaina-bot/badge" /></a>
+  <a href="https://github.com/SlavyanDesu/BocchiBot"><img title="Stars" src="https://img.shields.io/github/stars/SlavyanDesu/BocchiBot?color=red&style=flat-square" /></a>
+  <a href="https://github.com/SlavyanDesu/BocchiBot/network/members"><img title="Forks" src="https://img.shields.io/github/forks/SlavyanDesu/BocchiBot?color=red&style=flat-square" /></a>
+  <a href="https://github.com/SlavyanDesu/BocchiBot/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/SlavyanDesu/BocchiBot?label=watchers&color=blue&style=flat-square" /></a> <br>
+  <a href="https://www.codefactor.io/repository/github/SlavyanDesu/BocchiBot"><img src="https://www.codefactor.io/repository/github/SlavyanDesu/BocchiBot/badge" /></a>
   <a href="https://www.npmjs.com/package/@open-wa/wa-automate"><img src="https://img.shields.io/npm/v/@open-wa/wa-automate.svg?color=green" /></a>
-  <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FSlavyanDesu%2Felaina-bot?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FSlavyanDesu%2Felaina-bot.svg?type=shield"/></a>
+  <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FSlavyanDesu%2FBocchiBot?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FSlavyanDesu%2FBocchiBot.svg?type=shield"/></a>
   <img src="https://img.shields.io/node/v/@open-wa/wa-automate" />
   <img src="https://img.shields.io/badge/maintained%3F-yes-green.svg?style=flat" />
 </p>
 <p align="center">
-  <a href="https://github.com/SlavyanDesu/elaina-bot#installation">Installation</a> •
-  <a href="https://github.com/SlavyanDesu/elaina-bot#features">Features</a> •
-  <a href="https://github.com/SlavyanDesu/elaina-bot#thanks-to">Thanks to</a> •
-  <a href="https://github.com/SlavyanDesu/elaina-bot#license">License</a>
+  <a href="https://github.com/SlavyanDesu/BocchiBot#installation">Installation</a> •
+  <a href="https://github.com/SlavyanDesu/BocchiBot#features">Features</a> •
+  <a href="https://github.com/SlavyanDesu/BocchiBot#thanks-to">Thanks to</a> •
+  <a href="https://github.com/SlavyanDesu/BocchiBot#license">License</a>
 </p>
 <details>
   <summary>Contact me!</summary>
@@ -53,8 +53,8 @@
 # Installation
 ## 📝 Cloning this repo
 ```bash
-> git clone https://github.com/SlavyanDesu/elaina-bot
-> cd elaina-bot
+> git clone https://github.com/SlavyanDesu/BocchiBot
+> cd BocchiBot
 ```
 
 ## ✍️ Editing the file
@@ -164,9 +164,9 @@ If you want to unlock premium commands, please contact me~
 * [`YogaSakti/imageToSticker`](https://github.com/YogaSakti/imageToSticker)
 
 # License
-**elaina-bot** © [SlavyanDesu](https://github.com/SlavyanDesu), released under the MIT License.
+**BocchiBot** © [SlavyanDesu](https://github.com/SlavyanDesu), released under the MIT License.
 Authored and maintained by SlavyanDesu.
 
 <p align="center">
-  <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FSlavyanDesu%2Felaina-bot?ref=badge_large"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FSlavyanDesu%2Felaina-bot.svg?type=large" />
+  <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FSlavyanDesu%2FBocchiBot?ref=badge_large"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FSlavyanDesu%2FBocchiBot.svg?type=large" />
 </p>  
