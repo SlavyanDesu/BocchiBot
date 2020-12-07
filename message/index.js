@@ -16,11 +16,11 @@ const { msgFilter, color, processTime, isUrl } = require('../tools')
 const { nsfw, lirik, shortener, wiki, kbbi, bmkg, weeabo, medsos, nekopoi, downloader } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
-const _nsfw = JSON.parse(fs.readFileSync('./ingfo/nsfw.json'))
-const _ban = JSON.parse(fs.readFileSync('./ingfo/banned.json'))
-const _premium = JSON.parse(fs.readFileSync('./ingfo/premium.json'))
-const _biodata = JSON.parse(fs.readFileSync('./ingfo/biodata.json'))
-const _registered = JSON.parse(fs.readFileSync('./ingfo/registered.json'))
+const _nsfw = JSON.parse(fs.readFileSync('./database/nsfw.json'))
+const _ban = JSON.parse(fs.readFileSync('./database/banned.json'))
+const _premium = JSON.parse(fs.readFileSync('./database/premium.json'))
+const _biodata = JSON.parse(fs.readFileSync('./database/biodata.json'))
+const _registered = JSON.parse(fs.readFileSync('./database/registered.json'))
 
 module.exports = msgHandler = async (client = new Client(), message) => {
     try {
@@ -84,8 +84,8 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (!dataDiri) return await client.reply(from, ind.wrongFormat(), id)
                 _registered.push(sender.id)
                 _biodata.push(dataDiri)
-                fs.writeFileSync('./ingfo/registered.json', JSON.stringify(_registered))
-                fs.writeFileSync('./ingfo/biodata.json', JSON.stringify(_biodata))
+                fs.writeFileSync('./database/registered.json', JSON.stringify(_registered))
+                fs.writeFileSync('./database/biodata.json', JSON.stringify(_biodata))
                 await client.reply(from, ind.registered(), id)
             break
 
@@ -271,11 +271,11 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (!isGroupAdmins) return await client.reply(from, ind.adminOnly(), id)
                 if (ar[0] === 'enable') {
                     _nsfw.push(chat.id)
-                    fs.writeFileSync('./ingfo/nsfw.json', JSON.stringify(_nsfw))
+                    fs.writeFileSync('./database/nsfw.json', JSON.stringify(_nsfw))
                     await client.reply(from, ind.nsfwOn(), id)
                 } else if (ar[0] === 'disable') {
                     _nsfw.splice(chat.id, 1)
-                    fs.writeFileSync('./ingfo/nsfw.json', JSON.stringify(_nsfw))
+                    fs.writeFileSync('./database/nsfw.json', JSON.stringify(_nsfw))
                     await client.reply(from, ind.nsfwOff(), id)
                 } else {
                     await client.reply(from, ind.wrongFormat(), id)
@@ -741,13 +741,13 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (ar === 'add') {
                     for (let blist of mentionedJidList) {
                         _ban.push(blist)
-                        fs.writeFileSync('./ingfo/banned.json', JSON.stringify(_ban))
+                        fs.writeFileSync('./database/banned.json', JSON.stringify(_ban))
                     }
                     await client.reply(from, ind.doneOwner(), id)
                 } else if (ar === 'del') {
                     let benet = _ban.indexOf(mentionedJidList[0])
                     _ban.splice(benet, 1)
-                    fs.writeFileSync('./ingfo/banned.json', JSON.stringify(_ban))
+                    fs.writeFileSync('./database/banned.json', JSON.stringify(_ban))
                     await client.reply(from, ind.doneOwner(), id)
                 } else {
                     await client.reply(from, ind.wrongFormat(), id)
@@ -777,13 +777,13 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (ar === 'add') {
                     for (let premi of mentionedJidList) {
                          _premium.push(premi)
-                         fs.writeFileSync('./ingfo/premium.json', JSON.stringify(_premium))
+                         fs.writeFileSync('./database/premium.json', JSON.stringify(_premium))
                     }
                     await client.reply(from, ind.doneOwner(), id)
                 } else if (ar === 'del') {
                     let predel = _premium.indexOf(mentionedJidList[0])
                     _premium.splice(predel, 1)
-                    fs.writeFileSync('./ingfo/premium.json', JSON.stringify(_premium))
+                    fs.writeFileSync('./database/premium.json', JSON.stringify(_premium))
                     await client.reply(from, ind.doneOwner(), id)
                 } else {
                     await client.reply(from, ind.wrongFormat(), id)
