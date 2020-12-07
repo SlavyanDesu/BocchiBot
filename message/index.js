@@ -113,15 +113,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('youtu.be')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
-                downloader.ytmp3(url)
-                    .then(async ({ result, status, url }) => {
-                        if (status !== 200) {
-                            return await bocchi.sendFileFromUrl(from, url, 'error.jpg', 'Error!', id)
-                        } else if (Number(result.filesize.split(' MB')[0]) > 50.00) {
-                            return await bocchi.reply(from, ind.ytLimit(), id)
+                downloader.ytdl(url)
+                    .then(async (res) => {
+                        if (res.status === 'error') {
+                            return await bocchi.reply(from, res.pesan, id)
                         } else {
-                            await bocchi.sendFileFromUrl(from, result.thumb, `${result.title}.jpg`, ind.ytFound(result), id)
-                            await bocchi.sendFileFromUrl(from, result.url, `${result.title}.mp3`, '', id)
+                            await bocchi.sendFileFromUrl(from, res.thumbnail, `${res.title}.jpg`, ind.ytFound(res), id)
+                            await bocchi.sendFileFromUrl(from, res.url_audio, `${res.title}.mp3`, '', id)
                                 .then(() => console.log('Success sending YouTube audio!'))
                         }
                     })
@@ -134,15 +132,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('youtu.be')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
-                downloader.ytmp4(url)
-                    .then(async ({ result, status, url }) => {
-                        if (status !== 200) {
-                            return await bocchi.sendFileFromUrl(from, url, 'error.jpg', 'Error!', id)
-                        } else if (Number(result.filesize.split(' MB')[0]) > 50.00) {
-                            return await bocchi.reply(from, ind.ytLimit(), id)
+                downloader.ytdl(url)
+                    .then(async (res) => {
+                        if (res.status === 'error') {
+                            return await bocchi.reply(from, res.pesan, id)
                         } else {
-                            await bocchi.sendFileFromUrl(from, result.thumb, `${result.title}.jpg`, ind.ytFound(result), id)
-                            await bocchi.sendFileFromUrl(from, result.url, `${result.title}.mp4`, '', id)
+                            await bocchi.sendFileFromUrl(from, res.thumbnail, `${res.title}.jpg`, ind.ytFound(res), id)
+                            await bocchi.sendFileFromUrl(from, res.url_video, `${res.title}.mp4`, '', id)
                                 .then(() => console.log('Success sending YouTube video!'))
                         }
                     })
@@ -315,6 +311,16 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 await bocchi.sendText(from, ind.textModeration())
             break
+            case 'report':
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (isGroupMsg) {
+                    await bocchi.sendText(ownerNumber, `Dari: ${pushname} (${from})\nPesan: ${q}\nGrup: ${(name || formattedTitle)}`)
+                    await bocchi.reply(from, ind.received(pushname), id)
+                } else {
+                    await bocchi.sendText(ownerNumber, `Dari: ${pushname} (${from})\nPesan: ${q}`)
+                    await bocchi.reply(from, ind.received(pushname), id)
+                }
+            break
 
             // Weeb zone
             case 'neko':
@@ -446,6 +452,18 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
+            case 'waifu':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                weeabo.waifu(false)
+                    .then(async ({ url }) => {
+                        await bocchi.sendFileFromUrl(from, url, 'waifu.png', '', id)
+                            .then(() => console.log('Success sending waifu!'))
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, err, id)
+                    })
+            break
 
             // Sticker
             case 'sticker':
@@ -522,6 +540,131 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                             console.error(err)
                             await bocchi.reply(from, err, id)
                         })
+                }
+            break
+            case 'fetish':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (isGroupMsg) {
+                    if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
+                    const req = args.map((v) => v.toLowerCase())
+                    if (req.length !== 0) return await bocchi.reply(from, ind.wrongFormat(), id)
+                    await bocchi.reply(from, ind.wait(), id)
+                    try {
+                        if (req === 'armpits') {
+                            nsfw.armpits()
+                                .then(async ({ url }) => {
+                                    await bocchi.sendFileFromUrl(from, url, 'armpits.jpg', '', id)
+                                        .then(() => console.log('Success sending armpits pic!'))
+                                })
+                        } else if (req === 'feets') {
+                            nsfw.feets()
+                                .then(async ({ url }) => {
+                                    await bocchi.sendFileFromUrl(from, url, 'feets.jpg', '', id)
+                                        .then(() => console.log('Success sending feets pic!'))
+                                })
+                        } else if (req === 'thighs') {
+                            nsfw.thighs()
+                                .then(async ({ url }) => {
+                                    await bocchi.sendFileFromUrl(from, url, 'thighs.jpg', '', id)
+                                        .then(() => console.log('Success sending thighs pic!'))
+                                })
+                        } else if (req === 'ass') {
+                            nsfw.ass()
+                                .then(async ({ url }) => {
+                                    await bocchi.sendFileFromUrl(from, url, 'ass.jpg', '', id)
+                                        .then(() => console.log('Success sending ass pic!'))
+                                })
+                        } else if (req === 'boobs') {
+                            nsfw.boobs()
+                                .then(async ({ url }) => {
+                                    await bocchi.sendFileFromUrl(from, url, 'boobs.jpg', '', id)
+                                        .then(() => console.log('Success sending boobs pic!'))
+                                })
+                        } else if (req === 'belly') {
+                            nsfw.belly()
+                                .then(async ({ url }) => {
+                                    await bocchi.sendFileFromUrl(from, url, 'belly.jpg', '', id)
+                                        .then(() => console.log('Success sending belly pic!'))
+                                })
+                        } else if (req === 'sideboobs') {
+                            nsfw.sideboobs()
+                                .then(async ({ url }) => {
+                                    await bocchi.sendFileFromUrl(from, url, 'sideboobs.jpg', '', id)
+                                        .then(() => console.log('Success sending sideboobs pic!'))
+                                })
+                        } else if (req === 'ahegao') {
+                            nsfw.ahegao()
+                                .then(async ({ url }) => {
+                                    await bocchi.sendFileFromUrl(from, url, 'ahegao.jpg', '', id)
+                                        .then(() => console.log('Success sending ahegao pic!'))
+                                })
+                        } else {
+                            await bocchi.reply(from, 'Tag not found.', id)
+                        }
+                    } catch (err) {
+                        console.error(err)
+                        await bocchi.reply(from, err, id)
+                    }
+                } else {
+                    const req = args.map((v) => v.toLowerCase())
+                    if (req.length !== 0) return await bocchi.reply(from, ind.wrongFormat(), id)
+                    await bocchi.reply(from, ind.wait(), id)
+                    try {
+                        if (req === 'armpits') {
+                            nsfw.armpits()
+                                .then(async ({ url }) => {
+                                    await bocchi.sendFileFromUrl(from, url, 'armpits.jpg', '', id)
+                                        .then(() => console.log('Success sending armpits pic!'))
+                                })
+                        } else if (req === 'feets') {
+                            nsfw.feets()
+                                .then(async ({ url }) => {
+                                    await bocchi.sendFileFromUrl(from, url, 'feets.jpg', '', id)
+                                        .then(() => console.log('Success sending feets pic!'))
+                                })
+                        } else if (req === 'thighs') {
+                            nsfw.thighs()
+                                .then(async ({ url }) => {
+                                    await bocchi.sendFileFromUrl(from, url, 'thighs.jpg', '', id)
+                                        .then(() => console.log('Success sending thighs pic!'))
+                                })
+                        } else if (req === 'ass') {
+                            nsfw.ass()
+                                .then(async ({ url }) => {
+                                    await bocchi.sendFileFromUrl(from, url, 'ass.jpg', '', id)
+                                        .then(() => console.log('Success sending ass pic!'))
+                                })
+                        } else if (req === 'boobs') {
+                            nsfw.boobs()
+                                .then(async ({ url }) => {
+                                    await bocchi.sendFileFromUrl(from, url, 'boobs.jpg', '', id)
+                                        .then(() => console.log('Success sending boobs pic!'))
+                                })
+                        } else if (req === 'belly') {
+                            nsfw.belly()
+                                .then(async ({ url }) => {
+                                    await bocchi.sendFileFromUrl(from, url, 'belly.jpg', '', id)
+                                        .then(() => console.log('Success sending belly pic!'))
+                                })
+                        } else if (req === 'sideboobs') {
+                            nsfw.sideboobs()
+                                .then(async ({ url }) => {
+                                    await bocchi.sendFileFromUrl(from, url, 'sideboobs.jpg', '', id)
+                                        .then(() => console.log('Success sending sideboobs pic!'))
+                                })
+                        } else if (req === 'ahegao') {
+                            nsfw.ahegao()
+                                .then(async ({ url }) => {
+                                    await bocchi.sendFileFromUrl(from, url, 'ahegao.jpg', '', id)
+                                        .then(() => console.log('Success sending ahegao pic!'))
+                                })
+                        } else {
+                            await bocchi.reply(from, 'Tag not found.', id)
+                        }
+                    } catch (err) {
+                        console.error(err)
+                        await bocchi.reply(from, err, id)
+                    }
                 }
             break
             case 'nh':
@@ -620,6 +763,21 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                     }
                                     await bocchi.sendText(from, `Title: ${res.title}\n\nLink:${heheq}`)
                                 })
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, err, id)
+                        })
+                }
+            break
+            case 'waifu18':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (isGroupMsg) {
+                    if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
+                    weeabo.waifu(true)
+                        .then(async ({ url }) => {
+                            await bocchi.sendFileFromUrl(from, url, 'waifu.png', '', id)
+                                .then(() => console.log('Success sending waifu'))
                         })
                         .catch(async (err) => {
                             console.error(err)

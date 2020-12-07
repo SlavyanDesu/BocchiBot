@@ -88,8 +88,8 @@ exports.ytLimit = () => {
     return `Size video terlalu besar!`
 }
 
-exports.ytFound = (result) => {
-    return `Video ditemukan!\n\nTitle:\n${result.title}\n\nDescription:\n${result.desc}\n\nSize: ${result.filesize} / 50.0 MB\n\nMedia sedang dikirim, mohon tunggu...`
+exports.ytFound = (res) => {
+    return `Video ditemukan!\n\nTitle:\n${res.title}\n\nDescription:\n${res.desc}\n\nDurasi: ${res.duration} menit\n\nMedia sedang dikirim, mohon tunggu...`
 }
 
 exports.notRegistered = () => {
@@ -102,6 +102,10 @@ exports.registered = () => {
 
 exports.registeredAlready = () => {
     return `Kamu sudah mendaftar sebelumnya.`
+}
+
+exports.received = (pushname) => {
+    return `Halo ${pushname}!\nTerima kasih telah melapor, laporanmu akan kami terima segera.`
 }
 
 exports.textMenu = (pushname) => {
@@ -174,6 +178,11 @@ Cek moderation command list.
 Aliases: -
 Usage: *$moderation*
 
+10. *$report*
+Lapor bug bot ke dev.
+Aliases: -
+Usage: *$report* <pesan>
+
 Misc:
 1. *$say*
 Ya gitu.
@@ -213,17 +222,17 @@ Usage: Kirim gambar dengan caption *$sticker* atau reply gambar dengan caption *
 
 Weeb zone:
 1. *$neko*
-Kirim foto neko anime girl! :3
+Mengirim foto neko anime girl! :3
 Aliases: -
 Usage: *$neko*
 
 2. *$wallpaper*
-Kirim wallpaper anime.
+Mengirim wallpaper anime.
 Aliases: *wp*
 Usage: *$wallpaper*
 
 3. *$kemono*
-Kirim foto kemonomimi anime girl! UwU
+Mengirim foto kemonomimi anime girl! UwU
 Aliases: -
 Usage: *$kemono*
 
@@ -246,6 +255,11 @@ Usage: Kirim screenshot dengan caption *$wait* atau reply screenshot dengan capt
 Mencari source dari panel doujin, ilustrasi, dan gambar yang berhubungan dengan anime.
 Aliases: *sauce*
 Usage: Kirim gambar dengan caption *$source* atau reply gambar dengan caption *$source*.
+
+8. *$waifu*
+Mengirim random foto waifu.
+Aliases: -
+Usage: *$waifu*
     `
 }
 
@@ -359,6 +373,11 @@ Usage: *$nekopoi*
 Mengirim up to 5 fetish pics. (PREMIUM ONLY)
 Aliases: *mfetish*
 Usage: *$multifetish* <armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao>
+
+7. *$waifu18*
+Mengirim random foto waifu NSFW.
+Aliases: -
+Usage: *$waifu18*
     `
 }
 
