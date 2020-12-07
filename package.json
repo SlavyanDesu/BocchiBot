@@ -1,7 +1,7 @@
 {
-  "name": "elaina-bot",
+  "name": "bocchibot",
   "version": "0.4.0",
-  "description": "Elaina is a multipurpose WhatsApp bot.",
+  "description": "BocchiBot is a multipurpose WhatsApp bot.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
