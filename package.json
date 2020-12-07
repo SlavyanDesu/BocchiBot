@@ -10,12 +10,12 @@
   "author": "SlavyanDesu",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SlavyanDesu/elaina-bot.git"
+    "url": "https://github.com/SlavyanDesu/BocchiBot.git"
   },
   "bugs": {
-    "url": "https://github.com/SlavyanDesu/elaina-bot/issues"
+    "url": "https://github.com/SlavyanDesu/BocchiBot/issues"
   },
-  "homepage": "https://github.com/SlavyanDesu/elaina-bot",
+  "homepage": "https://github.com/SlavyanDesu/BocchiBot",
   "license": "MIT",
   "dependencies": {
     "@open-wa/wa-automate": "^3.1.2",
