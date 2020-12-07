@@ -378,6 +378,11 @@ Usage: *$multifetish* <armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao>
 Mengirim random foto waifu NSFW.
 Aliases: -
 Usage: *$waifu18*
+
+8. *$fetish*
+Mengirim fetish pics.
+Aliases: -
+Usage: *$fetish* <armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao>
     `
 }
 
