@@ -454,6 +454,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'waifu':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                await bocchi.reply(from, ind.wait(), id)
                 weeabo.waifu(false)
                     .then(async ({ url }) => {
                         await bocchi.sendFileFromUrl(from, url, 'waifu.png', '', id)
@@ -774,10 +775,22 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) {
                     if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
+                    await bocchi.reply(from, ind.wait(), id)
                     weeabo.waifu(true)
                         .then(async ({ url }) => {
                             await bocchi.sendFileFromUrl(from, url, 'waifu.png', '', id)
-                                .then(() => console.log('Success sending waifu'))
+                                .then(() => console.log('Success sending waifu!'))
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, err, id)
+                        })
+                } else {
+                    await bocchi.reply(from, ind.wait(), id)
+                    weeabo.waifu(true)
+                        .then(async ({ url }) => {
+                            await bocchi.sendFileFromUrl(from, url, 'waifu.png', '', id)
+                                .then(() => console.log('Success sending waifu!'))
                         })
                         .catch(async (err) => {
                             console.error(err)
