@@ -50,6 +50,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
         const isCmd = body.startsWith(prefix)
         const uaOverride = config.uaOverride
         const q = args.join(' ')
+        const ar = args.map((v) => v.toLowerCase())
         const url = args.length !== 0 ? args[0] : ''
         const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
 
@@ -78,6 +79,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             // Register
             case 'register':
                 if (isRegistered) return await client.reply(from, ind.registeredAlready(), id)
+                if (!q.includes('|')) return await client.reply(from, ind.wrongFormat(), id)
                 const dataDiri = q.split('|').join('-')
                 if (!dataDiri) return await client.reply(from, ind.wrongFormat(), id)
                 _registered.push(sender.id)
@@ -267,7 +269,6 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await client.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await client.reply(from, ind.adminOnly(), id)
-                const ar = args.map((v) => v.toLowerCase())
                 if (ar[0] === 'enable') {
                     _nsfw.push(chat.id)
                     fs.writeFileSync('./ingfo/nsfw.json', JSON.stringify(_nsfw))
@@ -473,8 +474,12 @@ module.exports = msgHandler = async (client = new Client(), message) => {
             // NSFW
             case 'nsfwmenu':
                 if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
-                if (!isNsfw) return await client.reply(from, ind.notNsfw(), id)
-                await client.sendText(from, ind.textNsfw())
+                if (isGroupMsg) {
+                    if (!isNsfw) return await client.reply(from, ind.notNsfw(), id)
+                    await client.sendText(from, ind.textNsfw())
+                } else {
+                    await client.sendText(from, ind.textNsfw())
+                }
             break
             case 'multilewds':
             case 'multilewd':
@@ -487,7 +492,6 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     if (!isPremium) return await client.reply(from, ind.notPremium(), id)
                     await client.reply(from, ind.botNotPremium(), id)
                 } else {
-                    if (!isNsfw) return await client.reply(from, ind.notNsfw(), id)
                     if (!isPremium) return await client.reply(from, ind.notPremium(), id)
                     await client.reply(from, ind.botNotPremium(), id)
                 }
@@ -580,20 +584,6 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                     if (!isPremium) return await client.reply(from, ind.notPremium(), id)
                     await client.reply(from, ind.botNotPremium(), id)
                 } else {
-                    if (!isNsfw) return await client.reply(from, ind.notNsfw(), id)
-                    if (!isPremium) return await client.reply(from, ind.notPremium(), id)
-                    await client.reply(from, ind.botNotPremium(), id)
-                }
-            break
-            case 'xnxx':
-                // Premium feature, contact the owner.
-                if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
-                if (isGroupMsg) {
-                    if (!isNsfw) return await client.reply(from, ind.notNsfw(), id)
-                    if (!isPremium) return await client.reply(from, ind.notPremium(), id)
-                    await client.reply(from, ind.botNotPremium(), id)
-                } else {
-                    if (!isNsfw) return await client.reply(from, ind.notNsfw(), id)
                     if (!isPremium) return await client.reply(from, ind.notPremium(), id)
                     await client.reply(from, ind.botNotPremium(), id)
                 }
@@ -693,7 +683,7 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (!isGroupMsg) return await client.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await client.reply(from, ind.adminOnly(), id)
                 await client.sendText(from, 'Sayounara~ 👋')
-                    .then(async () => await client.leaveGroup(groupId))
+                await client.leaveGroup(groupId)
             break
             case 'everyone': // Thanks to ArugaZ
                 if (!isRegistered) return await client.reply(from, ind.notRegistered(), id)
@@ -748,20 +738,20 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 if (!isOwner) return await client.reply(from, ind.ownerOnly(), id)
                 if (mentionedJidList.length === 0) return await client.reply(from, ind.wrongFormat(), id)
                 if (mentionedJidList[0] === botNumber) return await client.reply(from, ind.wrongFormat(), id)
-                for (let blist of mentionedJidList) {
-                    _ban.push(blist)
+                if (ar === 'add') {
+                    for (let blist of mentionedJidList) {
+                        _ban.push(blist)
+                        fs.writeFileSync('./ingfo/banned.json', JSON.stringify(_ban))
+                    }
+                    await client.reply(from, ind.doneOwner(), id)
+                } else if (ar === 'del') {
+                    let benet = _ban.indexOf(mentionedJidList[0])
+                    _ban.splice(benet, 1)
                     fs.writeFileSync('./ingfo/banned.json', JSON.stringify(_ban))
+                    await client.reply(from, ind.doneOwner(), id)
+                } else {
+                    await client.reply(from, ind.wrongFormat(), id)
                 }
-                await client.reply(from, ind.doneOwner(), id)
-            break
-            case 'unban':
-                if (!isOwner) return await client.reply(from, ind.ownerOnly(), id)
-                if (mentionedJidList.length === 0) return await client.reply(from, ind.wrongFormat(), id)
-                if (mentionedJidList[0] === botNumber) return await client.reply(from, ind.wrongFormat(), id)
-                let benet = _ban.indexOf(mentionedJidList[0])
-                _ban.splice(benet, 1)
-                fs.writeFileSync('./ingfo/banned.json', JSON.stringify(_ban))
-                await client.reply(from, ind.doneOwner(), id)
             break
             case 'eval':
             case 'ev':
@@ -780,24 +770,24 @@ module.exports = msgHandler = async (client = new Client(), message) => {
                 await client.sendText(from, 'Otsukaresama deshita~ 👋')
                     .then(async () => await client.kill())
             break
-            case 'pradd':
+            case 'premium':
                 if (!isOwner) return await client.reply(from, ind.ownerOnly(), id)
                 if (mentionedJidList.length === 0) return await client.reply(from, ind.wrongFormat(), id)
                 if (mentionedJidList[0] === botNumber) return await client.reply(from, ind.wrongFormat(), id)
-                for (let premi of mentionedJidList) {
-                    _premium.push(premi)
+                if (ar === 'add') {
+                    for (let premi of mentionedJidList) {
+                         _premium.push(premi)
+                         fs.writeFileSync('./ingfo/premium.json', JSON.stringify(_premium))
+                    }
+                    await client.reply(from, ind.doneOwner(), id)
+                } else if (ar === 'del') 
+                    let predel = _premium.indexOf(mentionedJidList[0])
+                    _premium.splice(predel, 1)
                     fs.writeFileSync('./ingfo/premium.json', JSON.stringify(_premium))
+                    await client.reply(from, ind.doneOwner(), id)
+                } else {
+                    await client.reply(from, ind.wrongFormat(), id)
                 }
-                await client.reply(from, ind.doneOwner(), id)
-            break
-            case 'prdel':
-                if (!isOwner) return await client.reply(from, ind.ownerOnly(), id)
-                if (mentionedJidList.length === 0) return await client.reply(from, ind.wrongFormat(), id)
-                if (mentionedJidList[0] === botNumber) return await client.reply(from, ind.wrongFormat(), id)
-                let predel = _premium.indexOf(mentionedJidList[0])
-                _premium.splice(predel, 1)
-                fs.writeFileSync('./ingfo/premium.json', JSON.stringify(_premium))
-                await client.reply(from, ind.doneOwner(), id)
             break
             default:
                 console.log(color('[ERROR]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), 'Unregistered command from', color(pushname))

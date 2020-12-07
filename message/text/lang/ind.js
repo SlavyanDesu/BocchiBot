@@ -336,7 +336,7 @@ Aliases: *lewd*
 Usage: *$lewds*
 
 2. *$multilewds*
-Mengirim up to 5 gambar anime lewd. (PREMIUM ONLY)
+Mengirim up to 5 anime lewd pics. (PREMIUM ONLY)
 Aliases: *multilewds multilewd mlewd mlewds*
 Usage: *$multilewds*
 
@@ -350,15 +350,15 @@ Mendownload doujin dari nHentai sebagai file PDF. (PREMIUM ONLY)
 Aliases: -
 Usage: *$nhdl* <kode>
 
-5. *$xnxx*
-Mendownload video dari XNXX. (PREMIUM ONLY)
-Aliases: -
-Usage: *$xnxx* <link>
-
-6. *$nekopoi*
+5. *$nekopoi*
 Mengirim video link Nekopoi terbaru.
 Aliases: -
 Usage: *$nekopoi*
+
+6. *$multifetish*
+Mengirim up to 5 fetish pics. (PREMIUM ONLY)
+Aliases: *mfetish*
+Usage: *$multifetish* <armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao>
     `
 }
 
