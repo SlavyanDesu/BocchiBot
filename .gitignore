@@ -11,5 +11,6 @@ debug.log
 .node-persist
 
 # Local files
+config.json
 database
 asupan
