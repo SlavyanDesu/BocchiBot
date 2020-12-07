@@ -34,7 +34,7 @@ const processTime = (timestamp, now) => {
  */
 const options = (start) => {
     const options = {
-        sessionId: 'Elaina',
+        sessionId: 'BocchiBots',
         headless: true,
         qrTimeout: 0,
         authTimeout: 0,
