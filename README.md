@@ -79,11 +79,11 @@ Edit the required value in `config.json`.
 Wanna change the language of the bot to English? Simply replace all `ind` in `message/index.js` to `eng`  
 Example:
 ```js
-client.reply(from, ind.wrongFormat(), id)
+bocchi.reply(from, ind.wrongFormat(), id)
 ```
 To
 ```js
-client.reply(from, eng.wrongFormat(), id)
+bocchi.reply(from, eng.wrongFormat(), id)
 ```
 
 ## 🔍 Installing the dependencies
