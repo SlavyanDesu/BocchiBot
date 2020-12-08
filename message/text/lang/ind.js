@@ -1,3 +1,8 @@
+const fs = require('fs-extra')
+const { 
+    prefix
+} = JSON.parse(fs.readFileSync('config.json'))
+
 exports.wait = () => {
     return `Mohon tunggu sebentar~`
 }
@@ -117,149 +122,149 @@ Halo *${pushname}*~
 Abaikan tanda <>
 
 Downloader [BETA]:
-1. *$facebook*
+1. *${prefix}facebook*
 Download Facebook video.
 Aliases: *fb*
-Usage: *$facebook* <video link>
+Usage: *${prefix}facebook* <video link>
 
-2. *$ytmp3*
+2. *${prefix}ytmp3*
 Download YouTube audio.
 Aliases: -
-Usage: *$ytmp3* <link>
+Usage: *${prefix}ytmp3* <link>
 
-3. *$ytmp4*
+3. *${prefix}ytmp4*
 Download YouTube video.
 Aliases: -
-Usage: *$ytmp4* <link>
+Usage: *${prefix}ytmp4* <link>
 
 Bot:
-1. *$rules*
+1. *${prefix}rules*
 Wajib baca.
 Aliases: *rule*
-Usage: *$rules*
+Usage: *${prefix}rules*
 
-2. *$menu*
+2. *${prefix}menu*
 Cek command list.
 Aliases: -
-Usage: *$menu*
+Usage: *${prefix}menu*
 
-3. *$nsfw*
+3. *${prefix}nsfw*
 Nyalain command NSFW.
 Aliases: -
-Usage: *$nsfw* <enable/disable>
+Usage: *${prefix}nsfw* <enable/disable>
 
-4. *$menuowner*
+4. *${prefix}menuowner*
 Cek owner command list.
 Aliases: -
-Usage: *$menuowner*
+Usage: *${prefix}menuowner*
 
-5. *$usage*
+5. *${prefix}usage*
 Cek server usage.
 Aliases: -
-Usage: *$usage*
+Usage: *${prefix}usage*
 
-6. *$listblock*
+6. *${prefix}listblock*
 Cek nomor yang diblokir.
 Aliases: -
-Usage: *$listblock*
+Usage: *${prefix}listblock*
 
-7. *$ping*
+7. *${prefix}ping*
 Cek speed bot, bukan koneksi kamu.
 Aliases: *p*
-Usage: *$ping*
+Usage: *${prefix}ping*
 
-8. *$delete*
+8. *${prefix}delete*
 Hapus pesan bot.
 Aliases: *del*
-Usage: Reply pesan yang dihapus dengan caption *$del*.
+Usage: Reply pesan yang dihapus dengan caption *${prefix}del*.
 
-9. *$moderation*
+9. *${prefix}moderation*
 Cek moderation command list.
 Aliases: -
-Usage: *$moderation*
+Usage: *${prefix}moderation*
 
-10. *$report*
+10. *${prefix}report*
 Lapor bug bot ke dev.
 Aliases: -
-Usage: *$report* <pesan>
+Usage: *${prefix}report* <pesan>
 
 Misc:
-1. *$say*
+1. *${prefix}say*
 Ya gitu.
 Aliases: -
-Usage: *$say* <text>
+Usage: *${prefix}say* <text>
 
-2. *$lirik*
+2. *${prefix}lirik*
 Mencari lirik lagu.
 Aliases: -
-Usage: *$lirik* <judul lagu>
+Usage: *${prefix}lirik* <judul lagu>
 
-3. *$shortlink*
+3. *${prefix}shortlink*
 Membuat shortlink.
 Aliases: -
-Usage: *$shortlink* <link>
+Usage: *${prefix}shortlink* <link>
 
-4. *$wikipedia*
+4. *${prefix}wikipedia*
 Mengirim Wikipedia dari teks yang diberikan.
 Aliases: *wiki*
-Usage: *$wikipedia* <text>
+Usage: *${prefix}wikipedia* <text>
 
-5. *$kbbi*
+5. *${prefix}kbbi*
 Mengirim definisi kata dari KBBI.
 Aliases: -
-Usage: *$kbbi* <text>
+Usage: *${prefix}kbbi* <text>
 
-6. *$igstalk*
+6. *${prefix}igstalk*
 Stalk akun Instagram.
 Aliases: -
-Usage: *$igstalk* <username>
+Usage: *${prefix}igstalk* <username>
 
 Sticker:
-1. *$sticker*
+1. *${prefix}sticker*
 Bikin stiker dari gambar yang dikirim atau di-reply.
 Aliases: *stiker*
-Usage: Kirim gambar dengan caption *$sticker* atau reply gambar dengan caption *$sticker*.
+Usage: Kirim gambar dengan caption *${prefix}sticker* atau reply gambar dengan caption *${prefix}sticker*.
 
 Weeb zone:
-1. *$neko*
+1. *${prefix}neko*
 Mengirim foto neko anime girl! :3
 Aliases: -
-Usage: *$neko*
+Usage: *${prefix}neko*
 
-2. *$wallpaper*
+2. *${prefix}wallpaper*
 Mengirim wallpaper anime.
 Aliases: *wp*
-Usage: *$wallpaper*
+Usage: *${prefix}wallpaper*
 
-3. *$kemono*
+3. *${prefix}kemono*
 Mengirim foto kemonomimi anime girl! UwU
 Aliases: -
-Usage: *$kemono*
+Usage: *${prefix}kemono*
 
-4. *$kusonime*
+4. *${prefix}kusonime*
 Mencari info anime dan link download batch di Kusonime.
 Aliases: -
-Usage: *$kusonime* <judul anime>
+Usage: *${prefix}kusonime* <judul anime>
 
-5. *$komiku*
+5. *${prefix}komiku*
 Mencari info manga dan link download di Komiku.
 Aliases: -
-Usage: *$komiku* <judul manga>
+Usage: *${prefix}komiku* <judul manga>
 
-6. *$wait*
+6. *${prefix}wait*
 Mencari source anime dari screenshot cuplikan.
 Aliases: -
-Usage: Kirim screenshot dengan caption *$wait* atau reply screenshot dengan caption *$wait*.
+Usage: Kirim screenshot dengan caption *${prefix}wait* atau reply screenshot dengan caption *${prefix}wait*.
 
-7. *$source*
+7. *${prefix}source*
 Mencari source dari panel doujin, ilustrasi, dan gambar yang berhubungan dengan anime.
 Aliases: *sauce*
-Usage: Kirim gambar dengan caption *$source* atau reply gambar dengan caption *$source*.
+Usage: Kirim gambar dengan caption *${prefix}source* atau reply gambar dengan caption *${prefix}source*.
 
-8. *$waifu*
+8. *${prefix}waifu*
 Mengirim random foto waifu.
 Aliases: -
-Usage: *$waifu*
+Usage: *${prefix}waifu*
     `
 }
 
@@ -276,7 +281,7 @@ Sanksi: *SOFT BLOCK*
 3. Jangan mengeksploitasi bot.
 Sanksi: *PERMANENT BLOCK*
 
-Jika sudah dipahamin rules-nya, silakan ketik *$menu* untuk memulai!
+Jika sudah dipahamin rules-nya, silakan ketik *${prefix}menu* untuk memulai!
 
 Source code oleh:
 wa.me/6281294958473 (Kal)
@@ -288,55 +293,55 @@ exports.textOwner = () => {
     return `
 Halo Owner-sama ヽ(・∀・)ﾉ!
 
-1. *$bc*
+1. *${prefix}bc*
 Kirim broadcast.
 Aliases: -
-Usage: *$bc* <text> 
+Usage: *${prefix}bc* <text> 
 
-2. *$clearall*
+2. *${prefix}clearall*
 Hapus semua chat di akun bot.
 Aliases: -
-Usage: *$clearall*
+Usage: *${prefix}clearall*
 
-3. *$getses*
+3. *${prefix}getses*
 Ambil screenshot dari akun bot.
 Aliases: -
-Usage: *$getses*
+Usage: *${prefix}getses*
 
-4. *$ban*
+4. *${prefix}ban*
 Ban user.
 Aliases: -
-Usage: *$ban* @user1 @user2
+Usage: *${prefix}ban* @user1 @user2
 
-5. *$unban*
+5. *${prefix}unban*
 Unban user.
 Aliases: -
-Usage: *$unban* @user1
+Usage: *${prefix}unban* @user1
 
-6. *$leaveall*
+6. *${prefix}leaveall*
 Keluar dari semua grup.
 Aliases: -
-Usage: *$leaveall*
+Usage: *${prefix}leaveall*
 
-7. *$eval*
+7. *${prefix}eval*
 Evaluates JS code.
 Aliases: *ev*
-Usage: *$eval*
+Usage: *${prefix}eval*
 
-8. *$shutdown*
+8. *${prefix}shutdown*
 Mematikan bot.
 Aliases: -
-Usage: *$shutdown*
+Usage: *${prefix}shutdown*
 
-9. *$pradd*
+9. *${prefix}pradd*
 Menambah user premium.
 Aliases: -
-Usage: *$pradd* @user1
+Usage: *${prefix}pradd* @user1
 
-10. *$prdel*
+10. *${prefix}prdel*
 Menghapus user premium.
 Aliases: -
-Usage: *$prdel* @user1
+Usage: *${prefix}prdel* @user1
     `
 }
 
@@ -344,79 +349,79 @@ exports.textNsfw = () => {
     return `
 -----[ NSFW ]-----
 
-1. *$lewds*
+1. *${prefix}lewds*
 Mengirim gambar anime lewd.
 Aliases: *lewd*
-Usage: *$lewds*
+Usage: *${prefix}lewds*
 
-2. *$multilewds*
+2. *${prefix}multilewds*
 Mengirim up to 5 anime lewd pics. (PREMIUM ONLY)
 Aliases: *multilewds multilewd mlewd mlewds*
-Usage: *$multilewds*
+Usage: *${prefix}multilewds*
 
-3. *$nh*
+3. *${prefix}nh*
 Mengirim info doujinshi dari nHentai.
 Aliases: -
-Usage: *$nh* <kode>
+Usage: *${prefix}nh* <kode>
 
-4. *$nhdl*
+4. *${prefix}nhdl*
 Mendownload doujin dari nHentai sebagai file PDF. (PREMIUM ONLY)
 Aliases: -
-Usage: *$nhdl* <kode>
+Usage: *${prefix}nhdl* <kode>
 
-5. *$nekopoi*
+5. *${prefix}nekopoi*
 Mengirim video link Nekopoi terbaru.
 Aliases: -
-Usage: *$nekopoi*
+Usage: *${prefix}nekopoi*
 
-6. *$multifetish*
+6. *${prefix}multifetish*
 Mengirim up to 5 fetish pics. (PREMIUM ONLY)
 Aliases: *mfetish*
-Usage: *$multifetish* <armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao>
+Usage: *${prefix}multifetish* <armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao>
 
-7. *$waifu18*
+7. *${prefix}waifu18*
 Mengirim random foto waifu NSFW.
 Aliases: -
-Usage: *$waifu18*
+Usage: *${prefix}waifu18*
 
-8. *$fetish*
+8. *${prefix}fetish*
 Mengirim fetish pics.
 Aliases: -
-Usage: *$fetish* <armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao>
+Usage: *${prefix}fetish* <armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao>
     `
 }
 
 exports.textModeration = () => {
     return `
 -----[ MODERATION ]-----
-1. *$add*
+1. *${prefix}add*
 Menambah user ke dalam group.
 Aliases: -
-Usage: *$add* 628xxxxxxxxxx
+Usage: *${prefix}add* 628xxxxxxxxxx
 
-2. *$kick*
+2. *${prefix}kick*
 Mengeluarkan member dari grup.
 Aliases: -
-Usage: *$kick* @member1
+Usage: *${prefix}kick* @member1
 
-3. *$promote*
+3. *${prefix}promote*
 Promote member menjadi admin.
 Aliases: -
-Usage: *$promote* @member1
+Usage: *${prefix}promote* @member1
 
-4. *$demote*
+4. *${prefix}demote*
 Demote member dari admin.
 Aliases: -
-Usage: *$demote* @member1
+Usage: *${prefix}demote* @member1
 
-5. *$leave*
+5. *${prefix}leave*
 Bot akan meninggalkan grup.
 Aliases: -
-Usage: *$leave*
+Usage: *${prefix}leave*
 
-6. *$everyone*
+6. *${prefix}everyone*
 Mention semua member group.
 Aliases: -
-Usage: *$everyone*
+Usage: *${prefix}everyone*
     `
 }
