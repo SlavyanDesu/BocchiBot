@@ -172,7 +172,7 @@ If you want to unlock premium commands, please contact me~
 # Thanks to
 * [`Open-Wa/wa-automate-nodejs`](https://github.com/open-wa/wa-automate-nodejs)
 * [`YogaSakti/imageToSticker`](https://github.com/YogaSakti/imageToSticker)
-* [uukina](https://github.com/uukina)
+* [`uukina`](https://github.com/uukina)
 
 # License
 **BocchiBot** © [SlavyanDesu](https://github.com/SlavyanDesu), released under the MIT License.
