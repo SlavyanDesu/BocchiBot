@@ -73,7 +73,7 @@ Edit the required value in `config.json`.
 `prefix`: bot's prefix.  
 `uaOverride`: your user agent.  
 `nao`: SauceNAO API token. You can get it [here](https://saucenao.com/user.php) by creating an account.
-`token`: API token. You can get it [here](https://api.i-tech.id) by creating an account. After that, set your server/host static IP in [here](https://api.i-tech.id/settings/profile)  
+`token`: API token. You can get it [here](https://api.i-tech.id) by creating an account. After that, set your server/host static IP in [here](https://api.i-tech.id/settings/profile).  
 
 ## 🗣️ Changing language
 Wanna change the language of the bot to English? Simply replace all `ind` in `message/index.js` to `eng`  
