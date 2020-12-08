@@ -1,7 +1,5 @@
 const fs = require('fs-extra')
-const { 
-    prefix
-} = JSON.parse(fs.readFileSync('config.json'))
+const { prefix } = JSON.parse(fs.readFileSync('config.json'))
 
 exports.wait = () => {
     return `Mohon tunggu sebentar~`
@@ -48,7 +46,7 @@ exports.notNsfw = () => {
 }
 
 exports.nsfwOn = () => {
-    return `Command NSFW berhasil *diaktifkan*!\nKetik *$nsfwmenu* untuk melihat list command.`
+    return `Command NSFW berhasil *diaktifkan*!\nKetik *${prefix}nsfwmenu* untuk melihat list command.`
 }
 
 exports.nsfwOff = () => {
@@ -56,7 +54,7 @@ exports.nsfwOff = () => {
 }
 
 exports.addedGroup = (chat) => {
-    return `Terima kasih telah mengundangku, para member *${chat.contact.name}*!\n\nKetik *$rules* terlebih dahulu ya~`
+    return `Terima kasih telah mengundangku, para member *${chat.contact.name}*!\n\nKetik *${prefix}rules* terlebih dahulu ya~`
 }
 
 exports.nhFalse = () => {
@@ -98,11 +96,11 @@ exports.ytFound = (res) => {
 }
 
 exports.notRegistered = () => {
-    return `Kamu belum terdafar di database!\n\nSilakan register dengan format:\n*$register* <nama | daerah>\n\nTanpa tanda <>`
+    return `Kamu belum terdafar di database!\n\nSilakan register dengan format:\n*${prefix}register* <nama | daerah>\n\nTanpa tanda <>`
 }
 
 exports.registered = () => {
-    return `Selamat! Kamu telah terdaftar.\nKetik *$rules* terlebih dahulu ya~`
+    return `Selamat! Kamu telah terdaftar.\nKetik *${prefix}rules* terlebih dahulu ya~`
 }
 
 exports.registeredAlready = () => {
