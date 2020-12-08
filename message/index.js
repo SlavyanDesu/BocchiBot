@@ -491,29 +491,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
-            case 'stickergif':
-            case 'stikergif':
-                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (!isMedia && type === 'video' || isQuotedVideo) {
-                    await bocchi.reply(from, ind.wait(), id)
-                    const encryptMedia = isQuotedVideo ? quotedMsg : message
-                    const _mimetype = isQuotedVideo ? quotedMsg.mimetype : mimetype
-                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
-                    const videoBase64 = `data:${_mimetype};base64,${mediaData.toString('base64')}`
-                    await bocchi.sendMp4AsSticker(from, videoBase64, { fps: 60, startTime: `00:00:00.0`, endTime: `00:00:10.0` })
-                        .then(async () => {
-                            await bocchi.sendText(from, ind.ok())
-                            console.log(`Sticker GIF processed for ${processTime(t, moment())} seconds`)
-                        })
-                        .catch(async (err) => {
-                            console.error(err)
-                            await bocchi.reply(from, err, id)
-                        })
-                } else {
-                    await bocchi.reply(from, ind.wrongFormat(), id)
-                }
-            break
-            
+
             // NSFW
             case 'nsfwmenu':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
