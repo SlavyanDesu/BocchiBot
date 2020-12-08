@@ -25,6 +25,7 @@
   <img src="https://img.shields.io/badge/maintained%3F-yes-green.svg?style=flat" />
 </p>
 <p align="center">
+  <a href="https://github.com/SlavyanDesu/BocchiBot#requirements">Requirements</a> •
   <a href="https://github.com/SlavyanDesu/BocchiBot#installation">Installation</a> •
   <a href="https://github.com/SlavyanDesu/BocchiBot#features">Features</a> •
   <a href="https://github.com/SlavyanDesu/BocchiBot#thanks-to">Thanks to</a> •
@@ -51,7 +52,7 @@
 
 
 
-# 📁 Requirements
+# Requirements
 * [Node.js](https://nodejs.org/en/)
 * [Git](https://git-scm.com/downloads)
 * [FFmpeg](https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2020-12-08-13-03/ffmpeg-n4.3.1-26-gca55240b8c-win64-gpl-4.3.zip) (for sticker GIF command)
