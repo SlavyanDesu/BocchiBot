@@ -485,7 +485,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                         .catch(async (err) => {
                             console.error(err)
-                            await bocchi.reply(from, err)
+                            await bocchi.reply(from, err, id)
                         })
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
@@ -507,7 +507,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                         .catch(async (err) => {
                             console.error(err)
-                            await bocchi.reply(from, err)
+                            await bocchi.reply(from, err, id)
                         })
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
