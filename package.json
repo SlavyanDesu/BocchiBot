@@ -18,6 +18,7 @@
   "homepage": "https://github.com/SlavyanDesu/BocchiBot",
   "license": "MIT",
   "dependencies": {
+    "@justalk/pornhub-api": "^3.4.0",
     "@open-wa/wa-automate": "^3.1.5",
     "axios": "^0.21.0",
     "chalk": "^4.1.0",

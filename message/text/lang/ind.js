@@ -391,6 +391,11 @@ Usage: *${prefix}waifu18*
 Mengirim fetish pics.
 Aliases: -
 Usage: *${prefix}fetish* <armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao>
+
+9. *${prefix}phdl*
+Download video dari Pornhub.
+Aliases: -
+Usage *${prefix}phdl* <link>
     `
 }
 
