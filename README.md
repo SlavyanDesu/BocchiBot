@@ -172,6 +172,7 @@ If you want to unlock premium commands, please contact me~
 | Fetish             |      ✔️      |
 | Nekopoi            |      ✔️      |
 | Waifu NSFW         |      ✔️      |
+| Pornhub downloader |      ✔️      |
 | nHentai downloader |    Premium   |
 | Multi lewds        |    Premium   |
 | Multi fetish       |    Premium   |
