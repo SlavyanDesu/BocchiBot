@@ -546,9 +546,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'fetish':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (ar.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (isGroupMsg) {
                     if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
-                    if (ar.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
                     await bocchi.reply(from, ind.wait(), id)
                     try {
                         if (ar[0] === 'armpits') {
@@ -607,8 +607,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, err, id)
                     }
                 } else {
-                    const req = args.map((v) => v.toLowerCase())
-                    if (req.length !== 0) return await bocchi.reply(from, ind.wrongFormat(), id)
                     await bocchi.reply(from, ind.wait(), id)
                     try {
                         if (ar[0] === 'armpits') {
