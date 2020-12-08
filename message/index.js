@@ -53,6 +53,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const ar = args.map((v) => v.toLowerCase())
         const url = args.length !== 0 ? args[0] : ''
         const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
+        const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
 
         // Ignore non-cmd
         if (!isCmd) return
@@ -490,7 +491,29 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
-
+            case 'stickergif':
+            case 'stikergif':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isMedia && type === 'video' || isQuotedVideo) {
+                    await bocchi.reply(from, ind.wait(), id)
+                    const encryptMedia = isQuotedVideo ? quotedMsg : message
+                    const _mimetype = isQuotedVideo ? quotedMsg.mimetype : mimetype
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const videoBase64 = `data:${_mimetype};base64,${mediaData.toString('base64')}`
+                    await bocchi.sendMp4AsSticker(from, videoBase64, { fps: 60, startTime: `00:00:00.0`, endTime: `00:00:10.0` })
+                        .then(async () => {
+                            await bocchi.sendText(from, ind.ok())
+                            console.log(`Sticker GIF processed for ${processTime(t, moment())} seconds`)
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, err, id)
+                        })
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
+            break
+            
             // NSFW
             case 'nsfwmenu':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -668,10 +691,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'nh':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                const kode = args[0]
+                if (!kode) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (isGroupMsg) {
                     if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
-                    const kode = args[0]
-                    if (!kode) return await bocchi.reply(from, ind.wrongFormat(), id)
                     await bocchi.reply(from, ind.wait(), id)
                     console.log(`Searching nHentai for ${kode}...`)
                     const validate = await nhentai.exists(kode)
@@ -696,19 +719,20 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     }
                 } else {
                     await bocchi.reply(from, ind.wait(), id)
-                    const kode = args[0]
+                    console.log(`Searching nHentai for ${kode}...`)
                     const validate = await nhentai.exists(kode)
                     if (validate === true) {
                         try {
                             const pic = await api.getBook(kode)
                                 .then((book) => {
-                                    return api.getImageURL(book.cover)
+                                     return api.getImageURL(book.cover)
                                 })
                             const dojin = await nhentai.getDoujin(kode)
                             const { title, details, link } = dojin
                             const { tags, artists, languages, categories } = await details
                             let teks = `*Title*: ${title}\n\n*Tags*: ${tags.join(', ')}\n\n*Artists*: ${artists}\n\n*Languages*: ${languages.join(', ')}\n\n*Categories*: ${categories}\n\n*Link*: ${link}`
                             await bocchi.sendFileFromUrl(from, pic, 'nhentai.jpg', teks, id)
+                                .then(() => console.log('Success sending nHentai info!'))
                         } catch (err) {
                             console.error(err)
                             await bocchi.reply(from, err, id)
