@@ -69,7 +69,7 @@ exports.notPremium = () => {
 }
 
 exports.notAdmin = () => {
-    return `Pengguna bukan admin!`
+    return `User bukan admin!`
 }
 
 exports.adminAlready = () => {
