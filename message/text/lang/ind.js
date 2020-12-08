@@ -225,6 +225,11 @@ Bikin stiker dari gambar yang dikirim atau di-reply.
 Aliases: *stiker*
 Usage: Kirim gambar dengan caption *${prefix}sticker* atau reply gambar dengan caption *${prefix}sticker*.
 
+2. *${prefix}stickergif*
+Bikin stiker dari video MP4 atau GIF yang dikirim atau di-reply.
+Aliases: *stikergif*
+Usage: Usage: Kirim video/GIF dengan caption *${prefix}stickergif* atau reply video/GIF dengan caption *${prefix}stickergif*.
+
 Weeb zone:
 1. *${prefix}neko*
 Mengirim foto neko anime girl! :3
