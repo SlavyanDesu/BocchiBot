@@ -312,6 +312,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.sendText(from, ind.textModeration())
             break
             case 'report':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (isGroupMsg) {
                     await bocchi.sendText(ownerNumber, `Dari: ${pushname} (${from})\nPesan: ${q}\nGrup: ${(name || formattedTitle)}`)
@@ -548,52 +549,52 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (isGroupMsg) {
                     if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
                     const req = args.map((v) => v.toLowerCase())
-                    if (req.length !== 0) return await bocchi.reply(from, ind.wrongFormat(), id)
+                    if (req.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
                     await bocchi.reply(from, ind.wait(), id)
                     try {
-                        if (req === 'armpits') {
+                        if (req[0] === 'armpits') {
                             nsfw.armpits()
                                 .then(async ({ url }) => {
                                     await bocchi.sendFileFromUrl(from, url, 'armpits.jpg', '', id)
                                         .then(() => console.log('Success sending armpits pic!'))
                                 })
-                        } else if (req === 'feets') {
+                        } else if (req[0] === 'feets') {
                             nsfw.feets()
                                 .then(async ({ url }) => {
                                     await bocchi.sendFileFromUrl(from, url, 'feets.jpg', '', id)
                                         .then(() => console.log('Success sending feets pic!'))
                                 })
-                        } else if (req === 'thighs') {
+                        } else if (req[0] === 'thighs') {
                             nsfw.thighs()
                                 .then(async ({ url }) => {
                                     await bocchi.sendFileFromUrl(from, url, 'thighs.jpg', '', id)
                                         .then(() => console.log('Success sending thighs pic!'))
                                 })
-                        } else if (req === 'ass') {
+                        } else if (req[0] === 'ass') {
                             nsfw.ass()
                                 .then(async ({ url }) => {
                                     await bocchi.sendFileFromUrl(from, url, 'ass.jpg', '', id)
                                         .then(() => console.log('Success sending ass pic!'))
                                 })
-                        } else if (req === 'boobs') {
+                        } else if (req[0] === 'boobs') {
                             nsfw.boobs()
                                 .then(async ({ url }) => {
                                     await bocchi.sendFileFromUrl(from, url, 'boobs.jpg', '', id)
                                         .then(() => console.log('Success sending boobs pic!'))
                                 })
-                        } else if (req === 'belly') {
+                        } else if (req[0] === 'belly') {
                             nsfw.belly()
                                 .then(async ({ url }) => {
                                     await bocchi.sendFileFromUrl(from, url, 'belly.jpg', '', id)
                                         .then(() => console.log('Success sending belly pic!'))
                                 })
-                        } else if (req === 'sideboobs') {
+                        } else if (req[0] === 'sideboobs') {
                             nsfw.sideboobs()
                                 .then(async ({ url }) => {
                                     await bocchi.sendFileFromUrl(from, url, 'sideboobs.jpg', '', id)
                                         .then(() => console.log('Success sending sideboobs pic!'))
                                 })
-                        } else if (req === 'ahegao') {
+                        } else if (req[0] === 'ahegao') {
                             nsfw.ahegao()
                                 .then(async ({ url }) => {
                                     await bocchi.sendFileFromUrl(from, url, 'ahegao.jpg', '', id)
@@ -611,49 +612,49 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     if (req.length !== 0) return await bocchi.reply(from, ind.wrongFormat(), id)
                     await bocchi.reply(from, ind.wait(), id)
                     try {
-                        if (req === 'armpits') {
+                        if (req[0] === 'armpits') {
                             nsfw.armpits()
                                 .then(async ({ url }) => {
                                     await bocchi.sendFileFromUrl(from, url, 'armpits.jpg', '', id)
                                         .then(() => console.log('Success sending armpits pic!'))
                                 })
-                        } else if (req === 'feets') {
+                        } else if (req[0] === 'feets') {
                             nsfw.feets()
                                 .then(async ({ url }) => {
                                     await bocchi.sendFileFromUrl(from, url, 'feets.jpg', '', id)
                                         .then(() => console.log('Success sending feets pic!'))
                                 })
-                        } else if (req === 'thighs') {
+                        } else if (req[0] === 'thighs') {
                             nsfw.thighs()
                                 .then(async ({ url }) => {
                                     await bocchi.sendFileFromUrl(from, url, 'thighs.jpg', '', id)
                                         .then(() => console.log('Success sending thighs pic!'))
                                 })
-                        } else if (req === 'ass') {
+                        } else if (req[0] === 'ass') {
                             nsfw.ass()
                                 .then(async ({ url }) => {
                                     await bocchi.sendFileFromUrl(from, url, 'ass.jpg', '', id)
                                         .then(() => console.log('Success sending ass pic!'))
                                 })
-                        } else if (req === 'boobs') {
+                        } else if (req[0] === 'boobs') {
                             nsfw.boobs()
                                 .then(async ({ url }) => {
                                     await bocchi.sendFileFromUrl(from, url, 'boobs.jpg', '', id)
                                         .then(() => console.log('Success sending boobs pic!'))
                                 })
-                        } else if (req === 'belly') {
+                        } else if (req[0] === 'belly') {
                             nsfw.belly()
                                 .then(async ({ url }) => {
                                     await bocchi.sendFileFromUrl(from, url, 'belly.jpg', '', id)
                                         .then(() => console.log('Success sending belly pic!'))
                                 })
-                        } else if (req === 'sideboobs') {
+                        } else if (req[0] === 'sideboobs') {
                             nsfw.sideboobs()
                                 .then(async ({ url }) => {
                                     await bocchi.sendFileFromUrl(from, url, 'sideboobs.jpg', '', id)
                                         .then(() => console.log('Success sending sideboobs pic!'))
                                 })
-                        } else if (req === 'ahegao') {
+                        } else if (req[0] === 'ahegao') {
                             nsfw.ahegao()
                                 .then(async ({ url }) => {
                                     await bocchi.sendFileFromUrl(from, url, 'ahegao.jpg', '', id)
