@@ -72,16 +72,18 @@ Edit the required value in `config.json`.
     "ownerBot": "62812xxxxxxxx@c.us", 
     "prefix": "$",
     "uaOverride": "WhatsApp/2.2037.6 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36",
-    "token": "put-your-token-here",
-    "nao": "put-your-token-here"
+    "token": "api-key",
+    "nao": "api-key",
+    "vhtear": "api-key"
 }
 ```
 
 `ownerBot`: your WhatsApp number.  
 `prefix`: bot's prefix.  
 `uaOverride`: your user agent.  
-`nao`: SauceNAO API token. You can get it [here](https://saucenao.com/user.php) by creating an account.  
 `token`: API token. You can get it [here](https://api.i-tech.id) by creating an account. After that, set your server/host static IP in [here](https://api.i-tech.id/settings/profile).  
+`nao`: SauceNAO API token. You can get it [here](https://saucenao.com/user.php) by creating an account.  
+`vhtear`: VHTear API token. You can get it [here](https://api.vhtear.com/) by buying his API key.   
 
 ## 🗣️ Changing language
 Wanna change the language of the bot to English? Simply replace all `ind` in `message/index.js` to `eng`  
