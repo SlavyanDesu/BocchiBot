@@ -252,7 +252,22 @@ Usage: Kirim gambar dengan caption *${prefix}sticker* atau reply gambar dengan c
 2. *${prefix}stickergif*
 Membuat stiker dari video MP4 atau GIF yang dikirim atau di-reply.
 Aliases: *stikergif*
-Usage: Usage: Kirim video/GIF dengan caption *${prefix}stickergif* atau reply video/GIF dengan caption *${prefix}stickergif*.
+Usage: Kirim video/GIF dengan caption *${prefix}stickergif* atau reply video/GIF dengan caption *${prefix}stickergif*.
+
+3. *${prefix}stickerlightning*
+Membuat stiker lightning dari gambar yang dikirim atau di-reply.
+Aliases: *slightning*
+Usage: Kirim gambar dengan caption *${prefix}stickerlightning* atau reply gambar dengan caption *${prefix}stickerlightning*.
+
+4. *${prefix}stickerfire*
+Membuat stiker fire dari gambar yang dikirim atau di-reply.
+Aliases: *sfire*
+Usage: Kirim gambar dengan caption *${prefix}stickerfire* atau reply gambar dengan caption *${prefix}stickerfire*.
+
+3. *${prefix}ttg*
+Membuat stiker text to GIF.
+Aliases: -
+Usage: *${prefix}ttg* <teks>
 
 _Index of [4]_
     `
