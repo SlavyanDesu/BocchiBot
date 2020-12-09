@@ -29,7 +29,7 @@ const fetchBase64 = (url, mimetype) => {
         return fetch(url)
             .then((response) => {
                 const _mimetype = mimetype || response.headers.get('content-type')
-                res.buffer()
+                response.buffer()
                     .then((result) => resolve(`data:${_mimetype};base64,` + result.toString('base64')))
             })
             .catch((err) => {

@@ -13,9 +13,10 @@ const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 
 const { msgFilter, color, processTime, isUrl } = require('../tools')
-const { nsfw, lirik, shortener, wiki, kbbi, bmkg, weeabo, medsos, nekopoi, downloader } = require('../lib')
+const { nsfw, lirik, shortener, wiki, kbbi, bmkg, weeabo, medsos, nekopoi, downloader, sticker } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
+const fun = require('../lib/fun')
 const _nsfw = JSON.parse(fs.readFileSync('./database/nsfw.json'))
 const _ban = JSON.parse(fs.readFileSync('./database/banned.json'))
 const _premium = JSON.parse(fs.readFileSync('./database/premium.json'))
@@ -255,12 +256,34 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             // Bot
             case 'menu':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                await bocchi.sendText(from, ind.textMenu(pushname))
+                if (args[0] === '1') {
+                    await bocchi.sendText(from, ind.menuDownloader())
+                } else if (args[0] === '2') {
+                    await bocchi.sendText(from, ind.menuBot())
+                } else if (args[0] === '3') {
+                    await bocchi.sendText(from, ind.menuSticker())
+                } else if (args[0] === '4') {
+                    await bocchi.sendText(from, ind.menuMisc())
+                } else if (args[0] === '5') {
+                    await bocchi.sendText(from, ind.menuWeeaboo())
+                } else if (args[0] === '6') {
+                    await bocchi.sendText(from, ind.menuFun())
+                } else if (args[0] === '7') {
+                    await bocchi.sendText(from, ind.menuModeration())
+                } else if (args[0] === '8') {
+                    if (isGroupMsg && !isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
+                    await bocchi.sendText(from, ind.menuNsfw())
+                } else if (args[0] === '9') {
+                    if (!isOwner) return await bocchi.reply(from, ind.ownerOnly())
+                    await bocchi.sendText(from, ind.menuOwner())
+                } else {
+                    await bocchi.sendText(from, ind.menu())
+                }
             break
             case 'rules':
             case 'rule':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                await bocchi.sendText(from, ind.textRules())
+                await bocchi.sendText(from, ind.rules())
             break
             case 'nsfw':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -468,6 +491,94 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
 
+            // Fun
+            case 'hartatahta':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (q.length === 1) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/hartatahta?text=${q}&apikey=${config.vhtear}`, `${q}.jpg`, '', id)
+                    .then(() => console.log('Success creating image!'))
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, err, id)
+                    })
+            break
+            case 'calender':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (isMedia && type === 'image' || isQuotedImage) {
+                    await bocchi.reply(from, ind.wait(), id)
+                    const encryptMedia = isQuotedImage ? quotedMsg : message
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const imageLink = await uploadImages(mediaData)
+                    fun.calender(imageLink)
+                        .then(async ({ result }) => {
+                            await bocchi.sendFileFromUrl(from, result.imgUrl, 'calender.jpg', '', id)
+                                .then(() => console.log('Success creating image!'))
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, err, id)
+                        })
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
+            break
+            case 'partner':
+            case 'pasangan':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                const nama = q.substring(0, q.indexOf('|'))
+                const pasangan = q.substring(q.lastIndexOf('|') + 2)
+                if (!nama && !pasangan) {
+                    return await bocchi.reply(from, ind.wrongFormat(), id)
+                } else {
+                    await bocchi.reply(from, ind.wait(), id)
+                    fun.pasangan(nama, pasangan)
+                        .then(async ({ result }) => {
+                            await bocchi.reply(from, result.hasil, id)
+                                .then(() => console.log('Success sending fortune!'))
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, err, id)
+                        })
+                }
+            break
+            case 'zodiac':
+            case 'zodiak':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                const zodiak = args[0]
+                if (!zodiak) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (zodiak.length === 1) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                fun.zodiak(zodiak)
+                    .then(async ({ result }) => {
+                        if (result.status === 204) {
+                            return await bocchi.reply(from, result.ramalan, id)
+                        } else {
+                            let ramalan = `Zodiak: ${result.zodiak}\n\nRamalan: ${result.ramalan}\n\nAngka laksek: ${result.nomorKeberuntungan}\n\n${result.motivasi}\n\n${result.inspirasi}`
+                            await bocchi.reply(from, ramalan, id)
+                                .then(() => console.log('Success sending zodiac fortune!'))
+                        }
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, err, id)
+                    })
+            break
+            case 'write':
+            case 'nulis':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/write?text=${q}&apikey=${config.vhtear}`, 'nulis.jpg', '', id)
+                    .then(() => console.log('Success sending write image!'))
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, err,id)
+                    })
+            break
+
             // Sticker
             case 'sticker':
             case 'stiker':
@@ -512,6 +623,65 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
+            break
+            case 'stickerlightning':
+            case 'slightning':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (isMedia && type === 'image' || isQuotedImage) {
+                    await bocchi.reply(from, ind.wait(), id)
+                    const encryptMedia = isQuotedImage ? quotedMsg : message
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const imageLink = await uploadImages(mediaData)
+                    sticker.stickerLight(imageLink)
+                        .then(async ({ result }) => {
+                            await bocchi.sendStickerfromUrl(from, result.imgUrl)
+                                .then(async () => {
+                                    console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
+                                    await bocchi.sendText(from, ind.ok())
+                                })
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, err, id)
+                        })
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
+            break
+            case 'stickerfire':
+            case 'sfire':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (isMedia && type === 'image' || isQuotedImage) {
+                    await bocchi.reply(from, ind.wait(), id)
+                    const encryptMedia = isQuotedImage ? quotedMsg : message
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const imageLink = await uploadImages(mediaData)
+                    sticker.stickerFire(imageLink)
+                        .then(async ({ result }) => {
+                            await bocchi.sendStickerfromUrl(from, result.imgUrl)
+                                .then(async () => {
+                                    console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
+                                    await bocchi.sendText(from, ind.ok())
+                                })
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, err, id)
+                        })
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), err)
+                }
+            break
+            case 'ttg':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                await bocchi.sendStickerfromUrl(from, `https://api.vhtear.com/textxgif?text=${q}&apikey=${config.vhtear}`)
+                    .then(() => console.log('Success creating GIF!'))
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, err, id)
+                    })
             break
 
             // NSFW
