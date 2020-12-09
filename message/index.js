@@ -826,50 +826,52 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
                     if (!isUrl(url) && !url.includes('pornhub.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
                     await bocchi.reply(from, ind.wait(), id)
-                    nsfw.phDl(url)
-                        .then(async ({ title, download_urls, thumbnail_url }) => {
-                            const count = Object.keys(download_urls).length
-                            if (count !== 2) {
-                                const shortsLow = await shortener(download_urls['240P'])
-                                const shortsMid = await shortener(download_urls['480P'])
-                                const shortsHigh = await shortener(download_urls['720P'])
-                                await bocchi.sendFileFromUrl(from, thumbnail_url, `${title}`, `Title: ${title}\n\nLinks:\n${shortsLow} (240P)\n${shortsMid} (480P)\n${shortsHigh} (720P)`, id)
-                                    .then(() => console.log('Success sending pornhub metadata!'))
-                            } else {
-                                const shortsLow = await shortener(download_urls['240P'])
-                                await bocchi.sendFileFromUrl(from, thumbnail_url, `${title}`, `Title: ${title}\n\nLinks:\n${shortsLow} (240P)`, id)
-                                    .then(() => console.log('Success sending pornhub metadata!'))
-                            }
-                        })
-                        .catch(async (err) => {
-                            console.error(err)
-                            await bocchi.reply(from, err, id)
-                        })
+                    try {
+                        nsfw.phDl(url)
+                            .then(async ({ title, download_urls, thumbnail_url }) => {
+                                const count = Object.keys(download_urls).length
+                                if (count !== 2) {
+                                    const shortsLow = await shortener(download_urls['240P'])
+                                    const shortsMid = await shortener(download_urls['480P'])
+                                    const shortsHigh = await shortener(download_urls['720P'])
+                                    await bocchi.sendFileFromUrl(from, thumbnail_url, `${title}`, `Title: ${title}\n\nLinks:\n${shortsLow} (240P)\n${shortsMid} (480P)\n${shortsHigh} (720P)`, id)
+                                        .then(() => console.log('Success sending pornhub metadata!'))
+                                } else {
+                                    const shortsLow = await shortener(download_urls['240P'])
+                                    await bocchi.sendFileFromUrl(from, thumbnail_url, `${title}`, `Title: ${title}\n\nLinks:\n${shortsLow} (240P)`, id)
+                                        .then(() => console.log('Success sending pornhub metadata!'))
+                                }
+                            })
+                    } catch (err) {
+                        console.error(err)
+                        await bocchi.reply(from, err, id)
+                    }
                 } else {
                     if (!isUrl(url) && !url.includes('pornhub.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
                     await bocchi.reply(from, ind.wait(), id)
-                    nsfw.phDl(url)
-                        .then(async ({ title, download_urls, thumbnail_url }) => {
-                            const count = Object.keys(download_urls).length
-                            if (count !== 2) {
-                                const shortsLow = await shortener(download_urls['240P'])
-                                const shortsMid = await shortener(download_urls['480P'])
-                                const shortsHigh = await shortener(download_urls['720P'])
-                                await bocchi.sendFileFromUrl(from, thumbnail_url, `${title}`, `Title: ${title}\n\nLinks:\n${shortsLow} (240P)\n${shortsMid} (480P)\n${shortsHigh} (720P)`, id)
-                                    .then(() => console.log('Success sending pornhub metadata!'))
-                            } else {
-                                const shortsLow = await shortener(download_urls['240P'])
-                                await bocchi.sendFileFromUrl(from, thumbnail_url, `${title}`, `Title: ${title}\n\nLinks:\n${shortsLow} (240P)`, id)
-                                    .then(() => console.log('Success sending pornhub metadata!'))
-                            }
-                        })
-                        .catch(async (err) => {
-                            console.error(err)
-                            await bocchi.reply(from, err, id)
-                        })
+                    try {
+                        nsfw.phDl(url)
+                            .then(async ({ title, download_urls, thumbnail_url }) => {
+                                const count = Object.keys(download_urls).length
+                                if (count !== 2) {
+                                    const shortsLow = await shortener(download_urls['240P'])
+                                    const shortsMid = await shortener(download_urls['480P'])
+                                    const shortsHigh = await shortener(download_urls['720P'])
+                                    await bocchi.sendFileFromUrl(from, thumbnail_url, `${title}`, `Title: ${title}\n\nLinks:\n${shortsLow} (240P)\n${shortsMid} (480P)\n${shortsHigh} (720P)`, id)
+                                        .then(() => console.log('Success sending pornhub metadata!'))
+                                } else {
+                                    const shortsLow = await shortener(download_urls['240P'])
+                                    await bocchi.sendFileFromUrl(from, thumbnail_url, `${title}`, `Title: ${title}\n\nLinks:\n${shortsLow} (240P)`, id)
+                                        .then(() => console.log('Success sending pornhub metadata!'))
+                                }
+                            })
+                    } catch (err) {
+                        console.error(err)
+                        await bocchi.reply(from, err, id)
+                    }
                 }
             break
-            
+
             // Moderation command
             case 'add':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
