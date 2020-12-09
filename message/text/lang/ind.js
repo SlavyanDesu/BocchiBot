@@ -288,7 +288,6 @@ Jika sudah dipahamin rules-nya, silakan ketik *${prefix}menu* untuk memulai!
 
 Source code oleh:
 wa.me/6281294958473 (Kal)
-wa.me/6282125076212 (Riz)
     `
 }
 
@@ -311,40 +310,30 @@ Ambil screenshot dari akun bot.
 Aliases: -
 Usage: *${prefix}getses*
 
-4. *${prefix}ban*
-Ban user.
+4. *${prefix}ban* add/del
+Menambah/menghapus user yang diban.
 Aliases: -
-Usage: *${prefix}ban* @user1 @user2
+Usage: *${prefix}ban* add/del @user
 
-5. *${prefix}unban*
-Unban user.
-Aliases: -
-Usage: *${prefix}unban* @user1
-
-6. *${prefix}leaveall*
+5. *${prefix}leaveall*
 Keluar dari semua grup.
 Aliases: -
 Usage: *${prefix}leaveall*
 
-7. *${prefix}eval*
+6. *${prefix}eval*
 Evaluates JS code.
 Aliases: *ev*
 Usage: *${prefix}eval*
 
-8. *${prefix}shutdown*
+7. *${prefix}shutdown*
 Mematikan bot.
 Aliases: -
 Usage: *${prefix}shutdown*
 
-9. *${prefix}pradd*
-Menambah user premium.
+8. *${prefix}premium* add/del
+Menambah/menghapus user premium.
 Aliases: -
-Usage: *${prefix}pradd* @user1
-
-10. *${prefix}prdel*
-Menghapus user premium.
-Aliases: -
-Usage: *${prefix}prdel* @user1
+Usage: *${prefix}premium* add/del @user
     `
 }
 
