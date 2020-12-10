@@ -11,6 +11,7 @@ const sagiri = require('sagiri')
 const db = require('quick.db')
 const ms = require('parse-ms')
 const saus = sagiri(config.nao, { results: 5 })
+const cooldown = 4.32e+7
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 
@@ -345,10 +346,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'report':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.emptyMess(), id)
-                const cd = 4.32e+7
-                const last = await db.get(`${sender.id.replace('@c.us', '')}.report`)
-                if (last !== null && cd - (Date.now() - last) > 0) {
-                    const time = ms(cd - (Date.now() - last))
+                const lastReport = await db.get(`${sender.id.replace('@c.us', '')}.report`)
+                if (lastReport !== null && cd - (Date.now() - lastReport) > 0) {
+                    const time = ms(cd - (Date.now() - lastReport))
                     return await bocchi.reply(from, ind.limit(time), id)
                 } else {
                     if (isGroupMsg) {
@@ -700,6 +700,16 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         console.error(err)
                         await bocchi.reply(from, 'Error!', id)
                     })
+            break
+            case 'stikertoimg':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (isQuotedSticker) {
+                    await bocchi.reply(from, ind.wait(), id)
+                    const mediaData = await decryptMedia(quotedMsg, uaOverride)
+                    await bocchi.sendImage(from, mediaData, 'sticker.jpg', '', id)
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
             break
 
             // NSFW
@@ -1112,11 +1122,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
-                const cd = 4.32e+7
-                const last = await db.get(`${sender.id.replace('@c.us', '')}.everyone`)
+                const lastEveryone = await db.get(`${sender.id.replace('@c.us', '')}.everyone`)
                 const groupMem = await bocchi.getGroupMembers(groupId)
-                if (last !== null && cd - (Date.now() - last) > 0) {
-                    const time = ms(cd - (Date.now() - last))
+                if (lastEveryone !== null && cd - (Date.now() - lastEveryone) > 0) {
+                    const time = ms(cd - (Date.now() - lastEveryone))
                     return await bocchi.reply(from, ind.limit(time), id)
                 } else if (sender.id === ownerNumber) {
                     let txt = '╔══✪〘 Mention All 〙✪══\n'
