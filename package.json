@@ -33,6 +33,8 @@
     "nhentai-api": "^3.0.2",
     "nhentai-js": "^4.0.0",
     "node-fetch": "^2.6.1",
+    "parse-ms": "^2.1.0",
+    "quick.db": "^7.1.3",
     "sagiri": "^3.1.1"
   }
 }

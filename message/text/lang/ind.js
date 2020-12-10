@@ -111,6 +111,10 @@ exports.received = (pushname) => {
     return `Halo ${pushname}!\nTerima kasih telah melapor, laporanmu akan kami segera terima.`
 }
 
+exports.limit = (time) => {
+    return `Maaf, tetapi kamu telah mencapai limit menggunakan command ini.\nSilakan tunggu *${time.hours}* jam *${time.minutes}* menit *${time.seconds}* detik lagi.`
+}
+
 exports.menu = () => {
     return `
 ------[ WELCOME ]-----

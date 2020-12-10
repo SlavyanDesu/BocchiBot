@@ -8,6 +8,8 @@ const nhentai = require('nhentai-js')
 const { API } = require('nhentai-api')
 const api = new API()
 const sagiri = require('sagiri')
+const db = require('quick.db')
+const ms = require('parse-ms')
 const saus = sagiri(config.nao, { results: 5 })
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
@@ -1102,14 +1104,30 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
+                const cd = 4.32e+7
+                const last = await db.get(`${sender.id.replace('@c.us', '')}.everyone`)
                 const groupMem = await bocchi.getGroupMembers(groupId)
-                let txt = '╔══✪〘 Mention All 〙✪══\n'
-                for (let i = 0; i < groupMem.length; i++) {
-                    txt += '╠➥'
-                    txt += ` @${groupMem[i].id.replace(/@c.us/g, '')}\n`
+                if (last !== null && cd - (Date.now() - last) > 0) {
+                    const time = ms(cd - (Date.now() - last))
+                    await bocchi.reply(from, ind.limit(time), id)
+                } else if (sender.id !== ownerNumber) {
+                    let txt = '╔══✪〘 Mention All 〙✪══\n'
+                    for (let i = 0; i < groupMem.length; i++) {
+                        txt += '╠➥'
+                        txt += ` @${groupMem[i].id.replace(/@c.us/g, '')}\n`
+                    }
+                    txt += '╚═〘 *B O C C H I  B O T* 〙'
+                    await bocchi.sendTextWithMentions(from, txt)
+                    await db.set(`${sender.id.replace('@c.us', '')}.everyone`, Date.now())
+                } else {
+                    let txt = '╔══✪〘 Mention All 〙✪══\n'
+                    for (let i = 0; i < groupMem.length; i++) {
+                        txt += '╠➥'
+                        txt += ` @${groupMem[i].id.replace(/@c.us/g, '')}\n`
+                    }
+                    txt += '╚═〘 *B O C C H I  B O T* 〙'
+                    await bocchi.sendTextWithMentions(from, txt)
                 }
-                txt += '╚═〘 *B O C C H I  B O T* 〙'
-                await bocchi.sendTextWithMentions(from, txt)
             break
 
             // Owner command
