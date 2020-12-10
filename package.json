@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@justalk/pornhub-api": "^3.4.0",
-    "@open-wa/wa-automate": "^3.1.6",
+    "@open-wa/wa-automate": "^3.1.7",
     "axios": "^0.21.0",
     "chalk": "^4.1.0",
     "cheerio": "^1.0.0-rc.3",
