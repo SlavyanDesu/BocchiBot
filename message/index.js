@@ -1147,24 +1147,26 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const ses = await bocchi.getSnapshot()
                 await bocchi.sendFile(from, ses, 'session.png', ind.doneOwner())
             break
-            case 'ban':
-                if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
-                if (mentionedJidList.length === 0) return await bocchi.reply(from, ind.wrongFormat(), id)
-                if (mentionedJidList[0] === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
-                if (ar === 'add') {
-                    for (let blist of mentionedJidList) {
-                        _ban.push(blist)
-                        fs.writeFileSync('./database/banned.json', JSON.stringify(_ban))
-                    }
-                    await bocchi.reply(from, ind.doneOwner(), id)
-                } else if (ar === 'del') {
-                    let benet = _ban.indexOf(mentionedJidList[0])
-                    _ban.splice(benet, 1)
-                    fs.writeFileSync('./database/banned.json', JSON.stringify(_ban))
-                    await bocchi.reply(from, ind.doneOwner(), id)
-                } else {
-                    await bocchi.reply(from, ind.wrongFormat(), id)
+                case 'ban':
+            if (!isOwner) return bocchi.reply(from, ind.ownerOnly(), id)
+            if (args.length == 0) return bocchi.reply(from, `Untuk banned seseorang agar tidak bisa menggunakan commands\n\nCaranya ketik: \n${prefix}ban add 628xx --untuk mengaktifkan\n${prefix}ban del 628xx --untuk nonaktifkan\n\ncara cepat ban banyak digrup ketik:\n${prefix}ban @tag @tag @tag`, id)
+            if (args[0] == 'add') {
+                _ban.push(args[1]+'@c.us')
+                fs.writeFileSync('./database/banned.json', JSON.stringify(_ban))
+                bocchi.reply(from, 'Success banned target!')
+            } else
+            if (args[0] == 'del') {
+                let xnxx = _ban.indexOf(args[1]+'@c.us')
+                _ban.splice(xnxx,1)
+                fs.writeFileSync('./database/banned.json', JSON.stringify(_ban))
+                bocchi.reply(from, 'Success unbanned target!')
+            } else {
+             for (let i = 0; i < mentionedJidList.length; i++) {
+                _ban.push(mentionedJidList[i])
+                fs.writeFileSync('./database/banned.json', JSON.stringify(_ban))
+                bocchi.reply(from, 'Success banned target!', id)
                 }
+            }
             break
             case 'eval':
             case 'ev':
