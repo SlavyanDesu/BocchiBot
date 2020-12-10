@@ -9,6 +9,8 @@ const { API } = require('nhentai-api')
 const api = new API()
 const sagiri = require('sagiri')
 const saus = sagiri(config.nao, { results: 5 })
+const bent = require('bent')
+const vhtearkey = 'ApiKey'
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 
@@ -91,6 +93,36 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Downloader
+           case 'joox':
+            if (args.length == 0) return bocchi.reply(from, `Kirim perintah *${prefix}joox*\nContoh : *${prefix}joox Alan Walker*`, id)
+            bocchi.reply(from, `Mohon tunggu sebentar...`, id)
+            arg = body.trim().split(' ')
+            console.log(...arg[1])
+            var slicedArgs = Array.prototype.slice.call(arg, 1);
+            console.log(slicedArgs)
+            const music = await slicedArgs.join(' ')
+            console.log(music)
+            try {
+            const music2 = await axios.get(`https://api.vhtear.com/music?query=` + music + `&apikey=${vhtearkey}`)
+            const { penyanyi, judul, album, linkImg, linkMp3, filesize, ext, duration } = music2.data.result[0]
+            const musik = `*User Ditemukan!*
+
+➸ *Penyanyi:* ${penyanyi}
+➸ *Judul:* ${judul}
+➸ *Album:* ${album}
+➸ *Ext:* ${ext}
+➸ *Size:* ${filesize}
+➸ *Durasi:* ${duration}`
+
+            const pictk = await bent("buffer")(linkImg)
+            const base64 = `data:image/jpg;base64,${pictk.toString("base64")}`
+            bocchi.sendImage(from, base64, judul, musik)
+            bocchi.sendFileFromUrl(from, linkMp3, `${judul}.mp3`, '', id)
+            } catch (err) {
+                console.error(err)
+                await bocchi.reply(from, err, id)
+           }
+          break
             case 'facebook':
             case 'fb':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
