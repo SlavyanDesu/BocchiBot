@@ -1110,7 +1110,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (last !== null && cd - (Date.now() - last) > 0) {
                     const time = ms(cd - (Date.now() - last))
                     await bocchi.reply(from, ind.limit(time), id)
-                } else if (sender.id !== ownerNumber) {
+                } else if (sender.id === ownerNumber) {
                     let txt = '╔══✪〘 Mention All 〙✪══\n'
                     for (let i = 0; i < groupMem.length; i++) {
                         txt += '╠➥'
@@ -1118,7 +1118,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     }
                     txt += '╚═〘 *B O C C H I  B O T* 〙'
                     await bocchi.sendTextWithMentions(from, txt)
-                    await db.set(`${sender.id.replace('@c.us', '')}.everyone`, Date.now())
                 } else {
                     let txt = '╔══✪〘 Mention All 〙✪══\n'
                     for (let i = 0; i < groupMem.length; i++) {
@@ -1127,6 +1126,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     }
                     txt += '╚═〘 *B O C C H I  B O T* 〙'
                     await bocchi.sendTextWithMentions(from, txt)
+                    await db.set(`${sender.id.replace('@c.us', '')}.everyone`, Date.now())
                 }
             break
 
