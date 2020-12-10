@@ -13,7 +13,7 @@ const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 
 const { msgFilter, color, processTime, isUrl } = require('../tools')
-const { nsfw, lirik, shortener, wiki, kbbi, bmkg, weeabo, medsos, nekopoi, downloader, sticker, fun} = require('../lib')
+const { nsfw, lirik, shortener, wiki, kbbi, bmkg, weeabo, medsos, nekopoi, downloader, sticker, fun } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
 const _nsfw = JSON.parse(fs.readFileSync('./database/nsfw.json'))
@@ -1108,7 +1108,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     txt += '╠➥'
                     txt += ` @${groupMem[i].id.replace(/@c.us/g, '')}\n`
                 }
-                txt += '╚═〘 *E L A I N A  B O T* 〙'
+                txt += '╚═〘 *B O C C H I  B O T* 〙'
                 await bocchi.sendTextWithMentions(from, txt)
             break
 
@@ -1147,26 +1147,35 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const ses = await bocchi.getSnapshot()
                 await bocchi.sendFile(from, ses, 'session.png', ind.doneOwner())
             break
-                case 'ban':
-            if (!isOwner) return bocchi.reply(from, ind.ownerOnly(), id)
-            if (args.length == 0) return bocchi.reply(from, `Untuk banned seseorang agar tidak bisa menggunakan commands\n\nCaranya ketik: \n${prefix}ban add 628xx --untuk mengaktifkan\n${prefix}ban del 628xx --untuk nonaktifkan\n\ncara cepat ban banyak digrup ketik:\n${prefix}ban @tag @tag @tag`, id)
-            if (args[0] == 'add') {
-                _ban.push(args[1]+'@c.us')
-                fs.writeFileSync('./database/banned.json', JSON.stringify(_ban))
-                bocchi.reply(from, 'Success banned target!')
-            } else
-            if (args[0] == 'del') {
-                let xnxx = _ban.indexOf(args[1]+'@c.us')
-                _ban.splice(xnxx,1)
-                fs.writeFileSync('./database/banned.json', JSON.stringify(_ban))
-                bocchi.reply(from, 'Success unbanned target!')
-            } else {
-             for (let i = 0; i < mentionedJidList.length; i++) {
-                _ban.push(mentionedJidList[i])
-                fs.writeFileSync('./database/banned.json', JSON.stringify(_ban))
-                bocchi.reply(from, 'Success banned target!', id)
+            case 'ban':
+                if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
+                if (ar[0] === 'add') {
+                    if (mentionedJidList.length !== 0) {
+                        if (mentionedJidList[0] === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
+                        for (let benet of mentionedJidList) {
+                            _ban.push(benet)
+                            fs.writeFileSync('./database/banned.json', JSON.stringify(_ban))
+                        }
+                        await bocchi.reply(from, ind.doneOwner(), id)
+                    } else {
+                        _ban.push(args[0] + '@c.us')
+                        fs.writeFileSync('./database/banned.json', JSON.stringify(_ban))
+                        await bocchi.reply(from, ind.doneOwner(), id)
+                    }
+                } else if (ar[0] === 'del') {
+                    if (mentionedJidList.length !== 0) {
+                        if (mentionedJidList[0] === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
+                        _ban.splice(_ban.indexOf(mentionedJidList[0]), 1)
+                        fs.writeFileSync('./database/banned.json', JSON.stringify(_ban))
+                        await bocchi.reply(from, ind.doneOwner(), id)
+                    } else{
+                        _ban.splice(args[0] + '@c.us', 1)
+                        fs.writeFileSync('./database/banned.json', JSON.stringify(_ban))
+                        await bocchi.reply(from, ind.doneOwner(), id)
+                    }
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
                 }
-            }
             break
             case 'eval':
             case 'ev':

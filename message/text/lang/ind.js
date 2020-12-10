@@ -473,7 +473,7 @@ Usage: *${prefix}getses*
 4. *${prefix}ban*
 Menambah/menghapus user yang diban.
 Aliases: -
-Usage: *${prefix}ban* <add/del> @user
+Usage: *${prefix}ban* <add/del> @user/62812xxxxxxxx
 
 5. *${prefix}leaveall*
 Keluar dari semua grup.
