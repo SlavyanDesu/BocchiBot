@@ -88,11 +88,11 @@ exports.botNotAdmin = () => {
 }
 
 exports.ytFound = (res) => {
-    return `Video ditemukan!\n\nTitle:\n${res.title}\n\nDescription:\n${res.desc}\n\nDurasi: ${res.duration} menit\n\nMedia sedang dikirim, mohon tunggu...`
+    return `*Video ditemukan!*\n\n➸ *Title*:${res.title}\n➸ *Description*:${res.desc}\n➸ *Durasi*: ${res.duration} menit\n\nMedia sedang dikirim, mohon tunggu...`
 }
 
 exports.notRegistered = () => {
-    return `Kamu belum terdaftar di database!\n\nSilakan register dengan format:\n*${prefix}register* <nama | daerah>\n\nTanpa tanda <>`
+    return `Kamu belum terdaftar di database!\n\nSilakan register dengan format:\n*${prefix}register* nama | daerah`
 }
 
 exports.registered = () => {
@@ -113,6 +113,10 @@ exports.limit = (time) => {
 
 exports.videoLimit = () => {
     return `Ukuran video terlalu besar!`
+}
+
+exports.joox = (result) => {
+    return `*Lagu ditemukan!*\n\n➸ *Penyanyi*: ${result[0].penyanyi}\n➸ *Judul*: ${result[0].judul}\n➸ *Album*: ${result[0].album}\n➸ *Ext*: ${result[0].ext}\n➸ *Size*: ${result[0].filesize}\n➸ *Durasi*: ${result[0].duration}\n\nMedia sedang dikirim, mohon tunggu...`
 }
 
 exports.menu = () => {
