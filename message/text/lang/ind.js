@@ -87,10 +87,6 @@ exports.botNotAdmin = () => {
     return `Jadikan bot sebagai admin terlebih dahulu!`
 }
 
-exports.ytLimit = () => {
-    return `Size video terlalu besar!`
-}
-
 exports.ytFound = (res) => {
     return `Video ditemukan!\n\nTitle:\n${res.title}\n\nDescription:\n${res.desc}\n\nDurasi: ${res.duration} menit\n\nMedia sedang dikirim, mohon tunggu...`
 }
@@ -113,6 +109,10 @@ exports.received = (pushname) => {
 
 exports.limit = (time) => {
     return `Maaf, tetapi kamu telah mencapai limit menggunakan command ini.\nSilakan tunggu *${time.hours}* jam *${time.minutes}* menit *${time.seconds}* detik lagi.`
+}
+
+exports.videoLimit = () => {
+    return `Ukuran video terlalu besar!`
 }
 
 exports.menu = () => {

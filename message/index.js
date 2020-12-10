@@ -576,7 +576,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .then(() => console.log('Success sending write image!'))
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, err,id)
+                        await bocchi.reply(from, err, id)
                     })
             break
 
@@ -612,15 +612,16 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const _mimetype = isQuotedVideo ? quotedMsg.mimetype : mimetype
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
                     const videoBase64 = `data:${_mimetype};base64,${mediaData.toString('base64')}`
-                    await bocchi.sendMp4AsSticker(from, videoBase64, { fps: 60, startTime: `00:00:00.0`, endTime : `00:00:05.0`, loop: 0 })
-                        .then(async () => {
-                            await bocchi.sendText(from, ind.ok())
-                            console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
-                        })
-                        .catch(async (err) => {
-                            console.error(err)
-                            await bocchi.reply(from, err, id)
-                        })
+                    try {
+                        await bocchi.sendMp4AsSticker(from, videoBase64, { fps: 24, startTime: `00:00:00.0`, endTime : `00:00:05.0`, loop: 0 })
+                            .then(async () => {
+                                await bocchi.sendText(from, ind.ok())
+                                console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
+                            })
+                    } catch (err) {
+                        console.error(err)
+                        await bocchi.reply(from, ind.videoLimit(), id)
+                    }
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
