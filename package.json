@@ -1,6 +1,6 @@
 {
   "name": "bocchibot",
-  "version": "0.4.0",
+  "version": "0.4.2",
   "description": "BocchiBot is a multipurpose WhatsApp bot.",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,6 @@
     "axios": "^0.21.0",
     "chalk": "^4.1.0",
     "cheerio": "^1.0.0-rc.3",
-    "ffmpeg": "0.0.4",
     "figlet": "^1.5.0",
     "file-type": "^16.0.1",
     "form-data": "^3.0.0",
