@@ -362,6 +362,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'tos':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.sendLinkWithAutoPreview(from, ind.tos())
             break
 
