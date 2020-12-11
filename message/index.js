@@ -11,7 +11,7 @@ const sagiri = require('sagiri')
 const db = require('quick.db')
 const ms = require('parse-ms')
 const saus = sagiri(config.nao, { results: 5 })
-const cooldown = 4.32e+7
+const cd = 4.32e+7
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 
