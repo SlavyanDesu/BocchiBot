@@ -537,12 +537,16 @@ exports.tos = () => {
 Bot ini merupakan open-source bot dengan nama asli BocchiBot yang tersedia di GitHub secara gratis.
 Owner/hoster dari bot ini terlepas dari tanggung jawab dan pengawasan developer (Slavyan).
 Owner/hoster boleh menjiplak, menambahkan, menghapus, mengganti source code dengan catatan *tidak memperjualbelikannya* dalam bentuk apapun.
-Apabila terjadi sebuah error, orang yang pertama yang harus Anda hubungi ialah owner/hoster.
+Apabila terjadi sebuah error, orang yang pertama yang harus kalian hubungi ialah owner/hoster.
 
 Kalian bisa melihat source code ini di GitHub:
 https://github.com/SlavyanDesu/BocchiBot
 
-Anda juga bisa mendukung saya agar bot ini tetap up to date dengan:
+Contact person:
+wa.me/${ownerNumber.replace('@c.us', '')} (Owner/hoster)
+wa.me/6281294958473 (Developer)
+
+Kalian juga bisa mendukung saya agar bot ini tetap up to date dengan:
 081294958473 (OVO/Telkomsel/GoPay)
 
 Terima kasih!
