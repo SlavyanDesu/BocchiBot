@@ -12,9 +12,11 @@
   <a href="https://github.com/uukina"><img src="https://avatars0.githubusercontent.com/u/54493113?s=400&u=9072f9bb6abf7185f4aea2fe12ed57c8dfb1e4f2&v=4" height="128" width="128" /></a>
   <a href="https://github.com/MrPawNO"><img src="https://avatars3.githubusercontent.com/u/13583912?s=400&u=8ef1749d80622ca2d5011d71171e5f8ac76334fb&v=4" height="128" width="128" /></a>
 </p>
+
 <p align="center">
   <a href="https://github.com/SlavyanDesu"><img title="Author" src="https://img.shields.io/badge/Author-SlavyanDesu-purple.svg?style=for-the-badge&logo=github" /></a>
 </p>
+
 <p align="center">
   <a href="https://github.com/SlavyanDesu/BocchiBot"><img title="Stars" src="https://img.shields.io/github/stars/SlavyanDesu/BocchiBot?color=red&style=flat-square" /></a>
   <a href="https://github.com/SlavyanDesu/BocchiBot/network/members"><img title="Forks" src="https://img.shields.io/github/forks/SlavyanDesu/BocchiBot?color=red&style=flat-square" /></a>
@@ -26,6 +28,7 @@
   <img src="https://img.shields.io/badge/maintained%3F-yes-green.svg?style=flat" />
   <img src="https://img.shields.io/github/repo-size/SlavyanDesu/BocchiBot" />
 </p>
+
 <p align="center">
   <a href="https://github.com/SlavyanDesu/BocchiBot#requirements">Requirements</a> •
   <a href="https://github.com/SlavyanDesu/BocchiBot#installation">Installation</a> •
@@ -33,6 +36,7 @@
   <a href="https://github.com/SlavyanDesu/BocchiBot#thanks-to">Thanks to</a> •
   <a href="https://github.com/SlavyanDesu/BocchiBot#license">License</a>
 </p>
+
 <details>
   <summary>Contact me!</summary>
 
@@ -198,7 +202,7 @@ If you want to unlock premium commands, please contact me~
 
 
 # Thanks to
-* [`Open-Wa/wa-automate-nodejs`](https://github.com/open-wa/wa-automate-nodejs)
+* [`open-wa/wa-automate-nodejs`](https://github.com/open-wa/wa-automate-nodejs)
 * [`YogaSakti/imageToSticker`](https://github.com/YogaSakti/imageToSticker)
 * [`uukina`](https://github.com/uukina)
 * [`MrPawNO`](https://github.com/MrPawNO)
