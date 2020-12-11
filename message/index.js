@@ -361,6 +361,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await db.set(`${sender.id.replace('@c.us', '')}.report`, Date.now())
                 }
             break
+            case 'tos':
+                await bocchi.sendLinkWithAutoPreview(from, ind.tos())
+            break
 
             // Weeb zone
             case 'neko':
