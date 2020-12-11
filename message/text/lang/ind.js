@@ -1,5 +1,5 @@
 const fs = require('fs-extra')
-const { prefix } = JSON.parse(fs.readFileSync('config.json'))
+const { prefix, ownerNumber } = JSON.parse(fs.readFileSync('config.json'))
 
 exports.wait = () => {
     return `Mohon tunggu sebentar~`
@@ -10,11 +10,11 @@ exports.ok = () => {
 }
 
 exports.wrongFormat = () => {
-    return `Format salah!`
+    return `Format salah! Silakan cek cara penggunaan di *${prefix}menu.`
 }
 
 exports.emptyMess = () => {
-    return `Silakan masukkan pesan yang ingin disampaikan!`
+    return `Harap masukkan pesan yang ingin disampaikan!`
 }
 
 exports.cmdNotFound = () => {
@@ -22,7 +22,7 @@ exports.cmdNotFound = () => {
 }
 
 exports.blocked = () => {
-    return `Bot tidak menerima panggilan. Karena kamu telah melanggar rules, maka kamu telah diblok!\n\nHarap hubungi owner: wa.me/6281294958473`
+    return `Bot tidak menerima panggilan. Karena kamu telah melanggar rules, maka kamu telah diblok!\n\nHarap hubungi owner: wa.me/${ownerNumber.replace('@c.us', '')}`
 }
 
 exports.ownerOnly = () => {
@@ -38,7 +38,7 @@ exports.groupOnly = () => {
 }
 
 exports.adminOnly = () => {
-    return `Hanya admin grup yang bisa menggunakan command ini!`
+    return `Command ini hanya bisa digunakan oleh admin grup!`
 }
 
 exports.notNsfw = () => {
@@ -54,7 +54,7 @@ exports.nsfwOff = () => {
 }
 
 exports.addedGroup = (chat) => {
-    return `Terima kasih telah mengundangku, para member *${chat.contact.name}*!\n\nKetik *${prefix}rules* terlebih dahulu ya~`
+    return `Terima kasih telah mengundangku, para member *${chat.contact.name}*!\n\nSilakan register dengan cara ketik:\n*${prefix} register nama | daerah`
 }
 
 exports.nhFalse = () => {
@@ -72,11 +72,11 @@ exports.notPremium = () => {
 }
 
 exports.notAdmin = () => {
-    return `User bukan admin!`
+    return `User bukan seorang admin!`
 }
 
 exports.adminAlready = () => {
-    return `Tidak dapat promote pengguna yang merupakan admin!`
+    return `Tidak dapat mem-promote user yang merupakan admin!`
 }
 
 exports.botNotPremium = () => {
@@ -124,20 +124,22 @@ exports.menu = () => {
 ------[ WELCOME ]-----
 
 Berikut adalah menu yang tersedia:
-[1] Downloader
-[2] Bot
-[3] Misc
-[4] Sticker
-[5] Weeaboo
-[6] Fun
-[7] Moderation
-[8] NSFW
-[9] Owner
+
+*[1]* Downloader
+*[2]* Bot
+*[3]* Misc
+*[4]* Sticker
+*[5]* Weeaboo
+*[6]* Fun
+*[7]* Moderation
+*[8]* NSFW
+*[9]* Owner
 
 Ketik *${prefix}menu* <angka_index> untuk membuka menu page yang dipilih.
 
 Catatan:
-Perlakukan bot secara lembut, dev akan bertindak tegas apabila user melanggar rules.
+Perlakukan bot secara baik, dev akan bertindak tegas apabila user melanggar rules.
+Bot ini terdapat anti-spam yang berupa cooldown command selama *5 detik* setiap kali pemakaian.
 
 Sincerely,
 Slavyan
@@ -527,8 +529,24 @@ wa.me/6281294958473 (Kal a.k.a. Slavyan)
     `
 }
 
+// Dimohon untuk owner/hoster jangan mengedit ini, terima kasih.
+exports.tos = () => {
+    return `
+-----[ TERMS OF SERVICE ]-----
 
+Bot ini merupakan open-source bot dengan nama asli BocchiBot yang tersedia di GitHub secara gratis.
+Owner/hoster dari bot ini terlepas dari tanggung jawab dan pengawasan developer (Slavyan).
+Owner/hoster boleh menjiplak, menambahkan, menghapus, mengganti source code dengan catatan *tidak memperjualbelikannya* dalam bentuk apapun.
+Apabila terjadi sebuah error, orang yang pertama yang harus Anda hubungi ialah owner/hoster.
 
+Kalian bisa melihat source code ini di GitHub:
+https://github.com/SlavyanDesu/BocchiBot
 
+Anda juga bisa mendukung saya agar bot ini tetap up to date dengan:
+081294958473 (OVO/Telkomsel/GoPay)
 
+Terima kasih!
 
+Slavyan.
+    `
+}
