@@ -111,15 +111,19 @@ After that scan the QR code using your WhatsApp apps in your phone!
 
 # Features
 If you want to unlock premium commands, please contact me~
-|  Sticker Maker  | Availability |
-| :-------------: | :----------: |
-| Send image      |      ✔️      |
-| Reply to image  |      ✔️      |
+|     Sticker Maker     | Availability |
+| :-------------------: | :----------: |
+| Send/reply image      |      ✔️      |
+| Send/reply GIF        |      ✔️      |
+| Send/reply MP4        |      ✔️      |
+| Text to sticker       |      ✔️      |
+| Text to sticker GIF   |      ✔️      |
 
 |      Downloader     | Availability |
 | :-----------------: | :----------: |
 | Facebook video      |      ✔️      |
 | YouTube audio/video |      ✔️      |
+| Joox                |      ✔️      |
 
 |       Misc       | Availability |
 | :--------------: | :----------: |
@@ -129,6 +133,14 @@ If you want to unlock premium commands, please contact me~
 | Wikipedia        |      ✔️      |
 | KBBI search      |      ✔️      |
 | IG stalk         |      ✔️      |
+
+|        Fun       | Availability |
+| :--------------: | :----------: |
+| Harta tahta      |      ✔️      |
+| Calender         |      ✔️      |
+| Weton jodoh      |      ✔️      |
+| Zodiac           |      ✔️      |
+| Write            |      ✔️      |
 
 |      Weeb Zone     | Availability |
 | :----------------: | :----------: |
@@ -144,21 +156,22 @@ If you want to unlock premium commands, please contact me~
 |        Bot       | Availability |
 | :--------------: | :----------: |
 | NSFW toogle      |      ✔️      |
-| Server usage     |      ✔️      |
+| Bot stats        |      ✔️      |
 | List block       |      ✔️      |
 | Ping             |      ✔️      |
 | Delete           |      ✔️      |
 | Report bug       |      ✔️      |
 
-|       Owner      | Availability |
-| :--------------: | :----------: |
-| Broadcast        |      ✔️      |
-| Clear messages   |      ✔️      |
-| Leave all groups |      ✔️      |
-| Ban              |      ✔️      |
-| Unban            |      ✔️      |
-| Eval             |      ✔️      |
-| Shutdown         |      ✔️      |
+|        Owner       | Availability |
+| :----------------: | :----------: |
+| Broadcast          |      ✔️      |
+| Clear all messages |      ✔️      |
+| Leave all groups   |      ✔️      |
+| Get session        |      ✔️      |
+| Ban                |      ✔️      |
+| Evaluates JS       |      ✔️      |
+| Shutdown           |      ✔️      |
+| Add premium user   |      ✔️      |
 
 |    Moderation    | Availability |
 | :--------------: | :----------: |
@@ -168,15 +181,17 @@ If you want to unlock premium commands, please contact me~
 | Demote           |      ✔️      |
 | Leave            |      ✔️      |
 | Everyone         |      ✔️      |
+| Toogle NSFW      |      ✔️      |
 
 |        NSFW        | Availability |
 | :----------------: | :----------: |
 | Lewds              |      ✔️      |
 | nHentai lookup     |      ✔️      |
 | Fetish             |      ✔️      |
-| Nekopoi            |      ✔️      |
+| Latest Nekopoi     |      ✔️      |
 | Waifu NSFW         |      ✔️      |
 | Pornhub downloader |      ✔️      |
+| Waifu 18+          |      ✔️      |
 | nHentai downloader |    Premium   |
 | Multi lewds        |    Premium   |
 | Multi fetish       |    Premium   |
