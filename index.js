@@ -23,13 +23,13 @@ const start = async (bocchi = new Client()) => {
     })
 
     // Listening added to group
-    bocchi.onAddedToGroup((chat) => bocchi.sendText(chat.groupMetadata.id, ind.addedGroup(chat)))
+    bocchi.onAddedToGroup(async (chat) => await bocchi.sendText(chat.groupMetadata.id, ind.addedGroup(chat)))
 
     // Listening on message
     bocchi.onMessage((message) => {
         bocchi.getAmountOfLoadedMessages()
             .then((msg) => {
-                if (msg >= 1000) {
+                if (msg >= 100) {
                     console.log('[BOCCHI]', color(`Loaded message reach ${msg}, cuting message cache...`, 'yellow'))
                     bocchi.cutMsgCache()
                         .then(() => console.log('[BOCCHI]', color('Cache deleted!', 'yellow')))
