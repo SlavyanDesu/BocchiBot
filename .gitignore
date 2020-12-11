@@ -7,12 +7,9 @@ node_modules
 # Debug file
 debug.log
 
-# Dot file
-.node-persist
-
-# Local files
-config.json
+# Local folders/files
 database
 asupan
 docs
 json.sqlite
+.node_persist
