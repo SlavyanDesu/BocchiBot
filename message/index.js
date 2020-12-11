@@ -98,7 +98,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'joox':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
-                await bocchi.reply(from, `Mohon tunggu sebentar...`, id)
+                await bocchi.reply(from, ind.wait(), id)
                 downloader.joox(q)
                     .then(async ({ result }) => {
                         await bocchi.sendFileFromUrl(from, result[0].linkImg, `${result[0].judul}.jpg`, ind.joox(result), id)
