@@ -119,6 +119,14 @@ exports.joox = (result) => {
     return `*Lagu ditemukan!*\n\n➸ *Penyanyi*: ${result[0].penyanyi}\n➸ *Judul*: ${result[0].judul}\n➸ *Album*: ${result[0].album}\n➸ *Ext*: ${result[0].ext}\n➸ *Size*: ${result[0].filesize}\n➸ *Durasi*: ${result[0].duration}\n\nMedia sedang dikirim, mohon tunggu...`
 }
 
+exports.gsm = (result) => {
+    return `➸ *Model HP*: ${result.title}\n➸ *Spesifikasi*: ${result.spec}`
+}
+
+exports.receipt = (result) => {
+    return `${result.title}\n\n${result.desc}\n\n*Bahan*: ${result.bahan}\n\n*Cara membuat*:\n${result.cara}`
+}
+
 exports.menu = () => {
     return `
 ------[ WELCOME ]-----
@@ -255,6 +263,16 @@ Usage: *${prefix}kbbi* teks
 Stalk akun Instagram.
 Aliases: -
 Usage: *${prefix}igstalk* username
+
+7. *${prefix}gsmarena*
+Mengirim info spesifikasi HP dari GSMArena.
+Aliases: -
+Usage: *${prefix}gsmarena* model_hp
+
+8. *${prefix}receipt*
+Mengirim resep makanan.
+Aliases: *resep*
+Usage: *${prefix}receipt* nama_makanan
 
 _Index of [3]_
     `

@@ -119,6 +119,14 @@ exports.joox = (result) => {
     return `*Song found!*\n\n➸ *Singer*: ${result[0].penyanyi}\n➸ *Title*: ${result[0].judul}\n➸ *Album*: ${result[0].album}\n➸ *Ext*: ${result[0].ext}\n➸ *Size*: ${result[0].filesize}\n➸ *Duration*: ${result[0].duration}\n\nMedia is being shipped, please wait...`
 }
 
+exports.gsm = (result) => {
+    return `➸ *Phone model*: ${result.title}\n➸ *Spesification*: ${result.spec}`
+}
+
+exports.receipt = (result) => {
+    return `${result.title}\n\n${result.desc}\n\n*Ingredients*: ${result.bahan}\n\n*Steps*:\n${result.cara}`
+}
+
 exports.menu = () => {
     return `
 ------[ WELCOME ]-----

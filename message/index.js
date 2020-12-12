@@ -7,7 +7,6 @@ const os = require('os')
 const nhentai = require('nhentai-js')
 const { API } = require('nhentai-api')
 const api = new API()
-const axios = require('axios')
 const sagiri = require('sagiri')
 const db = require('quick.db')
 const ms = require('parse-ms')
@@ -17,7 +16,7 @@ const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 
 const { msgFilter, color, processTime, isUrl } = require('../tools')
-const { nsfw, lirik, shortener, wiki, kbbi, bmkg, weeaboo, medsos, nekopoi, downloader, sticker, fun } = require('../lib')
+const { nsfw, lirik, shortener, wiki, kbbi, bmkg, weeaboo, medsos, nekopoi, downloader, sticker, fun, search } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
 const _nsfw = JSON.parse(fs.readFileSync('./database/nsfw.json'))
@@ -169,39 +168,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-                
-                //SEARCH ANY
-           case 'resep':
-                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (args.length == 0) return bocchi.reply(from, ind.wrongFormat(), id)
-                bocchi.reply(from, ind.wait(), id)
-                try {
-                console.log('Mengambil informasi resep masakan...')
-                const prog = await axios.get('https://api.vhtear.com/resepmasakan?query=' + body.slice(8) + `&apikey=${vhtearkey}`)
-                if (prog.data.error) return bocchi.reply(from, prog.data.error, id)
-                const resep = `${prog.data.result.title}\n\n${prog.data.result.desc}\n\nBahan: ${prog.data.result.bahan}\n\n*Tutorial*:\n${prog.data.result.cara}`
-                bocchi.sendFileFromUrl(from, prog.data.result.image, 'makanan.jpg', resep, id)
-                console.log('Sukses mengirim informasi resep masakan!')
-                } catch (err) {
-                    console.error(err)
-                        await vf.reply(from, `Ada yang Error!\nmungkin kata kunci yang anda cari tidak ada`, id)
-               }
-                break
-           case 'infohp':
-                    if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                    if (args.length == 0) return bocchi.reply(from, ind.wrongFormat(), id)
-                    try {
-                    console.log('Mengambil informasi hp...')
-                    const prog = await axios.get('https://api.vhtear.com/gsmarena?query=' + body.slice(8) + `&apikey=${vhtearkey}`)
-                    if (prog.data.error) return bocchi.reply(from, prog.data.error, id)
-                    const infhp = `➸ Title : ${prog.data.result.title}\n➸ Spesifikasi: ${prog.data.result.spec}`
-                    bocchi.sendFileFromUrl(from, prog.data.result.image, 'gbrhp.jpg', infhp, id)
-                    console.log('Sukses mengirim informasi hp!')
-                    } catch (err) {
-                        console.error(err)
-                            await bocchi.reply(from, `Ada yang Error!\nmungkin kata kunci yang anda cari tidak ada`, id)
-                   }
-                    break
 
             // Misc
             case 'say':
@@ -305,7 +271,40 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-            
+            case 'gsmarena':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                try {
+                    search.gsmarena(q)
+                        .then(async ({ result, error }) => {
+                            if (error) return await bocchi.reply(from, error, id)
+                            await bocchi.sendFileFromUrl(from, result.image, `${result.title}.jpg`, ind.gsm(result), id)
+                                .then(() => console.log('Success sending phone info!'))
+                        })
+                } catch (err) {
+                    console.error(err)
+                    await bocchi.reply(from, 'Error!', id)
+                }
+            break
+            case 'receipt':
+            case 'resep':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                try {
+                    search.resep(q)
+                        .then(async ({ error, result }) => {
+                            if (error) return await bocchi.reply(from, error, id)
+                            await bocchi.sendFileFromUrl(from, result.image, `${result.title}.jpg`, ind.receipt(result), id)
+                                .then(() => console.log('Success sending food receipt!'))
+                        })
+                } catch (err) {
+                    console.error(err)
+                    await bocchi.reply(from, 'Error!', id)
+                }
+            break
+
             // Bot
             case 'menu':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
