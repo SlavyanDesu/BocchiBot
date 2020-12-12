@@ -7,6 +7,7 @@ const os = require('os')
 const nhentai = require('nhentai-js')
 const { API } = require('nhentai-api')
 const api = new API()
+const axios = require('axios')
 const sagiri = require('sagiri')
 const saus = sagiri(config.nao, { results: 5 })
 const bent = require('bent')
@@ -182,7 +183,24 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
                 
                 //SEARCH ANY
+           case 'resep':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (args.length == 0) return bocchi.reply(from, ind.wrongFormat(), id)
+                bocchi.reply(from, ind.wait(), id)
+                try {
+                console.log('Mengambil informasi resep masakan...')
+                const prog = await axios.get('https://api.vhtear.com/resepmasakan?query=' + body.slice(8) + `&apikey=${vhtearkey}`)
+                if (prog.data.error) return bocchi.reply(from, prog.data.error, id)
+                const resep = `${prog.data.result.title}\n\n${prog.data.result.desc}\n\nBahan: ${prog.data.result.bahan}\n\n*Tutorial*:\n${prog.data.result.cara}`
+                bocchi.sendFileFromUrl(from, prog.data.result.image, 'makanan.jpg', resep, id)
+                console.log('Sukses mengirim informasi resep masakan!')
+                } catch (err) {
+                    console.error(err)
+                        await vf.reply(from, `Ada yang Error!\nmungkin kata kunci yang anda cari tidak ada`, id)
+               }
+                break
            case 'infohp':
+                    if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                     if (args.length == 0) return bocchi.reply(from, ind.wrongFormat(), id)
                     try {
                     console.log('Mengambil informasi hp...')
