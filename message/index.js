@@ -722,6 +722,23 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
+            case 'stickertoimg':
+            case 'stikertoimg':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (isQuotedSticker) {
+                    await bocchi.reply(from, ind.wait(), id)
+                    try {
+                        const mediaData = await decryptMedia(quotedMsg, uaOverride)
+                        const imageBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
+                        await bocchi.sendFile(from, imageBase64, 'sticker.jpg', '', id)
+                    } catch (err) {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    }
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
+            break
 
             // NSFW
             case 'multilewds':

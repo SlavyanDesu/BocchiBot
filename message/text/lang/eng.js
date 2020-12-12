@@ -289,6 +289,11 @@ Create text to GIF stickers.
 Aliases: -
 Usage: *${prefix}ttg* text
 
+4. *${prefix}stickertoimg*
+Convert stickers to image.
+Aliases: *stikertoimg*
+Usage: Reply to the stickers with a caption *${prefix}stickertoimg*.
+
 _Index of [4]_
     `
 }

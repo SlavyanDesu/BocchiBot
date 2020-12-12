@@ -289,6 +289,11 @@ Membuat stiker text to GIF.
 Aliases: -
 Usage: *${prefix}ttg* teks
 
+4. *${prefix}stickertoimg*
+Konversi stiker ke foto.
+Aliases: *stikertoimg*
+Usage: Reply sticker dengan caption *${prefix}stickertoimg*.
+
 _Index of [4]_
     `
 }

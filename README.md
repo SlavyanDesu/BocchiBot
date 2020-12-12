@@ -123,6 +123,7 @@ If you want to unlock premium commands, please contact me~
 | Send/reply MP4        |      ✔️      |
 | Text to sticker       |      ✔️      |
 | Text to sticker GIF   |      ✔️      |
+| Sticker to image      |      ✔️      |
 
 |      Downloader     | Availability |
 | :-----------------: | :----------: |
