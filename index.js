@@ -3,6 +3,8 @@ const { color, options } = require('./tools')
 const { ind, eng } = require('./message/text/lang/')
 const figlet = require('figlet')
 const msgHandler = require('./message')
+const config = require('./config.json')
+const ownerNumber = config.ownerBot
 
 const start = async (bocchi = new Client()) => {
     console.log(color(figlet.textSync('BocchiBot', 'Larry 3D'), 'cyan'))
@@ -40,7 +42,7 @@ const start = async (bocchi = new Client()) => {
 
     // Block person who called bot
     bocchi.onIncomingCall(async (callData) => {
-        await bocchi.sendText(callData.peerJid, ind.blocked())
+        await bocchi.sendText(callData.peerJid, ind.blocked(ownerNumber))
         await bocchi.contactBlock(callData.peerJid)
             .then(() => console.log(color('[BLOCK]', 'red'), color(`${callData.peerJid} has been blocked. Reason:`, 'yellow'), color('CALLING THE BOT', 'cyan')))
     })
