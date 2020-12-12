@@ -279,9 +279,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else if (args[0] === '2') {
                     await bocchi.sendText(from, ind.menuBot())
                 } else if (args[0] === '3') {
-                    await bocchi.sendText(from, ind.menuSticker())
-                } else if (args[0] === '4') {
                     await bocchi.sendText(from, ind.menuMisc())
+                } else if (args[0] === '4') {
+                    await bocchi.sendText(from, ind.menuSticker())
                 } else if (args[0] === '5') {
                     await bocchi.sendText(from, ind.menuWeeaboo())
                 } else if (args[0] === '6') {
@@ -363,7 +363,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'tos':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                await bocchi.sendLinkWithAutoPreview(from, ind.tos())
+                await bocchi.sendLinkWithAutoPreview(from, 'https://github.com/SlavyanDesu/BocchiBot', ind.tos(ownerNumber))
             break
             case 'join':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)

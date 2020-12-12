@@ -1,5 +1,5 @@
 const fs = require('fs-extra')
-const { prefix, ownerNumber } = JSON.parse(fs.readFileSync('config.json'))
+const { prefix } = JSON.parse(fs.readFileSync('config.json'))
 
 exports.wait = () => {
     return `Mohon tunggu sebentar~`
@@ -21,7 +21,7 @@ exports.cmdNotFound = () => {
     return `Command tidak ditemukan!`
 }
 
-exports.blocked = () => {
+exports.blocked = (ownerNumber) => {
     return `Bot tidak menerima panggilan. Karena kamu telah melanggar rules, maka kamu telah diblok!\n\nHarap hubungi owner: wa.me/${ownerNumber.replace('@c.us', '')}`
 }
 
@@ -550,7 +550,7 @@ wa.me/6281294958473 (Kal a.k.a. Slavyan)
 }
 
 // Dimohon untuk owner/hoster jangan mengedit ini, terima kasih.
-exports.tos = () => {
+exports.tos = (ownerNumber) => {
     return `
 -----[ TERMS OF SERVICE ]-----
 
