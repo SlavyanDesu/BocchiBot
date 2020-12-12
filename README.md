@@ -139,6 +139,8 @@ If you want to unlock premium commands, please contact me~
 | Wikipedia        |      ✔️      |
 | KBBI search      |      ✔️      |
 | IG stalk         |      ✔️      |
+| GSMArena         |      ✔️      |
+| Food receipt     |      ✔️      |
 
 |        Fun       | Availability |
 | :--------------: | :----------: |
