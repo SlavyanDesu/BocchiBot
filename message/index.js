@@ -637,7 +637,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wait(), id)
                     try {
                         const mediaData = await decryptMedia(message, uaOverride)
-                        await bocchi.sendMp4AsSticker(from, mediaData, { fps: 24 })
+                        await bocchi.sendMp4AsSticker(from, mediaData, { fps: 24, startTime: `00:00:00.0`, endTime : `00:00:05.0`, loop: 0 })
                             .then(async () => {
                                 console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                                 await bocchi.sendText(from, ind.ok())
@@ -650,7 +650,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wait(), id)
                     try {
                         const mediaData = await decryptMedia(quotedMsg, uaOverride)
-                        await bocchi.sendMp4AsSticker(from, mediaData, { fps: 24 })
+                        await bocchi.sendMp4AsSticker(from, mediaData, { fps: 24, startTime: `00:00:00.0`, endTime : `00:00:05.0`, loop: 0 })
                             .then(async () => {
                                 console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                                 await bocchi.sendText(from, ind.ok())
