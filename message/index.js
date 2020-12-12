@@ -277,8 +277,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
                 try {
                     search.gsmarena(q)
-                        .then(async ({ result, error }) => {
-                            if (error) return await bocchi.reply(from, error, id)
+                        .then(async ({ result }) => {
                             await bocchi.sendFileFromUrl(from, result.image, `${result.title}.jpg`, ind.gsm(result), id)
                                 .then(() => console.log('Success sending phone info!'))
                         })
@@ -294,10 +293,28 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
                 try {
                     search.resep(q)
-                        .then(async ({ error, result }) => {
-                            if (error) return await bocchi.reply(from, error, id)
+                        .then(async ({ result }) => {
                             await bocchi.sendFileFromUrl(from, result.image, `${result.title}.jpg`, ind.receipt(result), id)
                                 .then(() => console.log('Success sending food receipt!'))
+                        })
+                } catch (err) {
+                    console.error(err)
+                    await bocchi.reply(from, 'Error!', id)
+                }
+            break
+            case 'ytsearch':
+            case 'yts':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                try {
+                    search.ytSearch(q)
+                        .then(async ({ result }) => {
+                            for (let i = 0; i < result.length; i++) {
+                                const { urlyt, image, title, channel, duration, views } = await result[i]
+                                await bocchi.sendFileFromUrl(from, image, `${title}.jpg`, ind.ytResult(urlyt, title, channel, duration, views), id)
+                                console.log('Success sending YouTube results!')
+                            }
                         })
                 } catch (err) {
                     console.error(err)

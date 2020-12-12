@@ -127,6 +127,10 @@ exports.receipt = (result) => {
     return `${result.title}\n\n${result.desc}\n\n*Bahan*: ${result.bahan}\n\n*Cara membuat*:\n${result.cara}`
 }
 
+exports.ytResult = (urlyt, title, channel, duration, views) => {
+    return `➸ *Judul*: ${title}\n➸ *Channel*: ${channel}\n➸ *Durasi*: ${duration}\n➸ *Views*: ${views}\n➸ *Link*: ${urlyt}`
+}
+
 exports.menu = () => {
     return `
 ------[ WELCOME ]-----
@@ -273,6 +277,11 @@ Usage: *${prefix}gsmarena* model_hp
 Mengirim resep makanan.
 Aliases: *resep*
 Usage: *${prefix}receipt* nama_makanan
+
+9. *${prefix}ytsearch*
+Mengirim hasil pencarian di YouTube.
+Aliases: *yts*
+Usage: *${prefix}ytsearch* query
 
 _Index of [3]_
     `

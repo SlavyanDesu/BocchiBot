@@ -127,6 +127,10 @@ exports.receipt = (result) => {
     return `${result.title}\n\n${result.desc}\n\n*Ingredients*: ${result.bahan}\n\n*Steps*:\n${result.cara}`
 }
 
+exports.ytResult = (urlyt, title, channel, duration, views) => {
+    return `➸ *Title*: ${title}\n➸ *Channel*: ${channel}\n➸ *Durations*: ${duration}\n➸ *Views*: ${views}\n➸ *Link*: ${urlyt}`
+}
+
 exports.menu = () => {
     return `
 ------[ WELCOME ]-----
@@ -263,6 +267,21 @@ Usage: *${prefix}kbbi* text
 Stalk Instagram account.
 Aliases: -
 Usage: *${prefix}igstalk* ig_username
+
+7. *${prefix}gsmarena*
+Sending phone info from GSMArena.
+Aliases: -
+Usage: *${prefix}gsmarena* phone's_model
+
+8. *${prefix}receipt*
+Sending food receipt.
+Aliases: *resep*
+Usage: *${prefix}receipt* food's_name
+
+9. *${prefix}ytsearch*
+Sending YouTube search results.
+Aliases: *yts*
+Usage: *${prefix}ytsearch* query
 
 _Index of [3]_
     `
