@@ -522,7 +522,7 @@ Usage: *${prefix}premium* add/del @user
 
 9. *${prefix}setstatus*
 Set about me.
-Aliases: *setstatus*
+Aliases: *setstatus setstat*
 Usage: *${prefix}status* text
 
 _Index of [9]_
