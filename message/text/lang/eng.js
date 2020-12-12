@@ -213,6 +213,11 @@ Terms of service.
 Aliases: -
 Usage: *${prefix}tos*
 
+9. *${prefix}join*
+Join to group via link.
+Aliases: -
+Usage: *${prefix}join* group's_link
+
 _Index of [2]_
     `
 }
@@ -408,6 +413,11 @@ Turn off / turn on NSFW mode.
 Aliases: -
 Usage: *${prefix}nsfw* enable/disable
 
+8. *${prefix}groupicon*
+Change group icon.
+Aliases: -
+Usage: Send images with caption *${prefix}groupicon* or reply to the images with a caption *${prefix}groupicon*.
+
 _Index of [7]_
     `
 }
@@ -509,6 +519,11 @@ Usage: *${prefix}shutdown*
 Add / remove premium users.
 Aliases: -
 Usage: *${prefix}premium* add/del @user
+
+9. *${prefix}status*
+Set about me.
+Aliases: -
+Usage: *${prefix}status* text
 
 _Index of [9]_
     `

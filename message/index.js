@@ -366,6 +366,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.sendLinkWithAutoPreview(from, ind.tos())
             break
+            case 'join':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isUrl(url)) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.joinGroupViaLink(url)
+                await bocchi.sendText(from, ind.ok())
+            break
 
             // Weeb zone
             case 'neko':
@@ -1141,7 +1147,24 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await db.set(`${sender.id.replace('@c.us', '')}.everyone`, Date.now())
                 }
             break
-
+            case 'groupicon':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
+                if (!isBotGroupAdmins) return bocchi.reply(from, ind.botNotAdmin(), id)
+                if (isMedia && type === 'image' || isQuotedImage) {
+                    await bocchi.reply(from, ind.wait(), id)
+                    const encryptMedia = isQuotedImage ? quotedMsg : message
+                    const _mimetype = isQuotedImage ? quotedMsg.mimetype : mimetype
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const imageBase64 = `data:${_mimetype};base64,${mediaData.toString('base64')}`
+                    await bocchi.setGroupIcon(groupId, imageBase64)
+                    await bocchi.sendText(from, ind.ok())
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
+            break
+            
             // Owner command
             case 'bc':
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
@@ -1242,6 +1265,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
+            break
+            case 'status':
+                if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
+                if (!q) return await bocchi.reply(from, ind.emptyMess(), id)
+                await bocchi.setMyStatus(q)
+                await bocchi.sendText(from, ind.doneOwner())
             break
             default:
                 console.log(color('[ERROR]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), 'Unregistered command from', color(pushname))

@@ -166,6 +166,7 @@ If you want to unlock premium commands, please contact me~
 | Ping             |      ✔️      |
 | Delete           |      ✔️      |
 | Report bug       |      ✔️      |
+| Group join       |      ✔️      |
 
 |        Owner       | Availability |
 | :----------------: | :----------: |
@@ -177,6 +178,7 @@ If you want to unlock premium commands, please contact me~
 | Evaluates JS       |      ✔️      |
 | Shutdown           |      ✔️      |
 | Add premium user   |      ✔️      |
+| Set status         |      ✔️      |
 
 |    Moderation    | Availability |
 | :--------------: | :----------: |
@@ -187,6 +189,7 @@ If you want to unlock premium commands, please contact me~
 | Leave            |      ✔️      |
 | Everyone         |      ✔️      |
 | Toogle NSFW      |      ✔️      |
+| Set group icon   |      ✔️      |
 
 |        NSFW        | Availability |
 | :----------------: | :----------: |

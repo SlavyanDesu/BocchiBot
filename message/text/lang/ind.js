@@ -213,6 +213,11 @@ Syarat dan ketentuan. (TOS)
 Aliases: -
 Usage: *${prefix}tos*
 
+9. *${prefix}join*
+Join grup via link.
+Aliases: -
+Usage: *${prefix}join* link_group
+
 _Index of [2]_
     `
 }
@@ -408,6 +413,11 @@ Mematikan/menyalakan mode NSFW.
 Aliases: -
 Usage: *${prefix}nsfw* enable/disable
 
+8. *${prefix}groupicon*
+Mengganti icon grup.
+Aliases: -
+Usage: Kirim gambar dengan caption *${prefix}groupicon* atau reply gambar dengan caption *${prefix}groupicon*.
+
 _Index of [7]_
     `
 }
@@ -509,6 +519,11 @@ Usage: *${prefix}shutdown*
 Menambah/menghapus user premium.
 Aliases: -
 Usage: *${prefix}premium* add/del @user
+
+9. *${prefix}status*
+Mengganti status about me.
+Aliases: -
+Usage: *${prefix}status* teks
 
 _Index of [9]_
     `
