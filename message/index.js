@@ -58,6 +58,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
         const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
         const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
+        const isQuotedGif = quotedMsg && quotedMsg.mimetype === 'image/gif'
 
         // Ignore non-cmd
         if (!isCmd) return
@@ -632,14 +633,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'stickergif':
             case 'stikergif':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (isMedia && type === 'video' || isQuotedVideo) {
+                if (isMedia && type === 'video' || mimetype === 'image/gif') {
                     await bocchi.reply(from, ind.wait(), id)
                     try {
-                        const encryptMedia = isQuotedVideo ? quotedMsg : message
-                        const _mimetype = isQuotedVideo ? quotedMsg.mimetype : mimetype
-                        const mediaData = await decryptMedia(encryptMedia, uaOverride)
-                        const videoBase64 = `data:${_mimetype};base64,${mediaData.toString('base64')}`
-                        await bocchi.sendMp4AsSticker(from, videoBase64, { fps: 24, startTime: `00:00:00.0`, endTime : `00:00:05.0`, loop: 0 })
+                        const mediaData = await decryptMedia(message, uaOverride)
+                        await bocchi.sendMp4AsSticker(from, mediaData, { fps: 24 })
                             .then(async () => {
                                 console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                                 await bocchi.sendText(from, ind.ok())
@@ -648,11 +646,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         console.error(err)
                         await bocchi.reply(from, ind.videoLimit(), id)
                     }
-                } else if (mimetype === 'image/gif') {
+                } else if (isQuotedGif || isQuotedVideo) {
                     await bocchi.reply(from, ind.wait(), id)
                     try {
-                        const mediaData = await decryptMedia(message, uaOverride)
-                        await bocchi.sendMp4AsSticker(from, mediaData, { fps: 24, startTime: `00:00:00.0`, endTime : `00:00:05.0`, loop: 0 })
+                        const mediaData = await decryptMedia(quotedMsg, uaOverride)
+                        await bocchi.sendMp4AsSticker(from, mediaData, { fps: 24 })
                             .then(async () => {
                                 console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                                 await bocchi.sendText(from, ind.ok())
