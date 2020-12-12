@@ -208,6 +208,11 @@ Laporkan bug ke dev.
 Aliases: -
 Usage: *${prefix}report* pesan
 
+8. *${prefix}tos*
+Syarat dan ketentuan. (TOS)
+Aliases: -
+Usage: *${prefix}tos*
+
 _Index of [2]_
     `
 }

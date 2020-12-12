@@ -208,6 +208,11 @@ Report bugs to dev.
 Aliases: -
 Usage: *${prefix}report* text
 
+8. *${prefix}tos*
+Terms of service.
+Aliases: -
+Usage: *${prefix}tos*
+
 _Index of [2]_
     `
 }
