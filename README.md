@@ -116,6 +116,11 @@ After that scan the QR code using your WhatsApp apps in your phone!
 
 # Features
 If you want to unlock premium commands, please contact me~
+
+|      Register      |  Conditions  |
+| :----------------: | :----------: |
+| Register required? |      Yes     |
+
 |     Sticker Maker     | Availability |
 | :-------------------: | :----------: |
 | Send/reply image      |      ✔️      |
