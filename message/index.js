@@ -180,6 +180,22 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, err, id)
                     })
             break
+                
+                //SEARCH ANY
+           case 'infohp':
+                    if (args.length == 0) return bocchi.reply(from, ind.wrongFormat(), id)
+                    try {
+                    console.log('Mengambil informasi hp...')
+                    const prog = await axios.get('https://api.vhtear.com/gsmarena?query=' + body.slice(8) + `&apikey=${vhtearkey}`)
+                    if (prog.data.error) return bocchi.reply(from, prog.data.error, id)
+                    const infhp = `➸ Title : ${prog.data.result.title}\n➸ Spesifikasi: ${prog.data.result.spec}`
+                    bocchi.sendFileFromUrl(from, prog.data.result.image, 'gbrhp.jpg', infhp, id)
+                    console.log('Sukses mengirim informasi hp!')
+                    } catch (err) {
+                        console.error(err)
+                            await bocchi.reply(from, `Ada yang Error!\nmungkin kata kunci yang anda cari tidak ada`, id)
+                   }
+                    break
 
             // Misc
             case 'say':
