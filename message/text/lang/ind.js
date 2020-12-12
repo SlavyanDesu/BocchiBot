@@ -520,9 +520,9 @@ Menambah/menghapus user premium.
 Aliases: -
 Usage: *${prefix}premium* add/del @user
 
-9. *${prefix}status*
+9. *${prefix}setstatus*
 Mengganti status about me.
-Aliases: -
+Aliases: *setstats*
 Usage: *${prefix}status* teks
 
 _Index of [9]_

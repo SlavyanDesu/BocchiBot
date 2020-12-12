@@ -520,9 +520,9 @@ Add / remove premium users.
 Aliases: -
 Usage: *${prefix}premium* add/del @user
 
-9. *${prefix}status*
+9. *${prefix}setstatus*
 Set about me.
-Aliases: -
+Aliases: *setstatus*
 Usage: *${prefix}status* text
 
 _Index of [9]_
