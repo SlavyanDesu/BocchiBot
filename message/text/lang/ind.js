@@ -10,7 +10,7 @@ exports.ok = () => {
 }
 
 exports.wrongFormat = () => {
-    return `Format salah! Silakan cek cara penggunaan di *${prefix}menu.`
+    return `Format salah! Silakan cek cara penggunaan di *${prefix}menu*.`
 }
 
 exports.emptyMess = () => {
@@ -54,7 +54,7 @@ exports.nsfwOff = () => {
 }
 
 exports.addedGroup = (chat) => {
-    return `Terima kasih telah mengundangku, para member *${chat.contact.name}*!\n\nSilakan register dengan cara ketik:\n*${prefix} register nama | daerah`
+    return `Terima kasih telah mengundangku, para member *${chat.contact.name}*!\n\nSilakan register dengan cara ketik:\n*${prefix}*register nama | daerah`
 }
 
 exports.nhFalse = () => {
@@ -88,7 +88,7 @@ exports.botNotAdmin = () => {
 }
 
 exports.ytFound = (res) => {
-    return `*Video ditemukan!*\n\n➸ *Title*:${res.title}\n➸ *Description*:${res.desc}\n➸ *Durasi*: ${res.duration} menit\n\nMedia sedang dikirim, mohon tunggu...`
+    return `*Video ditemukan!*\n\n➸ *Judul*:${res.title}\n➸ *Deskripsi*:${res.desc}\n➸ *Durasi*: ${res.duration} menit\n\nMedia sedang dikirim, mohon tunggu...`
 }
 
 exports.notRegistered = () => {
@@ -135,7 +135,7 @@ Berikut adalah menu yang tersedia:
 *[8]* NSFW
 *[9]* Owner
 
-Ketik *${prefix}menu* <angka_index> untuk membuka menu page yang dipilih.
+Ketik *${prefix}menu* angka_index untuk membuka menu page yang dipilih.
 
 Catatan:
 Perlakukan bot secara baik, dev akan bertindak tegas apabila user melanggar rules.
@@ -153,17 +153,17 @@ exports.menuDownloader = () => {
 1. *${prefix}facebook*
 Download Facebook video.
 Aliases: *fb*
-Usage: *${prefix}facebook* <video link>
+Usage: *${prefix}facebook* video_link
 
 2. *${prefix}ytmp3*
 Download YouTube audio.
 Aliases: -
-Usage: *${prefix}ytmp3* <link>
+Usage: *${prefix}ytmp3* link
 
 3. *${prefix}ytmp4*
 Download YouTube video.
 Aliases: -
-Usage: *${prefix}ytmp4* <link>
+Usage: *${prefix}ytmp4* link
 
 _Index of [1]_
     `
@@ -181,7 +181,7 @@ Usage: *${prefix}rules*
 2. *${prefix}menu*
 Menampilkan commands yang tersedia.
 Aliases: -
-Usage: *${prefix}menu* <angka_index>
+Usage: *${prefix}menu* angka_index
 
 3. *${prefix}status*
 Menampilkan status bot.
@@ -201,12 +201,12 @@ Usage: *${prefix}ping*
 6. *${prefix}delete*
 Hapus pesan dari bot.
 Aliases: *del*
-Usage: Reply pesan yang dihapus dengan caption *${prefix}del*.
+Usage: Reply pesan yang dihapus dengan caption *${prefix}delete*.
 
 7. *${prefix}report*
 Laporkan bug ke dev.
 Aliases: -
-Usage: *${prefix}report* <pesan>
+Usage: *${prefix}report* pesan
 
 _Index of [2]_
     `
@@ -219,32 +219,32 @@ exports.menuMisc = () => {
 1. *${prefix}say*
 Bot akan mengulang pesan mu.
 Aliases: -
-Usage: *${prefix}say* <teks>
+Usage: *${prefix}say* teks
 
 2. *${prefix}lirik*
 Mencari lirik lagu.
 Aliases: -
-Usage: *${prefix}lirik* <judul lagu>
+Usage: *${prefix}lirik* judul_lagu
 
 3. *${prefix}shortlink*
 Membuat shortlink.
 Aliases: -
-Usage: *${prefix}shortlink* <link>
+Usage: *${prefix}shortlink* link
 
 4. *${prefix}wikipedia*
 Mengirim Wikipedia dari teks yang diberikan.
 Aliases: *wiki*
-Usage: *${prefix}wikipedia* <teks>
+Usage: *${prefix}wikipedia* teks
 
 5. *${prefix}kbbi*
 Mengirim definisi kata dari KBBI.
 Aliases: -
-Usage: *${prefix}kbbi* <teks>
+Usage: *${prefix}kbbi* teks
 
 6. *${prefix}igstalk*
 Stalk akun Instagram.
 Aliases: -
-Usage: *${prefix}igstalk* <username>
+Usage: *${prefix}igstalk* username
 
 _Index of [3]_
     `
@@ -277,7 +277,7 @@ Usage: Kirim gambar dengan caption *${prefix}stickerfire* atau reply gambar deng
 3. *${prefix}ttg*
 Membuat stiker text to GIF.
 Aliases: -
-Usage: *${prefix}ttg* <teks>
+Usage: *${prefix}ttg* teks
 
 _Index of [4]_
     `
@@ -305,12 +305,12 @@ Usage: *${prefix}kemono*
 4. *${prefix}kusonime*
 Mencari info anime dan link download batch di Kusonime.
 Aliases: -
-Usage: *${prefix}kusonime* <judul anime>
+Usage: *${prefix}kusonime* judul_anime
 
 5. *${prefix}komiku*
 Mencari info manga dan link download di Komiku.
 Aliases: -
-Usage: *${prefix}komiku* <judul manga>
+Usage: *${prefix}komiku* judul_manga
 
 6. *${prefix}wait*
 Mencari source anime dari screenshot scene.
@@ -338,7 +338,7 @@ exports.menuFun = () => {
 1. *${prefix}hartatahta*
 Membuat gambar Harta Tahta Nama.
 Aliases: -
-Usage: *${prefix}hartatahta* <nama>
+Usage: *${prefix}hartatahta* nama
 
 2. *${prefix}calender*
 Membuat calender dari foto yang dikirim.
@@ -348,17 +348,17 @@ Usage: Kirim gambar dengan caption *${prefix}calender* atau reply gambar dengan 
 3. *${prefix}partner*
 Weton jodoh.
 Aliases: *pasangan*
-Usage: *${prefix}partner* <nama | pasangan>
+Usage: *${prefix}partner* nama | pasangan
 
 4. *${prefix}zodiac*
 Ramalan zodiak Mingguan.
 Aliases: *zodiak*
-Usage: *${prefix}zodiac* <zodiak>
+Usage: *${prefix}zodiac* zodiak
 
 5. *${prefix}write*
 Membuat catatan tulisan di buku.
 Aliases: *nulis*
-Usage: *${prefix}write* <teks>
+Usage: *${prefix}write* teks
 
 _Index of [6]_
     `
@@ -401,7 +401,7 @@ Usage: *${prefix}everyone*
 7. *${prefix}nsfw*
 Mematikan/menyalakan mode NSFW.
 Aliases: -
-Usage: *${prefix}nsfw* <enable/disable>
+Usage: *${prefix}nsfw* enable/disable
 
 _Index of [7]_
     `
@@ -424,12 +424,12 @@ Usage: *${prefix}multilewds*
 3. *${prefix}nh*
 Mengirim info doujinshi dari nHentai.
 Aliases: -
-Usage: *${prefix}nh* <kode>
+Usage: *${prefix}nh* kode
 
 4. *${prefix}nhdl*
 Mendownload doujin dari nHentai sebagai file PDF. (PREMIUM ONLY)
 Aliases: -
-Usage: *${prefix}nhdl* <kode>
+Usage: *${prefix}nhdl* kode
 
 5. *${prefix}nekopoi*
 Mengirim video link Nekopoi terbaru.
@@ -449,12 +449,12 @@ Usage: *${prefix}waifu18*
 8. *${prefix}fetish*
 Mengirim fetish pics.
 Aliases: -
-Usage: *${prefix}fetish* <armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao>
+Usage: *${prefix}fetish* armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao
 
 9. *${prefix}phdl*
 Download video dari Pornhub.
 Aliases: -
-Usage *${prefix}phdl* <link>
+Usage *${prefix}phdl* link
 
 _Index of [8]_
     `
@@ -483,7 +483,7 @@ Usage: *${prefix}getses*
 4. *${prefix}ban*
 Menambah/menghapus user yang diban.
 Aliases: -
-Usage: *${prefix}ban* <add/del> @user/62812xxxxxxxx
+Usage: *${prefix}ban* add/del @user/62812xxxxxxxx
 
 5. *${prefix}leaveall*
 Keluar dari semua grup.
@@ -539,7 +539,7 @@ Owner/hoster dari bot ini terlepas dari tanggung jawab dan pengawasan developer 
 Owner/hoster boleh menjiplak, menambahkan, menghapus, mengganti source code dengan catatan *tidak memperjualbelikannya* dalam bentuk apapun.
 Apabila terjadi sebuah error, orang yang pertama yang harus kalian hubungi ialah owner/hoster.
 
-Kalian bisa melihat source code ini di GitHub:
+Jika kalian ingin berkontribusi dalam projek ini, silakan kunjungi:
 https://github.com/SlavyanDesu/BocchiBot
 
 Contact person:

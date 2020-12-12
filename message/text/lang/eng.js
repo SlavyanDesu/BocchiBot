@@ -10,7 +10,7 @@ exports.ok = () => {
 }
 
 exports.wrongFormat = () => {
-    return `Incorrect format! Please check how to use it at *${prefix}menu.`
+    return `Incorrect format! Please check how to use it at *${prefix}menu*.`
 }
 
 exports.emptyMess = () => {
@@ -22,7 +22,7 @@ exports.cmdNotFound = () => {
 }
 
 exports.blocked = () => {
-    return `Bot not receiving calls. Because you have broken the rules, then you have been blocked!\n\nHarap hubungi owner: wa.me/${ownerNumber.replace('@c.us', '')}`
+    return `Bot not receiving calls. Because you have broken the rules, then you have been blocked!\n\nContact the owner: wa.me/${ownerNumber.replace('@c.us', '')}`
 }
 
 exports.ownerOnly = () => {
@@ -42,11 +42,11 @@ exports.adminOnly = () => {
 }
 
 exports.notNsfw = () => {
-    return `NSFW command has not been activated!`
+    return `NSFW command has not been enabled!`
 }
 
 exports.nsfwOn = () => {
-    return `NSFW Command was successfully *activated*!`
+    return `NSFW Command was successfully *enabled*!`
 }
 
 exports.nsfwOff = () => {
@@ -54,7 +54,7 @@ exports.nsfwOff = () => {
 }
 
 exports.addedGroup = (chat) => {
-    return `Thank you for inviting me, members *${chat.contact.name}*!\n\nPlease register by typing:\n*${prefix} register name | area`
+    return `Thank you for inviting me, members *${chat.contact.name}*!\n\nPlease register by typing:\n*${prefix}register* name | area`
 }
 
 exports.nhFalse = () => {
@@ -64,7 +64,7 @@ exports.nhFalse = () => {
 exports.listBlock = (blockNumber) => {
     return `------[ HALL OF SHAME ]------
     
-Total blocked: *${blockNumber.length}* user\n`
+Total blocked: *${blockNumber.length}* user(s)\n`
 }
 
 exports.notPremium = () => {
@@ -88,7 +88,7 @@ exports.botNotAdmin = () => {
 }
 
 exports.ytFound = (res) => {
-    return `*Video found!*\n\n➸ *Title*:${res.title}\n➸ *Description*:${res.desc}\n➸ *Duration*: ${res.duration} minute\n\nMedia is being shipped, please wait...`
+    return `*Video found!*\n\n➸ *Title*:${res.title}\n➸ *Description*:${res.desc}\n➸ *Duration*: ${res.duration} minutes\n\nMedia is being shipped, please wait...`
 }
 
 exports.notRegistered = () => {
@@ -108,7 +108,7 @@ exports.received = (pushname) => {
 }
 
 exports.limit = (time) => {
-    return `Sorry, but you have reached the limit using this command.\nPlease wait *${time.hours}* hour *${time.minutes}* minute *${time.seconds}* more seconds.`
+    return `Sorry, but you have reached the limit using this command.\nPlease wait *${time.hours}* hour(s) *${time.minutes}* minute(s) *${time.seconds}* second(s) more.`
 }
 
 exports.videoLimit = () => {
@@ -116,7 +116,7 @@ exports.videoLimit = () => {
 }
 
 exports.joox = (result) => {
-    return `*Song found!*\n\n➸ *Singer*: ${result[0].penyanyi}\n➸ *Judul*: ${result[0].judul}\n➸ *Album*: ${result[0].album}\n➸ *Ext*: ${result[0].ext}\n➸ *Size*: ${result[0].filesize}\n➸ *Duration*: ${result[0].duration}\n\nMedia is being shipped, please wait...`
+    return `*Song found!*\n\n➸ *Singer*: ${result[0].penyanyi}\n➸ *Title*: ${result[0].judul}\n➸ *Album*: ${result[0].album}\n➸ *Ext*: ${result[0].ext}\n➸ *Size*: ${result[0].filesize}\n➸ *Duration*: ${result[0].duration}\n\nMedia is being shipped, please wait...`
 }
 
 exports.menu = () => {
@@ -135,7 +135,7 @@ The following menus are available:
 *[8]* NSFW
 *[9]* Owner
 
-Type *${prefix}menu* <angka_index> to open the selected page menu.
+Type *${prefix}menu* index_number to open the selected page menu.
 
 Note:
 Treat the bot well, dev will act firmly if the user violates the rules.
@@ -153,17 +153,17 @@ exports.menuDownloader = () => {
 1. *${prefix}facebook*
 Download Facebook video.
 Aliases: *fb*
-Usage: *${prefix}facebook* <video link>
+Usage: *${prefix}facebook* video_link
 
 2. *${prefix}ytmp3*
 Download YouTube audio.
 Aliases: -
-Usage: *${prefix}ytmp3* <link>
+Usage: *${prefix}ytmp3* link
 
 3. *${prefix}ytmp4*
 Download YouTube video.
 Aliases: -
-Usage: *${prefix}ytmp4* <link>
+Usage: *${prefix}ytmp4* link
 
 _Index of [1]_
     `
@@ -181,7 +181,7 @@ Usage: *${prefix}rules*
 2. *${prefix}menu*
 Displays available commands.
 Aliases: -
-Usage: *${prefix}menu* <angka_index>
+Usage: *${prefix}menu* index_number
 
 3. *${prefix}status*
 Displays bot status.
@@ -201,12 +201,12 @@ Usage: *${prefix}ping*
 6. *${prefix}delete*
 Delete messages from bots.
 Aliases: *del*
-Usage: Reply to deleted messages with a caption *${prefix}del*.
+Usage: Reply to deleted messages with a caption *${prefix}delete*.
 
 7. *${prefix}report*
 Report bugs to dev.
 Aliases: -
-Usage: *${prefix}report* <pesan>
+Usage: *${prefix}report* text
 
 _Index of [2]_
     `
@@ -219,32 +219,32 @@ exports.menuMisc = () => {
 1. *${prefix}say*
 The bot will repeat your message.
 Aliases: -
-Usage: *${prefix}say* <teks>
+Usage: *${prefix}say* text
 
 2. *${prefix}lirik*
 Search for song lyrics.
 Aliases: -
-Usage: *${prefix}lirik* <judul lagu>
+Usage: *${prefix}lirik* song's_title
 
 3. *${prefix}shortlink*
 Create a shortlink.
 Aliases: -
-Usage: *${prefix}shortlink* <link>
+Usage: *${prefix}shortlink* link
 
 4. *${prefix}wikipedia*
 Send Wikipedia from the given text.
 Aliases: *wiki*
-Usage: *${prefix}wikipedia* <teks>
+Usage: *${prefix}wikipedia* text
 
 5. *${prefix}kbbi*
 Send word definitions from KBBI.
 Aliases: -
-Usage: *${prefix}kbbi* <teks>
+Usage: *${prefix}kbbi* text
 
 6. *${prefix}igstalk*
 Stalk Instagram account.
 Aliases: -
-Usage: *${prefix}igstalk* <username>
+Usage: *${prefix}igstalk* ig_username
 
 _Index of [3]_
     `
@@ -255,29 +255,29 @@ exports.menuSticker = () => {
 -----[ STICKER ]-----
 
 1. *${prefix}sticker*
-Make stickers from images sent or replied.
+Create stickers from images sent or replied.
 Aliases: *stiker*
-Usage: Send pictures with captions *${prefix}sticker* or reply to the image with a caption *${prefix}sticker*.
+Usage: Send images with caption *${prefix}sticker* or reply to the images with a caption *${prefix}sticker*.
 
 2. *${prefix}stickergif*
-Create stickers from sent or replied MP4 or GIF videos.
+Create stickers from videos/GIFs.
 Aliases: *stikergif*
-Usage: Send videos / GIFs with captions *${prefix}stickergif* or reply video / GIF with caption *${prefix}stickergif*.
+Usage: Send videos/GIFs with caption *${prefix}stickergif* or reply to the videos/GIFs with a caption *${prefix}stickergif*.
 
 3. *${prefix}stickerlightning*
-Create a lightning sticker from the images you send or reply to.
+Create lightning sticker from images.
 Aliases: *slightning*
-Usage: Send pictures with captions *${prefix}stickerlightning* or reply to the image with a caption *${prefix}stickerlightning*.
+Usage: Send images with caption *${prefix}stickerlightning* or reply to the images with a caption *${prefix}stickerlightning*.
 
 4. *${prefix}stickerfire*
 Create fire stickers from images that are sent or replied to.
 Aliases: *sfire*
-Usage: Send pictures with captions *${prefix}stickerfire* or reply to the image with a caption *${prefix}stickerfire*.
+Usage: Send images with caption *${prefix}stickerfire* or reply to the images with a caption *${prefix}stickerfire*.
 
 3. *${prefix}ttg*
 Create text to GIF stickers.
 Aliases: -
-Usage: *${prefix}ttg* <teks>
+Usage: *${prefix}ttg* text
 
 _Index of [4]_
     `
@@ -305,22 +305,22 @@ Usage: *${prefix}kemono*
 4. *${prefix}kusonime*
 Look for anime info and batch download links on Kusonime.
 Aliases: -
-Usage: *${prefix}kusonime* <judul anime>
+Usage: *${prefix}kusonime* anime's_title
 
 5. *${prefix}komiku*
 Looking for manga info and download links on Komiku.
 Aliases: -
-Usage: *${prefix}komiku* <judul manga>
+Usage: *${prefix}komiku* manga's_title
 
 6. *${prefix}wait*
-Search anime source from the screenshot scene.
+Search anime source from the screenshots scene.
 Aliases: -
-Usage: Send a screenshot with a caption *${prefix}wait* or reply screenshot with caption *${prefix}wait*.
+Usage: Send screenshots with caption *${prefix}wait* or reply to the screenshots with a caption *${prefix}wait*.
 
 7. *${prefix}source*
 Look for sources from the doujin panel, illustrations, and images related to anime.
 Aliases: *sauce*
-Usage: Send pictures with captions *${prefix}source* or reply to the image with a caption *${prefix}source*.
+Usage: Send images with caption *${prefix}source* or reply to the images with a caption *${prefix}source*.
 
 8. *${prefix}waifu*
 Send random waifu photos.
@@ -338,27 +338,27 @@ exports.menuFun = () => {
 1. *${prefix}hartatahta*
 Make a picture of the "Harta Tahta Nama".
 Aliases: -
-Usage: *${prefix}hartatahta* <nama>
+Usage: *${prefix}hartatahta* name
 
 2. *${prefix}calender*
 Create a calendar from sent photos.
 Aliases: -
-Usage: Kirim gambar dengan caption *${prefix}calender* atau reply gambar dengan caption *${prefix}calender*.
+Usage: Send images with caption *${prefix}calender* or reply to the images with a caption *${prefix}calender*.
 
 3. *${prefix}partner*
 Weton match.
 Aliases: *pasangan*
-Usage: *${prefix}partner* <nama | pasangan>
+Usage: *${prefix}partner* name | partner
 
 4. *${prefix}zodiac*
 Weekly zodiac forecast.
 Aliases: *zodiak*
-Usage: *${prefix}zodiac* <zodiak>
+Usage: *${prefix}zodiac* zodiac
 
 5. *${prefix}write*
 Make notes written in a book.
 Aliases: *nulis*
-Usage: *${prefix}write* <teks>
+Usage: *${prefix}write* text
 
 _Index of [6]_
     `
@@ -401,7 +401,7 @@ Usage: *${prefix}everyone*
 7. *${prefix}nsfw*
 Turn off / turn on NSFW mode.
 Aliases: -
-Usage: *${prefix}nsfw* <enable/disable>
+Usage: *${prefix}nsfw* enable/disable
 
 _Index of [7]_
     `
@@ -424,12 +424,12 @@ Usage: *${prefix}multilewds*
 3. *${prefix}nh*
 Sending doujinshi info from nHentai.
 Aliases: -
-Usage: *${prefix}nh* <kode>
+Usage: *${prefix}nh* code
 
 4. *${prefix}nhdl*
 Download doujin from nHentai as a PDF file. (PREMIUM ONLY)
 Aliases: -
-Usage: *${prefix}nhdl* <kode>
+Usage: *${prefix}nhdl* code
 
 5. *${prefix}nekopoi*
 Send the latest video link Nekopoi.
@@ -439,7 +439,7 @@ Usage: *${prefix}nekopoi*
 6. *${prefix}multifetish*
 Send up to 5 fetish pics. (PREMIUM ONLY)
 Aliases: *mfetish*
-Usage: *${prefix}multifetish* <armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao>
+Usage: *${prefix}multifetish* armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao
 
 7. *${prefix}waifu18*
 Send random NSFW waifu photos.
@@ -449,12 +449,12 @@ Usage: *${prefix}waifu18*
 8. *${prefix}fetish*
 Send fetish pics.
 Aliases: -
-Usage: *${prefix}fetish* <armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao>
+Usage: *${prefix}fetish* armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao
 
 9. *${prefix}phdl*
 Download videos from Pornhub.
 Aliases: -
-Usage *${prefix}phdl* <link>
+Usage *${prefix}phdl* link
 
 _Index of [8]_
     `
@@ -468,7 +468,7 @@ Hello Owner-sama ヽ(・∀・)ﾉ!
 1. *${prefix}bc*
 Make a broadcast.
 Aliases: -
-Usage: *${prefix}bc* <teks> 
+Usage: *${prefix}bc* text
 
 2. *${prefix}clearall*
 Deletes all chats on the bot account.
@@ -483,7 +483,7 @@ Usage: *${prefix}getses*
 4. *${prefix}ban*
 Add / remove banned users.
 Aliases: -
-Usage: *${prefix}ban* <add/del> @user/62812xxxxxxxx
+Usage: *${prefix}ban* add/del @user/62812xxxxxxxx
 
 5. *${prefix}leaveall*
 Leave all groups.
@@ -513,13 +513,13 @@ exports.rules = () => {
     return `
 -----[ RULES ]-----
 
-1. Don't spam bot. 
+1. Do NOT spam bot. 
 Penalty: *WARN/SOFT BLOCK*
 
-2. Don't call bot.
+2. Do NOT call bot.
 Penalty: *SOFT BLOCK*
 
-3. Don't exploit bots.
+3. Do NOT exploit bots.
 Penalty: *PERMANENT BLOCK*
 
 If the rules are understood, please type *${prefix}menu* to get started!
@@ -535,17 +535,18 @@ exports.tos = () => {
 -----[ TERMS OF SERVICE ]-----
 
 This bot is an open-source bot with the real name BocchiBot which is available on GitHub for free.
-The owner / hoster of this bot is independent from the responsibility and supervision of the developer (Slavyan).
-Owner / hoster may plagiarize, add, delete, replace source code with notes * do not trade * in any form.
-If an error occurs, the first person you should contact is the owner / hoster.  
-You can see the source code for this on GitHub:
+The owner/hoster of this bot is independent from the responsibility and supervision of the developer (Slavyan).
+Owner/hoster may plagiarize, add, delete, replace source code with notes *DO NOT SELL* this source code in any form.
+If an error occurs, the first person you should contact is the owner/hoster.  
+
+If you want to contributing to this project, visit:
 https://github.com/SlavyanDesu/BocchiBot
 
 Contact person:
 wa.me/${ownerNumber.replace('@c.us', '')} (Owner/hoster)
 wa.me/6281294958473 (Developer)
 
-You guys can also support me to keep this bot up to date with
+You guys can also support me to keep this bot up to date with:
 081294958473 (OVO/Telkomsel/GoPay)
 
 Thank you!
