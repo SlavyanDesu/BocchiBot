@@ -54,7 +54,7 @@ exports.nsfwOff = () => {
 }
 
 exports.addedGroup = (chat) => {
-    return `Terima kasih telah mengundangku, para member *${chat.contact.name}*!\n\nSilakan register dengan cara ketik:\n*${prefix}*register nama | daerah`
+    return `Terima kasih telah mengundangku, para member *${chat.contact.name}*!\n\nSilakan register dengan cara ketik:\n*${prefix}register* nama | daerah`
 }
 
 exports.nhFalse = () => {
@@ -129,6 +129,10 @@ exports.receipt = (result) => {
 
 exports.ytResult = (urlyt, title, channel, duration, views) => {
     return `➸ *Judul*: ${title}\n➸ *Channel*: ${channel}\n➸ *Durasi*: ${duration}\n➸ *Views*: ${views}\n➸ *Link*: ${urlyt}`
+}
+
+exports.profile = (username, status, premi, benet, adm) => {
+    return `-----[ *User Info* ]-----\n\n➸ *Username*: ${username}\n➸ *Status*: ${status}\n➸ *Premium*: ${premi}\n➸ *Banned*: ${benet}\n➸ *Admin*: ${adm}`
 }
 
 exports.menu = () => {
