@@ -146,6 +146,7 @@ If you want to unlock premium commands, please contact me~
 | IG stalk         |      ✔️      |
 | GSMArena         |      ✔️      |
 | Food receipt     |      ✔️      |
+| YouTube search   |      ✔️      |
 
 |        Fun       | Availability |
 | :--------------: | :----------: |
