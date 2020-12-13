@@ -53,6 +53,10 @@ exports.nsfwOff = () => {
     return `Command NSFW berhasil *dinonaktifkan*!`
 }
 
+exports.nsfwAlready = () => {
+    return `Command NSFW sudah diaktifkan sebelumnya.`
+}
+
 exports.addedGroup = (chat) => {
     return `Terima kasih telah mengundangku, para member *${chat.contact.name}*!\n\nSilakan register dengan cara ketik:\n*${prefix}register* nama | daerah`
 }

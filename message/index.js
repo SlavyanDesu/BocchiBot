@@ -361,6 +361,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
                 if (ar[0] === 'enable') {
+                    if (isNsfw) return await bocchi.reply(from, ind.nsfwAlready(), id)
                     _nsfw.push(chat.id)
                     fs.writeFileSync('./database/nsfw.json', JSON.stringify(_nsfw))
                     await bocchi.reply(from, ind.nsfwOn(), id)
