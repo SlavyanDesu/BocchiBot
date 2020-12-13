@@ -402,6 +402,11 @@ Make notes written in a book.
 Aliases: *nulis*
 Usage: *${prefix}write* text
 
+6. *${prefix}missing*
+Create a missing person images.
+Aliases: -
+Usage: Send images with caption *${prefix}missing* upper_text | center_text| bottom_text or reply to the images with a caption *${prefix}missing* upper_text | center_text| bottom_text.
+
 _Index of [6]_
     `
 }

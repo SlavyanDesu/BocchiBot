@@ -402,6 +402,11 @@ Membuat catatan tulisan di buku.
 Aliases: *nulis*
 Usage: *${prefix}write* teks
 
+6. *${prefix}missing*
+Membuat gambar missing person.
+Aliases: -
+Usage: Kirim gambar dengan caption *${prefix}calender* teks_atas | teks_tengah | teks_bawah atau reply gambar dengan caption *${prefix}missing* teks_atas | teks_tengah | teks_bawah.
+
 _Index of [6]_
     `
 }

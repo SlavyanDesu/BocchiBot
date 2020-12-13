@@ -656,6 +656,30 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
+            case 'missing':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                const atas = q.substring(0, q.indexOf('|'))
+                const tengah = q.substring(q.indexOf('|') + 2, q.lastIndexOf('|'))
+                const bawah = q.substring(q.lastIndexOf('|') + 2)
+                if (isMedia && type === 'image' || isQuotedImage) {
+                    await bocchi.reply(from, ind.wait(), id)
+                    const encryptMedia = isQuotedImage ? quotedMsg : message
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const imageLink = await uploadImages(mediaData)
+                    fun.missing(atas, tengah, bawah, imageLink)
+                        .then(async ({ result }) => {
+                            await bocchi.sendFileFromUrl(from, result.imgUrl, 'missing.jpg', '', id)
+                                .then(() => console.log('Success sending image!'))
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, 'Error!', id)
+                        })
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
+            break
 
             // Sticker
             case 'sticker':
