@@ -605,22 +605,19 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'partner':
             case 'pasangan':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const nama = q.substring(0, q.indexOf('|'))
                 const pasangan = q.substring(q.lastIndexOf('|') + 2)
-                if (!nama && !pasangan) {
-                    return await bocchi.reply(from, ind.wrongFormat(), id)
-                } else {
-                    await bocchi.reply(from, ind.wait(), id)
-                    fun.pasangan(nama, pasangan)
-                        .then(async ({ result }) => {
-                            await bocchi.reply(from, result.hasil, id)
-                                .then(() => console.log('Success sending fortune!'))
-                        })
-                        .catch(async (err) => {
-                            console.error(err)
-                            await bocchi.reply(from, 'Error!', id)
-                        })
-                }
+                await bocchi.reply(from, ind.wait(), id)
+                fun.pasangan(nama, pasangan)
+                    .then(async ({ result }) => {
+                        await bocchi.reply(from, result.hasil, id)
+                            .then(() => console.log('Success sending fortune!'))
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
             break
             case 'zodiac':
             case 'zodiak':
@@ -671,6 +668,32 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         .then(async ({ result }) => {
                             await bocchi.sendFileFromUrl(from, result.imgUrl, 'missing.jpg', '', id)
                                 .then(() => console.log('Success sending image!'))
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, 'Error!', id)
+                        })
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
+            break
+            case 'valentine':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (isMedia && type === 'image' || isQuotedImage) {
+                    await bocchi.reply(from, ind.wait(), id)
+                    const nama = q.substring(0, q.indexOf('|'))
+                    const pasangan = q.substring(q.lastIndexOf('|') + 2)
+                    const encryptMedia = isQuotedImage ? quotedMsg : message
+                    const dataPasangan = await decryptMedia(encryptMedia, uaOverride)
+                    const base64str = await bocchi.downloadProfilePicFromMessage(message)
+                    const dataMu = Buffer.from(base64str, 'base64')
+                    const fotoPasangan = await uploadImages(dataPasangan)
+                    const fotoMu = await uploadImages(dataMu)
+                    fun.valentine(nama, pasangan, fotoMu, fotoPasangan)
+                        .then(async ({ result }) => {
+                            await bocchi.sendFileFromUrl(from, result.imgUrl, `${nama}_${pasangan}.jpg`, '', id)
+                                .then(() => console.log('Success creating image!'))
                         })
                         .catch(async (err) => {
                             console.error(err)
@@ -1342,6 +1365,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     if (typeof evaled !== 'string') evaled = require('util').inspect(evaled)
                     await bocchi.sendText(from, evaled)
                 } catch (err) {
+                    console.error(err)
                     await bocchi.reply(from, 'Error!', id)
                 }
             break

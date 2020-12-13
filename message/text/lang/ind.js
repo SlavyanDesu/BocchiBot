@@ -405,7 +405,12 @@ Usage: *${prefix}write* teks
 6. *${prefix}missing*
 Membuat gambar missing person.
 Aliases: -
-Usage: Kirim gambar dengan caption *${prefix}calender* teks_atas | teks_tengah | teks_bawah atau reply gambar dengan caption *${prefix}missing* teks_atas | teks_tengah | teks_bawah.
+Usage: Kirim gambar dengan caption *${prefix}missing* teks_atas | teks_tengah | teks_bawah atau reply gambar dengan caption *${prefix}missing* teks_atas | teks_tengah | teks_bawah.
+
+7. *${prefix}valentine*
+Membuat gambar valentine.
+Aliases: -
+Usage: Kirim gambar pasangan dengan caption *${prefix}valentine* nama | pasangan atau reply gambar pasangan dengan caption *${prefix}valentine* nama | pasangan.
 
 _Index of [6]_
     `

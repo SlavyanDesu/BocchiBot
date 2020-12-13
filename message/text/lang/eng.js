@@ -405,7 +405,12 @@ Usage: *${prefix}write* text
 6. *${prefix}missing*
 Create a missing person images.
 Aliases: -
-Usage: Send images with caption *${prefix}missing* upper_text | center_text| bottom_text or reply to the images with a caption *${prefix}missing* upper_text | center_text| bottom_text.
+Usage: Send images with caption *${prefix}missing* upper_text | center_text | bottom_text or reply to the images with a caption *${prefix}missing* upper_text | center_text| bottom_text.
+
+7. *${prefix}valentine*
+Create a valentine images.
+Aliases: -
+Usage: Send your couple's images with caption *${prefix}valentine* your_name | couple's_name or reply to the couple's images with a caption *${prefix}valentine* your_name | couple's_name.
 
 _Index of [6]_
     `
