@@ -9,6 +9,7 @@ const { API } = require('nhentai-api')
 const api = new API()
 const sagiri = require('sagiri')
 const db = require('quick.db')
+const bent = require('bent')
 const ms = require('parse-ms')
 const saus = sagiri(config.nao, { results: 5 })
 const cd = 4.32e+7
@@ -569,7 +570,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-            
+
             // Fun
             case 'profile':
             case 'me':
@@ -712,6 +713,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
+            /*
             case 'valentine':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -721,10 +723,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const pasangan = q.substring(q.lastIndexOf('|') + 2)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const dataPasangan = await decryptMedia(encryptMedia, uaOverride)
-                    const base64str = await bocchi.downloadProfilePicFromMessage(message)
-                    const dataMu = Buffer.from(base64str, 'base64')
+                    const fotoMu = await bocchi.getProfilePicFromServer(sender.id)
                     const fotoPasangan = await uploadImages(dataPasangan)
-                    const fotoMu = await uploadImages(dataMu)
                     fun.valentine(nama, pasangan, fotoMu, fotoPasangan)
                         .then(async ({ result }) => {
                             await bocchi.sendFileFromUrl(from, result.imgUrl, `${nama}_${pasangan}.jpg`, '', id)
@@ -738,6 +738,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
+            */
 
             // Sticker
             case 'sticker':

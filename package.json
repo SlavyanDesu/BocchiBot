@@ -21,6 +21,7 @@
     "@justalk/pornhub-api": "^3.4.0",
     "@open-wa/wa-automate": "^3.1.8",
     "axios": "^0.21.0",
+    "bent": "^7.3.12",
     "chalk": "^4.1.0",
     "cheerio": "^1.0.0-rc.3",
     "figlet": "^1.5.0",
