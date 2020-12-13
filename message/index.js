@@ -714,7 +714,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
-            /*
             case 'valentine':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -724,7 +723,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const pasangan = q.substring(q.lastIndexOf('|') + 2)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const dataPasangan = await decryptMedia(encryptMedia, uaOverride)
-                    const fotoMu = await bocchi.getProfilePicFromServer(sender.id)
+                    const foto = await bocchi.getProfilePicFromServer(sender.id)
+                    const dataMu = await bent('buffer')(foto)
+                    const fotoMu = await uploadImages(dataMu)
                     const fotoPasangan = await uploadImages(dataPasangan)
                     fun.valentine(nama, pasangan, fotoMu, fotoPasangan)
                         .then(async ({ result }) => {
@@ -739,7 +740,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
-            */
 
             // Sticker
             case 'sticker':
