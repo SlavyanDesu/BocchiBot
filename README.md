@@ -155,6 +155,8 @@ If you want to unlock premium commands, please contact me~
 | Weton jodoh      |      ✔️      |
 | Zodiac           |      ✔️      |
 | Write            |      ✔️      |
+| Missing person   |      ✔️      |
+| Valentine        |      ✔️      |
 
 |      Weeb Zone     | Availability |
 | :----------------: | :----------: |
