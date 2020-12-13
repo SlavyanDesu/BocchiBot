@@ -12,6 +12,7 @@ const db = require('quick.db')
 const ms = require('parse-ms')
 const saus = sagiri(config.nao, { results: 5 })
 const cd = 4.32e+7
+const errorImg = 'https://i.ibb.co/x5Ms3wc/10435152-0.png'
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 
@@ -568,44 +569,42 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-                
-                //PROFILE
-                case 'me':
-                case 'profile':
-                if (isBanned, isBlocked) return false
-                if (!quotedMsg) {
-                var bend = _ban.includes(sender.id)
-                var pic = await bocchi.getProfilePicFromServer(sender.id)
-                var namanye = pushname
-                var sts = await bocchi.getStatus(sender.id)
-                var adm = isGroupAdmins
-                var premium = isPremium
-                const { status } = sts
-                if (pic == undefined) {
-                    var pfp = errorurl 
-                } else {
-                    var pfp = pic
-                } 
-                await bocchi.sendFileFromUrl(from, pfp, 'pfp.jpg', `*User Profile* ✨️ \n\n➸ *Username: ${namanye}*\n\n➸ *User Info: ${status}*\n\n*➸ Status: ${premium ? '💎 PREMIUM USER 💎' : 'FREE USER'}*\n\n*➸ Banned : ${bend ? 'Ya' : 'Tidak'}*\n\n➸ *Admin Group: ${adm ? 'Ya' : 'Tidak'}*`, id)
-             } else if (quotedMsg) {
-             var qmid = quotedMsgObj.sender.id
-             var bend = _ban.includes(sender.id)
-             var pic = await bocchi.getProfilePicFromServer(qmid)
-             var namanye = quotedMsgObj.sender.name
-             var sts = await bocchi.getStatus(qmid)
-             var adm = isGroupAdmins
-             var premium = isPremium
-             const { status } = sts
-              if (pic == undefined) {
-              var pfp = errorurl 
-              } else {
-              var pfp = pic
-              } 
-              await bocchi.sendFileFromUrl(from, pfp, 'pfp.jpg', `*User Profile* ✨️ \n\n➸ *Username: ${namanye}*\n\n➸ *User Info: ${status}*\n\n*➸ Premium User: ${premium}*\n\n*➸ Banned : ${bend}*\n\n➸ *Admin Group: ${adm}*`, id)
-            }
-            break
-
+            
             // Fun
+            case 'profile':
+            case 'me':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (quotedMsg) {
+                    const getQuoted = quotedMsgObj.sender.id
+                    const profilePic = await bocchi.getProfilePicFromServer(getQuoted)
+                    const username = quotedMsgObj.sender.name
+                    const statuses = await bocchi.getStatus(getQuoted)
+                    const benet = _ban.includes(getQuoted)
+                    const adm = groupAdmins.includes(getQuoted)
+                    const premi = _premium.includes(getQuoted)
+                    const { status } = statuses
+                    if (profilePic === undefined) {
+                        var pfp = errorImg
+                    } else {
+                        var pfp = profilePic
+                    }
+                    await bocchi.sendFileFromUrl(from, pfp, `${username}.jpg`, ind.profile(username, status, premi, benet, adm), id)
+                } else {
+                    const profilePic = await bocchi.getProfilePicFromServer(sender.id)
+                    const username = pushname
+                    const statuses = await bocchi.getStatus(sender.id)
+                    const benet = isBanned
+                    const adm = isGroupAdmins
+                    const premi = isPremium
+                    const { status } = statuses
+                    if (profilePic === undefined) {
+                        var pfp = errorImg
+                    } else {
+                        var pfp = profilePic
+                    }
+                    await bocchi.sendFileFromUrl(from, pfp, `${username}.jpg`, ind.profile(username, status, premi, benet, adm), id)
+                }
+            break
             case 'hartatahta':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
