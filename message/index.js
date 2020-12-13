@@ -568,6 +568,42 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
+                
+                //PROFILE
+                case 'me':
+                case 'profile':
+                if (isBanned, isBlocked) return false
+                if (!quotedMsg) {
+                var bend = _ban.includes(sender.id)
+                var pic = await bocchi.getProfilePicFromServer(sender.id)
+                var namanye = pushname
+                var sts = await bocchi.getStatus(sender.id)
+                var adm = isGroupAdmins
+                var premium = isPremium
+                const { status } = sts
+                if (pic == undefined) {
+                    var pfp = errorurl 
+                } else {
+                    var pfp = pic
+                } 
+                await bocchi.sendFileFromUrl(from, pfp, 'pfp.jpg', `*User Profile* ✨️ \n\n➸ *Username: ${namanye}*\n\n➸ *User Info: ${status}*\n\n*➸ Status: ${premium ? '💎 PREMIUM USER 💎' : 'FREE USER'}*\n\n*➸ Banned : ${bend ? 'Ya' : 'Tidak'}*\n\n➸ *Admin Group: ${adm ? 'Ya' : 'Tidak'}*`, id)
+             } else if (quotedMsg) {
+             var qmid = quotedMsgObj.sender.id
+             var bend = _ban.includes(sender.id)
+             var pic = await bocchi.getProfilePicFromServer(qmid)
+             var namanye = quotedMsgObj.sender.name
+             var sts = await bocchi.getStatus(qmid)
+             var adm = isGroupAdmins
+             var premium = isPremium
+             const { status } = sts
+              if (pic == undefined) {
+              var pfp = errorurl 
+              } else {
+              var pfp = pic
+              } 
+              await bocchi.sendFileFromUrl(from, pfp, 'pfp.jpg', `*User Profile* ✨️ \n\n➸ *Username: ${namanye}*\n\n➸ *User Info: ${status}*\n\n*➸ Premium User: ${premium}*\n\n*➸ Banned : ${bend}*\n\n➸ *Admin Group: ${adm}*`, id)
+            }
+            break
 
             // Fun
             case 'hartatahta':
