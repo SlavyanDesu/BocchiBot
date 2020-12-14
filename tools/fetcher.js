@@ -67,7 +67,6 @@ const uploadImages = (buffData, namaFile) => {
 
 module.exports = {
     fetchJson,
-    fetchBase64,
     fetchText,
     uploadImages
 }
