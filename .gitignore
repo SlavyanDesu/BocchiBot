@@ -12,4 +12,4 @@ database
 asupan
 docs
 json.sqlite
-.node_persist
+.node-persist
