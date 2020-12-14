@@ -20,25 +20,6 @@ const fetchJson = (url, options) => {
 }
 
 /**
- * Fetch Base64 from URL.
- * @param {String} url 
- * @param {MimeType} mimetype
- */
-const fetchBase64 = (url, mimetype) => {
-    return new Promise((resolve, reject) => {
-        return fetch(url)
-            .then((response) => {
-                const _mimetype = mimetype || response.headers.get('content-type')
-                response.buffer()
-                    .then((result) => resolve(`data:${_mimetype};base64,` + result.toString('base64')))
-            })
-            .catch((err) => {
-                reject(err)
-            })
-    })
-}
-
-/**
  * Fetch text from URL.
  * @param {String} url 
  * @param {Object} options 
