@@ -205,6 +205,7 @@ If you want to unlock premium commands, please contact me~
 | Everyone         |      ✔️      |
 | Toogle NSFW      |      ✔️      |
 | Set group icon   |      ✔️      |
+| Anti-link        |      ✔️      |
 
 |        NSFW        | Availability |
 | :----------------: | :----------: |
