@@ -111,9 +111,23 @@ eng.wrongFormat()
 ```
 
 ## 🆗 Running the bot
+Regular node:
 ```bash
 > npm start
 ```
+
+PM2:
+```bash
+> pm2 start index.js
+> pm2 monit
+```
+
+PM2 with cron job (restart after 5 hours):
+```bash
+> pm2 start index.js --cron "* */5 * * *"
+> pm2 monit
+```
+
 After that scan the QR code using your WhatsApp apps in your phone!
 
 # Features
