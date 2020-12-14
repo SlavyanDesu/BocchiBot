@@ -26,6 +26,7 @@ const _ban = JSON.parse(fs.readFileSync('./database/banned.json'))
 const _premium = JSON.parse(fs.readFileSync('./database/premium.json'))
 const _biodata = JSON.parse(fs.readFileSync('./database/biodata.json'))
 const _registered = JSON.parse(fs.readFileSync('./database/registered.json'))
+const _antilink = JSON.parse(fs.readFileSync('./database/antilink.json'))
 
 module.exports = msgHandler = async (bocchi = new Client(), message) => {
     try {
@@ -47,12 +48,15 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isBanned = _ban.includes(sender.id)
         const isPremium = _premium.includes(sender.id)
         const isRegistered = _registered.includes(sender.id)
+        const isDetectorOn = isGroupMsg ? _antilink.includes(chat.id) : false
+        const isInviteLink = await bocchi.inviteInfo(body)
 
         const prefix  = config.prefix
-        body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video') && caption) && caption.startsWith(prefix)) ? caption : ''
-        const command = body.slice(1).trim().split(/ +/).shift().toLowerCase()
-        const args = body.trim().split(/ +/).slice(1)
-        const isCmd = body.startsWith(prefix)
+        // body = (type === 'chat') ? body : (type === 'image' || type === 'video') ? caption : ''
+        const commands = caption || body || ''
+        const command = commands.slice(1).trim().split(/ +/).shift().toLowerCase()
+        const args = commands.trim().split(/ +/).slice(1)
+        const isCmd = commands.startsWith(prefix)
         const uaOverride = config.uaOverride
         const q = args.join(' ')
         const ar = args.map((v) => v.toLowerCase())
@@ -63,10 +67,18 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isQuotedGif = quotedMsg && quotedMsg.mimetype === 'image/gif'
 
         // Ignore non-cmd
-        if (!isCmd) return
+        // if (!isCmd) return
   
         // Ignore private chat (for development)
         // if (isCmd && !isGroupMsg) return bocchi.sendText(from, 'I\'m not ready for public yet! So you wouldn\'t get any response from me.\n\nAlso, *DO NOT* call me. You will *GET BLOCKED* if you did so.\n\nMy master: wa.me/6281294958473')
+
+        // Anti-link function
+        if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn) {
+            if (body.match(/(https:\/\/chat.whatsapp.com)/gi) && isInviteLink) {
+                await bocchi.reply(from, ind.linkDetected(), id)
+                await bocchi.removeParticipant(groupId, sender.id)
+            }
+        }
 
         // Ignore banned and blocked users
         if (isCmd && (isBanned || isBlocked) && !isGroupMsg) return console.log(color('[BAN]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
@@ -1327,6 +1339,24 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
+            case 'antilink':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
+                if (!isBotGroupAdmins) return await bocchi.reply(from, ind.botNotAdmin(), id)
+                if (ar[0] === 'enable') {
+                    if (isDetectorOn) return await bocchi.reply(from, ind.detectorOnAlready(), id)
+                    _antilink.push(chat.id)
+                    fs.writeFileSync('./database/antilink.json', JSON.stringify(_antilink))
+                    await bocchi.reply(from, ind.detectorOn(name, formattedTitle), id)
+                } else if (ar[0] === 'disable') {
+                    _antilink.splice(chat.id, 1)
+                    fs.writeFileSync('./database/antilink.json', JSON.stringify(_antilink))
+                    await bocchi.reply(from, ind.detectorOff(), id)
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
+            break
             
             // Owner command
             case 'bc':
@@ -1439,8 +1469,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.sendText(from, ind.doneOwner())
             break
             default:
-                console.log(color('[ERROR]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), 'Unregistered command from', color(pushname))
-                await bocchi.reply(from, ind.cmdNotFound(), id)
+                if (isCmd) {
+                    await bocchi.reply(from, `Command ${command} tidak ditemukan.`, id)
+                }
             break
         }
     } catch (err) {

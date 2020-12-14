@@ -139,6 +139,22 @@ exports.profile = (username, status, premi, benet, adm) => {
     return `-----[ *User Info* ]-----\n\n➸ *Username*: ${username}\n➸ *Status*: ${status}\n➸ *Premium*: ${premi}\n➸ *Banned*: ${benet}\n➸ *Admin*: ${adm}`
 }
 
+exports.detectorOn = (name, formattedTitle) => {
+    return `*「 ANTI GROUP LINK 」*\n\nPerhatian untuk penghuni grup ${(name || formattedTitle)}\nGrup ini memiliki anti group link detector, apabila ada salah satu member mengirim group link di sini maka dia akan ter-kick secara otomatis.\n\nSekian terima kasih.\n- Admin ${(name || formattedTitle)}`
+}
+
+exports.detectorOff = () => {
+    return `Fitur anti-link berhasil *dinonaktifkan*!`
+}
+
+exports.detectorOnAlready = () => {
+    return `Fitur anti-link telah diaktifkan sebelumnya.`
+}
+
+exports.linkDetected = () => {
+    return `*「 ANTI GROUP LINK 」*\n\nKamu mengirim link group chat!\nMaaf tapi kami harus mengkick kamu...\nSelamat tinggal~`
+}
+
 exports.menu = () => {
     return `
 ------[ WELCOME ]-----
@@ -467,6 +483,11 @@ Usage: *${prefix}nsfw* enable/disable
 Mengganti icon grup.
 Aliases: -
 Usage: Kirim gambar dengan caption *${prefix}groupicon* atau reply gambar dengan caption *${prefix}groupicon*.
+
+9. *${prefix}antilink*
+Mematikan/menyalakan fitur anti group link.
+Aliases: -
+Usage: *${prefix}antilink* enable/disable
 
 _Index of [7]_
     `
