@@ -80,6 +80,25 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
 
+        /* Leveling [ALPHA]
+        if (isGroupMsg && isRegistered && !isCmd) {
+            await db.add(`message_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`, 1)
+            let messageFetch = await db.get(`message_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`)
+            let messages
+            if (messageFetch === 5) messages = 5 // Level 1
+            else if (messageFetch === 65) messages = 65 // Level 2
+            else if (messageFetch === 115) messages = 115 // Level 3
+            else if (messageFetch === 200) messages = 200 // Level 4
+            else if (messageFetch === 300) messages = 300 // Level 5
+
+            if (!isNaN(messages)) {
+                await db.add(`level_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`, 1)
+                let levelFetch = await db.get(`level_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`)
+                await bocchi.reply(from, `Selamat ${pushname}! Kamu naik ke level ${levelFetch}`, id)
+            }
+        }
+        */
+
         // Ignore banned and blocked users
         if (isCmd && (isBanned || isBlocked) && !isGroupMsg) return console.log(color('[BAN]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
         if (isCmd && (isBanned || isBlocked) && isGroupMsg) return console.log(color('[BAN]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
