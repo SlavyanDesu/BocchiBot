@@ -49,7 +49,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isRegistered = _registered.includes(sender.id)
 
         const prefix  = config.prefix
-        body = (type === 'chat' && body.startsWith(prefix)) ? body : ((type === 'image' && caption) && caption.startsWith(prefix)) ? caption : ''
+        body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video') && caption) && caption.startsWith(prefix)) ? caption : ''
         const command = body.slice(1).trim().split(/ +/).shift().toLowerCase()
         const args = body.trim().split(/ +/).slice(1)
         const isCmd = body.startsWith(prefix)
