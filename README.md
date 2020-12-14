@@ -57,14 +57,15 @@
 
 ---
 
-
+# Troubleshooting
+If you having problem when installing the modules (most likely when installing quick.db), please [READ THIS](https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/troubleshooting.md).
 
 # Requirements
 * [Node.js](https://nodejs.org/en/)
 * [Git](https://git-scm.com/downloads)
 * [FFmpeg](https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2020-12-08-13-03/ffmpeg-n4.3.1-26-gca55240b8c-win64-gpl-4.3.zip) (for sticker GIF command)
 * Any text editor
-* [Python](https://www.python.org/downloads/) installed in PATH. (Recommended for avoiding failure from installing quick.db)
+* [Python](https://www.python.org/downloads/) installed in PATH (Recommended for avoiding failure from installing quick.db)
 
 # Installation
 ## 📝 Cloning this repo
