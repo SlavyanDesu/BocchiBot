@@ -123,7 +123,7 @@ If you want to unlock premium commands, please contact me~
 | :-----------------: | :----------: |
 | Register            |      ✔️      |
 | Leveling            |     Todo     |
-| Command limit       |     nope     |
+| Command limit       |     Soon     |
 
 |     Sticker Maker     | Availability |
 | :-------------------: | :----------: |
