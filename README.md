@@ -95,7 +95,7 @@ Edit the required value in `config.json`.
 `vhtear`: VHTear API token. You can get it [here](https://api.vhtear.com/) by purchasing his API key.   
 
 ## 🗣️ Changing language
-If you want to change the language, replace all `ind` function to `eng`.
+If you want to change the language, replace all `ind` function to `eng`.   
 Example:
 ```js
 ind.wrongFormat()
