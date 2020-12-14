@@ -537,7 +537,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
                     try {
-                        const imageLink = await uploadImages(mediaData)
+                        const imageLink = await uploadImages(mediaData, `sauce.${sender.id}`)
                         console.log('Searching for source...')
                         const results = await saus(imageLink)
                         for (let i = 0; i < results.length; i++) {
@@ -625,7 +625,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
-                    const imageLink = await uploadImages(mediaData)
+                    const imageLink = await uploadImages(mediaData, `calender.${sender.id}`)
                     fun.calender(imageLink)
                         .then(async ({ result }) => {
                             await bocchi.sendFileFromUrl(from, result.imgUrl, 'calender.jpg', '', id)
@@ -700,7 +700,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
-                    const imageLink = await uploadImages(mediaData)
+                    const imageLink = await uploadImages(mediaData, `missing.${sender.id}`)
                     fun.missing(atas, tengah, bawah, imageLink)
                         .then(async ({ result }) => {
                             await bocchi.sendFileFromUrl(from, result.imgUrl, 'missing.jpg', '', id)
@@ -725,8 +725,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const dataPasangan = await decryptMedia(encryptMedia, uaOverride)
                     const foto = await bocchi.getProfilePicFromServer(sender.id)
                     const dataMu = await bent('buffer')(foto)
-                    const fotoMu = await uploadImages(dataMu)
-                    const fotoPasangan = await uploadImages(dataPasangan)
+                    const fotoMu = await uploadImages(dataMu, `fotoMu.${sender.id}`)
+                    const fotoPasangan = await uploadImages(dataPasangan, `fotoPasangan.${sender.id}`)
                     fun.valentine(nama, pasangan, fotoMu, fotoPasangan)
                         .then(async ({ result }) => {
                             await bocchi.sendFileFromUrl(from, result.imgUrl, `${nama}_${pasangan}.jpg`, '', id)
@@ -806,7 +806,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
-                    const imageLink = await uploadImages(mediaData)
+                    const imageLink = await uploadImages(mediaData, `lightning.${sender.id}`)
                     sticker.stickerLight(imageLink)
                         .then(async ({ result }) => {
                             await bocchi.sendStickerfromUrl(from, result.imgUrl)
@@ -830,7 +830,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
-                    const imageLink = await uploadImages(mediaData)
+                    const imageLink = await uploadImages(mediaData, `fire.${sender.id}`)
                     sticker.stickerFire(imageLink)
                         .then(async ({ result }) => {
                             await bocchi.sendStickerfromUrl(from, result.imgUrl)

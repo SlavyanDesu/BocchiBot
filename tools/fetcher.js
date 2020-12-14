@@ -57,17 +57,18 @@ const fetchText = (url, options) => {
 /**
  * Upload images to telegra.ph server.
  * @param {Buffer} buffData 
+ * @param {String} namaFile
  */
-const uploadImages = (buffData) => {
+const uploadImages = (buffData, namaFile) => {
     return new Promise((resolve, reject) => {
         const { ext } = fromBuffer(buffData)
-        const filePath = 'tools/tmp.' + ext
+        const filePath = `tools/${namaFile}.` + ext
         fs.writeFile(filePath, buffData, { encoding: 'base64' }, (err) => {
             if (err) return reject(err)
             console.log('Uploading image to telegra.ph server...')
             const fileData = fs.readFileSync(filePath)
             const form = new FormData()
-            form.append('file', fileData, 'tmp.' + ext)
+            form.append('file', fileData, `${namaFile}.` + ext)
             fetch('https://telegra.ph/upload', {
                 method: 'POST',
                 body: form
