@@ -95,14 +95,14 @@ Edit the required value in `config.json`.
 `vhtear`: VHTear API token. You can get it [here](https://api.vhtear.com/) by buying his API key.   
 
 ## 🗣️ Changing language
-Wanna change the language of the bot to English? Simply replace all `ind` in `message/index.js` to `eng`  
+If you want to change the language, replace all `ind` function to `eng`.
 Example:
 ```js
-bocchi.reply(from, ind.wrongFormat(), id)
+ind.wrongFormat()
 ```
-To
+To:
 ```js
-bocchi.reply(from, eng.wrongFormat(), id)
+eng.wrongFormat()
 ```
 
 ## 🔍 Installing the dependencies
