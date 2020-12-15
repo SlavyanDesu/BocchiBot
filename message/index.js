@@ -52,14 +52,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isPremium = _premium.includes(sender.id)
         const isRegistered = _registered.includes(sender.id)
         const isDetectorOn = isGroupMsg ? _antilink.includes(chat.id) : false
-        const isInviteLink = await bocchi.inviteInfo(body)
-
+        // const chats = (type === 'chat') ? body : ((type === 'image' || type === 'video')) ? caption : ''
+        
         const prefix  = config.prefix
-        // body = (type === 'chat') ? body : (type === 'image' || type === 'video') ? caption : ''
-        const commands = caption || body || ''
-        const command = commands.slice(1).trim().split(/ +/).shift().toLowerCase()
-        const args = commands.trim().split(/ +/).slice(1)
-        const isCmd = commands.startsWith(prefix)
+        body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video') && caption) && caption.startsWith(prefix)) ? caption : ''
+        const command = body.slice(1).trim().split(/ +/).shift().toLowerCase()
+        const args = body.trim().split(/ +/).slice(1)
+        const isCmd = body.startsWith(prefix)
         const uaOverride = config.uaOverride
         const q = args.join(' ')
         const ar = args.map((v) => v.toLowerCase())
@@ -69,20 +68,19 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
         const isQuotedGif = quotedMsg && quotedMsg.mimetype === 'image/gif'
 
-        /* Ignore non-cmd
-        if (!isCmd) return
-        */
-  
         /* Ignore private chat (for development)
         if (isCmd && !isGroupMsg) return bocchi.sendText(from, `I\'m not ready for public yet! So you wouldn\'t get any response from me.\n\nAlso, *DO NOT* call me. You will *GET BLOCKED* if you did so.\n\nMy master: wa.me/${ownerNumber.replace('@c.us', '')}`)
         */
 
         // Anti-group link detector
-        if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn) {
-            if (body.match(/(https:\/\/chat.whatsapp.com)/gi) && isInviteLink) {
-                await bocchi.reply(from, ind.linkDetected(), id)
-                await bocchi.removeParticipant(groupId, sender.id)
-            }
+        if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isCmd) {
+            const isInviteLink = await bocchi.inviteInfo(message.body)
+            if (isInviteLink) {
+                if (message.body.match(/(https:\/\/chat.whatsapp.com)/gi) && isInviteLink) {
+                    await bocchi.reply(from, ind.linkDetected(), id)
+                    await bocchi.removeParticipant(groupId, sender.id)
+                }
+            } 
         }
 
         /* Leveling [ALPHA]
@@ -103,6 +101,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
         */
+        
+        
+        // Ignore non-cmd
+        if (!isCmd) return
 
         // Ignore banned and blocked users
         if (isCmd && (isBanned || isBlocked) && !isGroupMsg) return console.log(color('[BAN]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
@@ -1469,13 +1471,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
                 if (mentionedJidList.length === 0) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (mentionedJidList[0] === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
-                if (ar === 'add') {
+                if (ar[0] === 'add') {
                     for (let premi of mentionedJidList) {
                          _premium.push(premi)
                          fs.writeFileSync('./database/premium.json', JSON.stringify(_premium))
                     }
                     await bocchi.reply(from, ind.doneOwner(), id)
-                } else if (ar === 'del') {
+                } else if (ar[0] === 'del') {
                     let predel = _premium.indexOf(mentionedJidList[0])
                     _premium.splice(predel, 1)
                     fs.writeFileSync('./database/premium.json', JSON.stringify(_premium))
