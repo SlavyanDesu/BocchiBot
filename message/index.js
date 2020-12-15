@@ -1,3 +1,4 @@
+// Loads all required dependencies
 const { decryptMedia, Client } = require('@open-wa/wa-automate')
 const fs = require('fs-extra')
 const config = require('../config.json')
@@ -17,10 +18,12 @@ const errorImg = 'https://i.ibb.co/x5Ms3wc/10435152-0.png'
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 
+// Loads local files
 const { msgFilter, color, processTime, isUrl } = require('../tools')
 const { nsfw, lirik, shortener, wiki, kbbi, bmkg, weeaboo, medsos, nekopoi, downloader, sticker, fun, search } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
-const { ind, eng } = require('./text/lang/')
+// const { eng } = require('./text/lang/')
+const { ind } = require('./text/lang/')
 const _nsfw = JSON.parse(fs.readFileSync('./database/nsfw.json'))
 const _ban = JSON.parse(fs.readFileSync('./database/banned.json'))
 const _premium = JSON.parse(fs.readFileSync('./database/premium.json'))
@@ -66,13 +69,15 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
         const isQuotedGif = quotedMsg && quotedMsg.mimetype === 'image/gif'
 
-        // Ignore non-cmd
-        // if (!isCmd) return
+        /* Ignore non-cmd
+        if (!isCmd) return
+        */
   
-        // Ignore private chat (for development)
-        // if (isCmd && !isGroupMsg) return bocchi.sendText(from, 'I\'m not ready for public yet! So you wouldn\'t get any response from me.\n\nAlso, *DO NOT* call me. You will *GET BLOCKED* if you did so.\n\nMy master: wa.me/6281294958473')
+        /* Ignore private chat (for development)
+        if (isCmd && !isGroupMsg) return bocchi.sendText(from, `I\'m not ready for public yet! So you wouldn\'t get any response from me.\n\nAlso, *DO NOT* call me. You will *GET BLOCKED* if you did so.\n\nMy master: wa.me/${ownerNumber.replace('@c.us', '')}`)
+        */
 
-        // Anti-link function
+        // Anti-group link detector
         if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn) {
             if (body.match(/(https:\/\/chat.whatsapp.com)/gi) && isInviteLink) {
                 await bocchi.reply(from, ind.linkDetected(), id)
@@ -94,7 +99,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             if (!isNaN(messages)) {
                 await db.add(`level_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`, 1)
                 let levelFetch = await db.get(`level_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`)
-                await bocchi.reply(from, `Selamat ${pushname}! Kamu naik ke level ${levelFetch}`, id)
+                await bocchi.reply(from, `Selamat ${pushname}! Kamu naik ke level *${levelFetch}*!`, id)
             }
         }
         */
@@ -119,7 +124,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'register':
                 if (isRegistered) return await bocchi.reply(from, ind.registeredAlready(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
-                const dataDiri = q.split('|').join('-')
+                const dataDiri = q.replace('|', '-')
                 if (!dataDiri) return await bocchi.reply(from, ind.wrongFormat(), id)
                 _registered.push(sender.id)
                 _biodata.push(dataDiri)
@@ -1489,6 +1494,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             default:
                 if (isCmd) {
+                    console.log(color('[NOT FOUND]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
                     await bocchi.reply(from, `Command ${command} tidak ditemukan.`, id)
                 }
             break
