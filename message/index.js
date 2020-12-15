@@ -1494,7 +1494,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             default:
                 if (isCmd) {
-                    console.log(color('[NOT FOUND]', 'red'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
                     await bocchi.reply(from, `Command ${command} tidak ditemukan.`, id)
                 }
             break
