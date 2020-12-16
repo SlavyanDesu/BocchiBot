@@ -11,6 +11,7 @@ const api = new API()
 const sagiri = require('sagiri')
 const db = require('quick.db')
 const bent = require('bent')
+const canvas = require('canvacord')
 const ms = require('parse-ms')
 const saus = sagiri(config.nao, { results: 5 })
 const cd = 4.32e+7
@@ -135,13 +136,30 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
             // Level [ALPHA]
             case 'level':
-                if (!isRegistered) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
-                const pp = await bocchi.getProfilePicFromServer(sender.id)
-                const levelUser = await db.get(`level_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`)
-                const xpUser = await db.get(`xp_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`)
-                const nextLevelXp = 5000 * (Math.pow(2, levelUser) - 1)
-                await bocchi.sendFile(from, pp, 'rank.jpg', `Username: ${pushname}\nLevel: ${levelUser}\nXP: ${xpUser} / ${nextLevelXp}`, id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                const ppLink = await bocchi.getProfilePicFromServer(sender.id)
+                const ppBuff = await bent('buffer')(ppLink)
+                const lvlUser = await db.get(`level_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`)
+                const userXp = await db.get(`xp_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`)
+                const nextLvlXp = 5000 * (Math.pow(2, lvlUser) - 1)
+                const randomId = Math.floor(1000 + Math.random() * 9000)
+                const randomHex = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`
+                const rank = new canvas.Rank()
+                    .setAvatar(ppBuff)
+                    .setRank(lvlUser)
+                    .setCurrentXP(userXp)
+                    .setRequiredXP(nextLvlXp)
+                    .setProgressBar(randomHex, 'COLOR')
+                    .setUsername(pushname)
+                    .setDiscriminator(randomId)
+                rank.build()
+                    .then(async (buffer) => {
+                        canvas.write(buffer, `${pushname}.png`)
+                        await bocchi.sendFile(from, `${pushname}.png`, `${pushname}.png`, '', id)
+                            .then(() => fs.unlinkSync(`${pushname}.png`))
+                    })
             break
 
             // Downloader
