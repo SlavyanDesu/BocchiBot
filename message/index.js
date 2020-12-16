@@ -84,13 +84,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await db.add(`level_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`, 1)
                     await db.add(`xp_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`, 1)
                 } else {
-                    const xpAdd = Math.floor(Math.random() * 5) + 10 // You can change the XP system with your own
+                    const xpAdd = Math.floor(Math.random() * 10) + 500 // You can change the XP system with your own
                     const nextLevel = 5000 * (Math.pow(2, currentLevel) - 1)
-                    await db.add(`xp_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`, currentXp + xpAdd)
+                    await db.add(`xp_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`, xpAdd)
                     const getPoints = await db.get(`xp_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`)
                     if (nextLevel <= getPoints) {
                         await db.add(`level_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`, 1)
-                        await bocchi.reply(from, `Selamat ${pushname}! Kamu naik ke level ${currentLevel}!`, id)
+                        const refetchLevel = await db.get(`level_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`)
+                        await bocchi.sendText(from, `Selamat ${pushname}! Kamu naik ke level ${refetchLevel}!`)
                     }
                 }
             } catch (err) {
