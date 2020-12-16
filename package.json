@@ -22,6 +22,7 @@
     "@open-wa/wa-automate": "^3.1.10",
     "axios": "^0.21.0",
     "bent": "^7.3.12",
+    "canvacord": "^5.0.8",
     "chalk": "^4.1.0",
     "cheerio": "^1.0.0-rc.3",
     "figlet": "^1.5.0",

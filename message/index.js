@@ -36,8 +36,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const { type, id, from, t, sender, isGroupMsg, chat, caption, isMedia, mimetype, quotedMsg, quotedMsgObj, mentionedJidList } = message
         let { body } = message
         const { name, formattedTitle } = chat
-        let { pushname, verifiedName } = sender
-        pushname = pushname || verifiedName
+        let { pushname, verifiedName, formattedName } = sender
+        pushname = pushname || verifiedName || formattedName
         const botNumber = await bocchi.getHostNumber() + '@c.us'
         const blockNumber = await bocchi.getBlockedIds()
         const ownerNumber = config.ownerBot
@@ -52,7 +52,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isPremium = _premium.includes(sender.id)
         const isRegistered = _registered.includes(sender.id)
         const isDetectorOn = isGroupMsg ? _antilink.includes(chat.id) : false
-        // const chats = (type === 'chat') ? body : ((type === 'image' || type === 'video')) ? caption : ''
+        const chats = (type === 'chat') ? body : ((type === 'image' || type === 'video')) ? caption : ''
         
         const prefix  = config.prefix
         body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video') && caption) && caption.startsWith(prefix)) ? caption : ''
@@ -67,7 +67,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
         const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
         const isQuotedGif = quotedMsg && quotedMsg.mimetype === 'image/gif'
-        const isInviteLink = await bocchi.inviteInfo(message.body)
 
         /* Ignore private chat (for development)
         if (isCmd && !isGroupMsg) return bocchi.sendText(from, `I\'m not ready for public yet! So you wouldn\'t get any response from me.\n\nAlso, *DO NOT* call me. You will *GET BLOCKED* if you did so.\n\nMy master: wa.me/${ownerNumber.replace('@c.us', '')}`)
@@ -75,12 +74,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
         // Anti-group link detector
         if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner && !isCmd) {
-            if (isInviteLink) {
-                if (message.body.match(/(https:\/\/chat.whatsapp.com)/gi) && isInviteLink) {
+            if (chats.match(new RegExp(/(https:\/\/chat.whatsapp.com)/gi))) {
                     await bocchi.reply(from, ind.linkDetected(), id)
                     await bocchi.removeParticipant(groupId, sender.id)
                 }
-            } 
         }
 
         /* Leveling [ALPHA]
