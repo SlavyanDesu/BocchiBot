@@ -155,6 +155,22 @@ exports.linkDetected = () => {
     return `*「 ANTI GROUP LINK 」*\n\nKamu mengirim link group chat!\nMaaf tapi kami harus mengkick kamu...\nSelamat tinggal~`
 }
 
+exports.levelingOn = () => {
+    return `Fitur leveling berhasil *diaktifkan*!`
+}
+
+exports.levelingOff = () => {
+    return `Fitur leveling berhasil *dinonaktifkan*!`
+}
+
+exports.levelingOnAlready = () => {
+    return `Fitur leveling telah diaktifkan sebelumnya.`
+}
+
+exports.levelingNotOn = () => {
+    return `Fitur leveling belum diaktifkan!`
+}
+
 exports.menu = () => {
     return `
 ------[ WELCOME ]-----

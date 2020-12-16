@@ -31,7 +31,7 @@ const start = async (bocchi = new Client()) => {
     bocchi.onMessage((message) => {
         bocchi.getAmountOfLoadedMessages()
             .then((msg) => {
-                if (msg >= 100) {
+                if (msg >= 1000) {
                     console.log('[BOCCHI]', color(`Loaded message reach ${msg}, cuting message cache...`, 'yellow'))
                     bocchi.cutMsgCache()
                         .then(() => console.log('[BOCCHI]', color('Cache deleted!', 'yellow')))

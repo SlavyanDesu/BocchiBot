@@ -30,6 +30,7 @@ const _premium = JSON.parse(fs.readFileSync('./database/premium.json'))
 const _biodata = JSON.parse(fs.readFileSync('./database/biodata.json'))
 const _registered = JSON.parse(fs.readFileSync('./database/registered.json'))
 const _antilink = JSON.parse(fs.readFileSync('./database/antilink.json'))
+const _leveling = JSON.parse(fs.readFileSync('./database/leveling.json'))
 
 module.exports = msgHandler = async (bocchi = new Client(), message) => {
     try {
@@ -52,6 +53,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isPremium = _premium.includes(sender.id)
         const isRegistered = _registered.includes(sender.id)
         const isDetectorOn = isGroupMsg ? _antilink.includes(chat.id) : false
+        const isLevelingOn = isGroupMsg ? _leveling.includes(chat.id) : false
         const chats = (type === 'chat') ? body : ((type === 'image' || type === 'video')) ? caption : ''
         
         const prefix  = config.prefix
@@ -72,33 +74,32 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         if (isCmd && !isGroupMsg) return bocchi.sendText(from, `I\'m not ready for public yet! So you wouldn\'t get any response from me.\n\nAlso, *DO NOT* call me. You will *GET BLOCKED* if you did so.\n\nMy master: wa.me/${ownerNumber.replace('@c.us', '')}`)
         */
 
+        // Leveling [ALPHA]
+        if (isGroupMsg && isRegistered && isLevelingOn && !isCmd) {
+            const currentLevel = await db.get(`level_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`)
+            const currentXp = await db.get(`xp_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`)
+            if (currentLevel === null && currentXp === null) {
+                await db.add(`level_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`, 1)
+                await db.add(`xp_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`, 1)
+            } else {
+                const xpAdd = Math.floor(Math.random() * 10) + 10 // You can change the XP system with your own
+                const nextLevel = 5000 * (Math.pow(2, currentLevel) - 1)
+                await db.add(`xp_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`, currentXp + xpAdd)
+                const getPoints = await db.get(`xp_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`)
+                if (nextLevel <= getPoints) {
+                    await db.add(`level_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`, 1)
+                    await bocchi.reply(from, `Selamat ${pushname}! Kamu naik ke level ${currentLevel}!`, id)
+                }
+            }
+        }
+
         // Anti-group link detector
         if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner) {
             if (chats.match(new RegExp(/(https:\/\/chat.whatsapp.com)/gi))) {
-                    await bocchi.reply(from, ind.linkDetected(), id)
-                    await bocchi.removeParticipant(groupId, sender.id)
-                }
-        }
-
-        /* Leveling [ALPHA]
-        if (isGroupMsg && isRegistered && !isCmd) {
-            await db.add(`message_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`, 1)
-            let messageFetch = await db.get(`message_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`)
-            let messages
-            if (messageFetch === 5) messages = 5 // Level 1
-            else if (messageFetch === 65) messages = 65 // Level 2
-            else if (messageFetch === 115) messages = 115 // Level 3
-            else if (messageFetch === 200) messages = 200 // Level 4
-            else if (messageFetch === 300) messages = 300 // Level 5
-
-            if (!isNaN(messages)) {
-                await db.add(`level_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`, 1)
-                let levelFetch = await db.get(`level_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`)
-                await bocchi.reply(from, `Selamat ${pushname}! Kamu naik ke level *${levelFetch}*!`, id)
+                await bocchi.reply(from, ind.linkDetected(), id)
+                await bocchi.removeParticipant(groupId, sender.id)
             }
         }
-        */
-        
         
         // Ignore non-cmd
         if (!isCmd) return
@@ -131,6 +132,18 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 fs.writeFileSync('./database/biodata.json', JSON.stringify(_biodata))
                 await bocchi.reply(from, ind.registered(), id)
             break
+
+            // Level [ALPHA]
+            case 'level':
+                if (!isRegistered) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
+                const pp = await bocchi.getProfilePicFromServer(sender.id)
+                const levelUser = await db.get(`level_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`)
+                const xpUser = await db.get(`xp_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`)
+                const nextLevelXp = 5000 * (Math.pow(2, levelUser) - 1)
+                await bocchi.sendFile(from, pp, 'rank.jpg', `Username: ${pushname}\nLevel: ${levelUser}\nXP: ${xpUser} / ${nextLevelXp}`, id)
+            break
+
 
             // Downloader
             case 'joox':
@@ -1376,6 +1389,23 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     _antilink.splice(chat.id, 1)
                     fs.writeFileSync('./database/antilink.json', JSON.stringify(_antilink))
                     await bocchi.reply(from, ind.detectorOff(), id)
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
+            break
+            case 'leveling':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
+                if (ar[0] === 'enable') {
+                    if (isLevelingOn) return await bocchi.reply(from, ind.levelingOnAlready(), id)
+                    _leveling.push(chat.id)
+                    fs.writeFileSync('./database/leveling.json', JSON.stringify(_leveling))
+                    await bocchi.reply(from, ind.levelingOn(), id)
+                } else if (ar[0] === 'disable') {
+                    _leveling.splice(chat.id, 1)
+                    fs.writeFileSync('./database/leveling.json', JSON.stringify(_leveling))
+                    await bocchi.reply(from, ind.levelingOff(), id)
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
