@@ -67,14 +67,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
         const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
         const isQuotedGif = quotedMsg && quotedMsg.mimetype === 'image/gif'
+        const isInviteLink = await bocchi.inviteInfo(message.body)
 
         /* Ignore private chat (for development)
         if (isCmd && !isGroupMsg) return bocchi.sendText(from, `I\'m not ready for public yet! So you wouldn\'t get any response from me.\n\nAlso, *DO NOT* call me. You will *GET BLOCKED* if you did so.\n\nMy master: wa.me/${ownerNumber.replace('@c.us', '')}`)
         */
 
         // Anti-group link detector
-        if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isCmd) {
-            const isInviteLink = await bocchi.inviteInfo(message.body)
+        if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner && !isCmd) {
             if (isInviteLink) {
                 if (message.body.match(/(https:\/\/chat.whatsapp.com)/gi) && isInviteLink) {
                     await bocchi.reply(from, ind.linkDetected(), id)
