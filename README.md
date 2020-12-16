@@ -57,15 +57,16 @@
 
 ---
 
-# Troubleshooting
-If you having problem when installing the modules (most likely when installing quick.db), please [READ THIS](https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/troubleshooting.md).
 
 # Requirements
 * [Node.js](https://nodejs.org/en/)
 * [Git](https://git-scm.com/downloads)
 * [FFmpeg](https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2020-12-08-13-03/ffmpeg-n4.3.1-26-gca55240b8c-win64-gpl-4.3.zip) (for sticker GIF command)
 * Any text editor
-* [Python](https://www.python.org/downloads/) installed in PATH (Recommended for avoiding failure from installing quick.db)
+
+## Quick.db requirements (if error happen when installing the modules)
+* [node-gyp](https://github.com/nodejs/node-gyp) (Please read the installation steps correctly!)
+If error still occurs, please read <a href="https://github.com/SlavyanDesu/BocchiBot#troubleshooting">troubleshooting</a> section.
 
 # Installation
 ## 📝 Cloning this repo
@@ -233,6 +234,9 @@ If you want to unlock premium commands, please contact me~
 | Multi lewds        |    Premium   |
 | Multi fetish       |    Premium   |
 
+# Troubleshooting
+If you having problem when installing the modules (most likely when installing Quick.db), please [READ THIS](https://github.com/JoshuaWise/better-sqlite3/blob/master/docs/troubleshooting.md).
+Also, if error still occurs and don't know what to do please make an issue on [this repo](https://github.com/JoshuaWise/better-sqlite3/), thank you.
 
 # Thanks to
 * [`open-wa/wa-automate-nodejs`](https://github.com/open-wa/wa-automate-nodejs)
