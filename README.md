@@ -136,7 +136,7 @@ If you want to unlock premium commands, please contact me~
 |   Unique Features   |  Conditions  |
 | :-----------------: | :----------: |
 | Register            |      ✔️      |
-| Leveling            |     Todo     |
+| Leveling            |      ✔️      |
 | Command limit       |     Soon     |
 
 |     Sticker Maker     | Availability |
