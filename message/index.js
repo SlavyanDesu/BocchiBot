@@ -144,7 +144,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.sendFile(from, pp, 'rank.jpg', `Username: ${pushname}\nLevel: ${levelUser}\nXP: ${xpUser} / ${nextLevelXp}`, id)
             break
 
-
             // Downloader
             case 'joox':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -395,6 +394,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else if (args[0] === '9') {
                     if (!isOwner) return await bocchi.reply(from, ind.ownerOnly())
                     await bocchi.sendText(from, ind.menuOwner())
+                } else if (args[0] === '10') {
+                    if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                    await bocchi.sendText(from, ind.menuLeveling())
                 } else {
                     await bocchi.sendText(from, ind.menu())
                 }

@@ -186,6 +186,7 @@ Berikut adalah menu yang tersedia:
 *[7]* Moderation
 *[8]* NSFW
 *[9]* Owner
+*[10]* Leveling [ALPHA]
 
 Ketik *${prefix}menu* angka_index untuk membuka menu page yang dipilih.
 
@@ -613,6 +614,19 @@ Aliases: *setstats setstat*
 Usage: *${prefix}status* teks
 
 _Index of [9]_
+    `
+}
+
+exports.menuLeveling = () => {
+    return `
+-----[ LEVELING ]-----
+
+1. *${prefix}level*
+Untuk melihat level kamu.
+Aliases: -
+Usage: *${prefix}level*
+
+_Index of [10]_
     `
 }
 
