@@ -73,7 +73,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         */
 
         // Anti-group link detector
-        if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner && !isCmd) {
+        if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner) {
             if (chats.match(new RegExp(/(https:\/\/chat.whatsapp.com)/gi))) {
                     await bocchi.reply(from, ind.linkDetected(), id)
                     await bocchi.removeParticipant(groupId, sender.id)
