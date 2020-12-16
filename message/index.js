@@ -77,20 +77,20 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
         // Leveling [ALPHA]
         if (isGroupMsg && isRegistered && isLevelingOn && !isCmd) {
-            const currentLevel = await db.get(`level_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`)
-            const currentXp = await db.get(`xp_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`)
+            const currentLevel = await db.get(`level_${sender.id.replace('@c.us', '')}`)
+            const currentXp = await db.get(`xp_${sender.id.replace('@c.us', '')}`)
             try {
                 if (currentLevel === null && currentXp === null) {
-                    await db.add(`level_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`, 1)
-                    await db.add(`xp_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`, 1)
+                    await db.add(`level_${sender.id.replace('@c.us', '')}`, 1)
+                    await db.add(`xp_${sender.id.replace('@c.us', '')}`, 1)
                 } else {
                     const xpAdd = Math.floor(Math.random() * 10) + 500 // You can change the XP system with your own
                     const nextLevel = 5000 * (Math.pow(2, currentLevel) - 1)
-                    await db.add(`xp_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`, xpAdd)
-                    const getPoints = await db.get(`xp_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`)
+                    await db.add(`xp_${sender.id.replace('@c.us', '')}`, xpAdd)
+                    const getPoints = await db.get(`xp_${sender.id.replace('@c.us', '')}`)
                     if (nextLevel <= getPoints) {
-                        await db.add(`level_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`, 1)
-                        const refetchLevel = await db.get(`level_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`)
+                        await db.add(`level_${sender.id.replace('@c.us', '')}`, 1)
+                        const refetchLevel = await db.get(`level_${sender.id.replace('@c.us', '')}`)
                         await bocchi.sendText(from, `Selamat ${pushname}! Kamu naik ke level ${refetchLevel}!`)
                     }
                 }
@@ -146,8 +146,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 const ppLink = await bocchi.getProfilePicFromServer(sender.id)
                 const ppBuff = await bent('buffer')(ppLink)
-                const lvlUser = await db.get(`level_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`)
-                const userXp = await db.get(`xp_${chat.id.replace('@g.us', '')}_${sender.id.replace('@c.us', '')}`)
+                const lvlUser = await db.get(`level_${sender.id.replace('@c.us', '')}`)
+                const userXp = await db.get(`xp_${sender.id.replace('@c.us', '')}`)
                 const nextLvlXp = 5000 * (Math.pow(2, lvlUser) - 1)
                 const randomId = Math.floor(1000 + Math.random() * 9000)
                 const randomHex = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`
@@ -157,7 +157,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .setRankColor('#2c2f33', '#2c2f33')
                     .setCurrentXP(userXp)
                     .setRequiredXP(nextLvlXp)
-                    .setProgressBar(randomHex, 'COLOR')
+                    .setProgressBar([randomHex, randomHex], 'GRADIENT')
                     .setUsername(pushname)
                     .setDiscriminator(randomId)
                 rank.build()
@@ -167,6 +167,21 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                             .then(() => fs.unlinkSync(`${pushname}.png`))
                     })
             break
+            /* case 'leaderboard':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
+                if (!isGroupMsg) return await bocchi.reply(from. ind.groupOnly(), id)
+                const resp = db.all()
+                resp.sort((a, b) => (a.data < b.data) ? 1 : -1)
+                let leaderboard = '-----[ *LEADERBOARD* ]----\n\n'
+                var nom = 0
+                for (let i = 0; i < resp.length; i++) {
+                    nom++
+                    leaderboard += `${nom}. ${resp[i].ID.replace(/[a-z_]/gi, '')}|`
+                }
+                await bocchi.sendText(from, leaderboard)
+            break
+            */
 
             // Downloader
             case 'joox':
