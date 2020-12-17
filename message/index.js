@@ -161,6 +161,21 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 fs.writeFileSync('./database/biodata.json', JSON.stringify(_biodata))
                 await bocchi.reply(from, ind.registered(), id)
             break
+                
+                //OTHERS
+               case 'tts':
+                if (args.length == 0) return bocchi.reply(from, `Mengubah teks menjadi sound (google voice)\nketik: ${prefix}tts <kode_bahasa> <teks>\ncontoh : ${prefix}tts id halo\nuntuk kode bahasa cek disini : https://anotepad.com/note/read/5xqahdy8`, id)
+                const ttsGB = require('node-gtts')(args[0])
+                const dataText = body.slice(8)
+                if (dataText === '') return bocchi.reply(from, 'Teks nya mana?', id)
+                try {
+                    ttsGB.save('./media/tts.mp3', dataText, function () {
+                    bocchi.sendPtt(from, './media/tts.mp3', id)
+                    })
+                } catch (err) {
+                    bocchi.reply(from, err, id)
+                }
+            break
 
             // Level [ALPHA]
             case 'level':
