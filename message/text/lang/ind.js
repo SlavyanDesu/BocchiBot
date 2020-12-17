@@ -171,6 +171,10 @@ exports.levelingNotOn = () => {
     return `Fitur leveling belum diaktifkan!`
 }
 
+exports.levelNull = () => {
+    return `Kamu belum memiliki level!`
+}
+
 exports.menu = () => {
     return `
 ------[ WELCOME ]-----

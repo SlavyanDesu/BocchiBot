@@ -15,7 +15,7 @@ const canvas = require('canvacord')
 const ms = require('parse-ms')
 const saus = sagiri(config.nao, { results: 5 })
 const cd = 4.32e+7
-const errorImg = 'https://i.ibb.co/x5Ms3wc/10435152-0.png'
+const errorImg = 'https://i.imgur.com/UxvMPUz.png'
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 
@@ -144,30 +144,41 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
-                const ppLink = await bocchi.getProfilePicFromServer(sender.id)
-                const ppBuff = await bent('buffer')(ppLink)
                 const lvlUser = await db.get(`level_${sender.id.replace('@c.us', '')}`)
                 const userXp = await db.get(`xp_${sender.id.replace('@c.us', '')}`)
+                const ppLink = await bocchi.getProfilePicFromServer(sender.id)
+                if (lvlUser === null && userXp === null) return await bocchi.reply(from, ind.levelNull(), id)
+                if (ppLink === undefined) {
+                    var pepe = errorImg
+                } else {
+                    var pepe = ppLink
+                }
                 const nextLvlXp = 5000 * (Math.pow(2, lvlUser) - 1)
-                const randomId = Math.floor(1000 + Math.random() * 9000)
+                const userId = sender.id.substring(9, 13)
+                const randomHexs = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`
                 const randomHex = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`
                 const rank = new canvas.Rank()
-                    .setAvatar(ppBuff)
+                    .setAvatar(pepe)
                     .setLevel(lvlUser)
                     .setRankColor('#2c2f33', '#2c2f33')
                     .setCurrentXP(userXp)
                     .setRequiredXP(nextLvlXp)
-                    .setProgressBar([randomHex, randomHex], 'GRADIENT')
+                    .setProgressBar([randomHexs, randomHex], 'GRADIENT')
                     .setUsername(pushname)
-                    .setDiscriminator(randomId)
+                    .setDiscriminator(userId)
                 rank.build()
                     .then(async (buffer) => {
                         canvas.write(buffer, `${pushname}.png`)
                         await bocchi.sendFile(from, `${pushname}.png`, `${pushname}.png`, '', id)
                             .then(() => fs.unlinkSync(`${pushname}.png`))
                     })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
             break
-            /* case 'leaderboard':
+            /*
+            case 'leaderboard':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
                 if (!isGroupMsg) return await bocchi.reply(from. ind.groupOnly(), id)
