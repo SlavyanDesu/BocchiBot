@@ -5,6 +5,7 @@ const figlet = require('figlet')
 const msgHandler = require('./message')
 const config = require('./config.json')
 const ownerNumber = config.ownerBot
+const fs = require('fs-extra')
 
 const start = async (bocchi = new Client()) => {
     console.log(color(figlet.textSync('BocchiBot', 'Larry 3D'), 'cyan'))
@@ -45,6 +46,23 @@ const start = async (bocchi = new Client()) => {
         await bocchi.sendText(callData.peerJid, ind.blocked(ownerNumber))
         await bocchi.contactBlock(callData.peerJid)
             .then(() => console.log(color('[BLOCK]', 'red'), color(`${callData.peerJid} has been blocked. Reason:`, 'yellow'), color('CALLING THE BOT', 'cyan')))
+    })
+
+    // Listen to group's event
+    bocchi.onGlobalParicipantsChanged(async (event) => {
+        const welcome = JSON.parse(fs.readFileSync('./database/welcome.json'))
+        const isWelcome = welcome.includes(event.chat)
+        const botNumbers = await bocchi.getHostNumber() + '@c.us'
+        try {
+            if (event.action === 'add' && event.who !== botNumbers && isWelcome) {
+                const pic = await bocchi.getProfilePicFromServer(event.who)
+                if (pic === '' || pic === undefined) pic = 'https://i.imgur.com/UxvMPUz.png'
+                await bocchi.sendFileFromUrl(event.chat, pic, 'profile.jpg', '')
+                await bocchi.sendTextWithMentions(event.chat, ind.welcome(event))
+            }
+        } catch (err) {
+            console.error(err)
+        }
     })
 }
 

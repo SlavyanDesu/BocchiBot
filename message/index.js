@@ -32,6 +32,8 @@ const _biodata = JSON.parse(fs.readFileSync('./database/biodata.json'))
 const _registered = JSON.parse(fs.readFileSync('./database/registered.json'))
 const _antilink = JSON.parse(fs.readFileSync('./database/antilink.json'))
 const _leveling = JSON.parse(fs.readFileSync('./database/leveling.json'))
+const _welcome = JSON.parse(fs.readFileSync('./database/welcome.json'))
+const _xp = JSON.parse(fs.readFileSync('./database/xp.json'))
 
 module.exports = msgHandler = async (bocchi = new Client(), message) => {
     try {
@@ -53,6 +55,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isBanned = _ban.includes(sender.id)
         const isPremium = _premium.includes(sender.id)
         const isRegistered = _registered.includes(sender.id)
+        const isWelcomeOn = isGroupMsg ? _welcome.includes(chat.id) : false
         const isDetectorOn = isGroupMsg ? _antilink.includes(chat.id) : false
         const isLevelingOn = isGroupMsg ? _leveling.includes(chat.id) : false
         const chats = (type === 'chat') ? body : ((type === 'image' || type === 'video')) ? caption : ''
@@ -75,20 +78,40 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         if (isCmd && !isGroupMsg) return bocchi.sendText(from, `I\'m not ready for public yet! So you wouldn\'t get any response from me.\n\nAlso, *DO NOT* call me. You will *GET BLOCKED* if you did so.\n\nMy master: wa.me/${ownerNumber.replace('@c.us', '')}`)
         */
 
+        // Function for leveling commands
+        const getInfoXp = async (userId) => {
+            let position
+            Object.keys(_xp).forEach((i) => {
+                if (_xp[i].id === userId) {
+                    position = i
+                }
+            })
+            return _xp[position].xp
+        }
+
         // Leveling [ALPHA]
         if (isGroupMsg && isRegistered && isLevelingOn && !isCmd) {
+            let obj = {id: `${sender.id}`, xp: 1}
             const currentLevel = await db.get(`level_${sender.id.replace('@c.us', '')}`)
-            const currentXp = await db.get(`xp_${sender.id.replace('@c.us', '')}`)
             try {
-                if (currentLevel === null && currentXp === null) {
+                if (currentLevel === null) {
                     await db.add(`level_${sender.id.replace('@c.us', '')}`, 1)
-                    await db.add(`xp_${sender.id.replace('@c.us', '')}`, 1)
+                    _xp.push(obj)
+                    fs.writeFileSync('./database/xp.json', JSON.stringify(_xp))
                 } else {
                     const xpAdd = Math.floor(Math.random() * 10) + 500 // You can change the XP system with your own
                     const nextLevel = 5000 * (Math.pow(2, currentLevel) - 1)
-                    await db.add(`xp_${sender.id.replace('@c.us', '')}`, xpAdd)
-                    const getPoints = await db.get(`xp_${sender.id.replace('@c.us', '')}`)
-                    if (nextLevel <= getPoints) {
+                    let pos
+                    Object.keys(_xp).forEach((i) => {
+                        if (_xp[i].id === sender.id) {
+                            pos = i
+                        }
+                    })
+                    if (pos !== undefined) {
+                        _xp[pos].xp += xpAdd
+                        fs.writeFileSync('./database/xp.json', JSON.stringify(_xp))
+                    }
+                    if (nextLevel <= _xp[pos].xp) {
                         await db.add(`level_${sender.id.replace('@c.us', '')}`, 1)
                         const refetchLevel = await db.get(`level_${sender.id.replace('@c.us', '')}`)
                         await bocchi.sendText(from, `Selamat ${pushname}! Kamu naik ke level ${refetchLevel}!`)
@@ -145,9 +168,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 const lvlUser = await db.get(`level_${sender.id.replace('@c.us', '')}`)
-                const userXp = await db.get(`xp_${sender.id.replace('@c.us', '')}`)
+                const userXp = await getInfoXp(sender.id)
+                if (lvlUser === null) return await bocchi.reply(from, ind.levelNull(), id)
                 const ppLink = await bocchi.getProfilePicFromServer(sender.id)
-                if (lvlUser === null && userXp === null) return await bocchi.reply(from, ind.levelNull(), id)
                 if (ppLink === undefined) {
                     var pepe = errorImg
                 } else {
@@ -177,7 +200,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-            /*
             case 'leaderboard':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
@@ -185,14 +207,18 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const resp = db.all()
                 resp.sort((a, b) => (a.data < b.data) ? 1 : -1)
                 let leaderboard = '-----[ *LEADERBOARD* ]----\n\n'
-                var nom = 0
-                for (let i = 0; i < resp.length; i++) {
-                    nom++
-                    leaderboard += `${nom}. ${resp[i].ID.replace(/[a-z_]/gi, '')}|`
+                let nom = 0
+                try {
+                    for (let i = 0; i < 2; i++) {
+                        nom++
+                        leaderboard += `${nom}. @${resp[i].ID.replace('level_', '')} Level: *${resp[i].data}*\n`
+                    }
+                    await bocchi.sendTextWithMentions(from, leaderboard)
+                } catch (err) {
+                    console.error(err)
+                    await bocchi.reply(from, ind.minimalDb(), id)
                 }
-                await bocchi.sendText(from, leaderboard)
             break
-            */
 
             // Downloader
             case 'joox':
@@ -1458,6 +1484,23 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     _leveling.splice(chat.id, 1)
                     fs.writeFileSync('./database/leveling.json', JSON.stringify(_leveling))
                     await bocchi.reply(from, ind.levelingOff(), id)
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
+            break
+            case 'welcome':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
+                if (ar[0] === 'enable') {
+                    if (isWelcomeOn) return await bocchi.reply(from, ind.welcomeOnAlready(), id)
+                    _welcome.push(chat.id)
+                    fs.writeFileSync('./database/welcome.json', JSON.stringify(_welcome))
+                    await bocchi.reply(from, ind.welcomeOn(), id)
+                } else if (ar[0] === 'disable') {
+                    _welcome.splice(chat.id, 1)
+                    fs.writeFileSync('./database/welcome.json', JSON.stringify(_welcome))
+                    await bocchi.reply(from, ind.welcomeOff(), id)
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }

@@ -58,7 +58,7 @@ exports.nsfwAlready = () => {
 }
 
 exports.addedGroup = (chat) => {
-    return `Terima kasih telah mengundangku, para member *${chat.contact.name}*!\n\nSilakan register dengan cara ketik:\n*${prefix}register* nama | daerah`
+    return `Terima kasih telah mengundangku, para member *${chat.contact.name}*!\n\nSilakan register dengan cara ketik:\n*${prefix}register* nama | umur`
 }
 
 exports.nhFalse = () => {
@@ -96,7 +96,7 @@ exports.ytFound = (res) => {
 }
 
 exports.notRegistered = () => {
-    return `Kamu belum terdaftar di database!\n\nSilakan register dengan format:\n*${prefix}register* nama | daerah`
+    return `Kamu belum terdaftar di database!\n\nSilakan register dengan format:\n*${prefix}register* nama | umur`
 }
 
 exports.registered = () => {
@@ -173,6 +173,26 @@ exports.levelingNotOn = () => {
 
 exports.levelNull = () => {
     return `Kamu belum memiliki level!`
+}
+
+exports.welcome = (event) => {
+    return `Selamat datang @${event.who.replace('@c.us', '')}!\n\nSemoga betah terus di grup kami ya~`
+}
+
+exports.welcomeOn = () => {
+    return `Fitur welcome berhasil *diaktifkan*!`
+}
+
+exports.welcomeOff = () => {
+    return `Fitur welcome berhasil *dinonaktifkan*!`
+}
+
+exports.welcomeOnAlready = () => {
+    return `Fitur welcome telah diaktifkan sebelumnya.`
+}
+
+exports.minimalDb = () => {
+    return ` Perlu setidaknya 5 user yang memiliki level di database!`
 }
 
 exports.menu = () => {
@@ -510,6 +530,11 @@ Mematikan/menyalakan fitur anti group link.
 Aliases: -
 Usage: *${prefix}antilink* enable/disable
 
+10. *${prefix}welcome*
+Mematikan/menyalakan fitur welcome di grup agar menyambut setiap kedatangan member.
+Aliases: -
+Usage: *${prefix}welcome* enable/disable
+
 _Index of [7]_
     `
 }
@@ -629,6 +654,11 @@ exports.menuLeveling = () => {
 Untuk melihat level kamu.
 Aliases: -
 Usage: *${prefix}level*
+
+2. *${prefix}leaderboard*
+Untuk melihat leaderboard.
+Aliaases: -
+Usage: *${prefix}leaderboard*
 
 _Index of [10]_
     `

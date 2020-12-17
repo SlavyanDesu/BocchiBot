@@ -54,7 +54,7 @@ exports.nsfwOff = () => {
 }
 
 exports.addedGroup = (chat) => {
-    return `Thank you for inviting me, members *${chat.contact.name}*!\n\nPlease register by typing:\n*${prefix}register* name | area`
+    return `Thank you for inviting me, members *${chat.contact.name}*!\n\nPlease register by typing:\n*${prefix}register* name | age`
 }
 
 exports.nhFalse = () => {
@@ -92,7 +92,7 @@ exports.ytFound = (res) => {
 }
 
 exports.notRegistered = () => {
-    return `You are not registered in the database yet!\n\nPlease register with the format:\n*${prefix}register* name | area`
+    return `You are not registered in the database yet!\n\nPlease register with the format:\n*${prefix}register* name | age`
 }
 
 exports.registered = () => {
