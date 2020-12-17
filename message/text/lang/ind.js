@@ -348,6 +348,11 @@ Mengirim hasil pencarian di YouTube.
 Aliases: *yts*
 Usage: *${prefix}ytsearch* query
 
+10. *${prefix}tts*
+Membuat Text to Speech. Kalian perlu kode bahasa setiap menggunakan, cek di sini https://id.wikipedia.org/wiki/Daftar_bahasa_menurut_ISO_639-2
+Aliases: -
+Usage: *${prefix}tts kode_bahasa | teks*
+
 _Index of [3]_
     `
 }
