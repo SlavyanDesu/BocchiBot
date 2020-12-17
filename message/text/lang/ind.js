@@ -192,7 +192,7 @@ exports.welcomeOnAlready = () => {
 }
 
 exports.minimalDb = () => {
-    return ` Perlu setidaknya 5 user yang memiliki level di database!`
+    return ` Perlu setidaknya 10 user yang memiliki level di database!`
 }
 
 exports.menu = () => {
