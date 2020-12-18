@@ -13,7 +13,6 @@ const db = require('quick.db')
 const tts = require('node-gtts')
 const bent = require('bent')
 const canvas = require('canvacord')
-const ms = require('parse-ms')
 const saus = sagiri(config.nao, { results: 5 })
 const errorImg = 'https://i.imgur.com/UxvMPUz.png'
 const moment = require('moment-timezone')
