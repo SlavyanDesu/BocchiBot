@@ -65,7 +65,7 @@
 * Any text editor
 
 ## Quick.db requirements (if error happen when installing the modules)
-* [node-gyp](https://github.com/nodejs/node-gyp) (Please read the installation steps correctly!)
+* [node-gyp](https://github.com/nodejs/node-gyp) (please read the installation steps correctly!)
 If error still occurs, please read <a href="https://github.com/SlavyanDesu/BocchiBot#troubleshooting">troubleshooting</a> section.
 
 # Installation
@@ -165,6 +165,7 @@ If you want to unlock premium commands, please contact me~
 | GSMArena         |      ✔️      |
 | Food receipt     |      ✔️      |
 | YouTube search   |      ✔️      |
+| TTS              |      ✔️      |
 
 |        Fun       | Availability |
 | :--------------: | :----------: |
@@ -220,6 +221,7 @@ If you want to unlock premium commands, please contact me~
 | Toogle NSFW      |      ✔️      |
 | Set group icon   |      ✔️      |
 | Anti-link        |      ✔️      |
+| Welcome          |      ✔️      |
 
 |        NSFW        | Availability |
 | :----------------: | :----------: |

@@ -80,13 +80,15 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
         // Function for leveling commands
         const getInfoXp = async (userId) => {
-            let position
+            let position = false
             Object.keys(_xp).forEach((i) => {
                 if (_xp[i].id === userId) {
                     position = i
                 }
             })
-            return _xp[position].xp
+            if (position !== false) {
+                return _xp[position].xp
+            }
         }
 
         // Leveling [ALPHA]
@@ -101,13 +103,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     const xpAdd = Math.floor(Math.random() * 10) + 500 // You can change the XP system with your own
                     const nextLevel = 5000 * (Math.pow(2, currentLevel) - 1)
-                    let pos
+                    let pos = false
                     Object.keys(_xp).forEach((i) => {
                         if (_xp[i].id === sender.id) {
                             pos = i
                         }
                     })
-                    if (pos !== undefined) {
+                    if (pos !== false) {
                         _xp[pos].xp += xpAdd
                         fs.writeFileSync('./database/xp.json', JSON.stringify(_xp))
                     }
