@@ -20,7 +20,6 @@ const nhentai = require('nhentai-js')
 const { API } = require('nhentai-api')
 const api = new API()
 const sagiri = require('sagiri')
-const db = require('quick.db')
 const tts = require('node-gtts')
 const bent = require('bent')
 const ms = require('parse-ms')
@@ -48,7 +47,7 @@ const _registered = JSON.parse(fs.readFileSync('./database/registered.json'))
 const _antilink = JSON.parse(fs.readFileSync('./database/antilink.json'))
 const _leveling = JSON.parse(fs.readFileSync('./database/leveling.json'))
 const _welcome = JSON.parse(fs.readFileSync('./database/welcome.json'))
-const _xp = JSON.parse(fs.readFileSync('./database/xp.json'))
+const _level = JSON.parse(fs.readFileSync('./database/level.json'))
 const _limit = JSON.parse(fs.readFileSync('./database/limit.json'))
 /********** END OF DATABASES **********/
 
@@ -98,45 +97,70 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         /********** FUNCTION **********/
         const getInfoXp = (userId) => {
             let position = false
-            Object.keys(_xp).forEach((i) => {
-                if (_xp[i].id === userId) {
+            Object.keys(_level).forEach((i) => {
+                if (_level[i].id === userId) {
                     position = i
                 }
             })
             if (position !== false) {
-                return _xp[position].xp
+                return _level[position].xp
+            }
+        }
+
+        const getInfoLevel = (userId) => {
+            let position = false
+            Object.keys(_level).forEach((i) => {
+                if (_level[i].id === userId) {
+                    position = i
+                }
+            })
+            if (position !== false) {
+                return _level[position].level
             }
         }
 
         const getInfoId = (userId) => {
             let position = false
-            Object.keys(_xp).forEach((i) => {
-                if (_xp[i].id === userId) {
+            Object.keys(_level).forEach((i) => {
+                if (_level[i].id === userId) {
                     position = i
                 }
             })
             if (position !== false) {
-                return _xp[position].id
+                return _level[position].id
             }
         }
 
         const addUserXp = (userId, amount) => {
             let position = false
-            Object.keys(_xp).forEach((i) => {
-                if (_xp[i].id === userId) {
+            Object.keys(_level).forEach((i) => {
+                if (_level[i].id === userId) {
                     position = i
                 }
             })
             if (position !== false) {
-                _xp[position].xp += amount
-                fs.writeFileSync('./database/xp.json', JSON.stringify(_xp))
+                _level[position].xp += amount
+                fs.writeFileSync('./database/level.json', JSON.stringify(_level))
+            }
+        }
+
+        const addUserLevel = (userId, amount) => {
+            let position = false
+            Object.keys(_level).forEach((i) => {
+                if (_level[i].id === userId) {
+                    position = i
+                }
+            })
+            if (position !== false) {
+                _level[position].level += amount
+                fs.writeFileSync('./database/level.json', JSON.stringify(_level))
             }
         }
 
         const addUserId = (userId) => {
-            let obj = {id: `${userId}`, xp: 1}
-            _xp.push(obj)
-            fs.writeFileSync('./database/xp.json', JSON.stringify(_xp))
+            let obj = {id: `${userId}`, xp: 1, level: 1}
+            _level.push(obj)
+            fs.writeFileSync('./database/level.json', JSON.stringify(_level))
         }
 
         const addLimit = (userId) => {
@@ -160,21 +184,22 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
         // Leveling [ALPHA]
         if (isGroupMsg && isRegistered && isLevelingOn && !isCmd) {
-            const currentLevel = await db.get(`level_${sender.id.replace('@c.us', '')}`)
-            const checking = getInfoId(sender.id)
+            const currentLevel = getInfoLevel(sender.id)
+            const checkId = getInfoId(sender.id)
             try {
-                if (currentLevel === null && checking === undefined) {
-                    await db.add(`level_${sender.id.replace('@c.us', '')}`, 1)
+                if (currentLevel === undefined && checkId === undefined) {
                     addUserId(sender.id)
                 } else {
-                    const addXp = Math.floor(Math.random() * 10) + 500 // You can change the XP system with your own
-                    const nextLevel = 5000 * (Math.pow(2, currentLevel) - 1)
+                    const amountXp = Math.floor(Math.random() * 10) + 500
+                    const requiredXp = 5000 * (Math.pow(2, currentLevel) - 1)
                     const getXp = getInfoXp(sender.id)
-                    addUserXp(sender.id, addXp)
-                    if (nextLevel <= getXp) {
-                        await db.add(`level_${sender.id.replace('@c.us', '')}`, 1)
-                        const refetchLevel = await db.get(`level_${sender.id.replace('@c.us', '')}`)
+                    addUserXp(sender.id, amountXp)
+                    if (requiredXp <= getXp) {
+                        addUserLevel(sender.id, 1)
+                        /*
+                        const getLevel = getInfoLevel(sender.id)
                         await bocchi.sendText(from, `Selamat ${pushname}! Kamu naik ke level ${refetchLevel}!`)
+                        */
                     }
                 }
             } catch (err) {
@@ -227,25 +252,25 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
-                const lvlUser = await db.get(`level_${sender.id.replace('@c.us', '')}`)
-                const userXp = await getInfoXp(sender.id)
-                if (lvlUser === null) return await bocchi.reply(from, ind.levelNull(), id)
+                const userLevel = getInfoLevel(sender.id)
+                const userXp = getInfoXp(sender.id)
+                if ((userLevel === undefined || userXp === undefined)) return await bocchi.reply(from, ind.levelNull(), id)
                 const ppLink = await bocchi.getProfilePicFromServer(sender.id)
                 if (ppLink === undefined) {
                     var pepe = errorImg
                 } else {
                     var pepe = ppLink
                 }
-                const nextLvlXp = 5000 * (Math.pow(2, lvlUser) - 1)
+                const requiredXp = 5000 * (Math.pow(2, userLevel) - 1)
                 const userId = sender.id.substring(9, 13)
                 const randomHexs = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`
                 const randomHex = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`
                 const rank = new canvas.Rank()
                     .setAvatar(pepe)
-                    .setLevel(lvlUser)
+                    .setLevel(userLevel)
                     .setRankColor('#2c2f33', '#2c2f33')
                     .setCurrentXP(userXp)
-                    .setRequiredXP(nextLvlXp)
+                    .setRequiredXP(requiredXp)
                     .setProgressBar([randomHexs, randomHex], 'GRADIENT')
                     .setUsername(pushname)
                     .setDiscriminator(userId)
@@ -264,14 +289,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
                 if (!isGroupMsg) return await bocchi.reply(from. ind.groupOnly(), id)
-                const resp = _xp
+                const resp = _level
                 resp.sort((a, b) => (a.xp < b.xp) ? 1 : -1)
                 let leaderboard = '-----[ *LEADERBOARD* ]----\n\n'
                 let nom = 0
                 try {
                     for (let i = 0; i < 10; i++) {
                         nom++
-                        leaderboard += `${nom}. @${resp[i].id.replace('@c.us', '')}\n➸ XP: *${resp[i].xp}* Level: *${db.get(`level_${resp[i].id.replace('@c.us', '')}`)}*\n\n`
+                        leaderboard += `${nom}. @${resp[i].id.replace('@c.us', '')}\n➸ XP: *${resp[i].xp}* Level: *${resp[i].level}*\n\n`
                     }
                     await bocchi.sendTextWithMentions(from, leaderboard)
                 } catch (err) {
