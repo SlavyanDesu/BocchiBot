@@ -15,7 +15,6 @@ const bent = require('bent')
 const canvas = require('canvacord')
 const ms = require('parse-ms')
 const saus = sagiri(config.nao, { results: 5 })
-const cd = 4.32e+7
 const errorImg = 'https://i.imgur.com/UxvMPUz.png'
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
@@ -542,19 +541,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'report':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.emptyMess(), id)
-                const lastReport = await db.get(`${sender.id.replace('@c.us', '')}.report`)
-                if (lastReport !== null && cd - (Date.now() - lastReport) > 0) {
-                    const time = ms(cd - (Date.now() - lastReport))
-                    return await bocchi.reply(from, ind.limit(time), id)
+                if (isGroupMsg) {
+                    await bocchi.sendText(ownerNumber, `-----[ REPORT ]-----\n\n*From*: ${pushname}\n*ID*: ${sender.id}\n*Group*: ${(name || formattedTitle)}\n*Message*: ${q}`)
+                    await bocchi.reply(from, ind.received(pushname), id)
                 } else {
-                    if (isGroupMsg) {
-                        await bocchi.sendText(ownerNumber, `-----[ REPORT ]-----\n\n*From*: ${pushname}\n*ID*: ${sender.id}\n*Group*: ${(name || formattedTitle)}\n*Message*: ${q}`)
-                        await bocchi.reply(from, ind.received(pushname), id)
-                    } else {
-                        await bocchi.sendText(ownerNumber, `-----[ REPORT ]-----\n\n*From*: ${pushname}\n*ID*: ${sender.id}\n*Message*: ${q}`)
-                        await bocchi.reply(from, ind.received(pushname), id)
-                    }
-                    await db.set(`${sender.id.replace('@c.us', '')}.report`, Date.now())
+                    await bocchi.sendText(ownerNumber, `-----[ REPORT ]-----\n\n*From*: ${pushname}\n*ID*: ${sender.id}\n*Message*: ${q}`)
+                    await bocchi.reply(from, ind.received(pushname), id)
                 }
             break
             case 'tos':
@@ -1427,29 +1419,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
-                const lastEveryone = await db.get(`${sender.id.replace('@c.us', '')}.everyone`)
                 const groupMem = await bocchi.getGroupMembers(groupId)
-                if (lastEveryone !== null && cd - (Date.now() - lastEveryone) > 0) {
-                    const time = ms(cd - (Date.now() - lastEveryone))
-                    return await bocchi.reply(from, ind.limit(time), id)
-                } else if (sender.id === ownerNumber) {
-                    let txt = '╔══✪〘 Mention All 〙✪══\n'
+                let txt = '╔══✪〘 Mention All 〙✪══\n'
                     for (let i = 0; i < groupMem.length; i++) {
                         txt += '╠➥'
                         txt += ` @${groupMem[i].id.replace(/@c.us/g, '')}\n`
                     }
-                    txt += '╚═〘 *B O C C H I  B O T* 〙'
-                    await bocchi.sendTextWithMentions(from, txt)
-                } else {
-                    let txt = '╔══✪〘 Mention All 〙✪══\n'
-                    for (let i = 0; i < groupMem.length; i++) {
-                        txt += '╠➥'
-                        txt += ` @${groupMem[i].id.replace(/@c.us/g, '')}\n`
-                    }
-                    txt += '╚═〘 *B O C C H I  B O T* 〙'
-                    await bocchi.sendTextWithMentions(from, txt)
-                    await db.set(`${sender.id.replace('@c.us', '')}.everyone`, Date.now())
-                }
+                txt += '╚═〘 *B O C C H I  B O T* 〙'
+                await bocchi.sendTextWithMentions(from, txt)
             break
             case 'groupicon':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
