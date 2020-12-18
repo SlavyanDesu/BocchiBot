@@ -254,7 +254,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 const userLevel = getInfoLevel(sender.id)
                 const userXp = getInfoXp(sender.id)
-                if ((userLevel === undefined || userXp === undefined)) return await bocchi.reply(from, ind.levelNull(), id)
+                if (userLevel === undefined && userXp === undefined) return await bocchi.reply(from, ind.levelNull(), id)
                 const ppLink = await bocchi.getProfilePicFromServer(sender.id)
                 if (ppLink === undefined) {
                     var pepe = errorImg
