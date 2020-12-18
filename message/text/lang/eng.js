@@ -131,6 +131,66 @@ exports.ytResult = (urlyt, title, channel, duration, views) => {
     return `➸ *Title*: ${title}\n➸ *Channel*: ${channel}\n➸ *Durations*: ${duration}\n➸ *Views*: ${views}\n➸ *Link*: ${urlyt}`
 }
 
+exports.profile = (username, status, premi, benet, adm) => {
+    return `-----[ *USER INFO* ]-----\n\n➸ *Username*: ${username}\n➸ *Status*: ${status}\n➸ *Premium*: ${premi}\n➸ *Banned*: ${benet}\n➸ *Admin*: ${adm}`
+}
+
+exports.detectorOn = (name, formattedTitle) => {
+    return `*「 ANTI GROUP LINK 」*\n\nAnnouncement for all group members ${(name || formattedTitle)}\nIf somebody sending a group link on this group, they will be kicked automatically by bot.\n\nThank you.\n- Admin ${(name || formattedTitle)}`
+}
+
+exports.detectorOff = () => {
+    return `Anti-group link feature was successfully *disabled*!`
+}
+
+exports.detectorOnAlready = () => {
+    return `Anti-group link feature has been enabled before.`
+}
+
+exports.linkDetected = () => {
+    return `*「 ANTI GROUP LINK 」*\n\nYou've sent a group link!\nSorry, but you have to leave...\nTake care~`
+}
+
+exports.levelingOn = () => {
+    return `Leveling feature was successfully *enabled*!`
+}
+
+exports.levelingOff = () => {
+    return `Leveling feature was successfully *disabled*!`
+}
+
+exports.levelingOnAlready = () => {
+    return `Leveling feature has been enabled before.`
+}
+
+exports.levelingNotOn = () => {
+    return `Leveling feature has not been enabled!`
+}
+
+exports.levelNull = () => {
+    return `You don't have any level yet!`
+}
+
+exports.welcome = (event) => {
+    return `Welcome @${event.who.replace('@c.us', '')}!`
+}
+
+exports.welcomeOn = () => {
+    return `Welcome feature was successfully *enabled*!`
+}
+
+exports.welcomeOff = () => {
+    return `Welcome feature was successfully *disabled*!`
+}
+
+exports.welcomeOnAlready = () => {
+    return `Welcome feature has been enabled before.`
+}
+
+exports.minimalDb = () => {
+    return `Need at least *10* users that have a level in database!`
+}
+
 exports.menu = () => {
     return `
 ------[ WELCOME ]-----
@@ -146,6 +206,7 @@ The following menus are available:
 *[7]* Moderation
 *[8]* NSFW
 *[9]* Owner
+*[10]* Leveling [ALPHA]
 
 Type *${prefix}menu* index_number to open the selected page menu.
 
@@ -282,6 +343,11 @@ Usage: *${prefix}receipt* food's_name
 Sending YouTube search results.
 Aliases: *yts*
 Usage: *${prefix}ytsearch* query
+
+10. *${prefix}tts*
+Create a Text to Speech. You need a language code, you can find it here https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+Aliases: -
+Usage: *${prefix}tts* language_code | text
 
 _Index of [3]_
     `
@@ -451,7 +517,7 @@ Aliases: -
 Usage: *${prefix}everyone*
 
 7. *${prefix}nsfw*
-Turn off / turn on NSFW mode.
+Toogle NSFW mode.
 Aliases: -
 Usage: *${prefix}nsfw* enable/disable
 
@@ -459,6 +525,16 @@ Usage: *${prefix}nsfw* enable/disable
 Change group icon.
 Aliases: -
 Usage: Send images with caption *${prefix}groupicon* or reply to the images with a caption *${prefix}groupicon*.
+
+9. *${prefix}antilink*
+Toogle anti-group link feature.
+Aliases: -
+Usage: *${prefix}antilink* enable/disable
+
+10. *${prefix}welcome*
+Toogle welcome feature.
+Aliases: -
+Usage: *${prefix}welcome* enable/disable
 
 _Index of [7]_
     `
@@ -568,6 +644,24 @@ Aliases: *setstatus setstat*
 Usage: *${prefix}status* text
 
 _Index of [9]_
+    `
+}
+
+exports.menuLeveling = () => {
+    return `
+-----[ LEVELING ]-----
+
+1. *${prefix}level*
+Check your level.
+Aliases: -
+Usage: *${prefix}level*
+
+2. *${prefix}leaderboard*
+Check leaderboard.
+Aliaases: -
+Usage: *${prefix}leaderboard*
+
+_Index of [10]_
     `
 }
 

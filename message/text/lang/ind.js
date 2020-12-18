@@ -136,19 +136,19 @@ exports.ytResult = (urlyt, title, channel, duration, views) => {
 }
 
 exports.profile = (username, status, premi, benet, adm) => {
-    return `-----[ *User Info* ]-----\n\n➸ *Username*: ${username}\n➸ *Status*: ${status}\n➸ *Premium*: ${premi}\n➸ *Banned*: ${benet}\n➸ *Admin*: ${adm}`
+    return `-----[ *USER INFO* ]-----\n\n➸ *Username*: ${username}\n➸ *Status*: ${status}\n➸ *Premium*: ${premi}\n➸ *Banned*: ${benet}\n➸ *Admin*: ${adm}`
 }
 
 exports.detectorOn = (name, formattedTitle) => {
-    return `*「 ANTI GROUP LINK 」*\n\nPerhatian untuk penghuni grup ${(name || formattedTitle)}\nGrup ini memiliki anti group link detector, apabila ada salah satu member mengirim group link di sini maka dia akan ter-kick secara otomatis.\n\nSekian terima kasih.\n- Admin ${(name || formattedTitle)}`
+    return `*「 ANTI GROUP LINK 」*\n\nPerhatian untuk penghuni grup ${(name || formattedTitle)}\nGrup ini memiliki anti-group link detector, apabila ada salah satu member mengirim group link di sini maka dia akan ter-kick secara otomatis.\n\nSekian terima kasih.\n- Admin ${(name || formattedTitle)}`
 }
 
 exports.detectorOff = () => {
-    return `Fitur anti-link berhasil *dinonaktifkan*!`
+    return `Fitur anti-group link berhasil *dinonaktifkan*!`
 }
 
 exports.detectorOnAlready = () => {
-    return `Fitur anti-link telah diaktifkan sebelumnya.`
+    return `Fitur anti-group link telah diaktifkan sebelumnya.`
 }
 
 exports.linkDetected = () => {
@@ -192,7 +192,7 @@ exports.welcomeOnAlready = () => {
 }
 
 exports.minimalDb = () => {
-    return ` Perlu setidaknya 10 user yang memiliki level di database!`
+    return `Perlu setidaknya *10* user yang memiliki level di database!`
 }
 
 exports.menu = () => {
@@ -351,7 +351,7 @@ Usage: *${prefix}ytsearch* query
 10. *${prefix}tts*
 Membuat Text to Speech. Kalian perlu kode bahasa setiap menggunakan, cek di sini https://id.wikipedia.org/wiki/Daftar_bahasa_menurut_ISO_639-2
 Aliases: -
-Usage: *${prefix}tts kode_bahasa | teks*
+Usage: *${prefix}tts* kode_bahasa | teks
 
 _Index of [3]_
     `
