@@ -163,7 +163,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             const currentLevel = await db.get(`level_${sender.id.replace('@c.us', '')}`)
             const checking = getInfoId(sender.id)
             try {
-                if (currentLevel === null || checking === undefined) {
+                if (currentLevel === null && checking === undefined) {
                     await db.add(`level_${sender.id.replace('@c.us', '')}`, 1)
                     addUserId(sender.id)
                 } else {
