@@ -56,8 +56,12 @@ const start = async (bocchi = new Client()) => {
         try {
             if (event.action === 'add' && event.who !== botNumbers && isWelcome) {
                 const pic = await bocchi.getProfilePicFromServer(event.who)
-                if (pic === '' || pic === undefined) pic = 'https://i.imgur.com/UxvMPUz.png'
-                await bocchi.sendFileFromUrl(event.chat, pic, 'profile.jpg', '')
+                if (pic === undefined) {
+                    var pp = 'https://i.imgur.com/UxvMPUz.png'
+                } else {
+                    var pp = pic
+                }
+                await bocchi.sendFileFromUrl(event.chat, pp, 'profile.jpg', '')
                 await bocchi.sendTextWithMentions(event.chat, ind.welcome(event))
             }
         } catch (err) {
