@@ -52,6 +52,10 @@
   [Discord](https://discord.com/users/446297580431998977)
 
 </details>
+
+<h1 align="center">
+  <a href="https://chat.whatsapp.com/LTTm0HGvFRu7uU23mr7ZaR">Whatsapp Group</a>
+</h1>
 </div>
 
 
