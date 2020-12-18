@@ -1,4 +1,15 @@
-// Loads all required dependencies
+/**
+ * This source code below are free, please DO NOT sell this in any form!
+ * Source code ini gratis, jadi tolong JANGAN jual dalam bentuk apapun!
+ * 
+ * If you want to contributing to this source code, pull requests are always open.
+ * Apabila kamu ingin berkontribusi ke source code ini, pull request selalu kami buka.
+ * 
+ * Thanks for the contributions.
+ * Terima kasih atas kontribusinya.
+ */
+
+/********** MODULES **********/
 const { decryptMedia, Client } = require('@open-wa/wa-automate')
 const fs = require('fs-extra')
 const config = require('../config.json')
@@ -12,20 +23,23 @@ const sagiri = require('sagiri')
 const db = require('quick.db')
 const tts = require('node-gtts')
 const bent = require('bent')
-const cd = 4.32e+7
 const ms = require('parse-ms')
 const canvas = require('canvacord')
 const saus = sagiri(config.nao, { results: 5 })
-const errorImg = 'https://i.imgur.com/UxvMPUz.png'
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
+/********** END OF MODULES **********/
 
-// Loads local files
+/********** UTILS **********/
 const { msgFilter, color, processTime, isUrl } = require('../tools')
 const { nsfw, lirik, shortener, wiki, kbbi, bmkg, weeaboo, medsos, nekopoi, downloader, sticker, fun, search } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
-// const { eng } = require('./text/lang/')
-const { ind } = require('./text/lang/')
+const { ind, eng } = require('./text/lang/')
+const cd = 4.32e+7
+const errorImg = 'https://i.imgur.com/UxvMPUz.png'
+/********** END OF UTILS **********/
+
+/********** DATABASES **********/
 const _nsfw = JSON.parse(fs.readFileSync('./database/nsfw.json'))
 const _ban = JSON.parse(fs.readFileSync('./database/banned.json'))
 const _premium = JSON.parse(fs.readFileSync('./database/premium.json'))
@@ -36,7 +50,9 @@ const _leveling = JSON.parse(fs.readFileSync('./database/leveling.json'))
 const _welcome = JSON.parse(fs.readFileSync('./database/welcome.json'))
 const _xp = JSON.parse(fs.readFileSync('./database/xp.json'))
 const _limit = JSON.parse(fs.readFileSync('./database/limit.json'))
+/********** END OF DATABASES **********/
 
+/********** MESSAGE HANDLER **********/
 module.exports = msgHandler = async (bocchi = new Client(), message) => {
     try {
         const { type, id, from, t, sender, isGroupMsg, chat, caption, isMedia, mimetype, quotedMsg, quotedMsgObj, mentionedJidList } = message
@@ -47,10 +63,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const botNumber = await bocchi.getHostNumber() + '@c.us'
         const blockNumber = await bocchi.getBlockedIds()
         const ownerNumber = config.ownerBot
-        const isBlocked = blockNumber.includes(sender.id)
-        const isOwner = sender.id === ownerNumber
         const groupId = isGroupMsg ? chat.groupMetadata.id : ''
         const groupAdmins = isGroupMsg ? await bocchi.getGroupAdmins(groupId) : ''
+
+        /********** VALIDATOR **********/
+        const isBlocked = blockNumber.includes(sender.id)
+        const isOwner = sender.id === ownerNumber
         const isGroupAdmins = groupAdmins.includes(sender.id) || false
         const isBotGroupAdmins = groupAdmins.includes(botNumber) || false
         const isNsfw = isGroupMsg ? _nsfw.includes(chat.id) : false
@@ -60,8 +78,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isWelcomeOn = isGroupMsg ? _welcome.includes(chat.id) : false
         const isDetectorOn = isGroupMsg ? _antilink.includes(chat.id) : false
         const isLevelingOn = isGroupMsg ? _leveling.includes(chat.id) : false
+        const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
+        const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
+        const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
+        const isQuotedGif = quotedMsg && quotedMsg.mimetype === 'image/gif'
+        /********** END OF VALIDATOR **********/
+
         const chats = (type === 'chat') ? body : ((type === 'image' || type === 'video')) ? caption : ''
-        
         const prefix  = config.prefix
         body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video') && caption) && caption.startsWith(prefix)) ? caption : ''
         const command = body.slice(1).trim().split(/ +/).shift().toLowerCase()
@@ -71,16 +94,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const q = args.join(' ')
         const ar = args.map((v) => v.toLowerCase())
         const url = args.length !== 0 ? args[0] : ''
-        const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
-        const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
-        const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
-        const isQuotedGif = quotedMsg && quotedMsg.mimetype === 'image/gif'
-
-        /* Ignore private chat (for development)
-        if (isCmd && !isGroupMsg) return bocchi.sendText(from, `I\'m not ready for public yet! So you wouldn\'t get any response from me.\n\nAlso, *DO NOT* call me. You will *GET BLOCKED* if you did so.\n\nMy master: wa.me/${ownerNumber.replace('@c.us', '')}`)
-        */
-
-        // Function
+        
+        /********** FUNCTION **********/
         const getInfoXp = (userId) => {
             let position = false
             Object.keys(_xp).forEach((i) => {
@@ -141,14 +156,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 return _limit[position].time
             }
         }
-        // End of functions
+        /********** END OF FUNCTION **********/
 
         // Leveling [ALPHA]
         if (isGroupMsg && isRegistered && isLevelingOn && !isCmd) {
             const currentLevel = await db.get(`level_${sender.id.replace('@c.us', '')}`)
             const checking = getInfoId(sender.id)
             try {
-                if (currentLevel === null && checking === false) {
+                if (currentLevel === null && checking === undefined) {
                     await db.add(`level_${sender.id.replace('@c.us', '')}`, 1)
                     addUserId(sender.id)
                 } else {
@@ -587,7 +602,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.emptyMess(), id)
                 const lastReport = getLimit(sender.id)
-                if (lastReport !== false && cd - (Date.now() - lastReport) > 0) {
+                if (lastReport !== undefined && cd - (Date.now() - lastReport) > 0) {
                     const time = ms(cd - (Date.now() - lastReport))
                     await bocchi.reply(from, ind.limit(time), id)
                 } else {
@@ -1473,7 +1488,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
                 const groupMem = await bocchi.getGroupMembers(groupId)
                 const lastEveryone = getLimit(sender.id)
-                if (lastEveryone !== false && cd - (Date.now() - lastEveryone) > 0) {
+                if (lastEveryone !== undefined && cd - (Date.now() - lastEveryone) > 0) {
                     const time = ms(cd - (Date.now() - lastEveryone))
                     await bocchi.reply(from, ind.limit(time), id)
                 } else if (isOwner) {
@@ -1685,3 +1700,4 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         console.error(color('[ERROR]', 'red'), err)
     }
 }
+/********** END OF MESSAGE HANDLER **********/
