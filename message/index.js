@@ -146,7 +146,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         // Leveling [ALPHA]
         if (isGroupMsg && isRegistered && isLevelingOn && !isCmd) {
             const currentLevel = await db.get(`level_${sender.id.replace('@c.us', '')}`)
-            const checking = await getInfoId(sender.id)
+            const checking = getInfoId(sender.id)
             try {
                 if (currentLevel === null && checking === false) {
                     await db.add(`level_${sender.id.replace('@c.us', '')}`, 1)
@@ -154,7 +154,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     const addXp = Math.floor(Math.random() * 10) + 500 // You can change the XP system with your own
                     const nextLevel = 5000 * (Math.pow(2, currentLevel) - 1)
-                    const getXp = await getInfoXp(sender.id)
+                    const getXp = getInfoXp(sender.id)
                     addUserXp(sender.id, addXp)
                     if (nextLevel <= getXp) {
                         await db.add(`level_${sender.id.replace('@c.us', '')}`, 1)
