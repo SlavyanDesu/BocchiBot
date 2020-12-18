@@ -11,5 +11,4 @@ debug.log
 database
 asupan
 docs
-json.sqlite
 .node-persist
