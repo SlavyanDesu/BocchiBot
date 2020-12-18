@@ -249,14 +249,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
                 if (!isGroupMsg) return await bocchi.reply(from. ind.groupOnly(), id)
-                const resp = db.all()
-                resp.sort((a, b) => (a.data < b.data) ? 1 : -1)
+                const resp = _xp
+                resp.sort((a, b) => (a.xp < b.xp) ? 1 : -1)
                 let leaderboard = '-----[ *LEADERBOARD* ]----\n\n'
                 let nom = 0
                 try {
                     for (let i = 0; i < 10; i++) {
                         nom++
-                        leaderboard += `${nom}. @${resp[i].ID.replace('level_', '')} Level: *${resp[i].data}* XP: *${getInfoXp(`${resp[i].ID.replace('level_', '')}@c.us`)}*\n`
+                        leaderboard += `${nom}. @${resp[i].id.replace('@c.us', '')}\n➸ XP: *${resp[i].xp}* Level: *${db.get(`level_${resp[i].id.replace('@c.us', '')}`)}*\n\n`
                     }
                     await bocchi.sendTextWithMentions(from, leaderboard)
                 } catch (err) {
