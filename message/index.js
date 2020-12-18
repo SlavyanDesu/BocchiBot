@@ -77,8 +77,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         if (isCmd && !isGroupMsg) return bocchi.sendText(from, `I\'m not ready for public yet! So you wouldn\'t get any response from me.\n\nAlso, *DO NOT* call me. You will *GET BLOCKED* if you did so.\n\nMy master: wa.me/${ownerNumber.replace('@c.us', '')}`)
         */
 
-        // Function for leveling commands
-        const getInfoXp = async (userId) => {
+        // Function
+        const getInfoXp = (userId) => {
             let position = false
             Object.keys(_xp).forEach((i) => {
                 if (_xp[i].id === userId) {
@@ -90,29 +90,52 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
 
+        const getInfoId = (userId) => {
+            let position = false
+            Object.keys(_xp).forEach((i) => {
+                if (_xp[i].id === userId) {
+                    position = i
+                }
+            })
+            if (position !== false) {
+                return _xp[position].id
+            }
+        }
+
+        const addUserXp = (userId, amount) => {
+            let position = false
+            Object.keys(_xp).forEach((i) => {
+                if (_xp[i].id === userId) {
+                    position = i
+                }
+            })
+            if (position !== false) {
+                _xp[i].xp += amount
+                fs.writeFileSync('./database/xp.json', JSON.stringify(_xp))
+            }
+        }
+
+        const addUserId = (userId) => {
+            let obj = {id: `${userId}`, xp: 1}
+            _xp.push(obj)
+            fs.writeFileSync('./database/xp.json', JSON.stringify(_xp))
+        }
+        // End of functions
+
         // Leveling [ALPHA]
         if (isGroupMsg && isRegistered && isLevelingOn && !isCmd) {
-            let obj = {id: `${sender.id}`, xp: 1}
             const currentLevel = await db.get(`level_${sender.id.replace('@c.us', '')}`)
+            const checking = await getInfoId(sender.id)
             try {
-                if (currentLevel === null) {
+                if (currentLevel === null && checking === false) {
                     await db.add(`level_${sender.id.replace('@c.us', '')}`, 1)
-                    _xp.push(obj)
-                    fs.writeFileSync('./database/xp.json', JSON.stringify(_xp))
+                    addUserId(sender.id)
                 } else {
-                    const xpAdd = Math.floor(Math.random() * 10) + 500 // You can change the XP system with your own
+                    const addXp = Math.floor(Math.random() * 10) + 500 // You can change the XP system with your own
                     const nextLevel = 5000 * (Math.pow(2, currentLevel) - 1)
-                    let pos = false
-                    Object.keys(_xp).forEach((i) => {
-                        if (_xp[i].id === sender.id) {
-                            pos = i
-                        }
-                    })
-                    if (pos !== false) {
-                        _xp[pos].xp += xpAdd
-                        fs.writeFileSync('./database/xp.json', JSON.stringify(_xp))
-                    }
-                    if (nextLevel <= _xp[pos].xp) {
+                    const getXp = await getInfoXp(sender.id)
+                    addUserXp(sender.id, addXp)
+                    if (nextLevel <= getXp) {
                         await db.add(`level_${sender.id.replace('@c.us', '')}`, 1)
                         const refetchLevel = await db.get(`level_${sender.id.replace('@c.us', '')}`)
                         await bocchi.sendText(from, `Selamat ${pushname}! Kamu naik ke level ${refetchLevel}!`)
