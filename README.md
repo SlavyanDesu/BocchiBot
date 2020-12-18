@@ -58,10 +58,6 @@
 </h1>
 </div>
 
-
----
-
-
 # Requirements
 * [Node.js](https://nodejs.org/en/)
 * [Git](https://git-scm.com/downloads)
