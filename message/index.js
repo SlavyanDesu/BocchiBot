@@ -12,6 +12,8 @@ const sagiri = require('sagiri')
 const db = require('quick.db')
 const tts = require('node-gtts')
 const bent = require('bent')
+const cd = 4.32e+7
+const ms = require('parse-ms')
 const canvas = require('canvacord')
 const saus = sagiri(config.nao, { results: 5 })
 const errorImg = 'https://i.imgur.com/UxvMPUz.png'
@@ -33,6 +35,7 @@ const _antilink = JSON.parse(fs.readFileSync('./database/antilink.json'))
 const _leveling = JSON.parse(fs.readFileSync('./database/leveling.json'))
 const _welcome = JSON.parse(fs.readFileSync('./database/welcome.json'))
 const _xp = JSON.parse(fs.readFileSync('./database/xp.json'))
+const _limit = JSON.parse(fs.readFileSync('./database/limit.json'))
 
 module.exports = msgHandler = async (bocchi = new Client(), message) => {
     try {
@@ -119,6 +122,24 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             let obj = {id: `${userId}`, xp: 1}
             _xp.push(obj)
             fs.writeFileSync('./database/xp.json', JSON.stringify(_xp))
+        }
+
+        const addLimit = (userId) => {
+            let obj = {id: `${userId}`, time: Date.now()}
+            _limit.push(obj)
+            fs.writeFileSync('./database/limit.json', JSON.stringify(_limit))
+        }
+
+        const getLimit = (userId) => {
+            let position = false
+            Object.keys(_limit).forEach((i) => {
+                if (_limit[i].id === userId) {
+                    position = i
+                }
+            })
+            if (position !== false) {
+                return _limit[position].time
+            }
         }
         // End of functions
 
@@ -565,12 +586,19 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'report':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.emptyMess(), id)
-                if (isGroupMsg) {
-                    await bocchi.sendText(ownerNumber, `-----[ REPORT ]-----\n\n*From*: ${pushname}\n*ID*: ${sender.id}\n*Group*: ${(name || formattedTitle)}\n*Message*: ${q}`)
-                    await bocchi.reply(from, ind.received(pushname), id)
+                const lastReport = getLimit(sender.id)
+                if (lastReport !== false && cd - (Date.now() - lastReport) > 0) {
+                    const time = ms(cd - (Date.now() - lastReport))
+                    await bocchi.reply(from, ind.limit(time), id)
                 } else {
-                    await bocchi.sendText(ownerNumber, `-----[ REPORT ]-----\n\n*From*: ${pushname}\n*ID*: ${sender.id}\n*Message*: ${q}`)
-                    await bocchi.reply(from, ind.received(pushname), id)
+                    if (isGroupMsg) {
+                        await bocchi.sendText(ownerNumber, `-----[ REPORT ]-----\n\n*From*: ${pushname}\n*ID*: ${sender.id}\n*Group*: ${(name || formattedTitle)}\n*Message*: ${q}`)
+                        await bocchi.reply(from, ind.received(pushname), id)
+                    } else {
+                        await bocchi.sendText(ownerNumber, `-----[ REPORT ]-----\n\n*From*: ${pushname}\n*ID*: ${sender.id}\n*Message*: ${q}`)
+                        await bocchi.reply(from, ind.received(pushname), id)
+                    }
+                    addLimit(sender.id)
                 }
             break
             case 'tos':
@@ -1444,13 +1472,28 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
                 const groupMem = await bocchi.getGroupMembers(groupId)
-                let txt = '╔══✪〘 Mention All 〙✪══\n'
-                    for (let i = 0; i < groupMem.length; i++) {
-                        txt += '╠➥'
-                        txt += ` @${groupMem[i].id.replace(/@c.us/g, '')}\n`
-                    }
-                txt += '╚═〘 *B O C C H I  B O T* 〙'
-                await bocchi.sendTextWithMentions(from, txt)
+                const lastEveryone = getLimit(sender.id)
+                if (lastEveryone !== false && cd - (Date.now() - lastEveryone) > 0) {
+                    const time = ms(cd - (Date.now() - lastEveryone))
+                    await bocchi.reply(from, ind.limit(time), id)
+                } else if (isOwner) {
+                    let txt = '╔══✪〘 Mention All 〙✪══\n'
+                        for (let i = 0; i < groupMem.length; i++) {
+                            txt += '╠➥'
+                            txt += ` @${groupMem[i].id.replace(/@c.us/g, '')}\n`
+                        }
+                    txt += '╚═〘 *B O C C H I  B O T* 〙'
+                    await bocchi.sendTextWithMentions(from, txt)
+                } else {
+                    let txt = '╔══✪〘 Mention All 〙✪══\n'
+                        for (let i = 0; i < groupMem.length; i++) {
+                            txt += '╠➥'
+                            txt += ` @${groupMem[i].id.replace(/@c.us/g, '')}\n`
+                        }
+                    txt += '╚═〘 *B O C C H I  B O T* 〙'
+                    await bocchi.sendTextWithMentions(from, txt)
+                    addLimit(sender.id)
+                }
             break
             case 'groupicon':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
