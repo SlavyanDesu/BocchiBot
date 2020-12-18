@@ -233,9 +233,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 let leaderboard = '-----[ *LEADERBOARD* ]----\n\n'
                 let nom = 0
                 try {
-                    for (let i = 0; i < 10; i++) {
+                    for (let i = 0; i < 1; i++) {
                         nom++
-                        leaderboard += `${nom}. @${resp[i].ID.replace('level_', '')} Level: *${resp[i].data}*\n`
+                        leaderboard += `${nom}. @${resp[i].ID.replace('level_', '')} Level: *${resp[i].data}* XP: *${getInfoXp(`${resp[i].ID.replace('level_', '')}@c.us`)}*\n`
                     }
                     await bocchi.sendTextWithMentions(from, leaderboard)
                 } catch (err) {
