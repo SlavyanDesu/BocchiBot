@@ -42,7 +42,6 @@ const errorImg = 'https://i.imgur.com/UxvMPUz.png'
 const _nsfw = JSON.parse(fs.readFileSync('./database/nsfw.json'))
 const _ban = JSON.parse(fs.readFileSync('./database/banned.json'))
 const _premium = JSON.parse(fs.readFileSync('./database/premium.json'))
-const _biodata = JSON.parse(fs.readFileSync('./database/biodata.json'))
 const _registered = JSON.parse(fs.readFileSync('./database/registered.json'))
 const _antilink = JSON.parse(fs.readFileSync('./database/antilink.json'))
 const _leveling = JSON.parse(fs.readFileSync('./database/leveling.json'))
@@ -64,24 +63,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const ownerNumber = config.ownerBot
         const groupId = isGroupMsg ? chat.groupMetadata.id : ''
         const groupAdmins = isGroupMsg ? await bocchi.getGroupAdmins(groupId) : ''
-
-        /********** VALIDATOR **********/
-        const isBlocked = blockNumber.includes(sender.id)
-        const isOwner = sender.id === ownerNumber
-        const isGroupAdmins = groupAdmins.includes(sender.id) || false
-        const isBotGroupAdmins = groupAdmins.includes(botNumber) || false
-        const isNsfw = isGroupMsg ? _nsfw.includes(chat.id) : false
-        const isBanned = _ban.includes(sender.id)
-        const isPremium = _premium.includes(sender.id)
-        const isRegistered = _registered.includes(sender.id)
-        const isWelcomeOn = isGroupMsg ? _welcome.includes(chat.id) : false
-        const isDetectorOn = isGroupMsg ? _antilink.includes(chat.id) : false
-        const isLevelingOn = isGroupMsg ? _leveling.includes(chat.id) : false
-        const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
-        const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
-        const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
-        const isQuotedGif = quotedMsg && quotedMsg.mimetype === 'image/gif'
-        /********** END OF VALIDATOR **********/
 
         const chats = (type === 'chat') ? body : ((type === 'image' || type === 'video')) ? caption : ''
         const prefix  = config.prefix
@@ -180,7 +161,41 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 return _limit[position].time
             }
         }
+
+        const addUserBio = (userId, nama, umur, time) => {
+            let obj = {id: `${userId}`, name: `${nama}`, age: umur, time: `${time}`}
+            _registered.push(obj)
+            fs.writeFileSync('./database/registered.json', JSON.stringify(_registered))
+        }
+
+        const getRegisteredUser = (userId) => {
+            let isRegis = false
+            Object.keys(_registered).forEach((i) => {
+                if (_registered[i].id === userId) {
+                    isRegis = true
+                }
+            })
+            return isRegis
+        }
         /********** END OF FUNCTION **********/
+
+         /********** VALIDATOR **********/
+        const isBlocked = blockNumber.includes(sender.id)
+        const isOwner = sender.id === ownerNumber
+        const isGroupAdmins = groupAdmins.includes(sender.id) || false
+        const isBotGroupAdmins = groupAdmins.includes(botNumber) || false
+        const isNsfw = isGroupMsg ? _nsfw.includes(chat.id) : false
+        const isBanned = _ban.includes(sender.id)
+        const isPremium = _premium.includes(sender.id)
+        const isRegistered = getRegisteredUser(sender.id)
+        const isWelcomeOn = isGroupMsg ? _welcome.includes(chat.id) : false
+        const isDetectorOn = isGroupMsg ? _antilink.includes(chat.id) : false
+        const isLevelingOn = isGroupMsg ? _leveling.includes(chat.id) : false
+        const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
+        const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
+        const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
+        const isQuotedGif = quotedMsg && quotedMsg.mimetype === 'image/gif'
+        /********** END OF VALIDATOR **********/
 
         // Leveling [ALPHA]
         if (isGroupMsg && isRegistered && isLevelingOn && !isCmd) {
@@ -238,13 +253,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'register':
                 if (isRegistered) return await bocchi.reply(from, ind.registeredAlready(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
-                const dataDiri = q.replace('|', '-')
-                if (!dataDiri) return await bocchi.reply(from, ind.wrongFormat(), id)
-                _registered.push(sender.id)
-                _biodata.push(dataDiri)
-                fs.writeFileSync('./database/registered.json', JSON.stringify(_registered))
-                fs.writeFileSync('./database/biodata.json', JSON.stringify(_biodata))
+                const namaUser = q.substring(0, q.indexOf('|') - 1)
+                const umurUser = q.substring(q.lastIndexOf('|') + 2)
+                const waktuDaftar = moment(t * 1000).format('DD/MM/YY HH:mm:ss')
+                addUserBio(sender.id, namaUser, umurUser, waktuDaftar)
                 await bocchi.reply(from, ind.registered(), id)
+                console.log(color('[REGISTER]'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), 'Name:', color(namaUser, 'cyan'), 'Age:', color(umurUser, 'cyan'))
             break
 
             // Level [ALPHA]
