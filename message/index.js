@@ -110,7 +110,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             })
             if (position !== false) {
-                _xp[i].xp += amount
+                _xp[position].xp += amount
                 fs.writeFileSync('./database/xp.json', JSON.stringify(_xp))
             }
         }
@@ -127,7 +127,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             const currentLevel = await db.get(`level_${sender.id.replace('@c.us', '')}`)
             const checking = await getInfoId(sender.id)
             try {
-                if (currentLevel === null && checking === false) {
+                if (currentLevel === null) {
                     await db.add(`level_${sender.id.replace('@c.us', '')}`, 1)
                     addUserId(sender.id)
                 } else {
