@@ -325,7 +325,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.registered(), id)
                 console.log(color('[REGISTER]'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), 'Name:', color(namaUser, 'cyan'), 'Age:', color(umurUser, 'cyan'))
             break
-
+                
             // Level [ALPHA]
             case 'level':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -1058,6 +1058,33 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
+            break
+            case 'simi':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                fun.simi(q)
+                  .then(async ({ success }) => {
+                      await bocchi.reply(from, success, id)
+                  })
+                  .catch(async (err) => {
+                      console.error(err)
+                      await bocchi.reply(from, `Error!\n\n${err}`, id)
+                  })
+            break
+            case 'glitchtext':
+            case 'glitext':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                const teks1 = q.substring(0, q.indexOf('|') - 1)
+                const teks2 = q.substring(q.lastIndexOf('|') + 2)
+                await bocchi.reply(from, ind.wait(), id)
+			          await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/glitchtext?text1=${teks1}&text2=${teks2}&apikey=${config.vhtear}`, 'glitch.jpg', '', id)
+                    .then(() => console.log('Success creating image!'))
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, `Error!\n${err}`, id)
+                    })
             break
 
             // Sticker
