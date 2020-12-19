@@ -1845,6 +1845,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
                 await bocchi.sendText(from, 'Otsukaresama deshita~ 👋')
                     .then(async () => await bocchi.kill())
+                    .catch(() => console.error('Target closed.'))
             break
             case 'premium':
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
