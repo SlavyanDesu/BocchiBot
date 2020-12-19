@@ -233,10 +233,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     addUserXp(sender.id, amountXp)
                     if (requiredXp <= getXp) {
                         addUserLevel(sender.id, 1)
-                        /*
                         const getLevel = getInfoLevel(sender.id)
-                        await bocchi.sendText(from, `Selamat ${pushname}! Kamu naik ke level ${refetchLevel}!`)
-                        */
+                        await bocchi.sendText(from, `Selamat ${pushname}! Kamu naik ke level ${getLevel}!`)
                     }
                 }
             } catch (err) {
