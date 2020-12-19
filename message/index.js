@@ -197,16 +197,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             })
             return isAfk
         }
-
-        const contains = (target, pattern) => {
-            let condition = false
-            pattern.forEach((i) => {
-                if (target.includes(i)) {
-                    condition = true
-                }
-            })
-            return condition
-        }
         /********** END OF FUNCTION **********/
 
         /********** VALIDATOR **********/
@@ -231,7 +221,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         /********** END OF VALIDATOR **********/
 
         // Notice me senpai!
-        if (contains(chats, notice)) {
+        if (chats.includes('Bocchi')) {
             await bocchi.reply(from, 'Yes, master?', id)
             console.log(color('[CALLED]'), color(time, 'yellow'), 'from', color(pushname))
         }
