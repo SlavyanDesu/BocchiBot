@@ -48,6 +48,8 @@ const _leveling = JSON.parse(fs.readFileSync('./database/leveling.json'))
 const _welcome = JSON.parse(fs.readFileSync('./database/welcome.json'))
 const _level = JSON.parse(fs.readFileSync('./database/level.json'))
 const _limit = JSON.parse(fs.readFileSync('./database/limit.json'))
+const _afk = JSON.parse(fs.readFileSync('./database/afk.json'))
+const _autostiker = JSON.parse(fs.readFileSync('./database/autostiker.json'))
 /********** END OF DATABASES **********/
 
 /********** MESSAGE HANDLER **********/
@@ -63,6 +65,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const ownerNumber = config.ownerBot
         const groupId = isGroupMsg ? chat.groupMetadata.id : ''
         const groupAdmins = isGroupMsg ? await bocchi.getGroupAdmins(groupId) : ''
+        const time = moment(t * 1000).format('DD/MM/YY HH:mm:ss')
 
         const chats = (type === 'chat') ? body : ((type === 'image' || type === 'video')) ? caption : ''
         const prefix  = config.prefix
@@ -177,6 +180,22 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             })
             return isRegis
         }
+
+        const addAfk = (userId, time) => {
+            let obj = {id: `${userId}`, time: `${time}`}
+            _afk.push(obj)
+            fs.writeFileSync('./database/afk.json', JSON.stringify(_afk))
+        }
+
+        const getAfk = (userId) => {
+            let isAfk = false
+            Object.keys(_afk).forEach((i) => {
+                if (_afk[i].id === userId) {
+                    isAfk = true
+                }
+            })
+            return isAfk
+        }
         /********** END OF FUNCTION **********/
 
          /********** VALIDATOR **********/
@@ -191,10 +210,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isWelcomeOn = isGroupMsg ? _welcome.includes(chat.id) : false
         const isDetectorOn = isGroupMsg ? _antilink.includes(chat.id) : false
         const isLevelingOn = isGroupMsg ? _leveling.includes(chat.id) : false
+        const isAutoStikerOn = isGroupMsg ? _autostiker.includes(chat.id) : false
+        const isAfkOn = getAfk(sender.id)
         const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
         const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
         const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
         const isQuotedGif = quotedMsg && quotedMsg.mimetype === 'image/gif'
+        const isImage = type === 'image'
         /********** END OF VALIDATOR **********/
 
         // Leveling [ALPHA]
@@ -229,7 +251,30 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.removeParticipant(groupId, sender.id)
             }
         }
-        
+
+        // Auto-stiker
+        if (isGroupMsg && isAutoStikerOn && isMedia && isImage) {
+            const mediaData = await decryptMedia(message, uaOverride)
+            const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
+            await bocchi.sendImageAsSticker(from, imageBase64)
+                .then(async () => {
+                    console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
+                })
+                .catch(async (err) => {
+                    console.error(err)
+                    await bocchi.reply(from, `Error!\n${err}`, id)
+                })
+        }
+
+        // AFk
+        if (isGroupMsg) {
+            for (let ment of mentionedJidList) {
+                if (getAfk(ment)) {
+                    await bocchi.reply(from, ind.afkMentioned(), id)
+                }
+            }
+        }
+
         // Ignore non-cmd
         if (!isCmd) return
 
@@ -255,8 +300,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const namaUser = q.substring(0, q.indexOf('|') - 1)
                 const umurUser = q.substring(q.lastIndexOf('|') + 2)
-                const waktuDaftar = moment(t * 1000).format('DD/MM/YY HH:mm:ss')
-                addUserBio(sender.id, namaUser, umurUser, waktuDaftar)
+                addUserBio(sender.id, namaUser, umurUser, time)
                 await bocchi.reply(from, ind.registered(), id)
                 console.log(color('[REGISTER]'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), 'Name:', color(namaUser, 'cyan'), 'Age:', color(umurUser, 'cyan'))
             break
@@ -398,6 +442,21 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.sendText(from, q)
+            break
+            case 'afk':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                if (ar[0] === 'enable') {
+                    if (isAfkOn) return await bocchi.reply(from, ind.afkOnAlready(), id)
+                    addAfk(sender.id, time)
+                    await bocchi.reply(from, ind.afkOn(), id)
+                } else if (ar[0] === 'disable') {
+                    _afk.splice(sender.id, 1)
+                    fs.writeFileSync('./database/afk.json', JSON.stringify(_afk))
+                    await bocchi.reply(from, ind.afkOff(), id)
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
             break
             case 'lyric':
             case 'lirik':
@@ -1618,7 +1677,26 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
-            
+            case 'autostiker':
+            case 'autostik':
+            case 'autstik':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
+                if (ar[0] === 'enable') {
+                    if (isAutoStikerOn) return await bocchi.reply(from, ind.autoStikOnAlready(), id)
+                    _autostiker.push(chat.id)
+                    fs.writeFileSync('./database/autostiker.json', JSON.stringify(_autostiker))
+                    await bocchi.reply(from, ind.autoStikOn(), id)
+                } else if (ar[0] === 'disable') {
+                    _autostiker.splice(chat.id, 1)
+                    fs.writeFileSync('./database/autostiker.json', JSON.stringify(_autostiker))
+                    await bocchi.reply(from, ind.autoStikOff(), id)
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
+            break
+
             // Owner command
             case 'bc':
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
@@ -1658,8 +1736,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
                 if (ar[0] === 'add') {
                     if (mentionedJidList.length !== 0) {
-                        if (mentionedJidList[0] === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
                         for (let benet of mentionedJidList) {
+                            if (benet === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
                             _ban.push(benet)
                             fs.writeFileSync('./database/banned.json', JSON.stringify(_ban))
                         }
@@ -1704,15 +1782,15 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'premium':
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
-                if (mentionedJidList.length === 0) return await bocchi.reply(from, ind.wrongFormat(), id)
-                if (mentionedJidList[0] === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (ar[0] === 'add') {
                     for (let premi of mentionedJidList) {
-                         _premium.push(premi)
-                         fs.writeFileSync('./database/premium.json', JSON.stringify(_premium))
+                        if (premi === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
+                        _premium.push(premi)
+                        fs.writeFileSync('./database/premium.json', JSON.stringify(_premium))
                     }
                     await bocchi.reply(from, ind.doneOwner(), id)
                 } else if (ar[0] === 'del') {
+                    if (mentionedJidList[0] === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
                     let predel = _premium.indexOf(mentionedJidList[0])
                     _premium.splice(predel, 1)
                     fs.writeFileSync('./database/premium.json', JSON.stringify(_premium))

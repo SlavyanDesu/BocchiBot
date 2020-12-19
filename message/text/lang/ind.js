@@ -195,6 +195,34 @@ exports.minimalDb = () => {
     return `Perlu setidaknya *10* user yang memiliki level di database!`
 }
 
+exports.autoStikOn = () => {
+    return `Fitur auto-stiker berhasil *diaktifkan*!`
+}
+
+exports.autoStikOff = () => {
+    return `Fitur auto-stiker berhasil *dinonaktifkan*!`
+}
+
+exports.autoStikOnAlready = () => {
+    return `Fitur auto-stiker telah diaktifkan sebelumnya.`
+}
+
+exports.afkOn = () => {
+    return `Fitur AFK berhasil *diaktifkan*!`
+}
+
+exports.afkOff = () => {
+    return `Fitur AFK berhasil *dinonaktifkan*!`
+}
+
+exports.afkOnAlready = () => {
+    return `Fitur AFK telah diaktifkan sebelumnya.`
+}
+
+exports.afkMentioned = () => {
+    return `Ssttt!\n\nOrangnya lagi AFK, jangan diganggu!`
+}
+
 exports.menu = () => {
     return `
 ------[ WELCOME ]-----
@@ -352,6 +380,11 @@ Usage: *${prefix}ytsearch* query
 Membuat Text to Speech. Kalian perlu kode bahasa setiap menggunakan, cek di sini https://id.wikipedia.org/wiki/Daftar_bahasa_menurut_ISO_639-2
 Aliases: -
 Usage: *${prefix}tts* kode_bahasa | teks
+
+11. *${afk}*
+Set akun kamu ke mode AFK, aku akan mengirim pesan ke orang yang me-mention kalian.
+Aliases: -
+Usage: *${prefix}afk* enable/disable
 
 _Index of [3]_
     `
@@ -539,6 +572,11 @@ Usage: *${prefix}antilink* enable/disable
 Mematikan/menyalakan fitur welcome di grup agar menyambut setiap kedatangan member.
 Aliases: -
 Usage: *${prefix}welcome* enable/disable
+
+11. *${prefix}autostiker*
+Mematikan/menyalakan fitur auto-stiker. Setiap foto yang dikirim akan selalu diubah ke stiker.
+Aliases: *autostik autstik*
+Usage: *${prefix}autostiker* enable/disable
 
 _Index of [7]_
     `
