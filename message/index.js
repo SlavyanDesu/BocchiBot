@@ -281,7 +281,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 })
         }
 
-        // AFk
+        // AFK
         if (isGroupMsg) {
             const checking = getAfk(sender.id)
             for (let ment of mentionedJidList) {
@@ -901,9 +901,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const profilePic = await bocchi.getProfilePicFromServer(getQuoted)
                     const username = quotedMsgObj.sender.name
                     const statuses = await bocchi.getStatus(getQuoted)
-                    const benet = _ban.includes(getQuoted)
-                    const adm = groupAdmins.includes(getQuoted)
-                    const premi = _premium.includes(getQuoted)
+                    const benet = _ban.includes(getQuoted) ? 'Yes' : 'No'
+                    const adm = groupAdmins.includes(getQuoted) ? 'Yes' : 'No'
+                    const premi = _premium.includes(getQuoted) ? 'Yes' : 'No'
                     const { status } = statuses
                     if (profilePic === undefined) {
                         var pfp = errorImg
@@ -915,9 +915,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const profilePic = await bocchi.getProfilePicFromServer(sender.id)
                     const username = pushname
                     const statuses = await bocchi.getStatus(sender.id)
-                    const benet = isBanned
-                    const adm = isGroupAdmins
-                    const premi = isPremium
+                    const benet = isBanned ? 'Yes' : 'No'
+                    const adm = isGroupAdmins ? 'Yes' : 'No'
+                    const premi = isPremium ? 'Yes' : 'No'
                     const { status } = statuses
                     if (profilePic === undefined) {
                         var pfp = errorImg
@@ -962,7 +962,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'pasangan':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
-                const nama = q.substring(0, q.indexOf('|'))
+                const nama = q.substring(0, q.indexOf('|') - 1)
                 const pasangan = q.substring(q.lastIndexOf('|') + 2)
                 await bocchi.reply(from, ind.wait(), id)
                 fun.pasangan(nama, pasangan)
@@ -1012,7 +1012,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'missing':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
-                const atas = q.substring(0, q.indexOf('|'))
+                const atas = q.substring(0, q.indexOf('|') - 1)
                 const tengah = q.substring(q.indexOf('|') + 2, q.lastIndexOf('|'))
                 const bawah = q.substring(q.lastIndexOf('|') + 2)
                 if (isMedia && type === 'image' || isQuotedImage) {
@@ -1038,7 +1038,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (isMedia && type === 'image' || isQuotedImage) {
                     await bocchi.reply(from, ind.wait(), id)
-                    const nama = q.substring(0, q.indexOf('|'))
+                    const nama = q.substring(0, q.indexOf('|') - 1)
                     const pasangan = q.substring(q.lastIndexOf('|') + 2)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const dataPasangan = await decryptMedia(encryptMedia, uaOverride)
