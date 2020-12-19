@@ -323,7 +323,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const umurUser = q.substring(q.lastIndexOf('|') + 2)
                 addUserBio(sender.id, namaUser, umurUser, time)
                 await bocchi.reply(from, ind.registered(), id)
-                console.log(color('[REGISTER]'), color(moment(t * 1000).format('DD/MM/YY HH:mm:ss'), 'yellow'), 'Name:', color(namaUser, 'cyan'), 'Age:', color(umurUser, 'cyan'))
+                console.log(color('[REGISTER]'), color(time, 'yellow'), 'Name:', color(namaUser, 'cyan'), 'Age:', color(umurUser, 'cyan'))
             break
                 
             // Level [ALPHA]
