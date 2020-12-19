@@ -20,25 +20,6 @@ const fetchJson = (url, options) => {
 }
 
 /**
- * Fetch Base64 from URL.
- * @param {String} url 
- * @param {MimeType} mimetype
- */
-const fetchBase64 = (url, mimetype) => {
-    return new Promise((resolve, reject) => {
-        return fetch(url)
-            .then((response) => {
-                const _mimetype = mimetype || response.headers.get('content-type')
-                response.buffer()
-                    .then((result) => resolve(`data:${_mimetype};base64,` + result.toString('base64')))
-            })
-            .catch((err) => {
-                reject(err)
-            })
-    })
-}
-
-/**
  * Fetch text from URL.
  * @param {String} url 
  * @param {Object} options 
@@ -57,17 +38,18 @@ const fetchText = (url, options) => {
 /**
  * Upload images to telegra.ph server.
  * @param {Buffer} buffData 
+ * @param {String} namaFile
  */
-const uploadImages = (buffData) => {
+const uploadImages = (buffData, namaFile) => {
     return new Promise((resolve, reject) => {
         const { ext } = fromBuffer(buffData)
-        const filePath = 'tools/tmp.' + ext
+        const filePath = `tools/${namaFile}.` + ext
         fs.writeFile(filePath, buffData, { encoding: 'base64' }, (err) => {
             if (err) return reject(err)
             console.log('Uploading image to telegra.ph server...')
             const fileData = fs.readFileSync(filePath)
             const form = new FormData()
-            form.append('file', fileData, 'tmp.' + ext)
+            form.append('file', fileData, `${namaFile}.` + ext)
             fetch('https://telegra.ph/upload', {
                 method: 'POST',
                 body: form
@@ -85,7 +67,6 @@ const uploadImages = (buffData) => {
 
 module.exports = {
     fetchJson,
-    fetchBase64,
     fetchText,
     uploadImages
 }

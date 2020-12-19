@@ -1,5 +1,8 @@
+const fs = require('fs-extra')
+const { prefix, ownerNumber } = JSON.parse(fs.readFileSync('config.json'))
+
 exports.wait = () => {
-    return `Please wait~`
+    return `Please wait a moment~`
 }
 
 exports.ok = () => {
@@ -7,11 +10,11 @@ exports.ok = () => {
 }
 
 exports.wrongFormat = () => {
-    return `Wrong format!`
+    return `Incorrect format! Please check how to use it at *${prefix}menu*.`
 }
 
 exports.emptyMess = () => {
-    return `Please provide a message!`
+    return `Please enter the message you wish to convey!`
 }
 
 exports.cmdNotFound = () => {
@@ -19,39 +22,39 @@ exports.cmdNotFound = () => {
 }
 
 exports.blocked = () => {
-    return `Bot is not receiving call. You have have been blocked due to rules breaking!\n\nPlease contact owner: wa.me/6281294958473`
+    return `Bot not receiving calls. Because you have broken the rules, then you have been blocked!\n\nContact the owner: wa.me/${ownerNumber.replace('@c.us', '')}`
 }
 
 exports.ownerOnly = () => {
-    return `This command is only for Owner-sama!`
+    return `This command is special Owner-sama!`
 }
 
 exports.doneOwner = () => {
-    return `Finished, Owner-sama~`
+    return `Already completed, Owner-sama~`
 }
 
 exports.groupOnly = () => {
-    return `This command only work in a group!`
+    return `This command can only be used within a group!`
 }
 
 exports.adminOnly = () => {
-    return `Only admin who can use this command!`
+    return `This command can only be used by group admins!`
 }
 
 exports.notNsfw = () => {
-    return `NSFW command is not enabled!`
+    return `NSFW command has not been enabled!`
 }
 
 exports.nsfwOn = () => {
-    return `NSFW command successfully *enabled*!\nType *$nsfwmenu* to see command list.`
+    return `NSFW Command was successfully *enabled*!`
 }
 
 exports.nsfwOff = () => {
-    return `NSFW command successfully *disabled*!`
+    return `NSFW Command was successfully *disabled*!`
 }
 
 exports.addedGroup = (chat) => {
-    return `Thank you for inviting me, *${chat.contact.name}* members!\n\nType *$rules* first ok~`
+    return `Thank you for inviting me, members *${chat.contact.name}*!\n\nPlease register by typing:\n*${prefix}register* name | age`
 }
 
 exports.nhFalse = () => {
@@ -59,13 +62,13 @@ exports.nhFalse = () => {
 }
 
 exports.listBlock = (blockNumber) => {
-    return `-----[ HALL OF SHAME ]-----
-
+    return `------[ HALL OF SHAME ]------
+    
 Total blocked: *${blockNumber.length}* user(s)\n`
 }
 
 exports.notPremium = () => {
-    return `Sorry! This command is for premium user only.`
+    return `Sorry! This command is only for premium users.`
 }
 
 exports.notAdmin = () => {
@@ -73,327 +76,637 @@ exports.notAdmin = () => {
 }
 
 exports.adminAlready = () => {
-    return `Can't promote user who is an admin!`
+    return `Cannot promote a user who is an admin!`
 }
 
 exports.botNotPremium = () => {
-    return `The bot is not supported premium commands. Please contact the owner of the bot.`
+    return `This bot does not support premium commands. Please contact the owner of this bot.`
 }
 
 exports.botNotAdmin = () => {
-    return `Set bot to admin first!`
-}
-
-exports.ytLimit = () => {
-    return `Video size is too large!`
+    return `Make the bot as admin first!`
 }
 
 exports.ytFound = (res) => {
-    return `Video found!\n\nTitle:\n${res.title}\n\nDescription:\n${res.desc}\n\nDuration: ${res.duration} minutes\n\nSending media, please wait...`
+    return `*Video found!*\n\n➸ *Title*:${res.title}\n➸ *Description*:${res.desc}\n➸ *Duration*: ${res.duration} minutes\n\nMedia is being shipped, please wait...`
 }
 
 exports.notRegistered = () => {
-    return `Your account is not registered in my database!\n\nPlease register using this format:\n*$register* <name | region>\n\nWithout <>`
+    return `You are not registered in the database yet!\n\nPlease register with the format:\n*${prefix}register* name | age`
 }
 
 exports.registered = () => {
-    return `Congratulations! You have been registered. Type *$rules* first ok~`
+    return `Congratulations! You have registered.\nType *${prefix}rules* first okay~`
 }
 
 exports.registeredAlready = () => {
-    return `Your account is already registered.`
+    return `You have registered before.`
 }
 
 exports.received = (pushname) => {
-    return `Hello ${pushname}!\nThanks for your reports, we will receive it ASAP.`
+    return `Hello ${pushname}!\nThank you for reporting, we will receive your report soon.`
 }
 
-exports.textMenu = (pushname) => {
+exports.limit = (time) => {
+    return `Sorry, but you have reached the limit using this command.\nPlease wait *${time.hours}* hour(s) *${time.minutes}* minute(s) *${time.seconds}* second(s) more.`
+}
+
+exports.videoLimit = () => {
+    return `The video size is too large!`
+}
+
+exports.joox = (result) => {
+    return `*Song found!*\n\n➸ *Singer*: ${result[0].penyanyi}\n➸ *Title*: ${result[0].judul}\n➸ *Album*: ${result[0].album}\n➸ *Ext*: ${result[0].ext}\n➸ *Size*: ${result[0].filesize}\n➸ *Duration*: ${result[0].duration}\n\nMedia is being shipped, please wait...`
+}
+
+exports.gsm = (result) => {
+    return `➸ *Phone model*: ${result.title}\n➸ *Spesification*: ${result.spec}`
+}
+
+exports.receipt = (result) => {
+    return `${result.title}\n\n${result.desc}\n\n*Ingredients*: ${result.bahan}\n\n*Steps*:\n${result.cara}`
+}
+
+exports.ytResult = (urlyt, title, channel, duration, views) => {
+    return `➸ *Title*: ${title}\n➸ *Channel*: ${channel}\n➸ *Durations*: ${duration}\n➸ *Views*: ${views}\n➸ *Link*: ${urlyt}`
+}
+
+exports.profile = (username, status, premi, benet, adm) => {
+    return `-----[ *USER INFO* ]-----\n\n➸ *Username*: ${username}\n➸ *Status*: ${status}\n➸ *Premium*: ${premi}\n➸ *Banned*: ${benet}\n➸ *Admin*: ${adm}`
+}
+
+exports.detectorOn = (name, formattedTitle) => {
+    return `*「 ANTI GROUP LINK 」*\n\nAnnouncement for all group members ${(name || formattedTitle)}\nIf somebody sending a group link on this group, they will be kicked automatically by bot.\n\nThank you.\n- Admin ${(name || formattedTitle)}`
+}
+
+exports.detectorOff = () => {
+    return `Anti-group link feature was successfully *disabled*!`
+}
+
+exports.detectorOnAlready = () => {
+    return `Anti-group link feature has been enabled before.`
+}
+
+exports.linkDetected = () => {
+    return `*「 ANTI GROUP LINK 」*\n\nYou've sent a group link!\nSorry, but you have to leave...\nTake care~`
+}
+
+exports.levelingOn = () => {
+    return `Leveling feature was successfully *enabled*!`
+}
+
+exports.levelingOff = () => {
+    return `Leveling feature was successfully *disabled*!`
+}
+
+exports.levelingOnAlready = () => {
+    return `Leveling feature has been enabled before.`
+}
+
+exports.levelingNotOn = () => {
+    return `Leveling feature has not been enabled!`
+}
+
+exports.levelNull = () => {
+    return `You don't have any level yet!`
+}
+
+exports.welcome = (event) => {
+    return `Welcome @${event.who.replace('@c.us', '')}!`
+}
+
+exports.welcomeOn = () => {
+    return `Welcome feature was successfully *enabled*!`
+}
+
+exports.welcomeOff = () => {
+    return `Welcome feature was successfully *disabled*!`
+}
+
+exports.welcomeOnAlready = () => {
+    return `Welcome feature has been enabled before.`
+}
+
+exports.minimalDb = () => {
+    return `Need at least *10* users that have a level in database!`
+}
+
+exports.menu = () => {
     return `
------[ COMMANDS ]-----
+------[ WELCOME ]-----
 
-Hello ${pushname}~
+The following menus are available:
 
-Ignore <>
+*[1]* Downloader
+*[2]* Bot
+*[3]* Misc
+*[4]* Sticker
+*[5]* Weeaboo
+*[6]* Fun
+*[7]* Moderation
+*[8]* NSFW
+*[9]* Owner
+*[10]* Leveling [ALPHA]
 
-Bot:
-1. *$rules*
-MUST READ.
+Type *${prefix}menu* index_number to open the selected page menu.
+
+Note:
+Treat the bot well, dev will act firmly if the user violates the rules.
+This bot has anti-spam in the form of a cooldown command for *5 seconds* every time you use it.
+
+Sincerely,
+Slavyan
+    `
+}
+
+exports.menuDownloader = () => {
+    return `
+-----[ DOWNLOADER ]-----
+
+1. *${prefix}facebook*
+Download Facebook video.
+Aliases: *fb*
+Usage: *${prefix}facebook* video_link
+
+2. *${prefix}ytmp3*
+Download YouTube audio.
+Aliases: -
+Usage: *${prefix}ytmp3* link
+
+3. *${prefix}ytmp4*
+Download YouTube video.
+Aliases: -
+Usage: *${prefix}ytmp4* link
+
+_Index of [1]_
+    `
+}
+
+exports.menuBot = () => {
+    return `
+-----[ BOT ]-----
+
+1. *${prefix}rules*
+Must read.
 Aliases: *rule*
-Usage: *$rules*
+Usage: *${prefix}rules*
 
-2. *$menu*
-Check commands list.
+2. *${prefix}menu*
+Displays available commands.
 Aliases: -
-Usage: *$menu*
+Usage: *${prefix}menu* index_number
 
-3. *$nsfw*
-Toogle NSFW command.
+3. *${prefix}status*
+Displays bot status.
+Aliases: *stats*
+Usage: *${prefix}status*
+
+4. *${prefix}listblock*
+Check blocked numbers.
 Aliases: -
-Usage: *$nsfw* <enable/disable>
+Usage: *${prefix}listblock*
 
-4. *$menuowner*
-Check owner commands list.
-Aliases: -
-Usage: *$menuowner*
-
-5. *$usage*
-Check server's usage.
-Aliases: -
-Usage: *$usage*
-
-6. *$listblock*
-Check a blocked person(s) by bot.
-Aliases: -
-Usage: *listblock*
-
-7. *$ping*
-Check bot's speed, not YOUR connection.
+5. *${prefix}ping*
+Check the bot speed.
 Aliases: *p*
-Usage: *$ping*
+Usage: *${prefix}ping*
 
-8. *$delete*
-Delete bot's message.
+6. *${prefix}delete*
+Delete messages from bots.
 Aliases: *del*
-Usage: Reply the message that is going to be deleted by using caption *$delete*.
+Usage: Reply to deleted messages with a caption *${prefix}delete*.
 
-9. *$moderation*
-Check moderation commands list.
-Aliases: -
-Usage: *$moderation*
-
-10. *$report*
+7. *${prefix}report*
 Report bugs to dev.
 Aliases: -
-Usage: *$report* <message>
+Usage: *${prefix}report* text
 
-Utility:
-1. *$say*
-Make the bot say something!
+8. *${prefix}tos*
+Terms of service.
 Aliases: -
-Usage: *$say* <text>
+Usage: *${prefix}tos*
 
-2. *$lyric*
-Search for a song's lyric.
-Aliases: *lirik*
-Usage: *$lyric* <song's title>
-
-3. *$shortlink*
-Create a shortlink
+9. *${prefix}join*
+Join to group via link.
 Aliases: -
-Usage: *$shortlink* <link>
+Usage: *${prefix}join* group's_link
 
-4. *$wikipedia*
-Search Wikipedia from given text.
+_Index of [2]_
+    `
+}
+
+exports.menuMisc = () => {
+    return `
+-----[ MISC ]-----
+
+1. *${prefix}say*
+The bot will repeat your message.
+Aliases: -
+Usage: *${prefix}say* text
+
+2. *${prefix}lirik*
+Search for song lyrics.
+Aliases: -
+Usage: *${prefix}lirik* song's_title
+
+3. *${prefix}shortlink*
+Create a shortlink.
+Aliases: -
+Usage: *${prefix}shortlink* link
+
+4. *${prefix}wikipedia*
+Send Wikipedia from the given text.
 Aliases: *wiki*
-Usage: *$wikipedia* <text>
+Usage: *${prefix}wikipedia* text
 
-5. *$kbbi*
-Send a definition of Indonesian vocab.
+5. *${prefix}kbbi*
+Send word definitions from KBBI.
 Aliases: -
-Usage: *$kbbi* <text>
+Usage: *${prefix}kbbi* text
 
-6. *$igstalk*
+6. *${prefix}igstalk*
 Stalk Instagram account.
 Aliases: -
-Usage: *$igstalk* <username>
+Usage: *${prefix}igstalk* ig_username
 
-Sticker:
-1. *$sticker*
-Create a sticker from sending or replying an image.
+7. *${prefix}gsmarena*
+Sending phone info from GSMArena.
+Aliases: -
+Usage: *${prefix}gsmarena* phone's_model
+
+8. *${prefix}receipt*
+Sending food receipt.
+Aliases: *resep*
+Usage: *${prefix}receipt* food's_name
+
+9. *${prefix}ytsearch*
+Sending YouTube search results.
+Aliases: *yts*
+Usage: *${prefix}ytsearch* query
+
+10. *${prefix}tts*
+Create a Text to Speech. You need a language code, you can find it here https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+Aliases: -
+Usage: *${prefix}tts* language_code | text
+
+_Index of [3]_
+    `
+}
+
+exports.menuSticker = () => {
+    return `
+-----[ STICKER ]-----
+
+1. *${prefix}sticker*
+Create stickers from images sent or replied.
 Aliases: *stiker*
-Usage: Send an image with caption *$sticker* or reply an image with caption *$sticker*.
+Usage: Send images with caption *${prefix}sticker* or reply to the images with a caption *${prefix}sticker*.
 
-Weeb zone:
-1. *$neko*
-Sending neko anime girl picture :3
+2. *${prefix}stickergif*
+Create stickers from videos/GIFs.
+Aliases: *stikergif*
+Usage: Send videos/GIFs with caption *${prefix}stickergif* or reply to the videos/GIFs with a caption *${prefix}stickergif*.
+
+3. *${prefix}stickerlightning*
+Create lightning sticker from images.
+Aliases: *slightning*
+Usage: Send images with caption *${prefix}stickerlightning* or reply to the images with a caption *${prefix}stickerlightning*.
+
+4. *${prefix}stickerfire*
+Create fire stickers from images that are sent or replied to.
+Aliases: *sfire*
+Usage: Send images with caption *${prefix}stickerfire* or reply to the images with a caption *${prefix}stickerfire*.
+
+3. *${prefix}ttg*
+Create text to GIF stickers.
 Aliases: -
-Usage: *$neko*
+Usage: *${prefix}ttg* text
 
-2. *$wallpaper*
-Sending an anime wallpaper
+4. *${prefix}stickertoimg*
+Convert stickers to image.
+Aliases: *stikertoimg*
+Usage: Reply to the stickers with a caption *${prefix}stickertoimg*.
+
+_Index of [4]_
+    `
+}
+
+exports.menuWeeaboo = () => {
+    return `
+-----[ WEEABOO ]-----
+
+1. *${prefix}neko*
+Send a neko girl photo.
+Aliases: -
+Usage: *${prefix}neko*
+
+2. *${prefix}wallpaper*
+Send anime wallpapers.
 Aliases: *wp*
-Usage: *$wallpaper*
+Usage: *${prefix}wallpaper*
 
-3. *$kemono*
-Sending a kemonomini anime girl picture! UwU
+3. *${prefix}kemono*
+Send kemonomimi girl photos.
 Aliases: -
-Usage: *$kemono*
+Usage: *${prefix}kemono*
 
-4. *$kusonime*
-Search for anime info and batch download link from Kusonime.
+4. *${prefix}kusonime*
+Look for anime info and batch download links on Kusonime.
 Aliases: -
-Usage: *$kusonime* <anime title>
+Usage: *${prefix}kusonime* anime's_title
 
-5. *$komiku*
-Search for manga info and downloas link from Komiku.
+5. *${prefix}komiku*
+Looking for manga info and download links on Komiku.
 Aliases: -
-Usage: *$komiku* <manga title>
+Usage: *${prefix}komiku* manga's_title
 
-6. *$wait*
-Search for anime source from screenshot scene.
+6. *${prefix}wait*
+Search anime source from the screenshots scene.
 Aliases: -
-Usage: Send a screenshot with caption *$wait* or reply a screenshot with caption *$wait*.
+Usage: Send screenshots with caption *${prefix}wait* or reply to the screenshots with a caption *${prefix}wait*.
 
-7. *$source*
-Search for source from doujin panel, illustration, and anime images related.
+7. *${prefix}source*
+Look for sources from the doujin panel, illustrations, and images related to anime.
 Aliases: *sauce*
-Usage: Send an image with caption *$source* or reply an image with caption *$source*.
+Usage: Send images with caption *${prefix}source* or reply to the images with a caption *${prefix}source*.
 
-8. *$waifu*
-Sending for random waifu pics.
+8. *${prefix}waifu*
+Send random waifu photos.
 Aliases: -
-Usage: *$waifu*
+Usage: *${prefix}waifu*
+
+_Index of [5]_
     `
 }
 
-exports.textRules = () => {
+exports.menuFun = () => {
     return `
------[ THE RULES ]-----
-1. Do NOT spam the bot.
-Penalty: *WARN/SOFT BLOCK*
+-----[ FUN ]-----
 
-2. Do NOT call the bot.
-Penalty: *SOFT BLOCK*
+1. *${prefix}hartatahta*
+Make a picture of the "Harta Tahta Nama".
+Aliases: -
+Usage: *${prefix}hartatahta* name
 
-3. Do NOT exploiting the bot.
-Penalty: *PERMANENT BLOCK*
+2. *${prefix}calender*
+Create a calendar from sent photos.
+Aliases: -
+Usage: Send images with caption *${prefix}calender* or reply to the images with a caption *${prefix}calender*.
 
-If you understand the rules, type *$menu* to start!
+3. *${prefix}partner*
+Weton match.
+Aliases: *pasangan*
+Usage: *${prefix}partner* name | partner
 
-Source code by:
-wa.me/6281294958473 (Kal)
-wa.me/6282125076212 (Riz)
+4. *${prefix}zodiac*
+Weekly zodiac forecast.
+Aliases: *zodiak*
+Usage: *${prefix}zodiac* zodiac
+
+5. *${prefix}write*
+Make notes written in a book.
+Aliases: *nulis*
+Usage: *${prefix}write* text
+
+6. *${prefix}missing*
+Create a missing person images.
+Aliases: -
+Usage: Send images with caption *${prefix}missing* upper_text | center_text | bottom_text or reply to the images with a caption *${prefix}missing* upper_text | center_text| bottom_text.
+
+7. *${prefix}valentine*
+Create a valentine images.
+Aliases: -
+Usage: Send your couple's images with caption *${prefix}valentine* your_name | couple's_name or reply to the couple's images with a caption *${prefix}valentine* your_name | couple's_name.
+
+_Index of [6]_
     `
 }
 
-exports.textOwner = () => {
-    return `
-Hello Owner-sama ヽ(・∀・)ﾉ!
-
-1. *$bc*
-Create a brodcast message.
-Aliases: -
-Usage: *$bc* <text> 
-
-2. *$clearall*
-Delete all chats from the bot account.
-Aliases: -
-Usage: *$clearall*
-
-3. *$getses*
-Take a screenshot from the current session.
-Aliases: -
-Usage: *$getses*
-
-4. *$ban*
-Ban user.
-Aliases: -
-Usage: *$ban* @user1
-
-5. *$unban*
-Unban user.
-Aliases: -
-Usage: *$unban* @user1
-
-6. *$leaveall*
-Leave from all groups.
-Aliases: -
-Usage: *$leaveall*
-
-7. *$eval*
-Evaluates JS code.
-Aliases: *ev*
-Usage: *$eval*
-
-8. *$shutdown*
-Shutdown the bot.
-Aliases: -
-Usage: *$shutdown*
-
-9. *$pradd*
-Add premium user.
-Aliases: -
-Usage: *$pradd* @user1
-
-10. *$prdel*
-Delete premium user.
-Aliases: -
-Usage: *$prdel* @user1
-    `
-}
-
-exports.textNsfw = () => {
-    return `
------[ NSFW ]-----
-1. *$lewds*
-Sending anime lewds.
-Aliases: *lewd*
-Usage: *$lewds*
-
-2. *$multilewds*
-Sending anime lewds pics up to 5 images. (PREMIUM ONLY)
-Aliases: *multilewds multilewd mlewd mlewds*
-Usage: *$multilewds*
-
-3. *$nh*
-Sending doujinshi info from nHentai.
-Aliases: -
-Usage: *$nh* <code>
-
-4. *$nhdl*
-Download doujinshi from nHentai and sending it as PDF file. (PREMIUM ONLY)
-Aliases: -
-Usage: *$nhdl* <code>
-
-5. *$nekopoi*
-Sending latest video link from Nekopoi.
-Aliases: -
-Usage: *$nekopoi*
-
-6. *$multifetish*
-Sending fetish pics up to 5 images. (PREMIUM ONLY)
-Aliases: *mfetish*
-Usage: *$multifetish* <armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao>
-
-7. *$waifu18*
-Sending random NSFW waifu pics.
-Aliases: -
-Usage: *$waifu18*
-    `
-}
-
-exports.textModeration = () => {
+exports.menuModeration = () => {
     return `
 -----[ MODERATION ]-----
-1. *$add*
-Add user to group.
-Aliases: -
-Usage: *$add* 628xxxxxxxxxx
 
-2. *$kick*
-Kick member from group.
+1. *${prefix}add*
+Add users to groups.
 Aliases: -
-Usage: *$kick* @member1
+Usage: *${prefix}add* 628xxxxxxxxxx
 
-3. *$promote*
-Promote member to admin.
+2. *${prefix}kick*
+Remove members from the group.
 Aliases: -
-Usage: *$promote* @member1
+Usage: *${prefix}kick* @member1
 
-4. *$demote*
+3. *${prefix}promote*
+Promote member to become admin.
+Aliases: -
+Usage: *${prefix}promote* @member1
+
+4. *${prefix}demote*
 Demote member from admin.
 Aliases: -
-Usage: *$demote* @member1
+Usage: *${prefix}demote* @member1
 
-5. *$leave*
-Bot will leave the current group.
+5. *${prefix}leave*
+The bot will leave the group.
 Aliases: -
-Usage: *$leave*
+Usage: *${prefix}leave*
 
-6. *$everyone*
+6. *${prefix}everyone*
 Mention all group members.
 Aliases: -
-Usage: *$everyone*
+Usage: *${prefix}everyone*
+
+7. *${prefix}nsfw*
+Toogle NSFW mode.
+Aliases: -
+Usage: *${prefix}nsfw* enable/disable
+
+8. *${prefix}groupicon*
+Change group icon.
+Aliases: -
+Usage: Send images with caption *${prefix}groupicon* or reply to the images with a caption *${prefix}groupicon*.
+
+9. *${prefix}antilink*
+Toogle anti-group link feature.
+Aliases: -
+Usage: *${prefix}antilink* enable/disable
+
+10. *${prefix}welcome*
+Toogle welcome feature.
+Aliases: -
+Usage: *${prefix}welcome* enable/disable
+
+_Index of [7]_
+    `
+}
+
+exports.menuNsfw = () => {
+    return `
+-----[ NSFW ]-----
+
+1. *${prefix}lewds*
+Send lewd anime pict.
+Aliases: *lewd*
+Usage: *${prefix}lewds*
+
+2. *${prefix}multilewds*
+Send up to 5 anime lewd pics. (PREMIUM ONLY)
+Aliases: *multilewds multilewd mlewd mlewds*
+Usage: *${prefix}multilewds*
+
+3. *${prefix}nh*
+Sending doujinshi info from nHentai.
+Aliases: -
+Usage: *${prefix}nh* code
+
+4. *${prefix}nhdl*
+Download doujin from nHentai as a PDF file. (PREMIUM ONLY)
+Aliases: -
+Usage: *${prefix}nhdl* code
+
+5. *${prefix}nekopoi*
+Send the latest video link Nekopoi.
+Aliases: -
+Usage: *${prefix}nekopoi*
+
+6. *${prefix}multifetish*
+Send up to 5 fetish pics. (PREMIUM ONLY)
+Aliases: *mfetish*
+Usage: *${prefix}multifetish* armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao
+
+7. *${prefix}waifu18*
+Send random NSFW waifu photos.
+Aliases: -
+Usage: *${prefix}waifu18*
+
+8. *${prefix}fetish*
+Send fetish pics.
+Aliases: -
+Usage: *${prefix}fetish* armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao
+
+9. *${prefix}phdl*
+Download videos from Pornhub.
+Aliases: -
+Usage *${prefix}phdl* link
+
+_Index of [8]_
+    `
+}
+
+exports.menuOwner = () => {
+    return `
+-----[ OWNER ]-----
+Hello Owner-sama ヽ(・∀・)ﾉ!
+
+1. *${prefix}bc*
+Make a broadcast.
+Aliases: -
+Usage: *${prefix}bc* text
+
+2. *${prefix}clearall*
+Deletes all chats on the bot account.
+Aliases: -
+Usage: *${prefix}clearall*
+
+3. *${prefix}getses*
+Take a screenshot of the session from the bot account.
+Aliases: -
+Usage: *${prefix}getses*
+
+4. *${prefix}ban*
+Add / remove banned users.
+Aliases: -
+Usage: *${prefix}ban* add/del @user/62812xxxxxxxx
+
+5. *${prefix}leaveall*
+Leave all groups.
+Aliases: -
+Usage: *${prefix}leaveall*
+
+6. *${prefix}eval*
+Evaluate the JavaScript code.
+Aliases: *ev*
+Usage: *${prefix}eval*
+
+7. *${prefix}shutdown*
+Shutdown bot.
+Aliases: -
+Usage: *${prefix}shutdown*
+
+8. *${prefix}premium*
+Add / remove premium users.
+Aliases: -
+Usage: *${prefix}premium* add/del @user
+
+9. *${prefix}setstatus*
+Set about me.
+Aliases: *setstatus setstat*
+Usage: *${prefix}status* text
+
+_Index of [9]_
+    `
+}
+
+exports.menuLeveling = () => {
+    return `
+-----[ LEVELING ]-----
+
+1. *${prefix}level*
+Check your level.
+Aliases: -
+Usage: *${prefix}level*
+
+2. *${prefix}leaderboard*
+Check leaderboard.
+Aliaases: -
+Usage: *${prefix}leaderboard*
+
+_Index of [10]_
+    `
+}
+
+exports.rules = () => {
+    return `
+-----[ RULES ]-----
+
+1. Do NOT spam bot. 
+Penalty: *WARN/SOFT BLOCK*
+
+2. Do NOT call bot.
+Penalty: *SOFT BLOCK*
+
+3. Do NOT exploit bots.
+Penalty: *PERMANENT BLOCK*
+
+If the rules are understood, please type *${prefix}menu* to get started!
+
+Source code by:
+wa.me/6281294958473 (Kal a.k.a. Slavyan)
+    `
+}
+
+// Please the owner / hoster, don't edit this, thank you.
+exports.tos = () => {
+    return `
+-----[ TERMS OF SERVICE ]-----
+
+This bot is an open-source bot with the real name BocchiBot which is available on GitHub for free.
+The owner/hoster of this bot is independent from the responsibility and supervision of the developer (Slavyan).
+Owner/hoster may plagiarize, add, delete, replace source code with notes *DO NOT SELL* this source code in any form.
+If an error occurs, the first person you should contact is the owner/hoster.  
+
+If you want to contributing to this project, visit:
+https://github.com/SlavyanDesu/BocchiBot
+
+Contact person:
+wa.me/${ownerNumber.replace('@c.us', '')} (Owner/hoster)
+wa.me/6281294958473 (Developer)
+
+You guys can also support me to keep this bot up to date with:
+081294958473 (OVO/Telkomsel/GoPay)
+
+Thank you!
+
+Slavyan.
     `
 }

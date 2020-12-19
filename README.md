@@ -9,11 +9,15 @@
 
 <p align="center">
   <a href="https://github.com/SlavyanDesu"><img src="https://avatars3.githubusercontent.com/u/28254882?s=400&u=25765902db0b709938966cf4127ac11af5eafb5d&v=4" height="128" width="128" /></a>
-  <a href="https://github.com/uukina"><img src="https://avatars0.githubusercontent.com/u/54493113?s=400&u=9072f9bb6abf7185f4aea2fe12ed57c8dfb1e4f2&v=4" height="128" width="128"
+  <a href="https://github.com/uukina"><img src="https://avatars0.githubusercontent.com/u/54493113?s=400&u=9072f9bb6abf7185f4aea2fe12ed57c8dfb1e4f2&v=4" height="128" width="128" /></a>
+  <a href="https://github.com/MrPawNO"><img src="https://avatars3.githubusercontent.com/u/13583912?s=400&u=8ef1749d80622ca2d5011d71171e5f8ac76334fb&v=4" height="128" width="128" /></a>
+  <a href="https://github.com/Pahri123"><img src="https://avatars1.githubusercontent.com/u/66406056?s=400&v=4" height="128" width="128" /></a>
 </p>
+
 <p align="center">
   <a href="https://github.com/SlavyanDesu"><img title="Author" src="https://img.shields.io/badge/Author-SlavyanDesu-purple.svg?style=for-the-badge&logo=github" /></a>
 </p>
+
 <p align="center">
   <a href="https://github.com/SlavyanDesu/BocchiBot"><img title="Stars" src="https://img.shields.io/github/stars/SlavyanDesu/BocchiBot?color=red&style=flat-square" /></a>
   <a href="https://github.com/SlavyanDesu/BocchiBot/network/members"><img title="Forks" src="https://img.shields.io/github/forks/SlavyanDesu/BocchiBot?color=red&style=flat-square" /></a>
@@ -23,7 +27,9 @@
   <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FSlavyanDesu%2FBocchiBot?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FSlavyanDesu%2FBocchiBot.svg?type=shield"/></a>
   <img src="https://img.shields.io/node/v/@open-wa/wa-automate" />
   <img src="https://img.shields.io/badge/maintained%3F-yes-green.svg?style=flat" />
+  <img src="https://img.shields.io/github/repo-size/SlavyanDesu/BocchiBot" />
 </p>
+
 <p align="center">
   <a href="https://github.com/SlavyanDesu/BocchiBot#requirements">Requirements</a> •
   <a href="https://github.com/SlavyanDesu/BocchiBot#installation">Installation</a> •
@@ -31,6 +37,7 @@
   <a href="https://github.com/SlavyanDesu/BocchiBot#thanks-to">Thanks to</a> •
   <a href="https://github.com/SlavyanDesu/BocchiBot#license">License</a>
 </p>
+
 <details>
   <summary>Contact me!</summary>
 
@@ -45,12 +52,11 @@
   [Discord](https://discord.com/users/446297580431998977)
 
 </details>
+
+<h1 align="center">
+  <a href="https://chat.whatsapp.com/LTTm0HGvFRu7uU23mr7ZaR">Whatsapp Group</a>
+</h1>
 </div>
-
-
----
-
-
 
 # Requirements
 * [Node.js](https://nodejs.org/en/)
@@ -83,17 +89,17 @@ Edit the required value in `config.json`.
 `uaOverride`: your user agent.  
 `token`: API token. You can get it [here](https://api.i-tech.id) by creating an account. After that, set your server/host static IP in [here](https://api.i-tech.id/settings/profile).  
 `nao`: SauceNAO API token. You can get it [here](https://saucenao.com/user.php) by creating an account.  
-`vhtear`: VHTear API token. You can get it [here](https://api.vhtear.com/) by buying his API key.   
+`vhtear`: VHTear API token. You can get it [here](https://api.vhtear.com/) by purchasing his API key.   
 
 ## 🗣️ Changing language
-Wanna change the language of the bot to English? Simply replace all `ind` in `message/index.js` to `eng`  
+If you want to change the language, replace all `ind` function to `eng`.   
 Example:
 ```js
-bocchi.reply(from, ind.wrongFormat(), id)
+ind.wrongFormat()
 ```
-To
+To:
 ```js
-bocchi.reply(from, eng.wrongFormat(), id)
+eng.wrongFormat()
 ```
 
 ## 🔍 Installing the dependencies
@@ -102,22 +108,47 @@ bocchi.reply(from, eng.wrongFormat(), id)
 ```
 
 ## 🆗 Running the bot
+Regular node:
 ```bash
 > npm start
 ```
+
+PM2:
+```bash
+> pm2 start index.js
+> pm2 monit
+```
+
+PM2 with cron job (restart after 5 hours):
+```bash
+> pm2 start index.js --cron "* */5 * * *"
+> pm2 monit
+```
+
 After that scan the QR code using your WhatsApp apps in your phone!
 
 # Features
 If you want to unlock premium commands, please contact me~
-|  Sticker Maker  | Availability |
-| :-------------: | :----------: |
-| Send image      |      ✔️      |
-| Reply to image  |      ✔️      |
+
+|   Unique Features   |  Conditions  |
+| :-----------------: | :----------: |
+| Register            |      ✔️      |
+| Leveling            |      ✔️      |
+
+|     Sticker Maker     | Availability |
+| :-------------------: | :----------: |
+| Send/reply image      |      ✔️      |
+| Send/reply GIF        |      ✔️      |
+| Send/reply MP4        |      ✔️      |
+| Text to sticker       |      ✔️      |
+| Text to sticker GIF   |      ✔️      |
+| Sticker to image      |      ✔️      |
 
 |      Downloader     | Availability |
 | :-----------------: | :----------: |
 | Facebook video      |      ✔️      |
 | YouTube audio/video |      ✔️      |
+| Joox                |      ✔️      |
 
 |       Misc       | Availability |
 | :--------------: | :----------: |
@@ -127,6 +158,21 @@ If you want to unlock premium commands, please contact me~
 | Wikipedia        |      ✔️      |
 | KBBI search      |      ✔️      |
 | IG stalk         |      ✔️      |
+| GSMArena         |      ✔️      |
+| Food receipt     |      ✔️      |
+| YouTube search   |      ✔️      |
+| TTS              |      ✔️      |
+| AFK              |      ✔️      |
+
+|        Fun       | Availability |
+| :--------------: | :----------: |
+| Harta tahta      |      ✔️      |
+| Calender         |      ✔️      |
+| Weton jodoh      |      ✔️      |
+| Zodiac           |      ✔️      |
+| Write            |      ✔️      |
+| Missing person   |      ✔️      |
+| Valentine        |      ✔️      |
 
 |      Weeb Zone     | Availability |
 | :----------------: | :----------: |
@@ -142,21 +188,24 @@ If you want to unlock premium commands, please contact me~
 |        Bot       | Availability |
 | :--------------: | :----------: |
 | NSFW toogle      |      ✔️      |
-| Server usage     |      ✔️      |
+| Bot stats        |      ✔️      |
 | List block       |      ✔️      |
 | Ping             |      ✔️      |
 | Delete           |      ✔️      |
 | Report bug       |      ✔️      |
+| Group join       |      ✔️      |
 
-|       Owner      | Availability |
-| :--------------: | :----------: |
-| Broadcast        |      ✔️      |
-| Clear messages   |      ✔️      |
-| Leave all groups |      ✔️      |
-| Ban              |      ✔️      |
-| Unban            |      ✔️      |
-| Eval             |      ✔️      |
-| Shutdown         |      ✔️      |
+|        Owner       | Availability |
+| :----------------: | :----------: |
+| Broadcast          |      ✔️      |
+| Clear all messages |      ✔️      |
+| Leave all groups   |      ✔️      |
+| Get session        |      ✔️      |
+| Ban                |      ✔️      |
+| Evaluates JS       |      ✔️      |
+| Shutdown           |      ✔️      |
+| Add premium user   |      ✔️      |
+| Set status         |      ✔️      |
 
 |    Moderation    | Availability |
 | :--------------: | :----------: |
@@ -166,24 +215,31 @@ If you want to unlock premium commands, please contact me~
 | Demote           |      ✔️      |
 | Leave            |      ✔️      |
 | Everyone         |      ✔️      |
+| Toogle NSFW      |      ✔️      |
+| Set group icon   |      ✔️      |
+| Anti-link        |      ✔️      |
+| Welcome          |      ✔️      |
+| Auto-sticker     |      ✔️      |
 
 |        NSFW        | Availability |
 | :----------------: | :----------: |
 | Lewds              |      ✔️      |
 | nHentai lookup     |      ✔️      |
 | Fetish             |      ✔️      |
-| Nekopoi            |      ✔️      |
+| Latest Nekopoi     |      ✔️      |
 | Waifu NSFW         |      ✔️      |
 | Pornhub downloader |      ✔️      |
+| Waifu 18+          |      ✔️      |
 | nHentai downloader |    Premium   |
 | Multi lewds        |    Premium   |
 | Multi fetish       |    Premium   |
 
-
 # Thanks to
-* [`Open-Wa/wa-automate-nodejs`](https://github.com/open-wa/wa-automate-nodejs)
+* [`open-wa/wa-automate-nodejs`](https://github.com/open-wa/wa-automate-nodejs)
 * [`YogaSakti/imageToSticker`](https://github.com/YogaSakti/imageToSticker)
 * [`uukina`](https://github.com/uukina)
+* [`MrPawNO`](https://github.com/MrPawNO)
+* [`Pahri123`](https://github.com/Pahri123)
 
 # License
 **BocchiBot** © [SlavyanDesu](https://github.com/SlavyanDesu), released under the MIT License.

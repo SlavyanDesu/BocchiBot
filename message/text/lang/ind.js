@@ -10,19 +10,19 @@ exports.ok = () => {
 }
 
 exports.wrongFormat = () => {
-    return `Format salah!`
+    return `Format salah! Silakan cek cara penggunaan di *${prefix}menu*.`
 }
 
 exports.emptyMess = () => {
-    return `Silakan masukkan pesan yang ingin disampaikan!`
+    return `Harap masukkan pesan yang ingin disampaikan!`
 }
 
 exports.cmdNotFound = () => {
     return `Command tidak ditemukan!`
 }
 
-exports.blocked = () => {
-    return `Bot tidak menerima panggilan. Karena kamu telah melanggar rules, maka kamu telah diblok!\n\nHarap hubungi owner: wa.me/6281294958473`
+exports.blocked = (ownerNumber) => {
+    return `Bot tidak menerima panggilan. Karena kamu telah melanggar rules, maka kamu telah diblok!\n\nHarap hubungi owner: wa.me/${ownerNumber.replace('@c.us', '')}`
 }
 
 exports.ownerOnly = () => {
@@ -38,7 +38,7 @@ exports.groupOnly = () => {
 }
 
 exports.adminOnly = () => {
-    return `Hanya admin grup yang bisa menggunakan command ini!`
+    return `Command ini hanya bisa digunakan oleh admin grup!`
 }
 
 exports.notNsfw = () => {
@@ -53,8 +53,12 @@ exports.nsfwOff = () => {
     return `Command NSFW berhasil *dinonaktifkan*!`
 }
 
+exports.nsfwAlready = () => {
+    return `Command NSFW sudah diaktifkan sebelumnya.`
+}
+
 exports.addedGroup = (chat) => {
-    return `Terima kasih telah mengundangku, para member *${chat.contact.name}*!\n\nKetik *${prefix}rules* terlebih dahulu ya~`
+    return `Terima kasih telah mengundangku, para member *${chat.contact.name}*!\n\nSilakan register dengan cara ketik:\n*${prefix}register* nama | umur`
 }
 
 exports.nhFalse = () => {
@@ -72,11 +76,11 @@ exports.notPremium = () => {
 }
 
 exports.notAdmin = () => {
-    return `User bukan admin!`
+    return `User bukan seorang admin!`
 }
 
 exports.adminAlready = () => {
-    return `Tidak dapat promote pengguna yang merupakan admin!`
+    return `Tidak dapat mem-promote user yang merupakan admin!`
 }
 
 exports.botNotPremium = () => {
@@ -87,16 +91,12 @@ exports.botNotAdmin = () => {
     return `Jadikan bot sebagai admin terlebih dahulu!`
 }
 
-exports.ytLimit = () => {
-    return `Size video terlalu besar!`
-}
-
 exports.ytFound = (res) => {
-    return `Video ditemukan!\n\nTitle:\n${res.title}\n\nDescription:\n${res.desc}\n\nDurasi: ${res.duration} menit\n\nMedia sedang dikirim, mohon tunggu...`
+    return `*Video ditemukan!*\n\n➸ *Judul*:${res.title}\n➸ *Deskripsi*:${res.desc}\n➸ *Durasi*: ${res.duration} menit\n\nMedia sedang dikirim, mohon tunggu...`
 }
 
 exports.notRegistered = () => {
-    return `Kamu belum terdaftar di database!\n\nSilakan register dengan format:\n*${prefix}register* <nama | daerah>\n\nTanpa tanda <>`
+    return `Kamu belum terdaftar di database!\n\nSilakan register dengan format:\n*${prefix}register* nama | umur`
 }
 
 exports.registered = () => {
@@ -111,25 +111,144 @@ exports.received = (pushname) => {
     return `Halo ${pushname}!\nTerima kasih telah melapor, laporanmu akan kami segera terima.`
 }
 
+exports.limit = (time) => {
+    return `Maaf, tetapi kamu telah mencapai limit menggunakan command ini.\nSilakan tunggu *${time.hours}* jam *${time.minutes}* menit *${time.seconds}* detik lagi.`
+}
+
+exports.videoLimit = () => {
+    return `Ukuran video terlalu besar!`
+}
+
+exports.joox = (result) => {
+    return `*Lagu ditemukan!*\n\n➸ *Penyanyi*: ${result[0].penyanyi}\n➸ *Judul*: ${result[0].judul}\n➸ *Album*: ${result[0].album}\n➸ *Ext*: ${result[0].ext}\n➸ *Size*: ${result[0].filesize}\n➸ *Durasi*: ${result[0].duration}\n\nMedia sedang dikirim, mohon tunggu...`
+}
+
+exports.gsm = (result) => {
+    return `➸ *Model HP*: ${result.title}\n➸ *Spesifikasi*: ${result.spec}`
+}
+
+exports.receipt = (result) => {
+    return `${result.title}\n\n${result.desc}\n\n*Bahan*: ${result.bahan}\n\n*Cara membuat*:\n${result.cara}`
+}
+
+exports.ytResult = (urlyt, title, channel, duration, views) => {
+    return `➸ *Judul*: ${title}\n➸ *Channel*: ${channel}\n➸ *Durasi*: ${duration}\n➸ *Views*: ${views}\n➸ *Link*: ${urlyt}`
+}
+
+exports.profile = (username, status, premi, benet, adm) => {
+    return `-----[ *USER INFO* ]-----\n\n➸ *Username*: ${username}\n➸ *Status*: ${status}\n➸ *Premium*: ${premi}\n➸ *Banned*: ${benet}\n➸ *Admin*: ${adm}`
+}
+
+exports.detectorOn = (name, formattedTitle) => {
+    return `*「 ANTI GROUP LINK 」*\n\nPerhatian untuk penghuni grup ${(name || formattedTitle)}\nGrup ini memiliki anti-group link detector, apabila ada salah satu member mengirim group link di sini maka dia akan ter-kick secara otomatis.\n\nSekian terima kasih.\n- Admin ${(name || formattedTitle)}`
+}
+
+exports.detectorOff = () => {
+    return `Fitur anti-group link berhasil *dinonaktifkan*!`
+}
+
+exports.detectorOnAlready = () => {
+    return `Fitur anti-group link telah diaktifkan sebelumnya.`
+}
+
+exports.linkDetected = () => {
+    return `*「 ANTI GROUP LINK 」*\n\nKamu mengirim link group chat!\nMaaf tapi kami harus mengkick kamu...\nSelamat tinggal~`
+}
+
+exports.levelingOn = () => {
+    return `Fitur leveling berhasil *diaktifkan*!`
+}
+
+exports.levelingOff = () => {
+    return `Fitur leveling berhasil *dinonaktifkan*!`
+}
+
+exports.levelingOnAlready = () => {
+    return `Fitur leveling telah diaktifkan sebelumnya.`
+}
+
+exports.levelingNotOn = () => {
+    return `Fitur leveling belum diaktifkan!`
+}
+
+exports.levelNull = () => {
+    return `Kamu belum memiliki level!`
+}
+
+exports.welcome = (event) => {
+    return `Selamat datang @${event.who.replace('@c.us', '')}!\n\nSemoga betah terus di grup kami ya~`
+}
+
+exports.welcomeOn = () => {
+    return `Fitur welcome berhasil *diaktifkan*!`
+}
+
+exports.welcomeOff = () => {
+    return `Fitur welcome berhasil *dinonaktifkan*!`
+}
+
+exports.welcomeOnAlready = () => {
+    return `Fitur welcome telah diaktifkan sebelumnya.`
+}
+
+exports.minimalDb = () => {
+    return `Perlu setidaknya *10* user yang memiliki level di database!`
+}
+
+exports.autoStikOn = () => {
+    return `Fitur auto-stiker berhasil *diaktifkan*!`
+}
+
+exports.autoStikOff = () => {
+    return `Fitur auto-stiker berhasil *dinonaktifkan*!`
+}
+
+exports.autoStikOnAlready = () => {
+    return `Fitur auto-stiker telah diaktifkan sebelumnya.`
+}
+
+exports.afkOn = () => {
+    return `Fitur AFK berhasil *diaktifkan*!`
+}
+
+exports.afkOff = () => {
+    return `Fitur AFK berhasil *dinonaktifkan*!`
+}
+
+exports.afkOnAlready = () => {
+    return `Fitur AFK telah diaktifkan sebelumnya.`
+}
+
+exports.afkMentioned = () => {
+    return `Ssttt!\n\nOrangnya lagi AFK, jangan diganggu!`
+}
+
+exports.afkDone = (pushname) => {
+    return `*${pushname}* telah kembali dari AFK! Selamat datang kembali~`
+}
+
 exports.menu = () => {
     return `
 ------[ WELCOME ]-----
 
 Berikut adalah menu yang tersedia:
-[1] Downloader
-[2] Bot
-[3] Misc
-[4] Sticker
-[5] Weeaboo
-[6] Fun
-[7] Moderation
-[8] NSFW
-[9] Owner
 
-Ketik *${prefix}menu* <angka_index> untuk membuka menu page yang dipilih.
+*[1]* Downloader
+*[2]* Bot
+*[3]* Misc
+*[4]* Sticker
+*[5]* Weeaboo
+*[6]* Fun
+*[7]* Moderation
+*[8]* NSFW
+*[9]* Owner
+*[10]* Leveling [ALPHA]
+
+Ketik *${prefix}menu* angka_index untuk membuka menu page yang dipilih.
 
 Catatan:
-Perlakukan bot secara lembut, dev akan bertindak tegas apabila user melanggar rules.
+Perlakukan bot secara baik, dev akan bertindak tegas apabila user melanggar rules.
+Bot ini terdapat anti-spam yang berupa cooldown command selama *5 detik* setiap kali pemakaian.
 
 Sincerely,
 Slavyan
@@ -143,17 +262,17 @@ exports.menuDownloader = () => {
 1. *${prefix}facebook*
 Download Facebook video.
 Aliases: *fb*
-Usage: *${prefix}facebook* <video link>
+Usage: *${prefix}facebook* video_link
 
 2. *${prefix}ytmp3*
 Download YouTube audio.
 Aliases: -
-Usage: *${prefix}ytmp3* <link>
+Usage: *${prefix}ytmp3* link
 
 3. *${prefix}ytmp4*
 Download YouTube video.
 Aliases: -
-Usage: *${prefix}ytmp4* <link>
+Usage: *${prefix}ytmp4* link
 
 _Index of [1]_
     `
@@ -171,7 +290,7 @@ Usage: *${prefix}rules*
 2. *${prefix}menu*
 Menampilkan commands yang tersedia.
 Aliases: -
-Usage: *${prefix}menu* <angka_index>
+Usage: *${prefix}menu* angka_index
 
 3. *${prefix}status*
 Menampilkan status bot.
@@ -191,12 +310,22 @@ Usage: *${prefix}ping*
 6. *${prefix}delete*
 Hapus pesan dari bot.
 Aliases: *del*
-Usage: Reply pesan yang dihapus dengan caption *${prefix}del*.
+Usage: Reply pesan yang dihapus dengan caption *${prefix}delete*.
 
 7. *${prefix}report*
 Laporkan bug ke dev.
 Aliases: -
-Usage: *${prefix}report* <pesan>
+Usage: *${prefix}report* pesan
+
+8. *${prefix}tos*
+Syarat dan ketentuan. (TOS)
+Aliases: -
+Usage: *${prefix}tos*
+
+9. *${prefix}join*
+Join grup via link.
+Aliases: -
+Usage: *${prefix}join* link_group
 
 _Index of [2]_
     `
@@ -209,32 +338,57 @@ exports.menuMisc = () => {
 1. *${prefix}say*
 Bot akan mengulang pesan mu.
 Aliases: -
-Usage: *${prefix}say* <teks>
+Usage: *${prefix}say* teks
 
 2. *${prefix}lirik*
 Mencari lirik lagu.
 Aliases: -
-Usage: *${prefix}lirik* <judul lagu>
+Usage: *${prefix}lirik* judul_lagu
 
 3. *${prefix}shortlink*
 Membuat shortlink.
 Aliases: -
-Usage: *${prefix}shortlink* <link>
+Usage: *${prefix}shortlink* link
 
 4. *${prefix}wikipedia*
 Mengirim Wikipedia dari teks yang diberikan.
 Aliases: *wiki*
-Usage: *${prefix}wikipedia* <teks>
+Usage: *${prefix}wikipedia* teks
 
 5. *${prefix}kbbi*
 Mengirim definisi kata dari KBBI.
 Aliases: -
-Usage: *${prefix}kbbi* <teks>
+Usage: *${prefix}kbbi* teks
 
 6. *${prefix}igstalk*
 Stalk akun Instagram.
 Aliases: -
-Usage: *${prefix}igstalk* <username>
+Usage: *${prefix}igstalk* username
+
+7. *${prefix}gsmarena*
+Mengirim info spesifikasi HP dari GSMArena.
+Aliases: -
+Usage: *${prefix}gsmarena* model_hp
+
+8. *${prefix}receipt*
+Mengirim resep makanan.
+Aliases: *resep*
+Usage: *${prefix}receipt* nama_makanan
+
+9. *${prefix}ytsearch*
+Mengirim hasil pencarian di YouTube.
+Aliases: *yts*
+Usage: *${prefix}ytsearch* query
+
+10. *${prefix}tts*
+Membuat Text to Speech. Kalian perlu kode bahasa setiap menggunakan, cek di sini https://id.wikipedia.org/wiki/Daftar_bahasa_menurut_ISO_639-2
+Aliases: -
+Usage: *${prefix}tts* kode_bahasa | teks
+
+11. *${afk}*
+Set akun kamu ke mode AFK, aku akan mengirim pesan ke orang yang me-mention kalian.
+Aliases: -
+Usage: *${prefix}afk* enable/disable atau kirim pesan ke grup untuk mematikan mode AFK.
 
 _Index of [3]_
     `
@@ -267,7 +421,12 @@ Usage: Kirim gambar dengan caption *${prefix}stickerfire* atau reply gambar deng
 3. *${prefix}ttg*
 Membuat stiker text to GIF.
 Aliases: -
-Usage: *${prefix}ttg* <teks>
+Usage: *${prefix}ttg* teks
+
+4. *${prefix}stickertoimg*
+Konversi stiker ke foto.
+Aliases: *stikertoimg*
+Usage: Reply sticker dengan caption *${prefix}stickertoimg*.
 
 _Index of [4]_
     `
@@ -295,12 +454,12 @@ Usage: *${prefix}kemono*
 4. *${prefix}kusonime*
 Mencari info anime dan link download batch di Kusonime.
 Aliases: -
-Usage: *${prefix}kusonime* <judul anime>
+Usage: *${prefix}kusonime* judul_anime
 
 5. *${prefix}komiku*
 Mencari info manga dan link download di Komiku.
 Aliases: -
-Usage: *${prefix}komiku* <judul manga>
+Usage: *${prefix}komiku* judul_manga
 
 6. *${prefix}wait*
 Mencari source anime dari screenshot scene.
@@ -328,7 +487,7 @@ exports.menuFun = () => {
 1. *${prefix}hartatahta*
 Membuat gambar Harta Tahta Nama.
 Aliases: -
-Usage: *${prefix}hartatahta* <nama>
+Usage: *${prefix}hartatahta* nama
 
 2. *${prefix}calender*
 Membuat calender dari foto yang dikirim.
@@ -338,17 +497,27 @@ Usage: Kirim gambar dengan caption *${prefix}calender* atau reply gambar dengan 
 3. *${prefix}partner*
 Weton jodoh.
 Aliases: *pasangan*
-Usage: *${prefix}partner* <nama | pasangan>
+Usage: *${prefix}partner* nama | pasangan
 
 4. *${prefix}zodiac*
 Ramalan zodiak Mingguan.
 Aliases: *zodiak*
-Usage: *${prefix}zodiac* <zodiak>
+Usage: *${prefix}zodiac* zodiak
 
 5. *${prefix}write*
 Membuat catatan tulisan di buku.
 Aliases: *nulis*
-Usage: *${prefix}write* <teks>
+Usage: *${prefix}write* teks
+
+6. *${prefix}missing*
+Membuat gambar missing person.
+Aliases: -
+Usage: Kirim gambar dengan caption *${prefix}missing* teks_atas | teks_tengah | teks_bawah atau reply gambar dengan caption *${prefix}missing* teks_atas | teks_tengah | teks_bawah.
+
+7. *${prefix}valentine*
+Membuat gambar valentine.
+Aliases: -
+Usage: Kirim gambar pasangan dengan caption *${prefix}valentine* nama | pasangan atau reply gambar pasangan dengan caption *${prefix}valentine* nama | pasangan.
 
 _Index of [6]_
     `
@@ -391,7 +560,27 @@ Usage: *${prefix}everyone*
 7. *${prefix}nsfw*
 Mematikan/menyalakan mode NSFW.
 Aliases: -
-Usage: *${prefix}nsfw* <enable/disable>
+Usage: *${prefix}nsfw* enable/disable
+
+8. *${prefix}groupicon*
+Mengganti icon grup.
+Aliases: -
+Usage: Kirim gambar dengan caption *${prefix}groupicon* atau reply gambar dengan caption *${prefix}groupicon*.
+
+9. *${prefix}antilink*
+Mematikan/menyalakan fitur anti group link.
+Aliases: -
+Usage: *${prefix}antilink* enable/disable
+
+10. *${prefix}welcome*
+Mematikan/menyalakan fitur welcome di grup agar menyambut setiap kedatangan member.
+Aliases: -
+Usage: *${prefix}welcome* enable/disable
+
+11. *${prefix}autostiker*
+Mematikan/menyalakan fitur auto-stiker. Setiap foto yang dikirim akan selalu diubah ke stiker.
+Aliases: *autostik autstik*
+Usage: *${prefix}autostiker* enable/disable
 
 _Index of [7]_
     `
@@ -414,12 +603,12 @@ Usage: *${prefix}multilewds*
 3. *${prefix}nh*
 Mengirim info doujinshi dari nHentai.
 Aliases: -
-Usage: *${prefix}nh* <kode>
+Usage: *${prefix}nh* kode
 
 4. *${prefix}nhdl*
 Mendownload doujin dari nHentai sebagai file PDF. (PREMIUM ONLY)
 Aliases: -
-Usage: *${prefix}nhdl* <kode>
+Usage: *${prefix}nhdl* kode
 
 5. *${prefix}nekopoi*
 Mengirim video link Nekopoi terbaru.
@@ -439,12 +628,12 @@ Usage: *${prefix}waifu18*
 8. *${prefix}fetish*
 Mengirim fetish pics.
 Aliases: -
-Usage: *${prefix}fetish* <armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao>
+Usage: *${prefix}fetish* armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao
 
 9. *${prefix}phdl*
 Download video dari Pornhub.
 Aliases: -
-Usage *${prefix}phdl* <link>
+Usage *${prefix}phdl* link
 
 _Index of [8]_
     `
@@ -473,7 +662,7 @@ Usage: *${prefix}getses*
 4. *${prefix}ban*
 Menambah/menghapus user yang diban.
 Aliases: -
-Usage: *${prefix}ban* <add/del> @user
+Usage: *${prefix}ban* add/del @user/62812xxxxxxxx
 
 5. *${prefix}leaveall*
 Keluar dari semua grup.
@@ -495,7 +684,30 @@ Menambah/menghapus user premium.
 Aliases: -
 Usage: *${prefix}premium* add/del @user
 
+9. *${prefix}setstatus*
+Mengganti status about me.
+Aliases: *setstats setstat*
+Usage: *${prefix}status* teks
+
 _Index of [9]_
+    `
+}
+
+exports.menuLeveling = () => {
+    return `
+-----[ LEVELING ]-----
+
+1. *${prefix}level*
+Untuk melihat level kamu.
+Aliases: -
+Usage: *${prefix}level*
+
+2. *${prefix}leaderboard*
+Untuk melihat leaderboard.
+Aliaases: -
+Usage: *${prefix}leaderboard*
+
+_Index of [10]_
     `
 }
 
@@ -519,8 +731,28 @@ wa.me/6281294958473 (Kal a.k.a. Slavyan)
     `
 }
 
+// Dimohon untuk owner/hoster jangan mengedit ini, terima kasih.
+exports.tos = (ownerNumber) => {
+    return `
+-----[ TERMS OF SERVICE ]-----
 
+Bot ini merupakan open-source bot dengan nama asli BocchiBot yang tersedia di GitHub secara gratis.
+Owner/hoster dari bot ini terlepas dari tanggung jawab dan pengawasan developer (Slavyan).
+Owner/hoster boleh menjiplak, menambahkan, menghapus, mengganti source code dengan catatan *tidak memperjualbelikannya* dalam bentuk apapun.
+Apabila terjadi sebuah error, orang yang pertama yang harus kalian hubungi ialah owner/hoster.
 
+Jika kalian ingin berkontribusi dalam projek ini, silakan kunjungi:
+https://github.com/SlavyanDesu/BocchiBot
 
+Contact person:
+wa.me/${ownerNumber.replace('@c.us', '')} (Owner/hoster)
+wa.me/6281294958473 (Developer)
 
+Kalian juga bisa mendukung saya agar bot ini tetap up to date dengan:
+081294958473 (OVO/Telkomsel/GoPay)
 
+Terima kasih!
+
+Slavyan.
+    `
+}
