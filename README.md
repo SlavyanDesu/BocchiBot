@@ -162,6 +162,7 @@ If you want to unlock premium commands, please contact me~
 | Food receipt     |      ✔️      |
 | YouTube search   |      ✔️      |
 | TTS              |      ✔️      |
+| AFK              |      ✔️      |
 
 |        Fun       | Availability |
 | :--------------: | :----------: |
@@ -218,6 +219,7 @@ If you want to unlock premium commands, please contact me~
 | Set group icon   |      ✔️      |
 | Anti-link        |      ✔️      |
 | Welcome          |      ✔️      |
+| Auto-sticker     |      ✔️      |
 
 |        NSFW        | Availability |
 | :----------------: | :----------: |
