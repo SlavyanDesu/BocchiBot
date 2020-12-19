@@ -614,7 +614,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 try {
                     search.ytSearch(q)
                         .then(async ({ result }) => {
-                            for (let i = 0; i < result.length; i++) {
+                            for (let i = 0; i < 5; i++) {
                                 const { urlyt, image, title, channel, duration, views } = await result[i]
                                 await bocchi.sendFileFromUrl(from, image, `${title}.jpg`, ind.ytResult(urlyt, title, channel, duration, views), id)
                                 console.log('Success sending YouTube results!')
@@ -640,6 +640,24 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, `Error!\n${err}`, id)
                 }
             break
+            /*
+            case 'playstore':
+            case 'ps':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                search.playstore(q)
+                try {
+                    search.playstore(q)
+                        .then(async ({ result }) => {
+                            for (let i = 0; i < 5; i++) {
+                                const { app_id, icon, title, developer, description, price, free } = result[i]
+
+                            }
+                        })
+                }
+            break
+            */
 
             // Bot
             case 'menu':
