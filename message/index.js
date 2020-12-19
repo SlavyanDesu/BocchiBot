@@ -93,6 +93,17 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.registered(), id)
             break
                 
+                //SIMSIMI
+                case 'simi':
+                    if (!isGroupMsg) return bocchi.reply(from, `Perintah ini hanya bisa di gunakan dalam group!`, id)
+                    if (args.length == 0) return bocchi.reply(from, `Format salah tuh!\nUntuk ngobrol dengan Simsimi\nketik perintah ${prefix}simi teks\n\nContoh: ${prefix}simi halo`, id)
+                    const que = body.slice(2)
+                    const resp = await axios.get(`http://simsumi.herokuapp.com/api?text=${que}&lang=id`)
+                    const status = resp.data
+                    bocchi.reply(from, status.success, id)
+                    console.log(status)
+                break
+                
                 //OTHERS
                case 'tts':
                 if (args.length == 0) return bocchi.reply(from, `Mengubah teks menjadi sound (google voice)\nketik: ${prefix}tts <kode_bahasa> <teks>\ncontoh : ${prefix}tts id halo\nuntuk kode bahasa cek disini : https://anotepad.com/note/read/5xqahdy8`, id)
@@ -299,6 +310,17 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, err, id)
                     })
             break
+                case 'glitext':
+                if (args.length == 0) return bocchi.reply(from, `Untuk membuat glitchtext picture\nketik ${prefix}glitext teks1 | teks2\n\nContoh: ${prefix}glitext fikri | gans banget`, id)
+                bocchi.reply(from, ind.wait(), id)
+                const teks1 = q.substring(0, q.indexOf('|'))
+                const teks2 = q.substring(q.lastIndexOf('|') + 2)
+			    fun.glitext(teks1, teks2)
+			        .then(async(res) => {
+                    await bocchi.sendFileFromUrl(from, `${res.link}`, '', `${res.text}`, id)
+                    console.log('Sukses mengirimkan glitext!')
+                    })
+                break
             case 'gempa':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
