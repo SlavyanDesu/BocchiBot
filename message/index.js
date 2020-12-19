@@ -36,7 +36,7 @@ const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
 const cd = 4.32e+7
 const errorImg = 'https://i.imgur.com/UxvMPUz.png'
-const notice = ['Bocchi', 'bocchi', 'Bot', 'bot']
+const notice = ['Bocchi', 'bocchi']
 /********** END OF UTILS **********/
 
 /********** DATABASES **********/
