@@ -220,11 +220,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isImage = type === 'image'
         /********** END OF VALIDATOR **********/
 
-        // Notice me senpai!
+        /* Notice me senpai!
         if (chats.includes('Bocchi')) {
             await bocchi.reply(from, 'Yes, master?', id)
             console.log(color('[CALLED]'), color(time, 'yellow'), 'from', color(pushname))
         }
+        */
 
         // Leveling [ALPHA]
         if (isGroupMsg && isRegistered && isLevelingOn && !isCmd) {
