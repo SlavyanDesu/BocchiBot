@@ -1097,7 +1097,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const teks1 = q.substring(0, q.indexOf('|') - 1)
                 const teks2 = q.substring(q.lastIndexOf('|') + 2)
                 await bocchi.reply(from, ind.wait(), id)
-			    await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/glitchtext?text1=${teks1}&text2=${teks2}&apikey=${config.vhtear}`, 'glitch.jpg', '', id)
+		await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/glitchtext?text1=${teks1}&text2=${teks2}&apikey=${config.vhtear}`, 'glitch.jpg', '', id)
                     .then(() => console.log('Success creating image!'))
                     .catch(async (err) => {
                         console.error(err)
