@@ -519,6 +519,16 @@ Membuat gambar valentine.
 Aliases: -
 Usage: Kirim gambar pasangan dengan caption *${prefix}valentine* nama | pasangan atau reply gambar pasangan dengan caption *${prefix}valentine* nama | pasangan.
 
+8. *${prefix}glitchtext*
+Membuat gambar teks glitch.
+Aliases: *glitext*
+Usage: *${prefix}glitchtext* teks1 | teks2
+
+9. *${prefix}simi*
+Chat SimiSimi.
+Aliases: -
+Usage: *${prefix}simi* teks
+
 _Index of [6]_
     `
 }
