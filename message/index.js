@@ -283,10 +283,16 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
         // AFk
         if (isGroupMsg) {
+            const checking = getAfk(sender.id)
             for (let ment of mentionedJidList) {
                 if (getAfk(ment)) {
                     await bocchi.reply(from, ind.afkMentioned(), id)
                 }
+            }
+            if (checking) {
+                _afk.splice(sender.id, 1)
+                fs.writeFileSync('./database/afk.json', JSON.stringify(_afk))
+                await bocchi.sendText(from, ind.afkDone(pushname))
             }
         }
 

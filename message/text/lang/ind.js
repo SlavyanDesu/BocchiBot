@@ -223,6 +223,10 @@ exports.afkMentioned = () => {
     return `Ssttt!\n\nOrangnya lagi AFK, jangan diganggu!`
 }
 
+exports.afkDone = (pushname) => {
+    return `*${pushname}* telah kembali dari AFK! Selamat datang kembali~`
+}
+
 exports.menu = () => {
     return `
 ------[ WELCOME ]-----
@@ -384,7 +388,7 @@ Usage: *${prefix}tts* kode_bahasa | teks
 11. *${afk}*
 Set akun kamu ke mode AFK, aku akan mengirim pesan ke orang yang me-mention kalian.
 Aliases: -
-Usage: *${prefix}afk* enable/disable
+Usage: *${prefix}afk* enable/disable atau kirim pesan ke grup untuk mematikan mode AFK.
 
 _Index of [3]_
     `
