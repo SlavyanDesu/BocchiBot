@@ -198,7 +198,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         }
         /********** END OF FUNCTION **********/
 
-         /********** VALIDATOR **********/
+        /********** VALIDATOR **********/
         const isBlocked = blockNumber.includes(sender.id)
         const isOwner = sender.id === ownerNumber
         const isGroupAdmins = groupAdmins.includes(sender.id) || false
@@ -218,6 +218,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isQuotedGif = quotedMsg && quotedMsg.mimetype === 'image/gif'
         const isImage = type === 'image'
         /********** END OF VALIDATOR **********/
+
+        // Notice me senpai!
+        if (chats.includes('Bocchi')) {
+            await bocchi.reply(from, 'Yes, master?', id)
+            console.log(color('[CALLED]'), color(time, 'yellow'), 'from', color(pushname))
+        }
 
         // Leveling [ALPHA]
         if (isGroupMsg && isRegistered && isLevelingOn && !isCmd) {
@@ -251,7 +257,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         }
 
         // Auto-stiker
-        if (isGroupMsg && isAutoStikerOn && isMedia && isImage) {
+        if (isGroupMsg && isAutoStikerOn && isMedia && isImage && !isCmd) {
             const mediaData = await decryptMedia(message, uaOverride)
             const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
             await bocchi.sendImageAsSticker(from, imageBase64)
