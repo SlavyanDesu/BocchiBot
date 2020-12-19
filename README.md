@@ -28,6 +28,7 @@
   <img src="https://img.shields.io/node/v/@open-wa/wa-automate" />
   <img src="https://img.shields.io/badge/maintained%3F-yes-green.svg?style=flat" />
   <img src="https://img.shields.io/github/repo-size/SlavyanDesu/BocchiBot" />
+  <img src="https://img.shields.io/david/SlavyanDesu/BocchiBot" />
 </p>
 
 <p align="center">
