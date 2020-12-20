@@ -458,17 +458,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'afk':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
-                if (ar[0] === 'enable') {
-                    if (isAfkOn) return await bocchi.reply(from, ind.afkOnAlready(), id)
-                    addAfk(sender.id, time)
-                    await bocchi.reply(from, ind.afkOn(), id)
-                } else if (ar[0] === 'disable') {
-                    _afk.splice(sender.id, 1)
-                    fs.writeFileSync('./database/afk.json', JSON.stringify(_afk))
-                    await bocchi.reply(from, ind.afkOff(), id)
-                } else {
-                    await bocchi.reply(from, ind.wrongFormat(), id)
-                }
+                addAfk(sender.id, time)
+                await bocchi.reply(from, ind.afkOn(), id)
             break
             case 'lyric':
             case 'lirik':
