@@ -1572,6 +1572,43 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Moderation command
+		case 'mutegc':
+		case 'mute':
+		    if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+		    if (!isGroupMsg) return bocchi.reply(from, ind.groupOnly(), id)
+                    if (!isGroupAdmins) return bocchi.reply(from, ind.adminOnly(), id)
+                    if (!isBotGroupAdmins) return bocchi.reply(from, ind.botNotAdmin(), id)
+			if (args.length !== 1) return bocchi.reply(from, ind.wrongFormat(), id)
+            if (args[0] == 'on') {
+                bocchi.setGroupToAdminsOnly(groupId, true)
+                .then(() => bocchi.sendText(from, '*GROUP MUTED*\n\nHanya Admin yang dapat mengirim chat di grup ini.'))
+			} else if (args[0] == 'off') {
+                bocchi.setGroupToAdminsOnly(groupId, false)
+                .then(() => bocchi.sendText(from, '*GROUP UNMUTED*\n\nSekarang semua anggota dapat mengirim chat di grup ini.'))
+			} else {
+				bocchi.reply(from, `Format salah!\nNgisinya udah bener belom?\nketik ${prefix}help`, id)
+			}
+			break
+		case 'setprofile':
+		    if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+		    if (!isGroupMsg) return bocchi.reply(from, ind.groupOnly(), id)
+                    if (!isGroupAdmins) return bocchi.reply(from, ind.adminOnly(), id)
+                    if (!isBotGroupAdmins) return bocchi.reply(from, ind.botNotAdmin(), id)
+			if (isMedia && type == 'image' || isQuotedImage) {
+				const dataMedia = isQuotedImage ? quotedMsg : message
+				const _mimetype = dataMedia.mimetype
+				const mediaData = await decryptMedia(dataMedia, uaOverride)
+				const imageBase64 = `data:${_mimetype};base64,${mediaData.toString('base64')}`
+				await bocchi.setGroupIcon(groupId, imageBase64)
+			} else if (args.length === 1) {
+				if (!isUrl(url)) { await bocchi.reply(from, 'Maaf, link yang kamu kirim tidak valid.', id) }
+				bocchi.setGroupIconByUrl(groupId, url).then((r) => (!r && r !== undefined)
+				? bocchi.reply(from, 'Maaf, link yang kamu kirim tidak memuat gambar.', id)
+				: bocchi.reply(from, 'Berhasil mengubah profile group', id))
+			} else {
+				bocchi.reply(from, `Format salah!\nNgisinya udah bener belom?\nketik ${prefix}help`)
+			}
+            break
             case 'add':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
