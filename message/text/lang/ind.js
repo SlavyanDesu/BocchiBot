@@ -207,12 +207,8 @@ exports.autoStikOnAlready = () => {
     return `Fitur auto-stiker telah diaktifkan sebelumnya.`
 }
 
-exports.afkOn = () => {
-    return `Fitur AFK berhasil *diaktifkan*!`
-}
-
-exports.afkOff = () => {
-    return `Fitur AFK berhasil *dinonaktifkan*!`
+exports.afkOn = (pushname, reason) => {
+    return `Fitur AFK berhasil *diaktifkan*!\n\n➸ *Username*: ${pushname}\n➸ *Alasan*: ${reason}`
 }
 
 exports.afkOnAlready = () => {
@@ -220,7 +216,7 @@ exports.afkOnAlready = () => {
 }
 
 exports.afkMentioned = () => {
-    return `Ssttt!\n\nOrangnya lagi AFK, jangan diganggu!`
+    return `*「 AFK MODE 」*\n\nSssttt! Orangnya lagi AFK, jangan diganggu!`
 }
 
 exports.afkDone = (pushname) => {
@@ -386,9 +382,9 @@ Aliases: -
 Usage: *${prefix}tts* kode_bahasa | teks
 
 11. *${prefix}afk*
-Set akun kamu ke mode AFK, aku akan mengirim pesan ke orang yang me-mention kalian.
+Set akun kamu ke mode AFK, aku akan mengirim pesan ke orang yang me-mention kamu.
 Aliases: -
-Usage: *${prefix}afk* enable/disable atau kirim pesan ke grup untuk mematikan mode AFK.
+Usage: Ketik *${prefix}afk* untuk mengaktifkan mode AFK, kirim pesan ke grup untuk menonaktifkan mode AFK.
 
 _Index of [3]_
     `
