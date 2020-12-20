@@ -587,9 +587,9 @@ Mematikan/menyalakan fitur welcome di grup agar menyambut setiap kedatangan memb
 Aliases: -
 Usage: *${prefix}welcome* enable/disable
 
-11. *${prefix}autostiker*
+11. *${prefix}autosticker*
 Mematikan/menyalakan fitur auto-stiker. Setiap foto yang dikirim akan selalu diubah ke stiker.
-Aliases: *autostik autstik*
+Aliases: *autostiker autostik*
 Usage: *${prefix}autostiker* enable/disable
 
 _Index of [7]_
