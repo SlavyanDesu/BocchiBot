@@ -385,7 +385,7 @@ Membuat Text to Speech. Kalian perlu kode bahasa setiap menggunakan, cek di sini
 Aliases: -
 Usage: *${prefix}tts* kode_bahasa | teks
 
-11. *${afk}*
+11. *${prefix}afk*
 Set akun kamu ke mode AFK, aku akan mengirim pesan ke orang yang me-mention kalian.
 Aliases: -
 Usage: *${prefix}afk* enable/disable atau kirim pesan ke grup untuk mematikan mode AFK.
