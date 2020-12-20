@@ -606,22 +606,22 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, `Error!\n${err}`, id)
                 }
             break
-	case 'findsticker':
-                case 'findstiker':
-                    if (args.length == 0) return bocchi.reply(from, `Kirim perintah *${prefix}findsticker namastiker*\nContoh : *${prefix}findsticker pentol*`, id)
-                    await bocchi.reply(from, ind.wait(), id)
-                    try {
+			case 'findsticker':
+            case 'findstiker':
+                if (args.length == 0) return bocchi.reply(from, `Kirim perintah *${prefix}findsticker namastiker*\nContoh : *${prefix}findsticker pentol*`, id)
+                await bocchi.reply(from, ind.wait(), id)
+                try {
                     const stck = await axios.get('https://api.vhtear.com/wasticker?query=' + body.slice(7) + `&apikey=yourApiKey`)
                     for (let i = 0; i < stck.data.result.data.length; i++) {
                     await bocchi.sendStickerfromUrl(from, stck.data.result.data[i])
                     console.log('Sukses mengirim sticker finder!')
                     }
-                 } catch (err) {
-                        console.error(err)
-                            await bocchi.reply(from, `Ada yang Error!\nmungkin kata kunci yang anda cari tidak ada`, id)
-                   }
-                    break
-	    case 'distance':
+                } catch (err) {
+                    console.error(err)
+                    await bocchi.reply(from, `Ada yang Error!\nmungkin kata kunci yang anda cari tidak ada`, id)
+                }
+           break
+	       case 'distance':
                 if (args.length == 0) return bocchi.reply(from, `Untuk mengetahui jarak antarkota jalur darat maupun udara\ngunakan ${prefix}distance asalkota | tujuankota\n\nContoh: ${prefix}distance surabaya | jakarta`, id)
                     const kotaasal = q.substring(0, q.indexOf('|'))
                     const kotatujuan = q.substring(q.lastIndexOf('|') + 2)
