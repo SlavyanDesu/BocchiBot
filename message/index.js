@@ -1581,6 +1581,22 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Moderation command
+	    case 'mutegc':
+	    case 'mute':
+	        if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+		if (!isGroupMsg) return bocchi.reply(from, ind.groupOnly(), id)
+                if (!isGroupAdmins) return bocchi.reply(from, ind.adminOnly(), id)
+                if (!isBotGroupAdmins) return bocchi.reply(from, ind.botNotAdmin(), id)
+                if (ar[0] === 'enable') {
+                    await bocchi.setGroupToAdminsOnly(groupId, true)
+                        .then(() => await bocchi.sendText(from, '*GROUP MUTED*\n\nHanya Admin yang dapat mengirim chat di grup ini.'))
+	        } else if (ar[0] === 'disable') {
+                    await bocchi.setGroupToAdminsOnly(groupId, false)
+                        .then(() => await bocchi.sendText(from, '*GROUP UNMUTED*\n\nSekarang semua anggota dapat mengirim chat di grup ini.'))
+		} else {
+		    await bocchi.reply(from, ind.wrongFormat(), id)
+		}
+	    break
             case 'add':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
@@ -1734,7 +1750,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
-            case 'autostiker':
+            case 'autosticker':
+	    case 'autostiker':
             case 'autostik':
             case 'autstik':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
