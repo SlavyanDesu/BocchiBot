@@ -163,6 +163,8 @@ If you want to unlock premium commands, please contact me~
 | YouTube search   |      ✔️      |
 | TTS              |      ✔️      |
 | AFK              |      ✔️      |
+| Distance         |      ✔️      |
+| Find Sticker     |      ✔️      |
 
 |        Fun       | Availability |
 | :--------------: | :----------: |
@@ -173,6 +175,8 @@ If you want to unlock premium commands, please contact me~
 | Write            |      ✔️      |
 | Missing person   |      ✔️      |
 | Valentine        |      ✔️      |
+| Glitch Text      |      ✔️      |
+| SimSimi          |      ✔️      |
 
 |      Weeb Zone     | Availability |
 | :----------------: | :----------: |
@@ -220,6 +224,7 @@ If you want to unlock premium commands, please contact me~
 | Anti-link        |      ✔️      |
 | Welcome          |      ✔️      |
 | Auto-sticker     |      ✔️      |
+| Mute group       |      ✔️      |
 
 |        NSFW        | Availability |
 | :----------------: | :----------: |
