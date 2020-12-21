@@ -1343,6 +1343,19 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.botNotPremium(), id)
                 }
             break
+            case 'multifetish':
+            case 'mfetish':
+                // Premium feature, contact the owner.
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (isGroupMsg) {
+                    if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
+                    if (!isPremium) return await bocchi.reply(from, ind.notPremium(), id)
+                    await bocchi.reply(from, ind.botNotPremium(), id)
+                } else {
+                    if (!isPremium) return await bocchi.reply(from, ind.notPremium(), id)
+                    await bocchi.reply(from, ind.botNotPremium(), id)
+                }
+            break
             case 'lewds':
             case 'lewd':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
