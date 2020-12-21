@@ -274,6 +274,11 @@ Download YouTube video.
 Aliases: -
 Usage: *${prefix}ytmp4* link
 
+4. *${prefix}joox*
+Mencari & mendownload lagu dari joox
+Aliases: -
+Usage: *${prefix}joox* pump it
+
 _Index of [1]_
     `
 }
