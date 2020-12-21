@@ -395,6 +395,16 @@ Set akun kamu ke mode AFK, aku akan mengirim pesan ke orang yang me-mention kali
 Aliases: -
 Usage: *${prefix}afk* enable/disable atau kirim pesan ke grup untuk mematikan mode AFK.
 
+12. *${prefix}distance*
+Untuk mengetahui jarak dari kotamu ke kota yang kamu tuju
+Aliases: -
+Usage: *${prefix}distance* Jakarta | Bandung
+
+13. *${prefix}findsticker*
+Untuk mencari sticker yang kamu cari
+Aliases: findstiker
+Usage: *${prefix}findsticker* pentol
+
 _Index of [3]_
     `
 }
