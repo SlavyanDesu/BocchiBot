@@ -9,10 +9,11 @@
 
 <p align="center">
   <a href="https://github.com/SlavyanDesu"><img src="https://avatars3.githubusercontent.com/u/28254882?s=400&u=25765902db0b709938966cf4127ac11af5eafb5d&v=4" height="128" width="128" /></a>
-  <a href="https://github.com/uukina"><img src="https://avatars0.githubusercontent.com/u/54493113?s=400&u=9072f9bb6abf7185f4aea2fe12ed57c8dfb1e4f2&v=4" height="128" width="128" /></a>
-  <a href="https://github.com/MrPawNO"><img src="https://avatars3.githubusercontent.com/u/13583912?s=400&u=8ef1749d80622ca2d5011d71171e5f8ac76334fb&v=4" height="128" width="128" /></a>
-  <a href="https://github.com/Pahri123"><img src="https://avatars1.githubusercontent.com/u/66406056?s=400&v=4" height="128" width="128" /></a>
+  <a href="https://github.com/uukina"><img src="https://avatars0.githubusercontent.com/u/54493113?s=400&u=9072f9bb6abf7185f4aea2fe12ed57c8dfb1e4f2&v=4" height="128" width="128" /></a> <br>
+  <a href="https://github.com/MrPawNO"><img src="https://avatars3.githubusercontent.com/u/13583912?s=400&u=8ef1749d80622ca2d5011d71171e5f8ac76334fb&v=4" height="128" width="128" /></a> 
+  <a href="https://github.com/Pahri123"><img src="https://avatars1.githubusercontent.com/u/66406056?s=400&v=4" height="128" width="128" /></a> <br>
   <a href="https://github.com/LeviathanH"><img src="https://avatars3.githubusercontent.com/u/75152820?s=400&u=8934104bf58533111f2f4cef7be5d72ebb79d75c&v=4" height="128" width="128" /></a>
+  <a href="https://github.com/ferlitopym"><img src="https://avatars3.githubusercontent.com/u/33126545?s=400&u=04eff969ece93ae3d9cde917dc2b1649a721888f&v=4" height="128" width="128" /></a>
 </p>
 
 <p align="center">
@@ -42,8 +43,6 @@
 
 <details>
   <summary>Contact me!</summary>
-
-  [WhatsApp](https://wa.me/6281294958473)
 
   [Facebook](https://facebook.com/jazz.overdose)
 
@@ -165,6 +164,8 @@ If you want to unlock premium commands, please contact me~
 | YouTube search   |      ✔️      |
 | TTS              |      ✔️      |
 | AFK              |      ✔️      |
+| Distance         |      ✔️      |
+| Find Sticker     |      ✔️      |
 
 |        Fun       | Availability |
 | :--------------: | :----------: |
@@ -175,6 +176,8 @@ If you want to unlock premium commands, please contact me~
 | Write            |      ✔️      |
 | Missing person   |      ✔️      |
 | Valentine        |      ✔️      |
+| Glitch Text      |      ✔️      |
+| SimSimi          |      ✔️      |
 
 |      Weeb Zone     | Availability |
 | :----------------: | :----------: |
@@ -222,6 +225,7 @@ If you want to unlock premium commands, please contact me~
 | Anti-link        |      ✔️      |
 | Welcome          |      ✔️      |
 | Auto-sticker     |      ✔️      |
+| Mute group       |      ✔️      |
 
 |        NSFW        | Availability |
 | :----------------: | :----------: |
@@ -243,6 +247,7 @@ If you want to unlock premium commands, please contact me~
 * [`MrPawNO`](https://github.com/MrPawNO)
 * [`Pahri123`](https://github.com/Pahri123)
 * [`LeviathanH`](https://github.com/LeviathanH)
+* [`ferlitopym`](https://github.com/ferlitopym)
 
 # License
 **BocchiBot** © [SlavyanDesu](https://github.com/SlavyanDesu), released under the MIT License.
