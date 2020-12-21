@@ -29,6 +29,7 @@
     "file-type": "^16.0.1",
     "form-data": "^3.0.0",
     "fs-extra": "^9.0.1",
+    "mathjs": "^8.1.0",
     "moment-timezone": "^0.5.31",
     "nekos.life": "^2.0.7",
     "nhentai-api": "^3.0.2",

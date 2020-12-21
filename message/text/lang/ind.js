@@ -223,6 +223,26 @@ exports.afkDone = (pushname) => {
     return `*${pushname}* telah kembali dari AFK! Selamat datang kembali~`
 }
 
+exports.gcMute = () => {
+    return `*「 MUTED 」*\n\nHanya admin yang dapat mengirim pesan ke grup ini.`
+}
+
+exports.gcUnmute = () => {
+    return `*「 UNMUTED 」*\n\nSekarang semua anggota dapat mengirim chat di grup ini.`
+}
+
+exports.notNum = (q) => {
+    return `"${q}", bukan angka!`
+}
+
+exports.playstore = (app_id, title, developer, description, price, free) => {
+    return `➸ *Nama*: ${title}\n➸ *ID*: ${app_id}\n➸ *Developer*: ${developer}\n➸ *Gratis*: ${free}\n➸ *Harga*: ${price}\n➸ *Deskripsi*: ${description}`
+}
+
+exports.shopee = (nama, harga, terjual, shop_location, description, link_product) => {
+    return `➸ *Nama*: ${nama}\n➸ *Harga*: ${harga}\n➸ *Terjual*: ${terjual}\n➸ *Lokasi*: ${shop_location}\n➸ *Link produk*: ${link_product}\n➸ *Deskripsi*: ${description}`
+}
+
 exports.menu = () => {
     return `
 ------[ WELCOME ]-----
@@ -394,12 +414,21 @@ Usage: Ketik *${prefix}afk* untuk mengaktifkan mode AFK, kirim pesan ke grup unt
 12. *${prefix}distance*
 Untuk mengetahui jarak dari kotamu ke kota yang kamu tuju
 Aliases: -
-Usage: *${prefix}distance* Jakarta | Bandung
+Usage: *${prefix}distance* kota_asal | kota_tujuan
 
 13. *${prefix}findsticker*
 Untuk mencari sticker yang kamu cari
-Aliases: findstiker
-Usage: *${prefix}findsticker* pentol
+Aliases: *findstiker*
+Usage: *${prefix}findsticker* teks
+
+14. *${prefix}math*
+Kalkulator.
+* = Perkalian
++ = Pertambahan
+- = Pengurangan
+/ = Pembagian
+Aliases: -
+Usage: *${prefix}math* 12*12
 
 _Index of [3]_
     `

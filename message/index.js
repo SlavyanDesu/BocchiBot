@@ -349,7 +349,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .then(async (buffer) => {
                         canvas.write(buffer, `${pushname}.png`)
                         await bocchi.sendFile(from, `${pushname}.png`, `${pushname}.png`, '', id)
-                            .then(() => fs.unlinkSync(`${pushname}.png`))
+                        fs.unlinkSync(`${pushname}.png`)
                     })
                     .catch(async (err) => {
                         console.error(err)
@@ -591,33 +591,37 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 			case 'findsticker':
             case 'findstiker':
-                if (args.length == 0) return bocchi.reply(from, `Kirim perintah *${prefix}findsticker namastiker*\nContoh : *${prefix}findsticker pentol*`, id)
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 try {
-                    const stck = await axios.get('https://api.vhtear.com/wasticker?query=' + body.slice(7) + `&apikey=yourApiKey`)
-                    for (let i = 0; i < stck.data.result.data.length; i++) {
-                    await bocchi.sendStickerfromUrl(from, stck.data.result.data[i])
-                    console.log('Sukses mengirim sticker finder!')
-                    }
+                    search.sticker(q)
+                        .then(async ({ result }) => {
+                            for (let i = 0; i < result.data.length; i++) {
+                                await bocchi.sendStickerfromUrl(from, result.data[i])
+                            }
+                            console.log('Success sending sticker!')
+                        })
                 } catch (err) {
                     console.error(err)
-                    await bocchi.reply(from, `Ada yang Error!\nmungkin kata kunci yang anda cari tidak ada`, id)
+                    await bocchi.reply(from, `Error!\n\n${err}`, id)
                 }
            break
 	       case 'distance':
-                if (args.length == 0) return bocchi.reply(from, `Untuk mengetahui jarak antarkota jalur darat maupun udara\ngunakan ${prefix}distance asalkota | tujuankota\n\nContoh: ${prefix}distance surabaya | jakarta`, id)
-                    const kotaasal = q.substring(0, q.indexOf('|'))
-                    const kotatujuan = q.substring(q.lastIndexOf('|') + 2)
-			    fun.distance(kotaasal, kotatujuan)
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                const kotaAsal = q.substring(0, q.indexOf('|') - 1)
+                const kotaTujuan = q.substring(q.lastIndexOf('|') + 2)
+			    fun.distance(kotaAsal, kotaTujuan)
                     .then(async ({ result }) => {
-                        if (result.response === 204) {
-                            return await bocchi.reply(from, 'Ada yang Error!\nNgisinya udah bener belom?', id)
-                        }else{
-                    await bocchi.reply(from, result.data, id)
-                    console.log('Sukses mengirimkan distance information!')
-                }
-            })
-                break
+                        if (!result.response === 200) {
+                            await bocchi.reply(from, 'Something is error, is the data you gave correct?', id)
+                        } else {
+                            await bocchi.reply(from, result.data, id)
+                            console.log('Success sending distance info!')
+                        }
+                    })
+            break
             case 'ytsearch':
             case 'yts':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -652,33 +656,53 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, `Error!\n${err}`, id)
                 }
             break
-            /*
             case 'playstore':
             case 'ps':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
-                search.playstore(q)
                 try {
                     search.playstore(q)
                         .then(async ({ result }) => {
                             for (let i = 0; i < 5; i++) {
                                 const { app_id, icon, title, developer, description, price, free } = result[i]
-
+                                await bocchi.sendFileFromUrl(from, icon, `${title}.jpg`, ind.playstore(app_id, title, developer, description, price, free))
                             }
+                            console.log('Success sending PlayStore result!')
                         })
+                } catch (err) {
+                    console.error(err)
+                    await bocchi.reply(from, `Error!\n\n${err}`, id)
                 }
             break
-            */
-            case 'math': //install dulu modulnya ni => npm i mathjs
+            case 'math':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (args.length === 1) return bocchi.reply(from, `[❗] Kirim perintah *${prefix}math [ Angka ]*\nContoh : ${prefix}math 12*12\n*NOTE* :\n- Untuk Perkalian Menggunakan *\n- Untuk Pertambahan Menggunakan +\n- Untuk Pengurangan Mennggunakan -\n- Untuk Pembagian Menggunakan /`)
-                const mtk = body.slice(6)
-                if (typeof Math_js.evaluate(mtk) !== "number") {
-                bocchi.reply(from, `"${mtk}", bukan angka!\n[❗] Kirim perintah *${prefix}math [ Angka ]*\nContoh : ${prefix}math 12*12\n*NOTE* :\n- Untuk Perkalian Menggunakan *\n- Untuk Pertambahan Menggunakan +\n- Untuk Pengurangan Mennggunakan -\n- Untuk Pembagian Menggunakan /`, id)
-            } else {
-                bocchi.reply(from, `*「 MATH 」*\n\n*Kalkulator*\n${mtk} = ${Math_js.evaluate(mtk)}`, id)
-            }
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (typeof Math_js.evaluate(q) !== "number") {
+                    await bocchi.reply(from, ind.notNum(q), id)
+                } else {
+                    await bocchi.reply(from, `*「 MATH 」*\n\n${q} = ${Math_js.evaluate(q)}`, id)
+                }
+            break
+            case 'shopee':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                const namaBarang = q.substring(0, q.indexOf('|') - 1)
+                const jumlahBarang = q.substring(q.lastIndexOf('|') + 2)
+                await bocchi.reply(from, ind.wait(), id)
+                try {
+                    search.shopee(namaBarang, jumlahBarang)
+                        .then(async ({ result }) => {
+                            for (let i = 0; i < result.items.length; i++) {
+                                const { nama, harga, terjual, shop_location, description, link_product, image_cover } = result.items[i]
+                                await bocchi.sendFileFromUrl(from, image_cover, `${nama}.jpg`, ind.shopee(nama, harga, terjual, shop_location, description, link_product))
+                            }
+                            console.log('Success sending Shopee data!')
+                        })
+                } catch (err) {
+                    console.error(err)
+                    await bocchi.reply(from, `Error!\n\n${err}`, id)
+                }
             break
 			
             // Bot
@@ -781,7 +805,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'join':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (!isUrl(url)) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (!isUrl(url) && !url.includes('chat.whatsapp.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.joinGroupViaLink(url)
                 await bocchi.sendText(from, ind.ok())
             break
@@ -1119,7 +1143,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const teks1 = q.substring(0, q.indexOf('|') - 1)
                 const teks2 = q.substring(q.lastIndexOf('|') + 2)
                 await bocchi.reply(from, ind.wait(), id)
-		await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/glitchtext?text1=${teks1}&text2=${teks2}&apikey=${config.vhtear}`, 'glitch.jpg', '', id)
+		        await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/glitchtext?text1=${teks1}&text2=${teks2}&apikey=${config.vhtear}`, 'glitch.jpg', '', id)
                     .then(() => console.log('Success creating image!'))
                     .catch(async (err) => {
                         console.error(err)
@@ -1613,20 +1637,20 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
             // Moderation command
 	        case 'mutegc':
-	        case 'mute':
+	        case 'mute': 
 	            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
 		        if (!isGroupMsg) return bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return bocchi.reply(from, ind.adminOnly(), id)
                 if (!isBotGroupAdmins) return bocchi.reply(from, ind.botNotAdmin(), id)
                 if (ar[0] === 'enable') {
                     await bocchi.setGroupToAdminsOnly(groupId, true)
-                        .then(async () => await bocchi.sendText(from, '*GROUP MUTED*\n\nHanya Admin yang dapat mengirim chat di grup ini.'))
+                    await bocchi.sendText(from, ind.gcMute())
 	            } else if (ar[0] === 'disable') {
                     await bocchi.setGroupToAdminsOnly(groupId, false)
-                        .then(async () => await bocchi.sendText(from, '*GROUP UNMUTED*\n\nSekarang semua anggota dapat mengirim chat di grup ini.'))
+                    await bocchi.sendText(from, ind.gcUnmute())
 		        } else {
 		            await bocchi.reply(from, ind.wrongFormat(), id)
-		        }
+                }
 	        break
             case 'add':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
