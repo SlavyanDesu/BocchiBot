@@ -44,8 +44,6 @@
 <details>
   <summary>Contact me!</summary>
 
-  [WhatsApp](https://wa.me/6281294958473)
-
   [Facebook](https://facebook.com/jazz.overdose)
 
   [Twitter](https://twitter.com/sl_avyan)
