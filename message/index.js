@@ -183,8 +183,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             return isRegis
         }
 
-        const addAfk = (userId, time) => {
-            let obj = {id: `${userId}`, time: `${time}`}
+        const addAfk = (userId, time, reason) => {
+            let obj = {id: `${userId}`, time: `${time}`, reason: `${reason}`}
             _afk.push(obj)
             fs.writeFileSync('./database/afk.json', JSON.stringify(_afk))
         }
@@ -197,6 +197,42 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             })
             return isAfk
+        }
+
+        const getAfkReason = (userId) => {
+            let position = false
+            Object.keys(_afk).forEach((i) => {
+                if (_afk[i].id === userId) {
+                    position = i
+                }
+            })
+            if (position !== false) {
+                return _afk[position].reason
+            }
+        }
+
+        const getAfkTime = (userId) => {
+            let position = false
+            Object.keys(_afk).forEach((i) => {
+                if (_afk[i].id === userId) {
+                    position = i
+                }
+            })
+            if (position !== false) {
+                return _afk[position].time
+            }
+        }
+
+        const getAfkId = (userId) => {
+            let position = false
+            Object.keys(_afk).forEach((i) => {
+                if (_afk[i].id === userId) {
+                    position = i
+                }
+            })
+            if (position !== false) {
+                return _afk[position].id
+            }
         }
         /********** END OF FUNCTION **********/
 
@@ -278,7 +314,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             const checking = getAfk(sender.id)
             for (let ment of mentionedJidList) {
                 if (getAfk(ment)) {
-                    await bocchi.reply(from, ind.afkMentioned(), id)
+                    const getId = getAfkId(ment)
+                    const getReason = getAfkReason(getId)
+                    const getTime = getAfkTime(getId)
+                    await bocchi.reply(from, ind.afkMentioned(getReason, getTime), id)
                 }
             }
             if (checking) {
@@ -459,8 +498,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'afk':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
-                addAfk(sender.id, time)
-                await bocchi.reply(from, ind.afkOn(), id)
+                if (isAfkOn) return await bocchi.reply(from, ind.afkOnAlready(), id)
+                const reason = q ? q : 'Nothing.'
+                addAfk(sender.id, time, reason)
+                await bocchi.reply(from, ind.afkOn(pushname, reason), id)
             break
             case 'lyric':
             case 'lirik':

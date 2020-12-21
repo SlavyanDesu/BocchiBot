@@ -215,8 +215,8 @@ exports.afkOnAlready = () => {
     return `Fitur AFK telah diaktifkan sebelumnya.`
 }
 
-exports.afkMentioned = () => {
-    return `*「 AFK MODE 」*\n\nSssttt! Orangnya lagi AFK, jangan diganggu!`
+exports.afkMentioned = (getReason, getTime) => {
+    return `*「 AFK MODE 」*\n\nSssttt! Orangnya lagi AFK, jangan diganggu!\n➸ *Alasan*: ${getReason}\n➸ *Sejak*: ${getTime}`
 }
 
 exports.afkDone = (pushname) => {
@@ -409,7 +409,7 @@ Usage: *${prefix}tts* kode_bahasa | teks
 11. *${prefix}afk*
 Set akun kamu ke mode AFK, aku akan mengirim pesan ke orang yang me-mention kamu.
 Aliases: -
-Usage: Ketik *${prefix}afk* untuk mengaktifkan mode AFK, kirim pesan ke grup untuk menonaktifkan mode AFK.
+Usage: *${prefix}afk* alasan. Kirim pesan ke grup untuk menonaktifkan mode AFK.
 
 12. *${prefix}distance*
 Untuk mengetahui jarak dari kotamu ke kota yang kamu tuju
