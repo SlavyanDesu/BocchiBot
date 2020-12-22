@@ -442,6 +442,16 @@ Kalkulator.
 Aliases: -
 Usage: *${prefix}math* 12*12
 
+15. *${prefix}listsurah*
+Melihat list surah Al-Qur'an.
+Aliases: -
+Usage: *${prefix}listsurah*
+
+16. *${prefix}surah*
+Mengirim surah Al-Qur'an.
+Aliases: -
+Usage: *${prefix}surah* nomor_surah
+
 _Index of [3]_
     `
 }
@@ -580,6 +590,16 @@ Usage: *${prefix}glitchtext* teks1 | teks2
 Chat SimiSimi.
 Aliases: -
 Usage: *${prefix}simi* teks
+
+10. *${prefix}blackpink*
+Membuat teks dengan style logo Blackpink.
+Aliases: -
+Usage: *${prefix}blackpink* teks
+
+11. *${prefix}phmaker*
+Membuat teks dengan style logo Pornhub.
+Aliases: -
+Usage: *${prefix}phmaker* teks_kiri | teks_kanan
 
 _Index of [6]_
     `

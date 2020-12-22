@@ -33,7 +33,7 @@ moment.tz.setDefault('Asia/Jakarta').locale('id')
 
 /********** UTILS **********/
 const { msgFilter, color, processTime, isUrl } = require('../tools')
-const { nsfw, lirik, shortener, wiki, kbbi, bmkg, weeaboo, medsos, nekopoi, downloader, sticker, fun, search } = require('../lib')
+const { nsfw, lirik, shortener, wiki, kbbi, bmkg, weeaboo, medsos, nekopoi, downloader, sticker, fun, search, quran } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
 const cd = 4.32e+7
@@ -807,6 +807,37 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, `Error!\n\n${err}`, id)
                 }
             break
+            case 'listsurah':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                quran.list()
+                    .then(async ({ result }) => {
+                        let list = '-----[ AL-QUR\'AN LIST ]-----\n\n'
+                        for (let i = 0; i < result.list.length; i++) {
+                            list += `${result.list[i]}\n\n`
+                        }
+                        await bocchi.reply(from, list, id)
+                        console.log('Success sending Al-Qur\'an list!')
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, `Error!\n${err}`, id)
+                    })
+            break
+            case 'surah':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                quran.getQuran(args[0])
+                    .then(async ({ result }) => {
+                        await bocchi.reply(from, `${result.surah}\n\n${result.quran}`, id)
+                        console.log('Success sending surah!')
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, `Error!\n${err}`, id)
+                    })
+            break
 			
             // Bot
             case 'menu':
@@ -1248,6 +1279,30 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
 		        await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/glitchtext?text1=${teks1}&text2=${teks2}&apikey=${config.vhtear}`, 'glitch.jpg', '', id)
                     .then(() => console.log('Success creating image!'))
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, `Error!\n${err}`, id)
+                    })
+            break
+            case 'phmaker':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                const kiri = q.substring(0, q.indexOf('|') - 1)
+                const kanan = q.substring(q.lastIndexOf('|') + 2)
+                await bocchi.reply(from, ind.wait(), id)
+                await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/pornlogo?text1=${kiri}&text2=${kanan}&apikey=${config.vhtear}`, 'ph.jpg', '', id)
+                    .then(() => console.log('Success creating image!'))
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, `Error!\n${err}`, id)
+                    })
+            break
+            case 'blackpink':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/blackpinkicon?text=${q}&apikey=${config.vhtear}`, `${q}.jpg`, '', id)
+                    .then(() => console.log('Success creting image!'))
                     .catch(async (err) => {
                         console.error(err)
                         await bocchi.reply(from, `Error!\n${err}`, id)

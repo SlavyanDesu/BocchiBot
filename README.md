@@ -166,6 +166,8 @@ If you want to unlock premium commands, please contact me~
 | AFK              |      ✔️      |
 | Distance         |      ✔️      |
 | Find Sticker     |      ✔️      |
+| List surah       |      ✔️      |
+| Surah            |      ✔️      |
 
 |        Fun       | Availability |
 | :--------------: | :----------: |
@@ -178,6 +180,8 @@ If you want to unlock premium commands, please contact me~
 | Valentine        |      ✔️      |
 | Glitch Text      |      ✔️      |
 | SimSimi          |      ✔️      |
+| Blackpink logo   |      ✔️      |
+| Pornhub logo     |      ✔️      |
 
 |      Weeb Zone     | Availability |
 | :----------------: | :----------: |
