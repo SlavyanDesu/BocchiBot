@@ -20,7 +20,7 @@
   "dependencies": {
     "@justalk/pornhub-api": "^3.4.0",
     "@open-wa/wa-automate": "^3.1.11",
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "bent": "^7.3.12",
     "canvacord": "^5.0.8",
     "chalk": "^4.1.0",
