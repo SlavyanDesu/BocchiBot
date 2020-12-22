@@ -99,8 +99,8 @@ exports.notRegistered = () => {
     return `Kamu belum terdaftar di database!\n\nSilakan register dengan format:\n*${prefix}register* nama | umur`
 }
 
-exports.registered = () => {
-    return `Selamat! Kamu telah terdaftar.\nKetik *${prefix}rules* terlebih dahulu ya~`
+exports.registered = (name, age, userId, time, serial) => {
+    return `*「 REGISTRATION 」*\n\nAkun kamu telah terdaftar dengan data:\n\n➸ *Nama*: ${name}\n➸ *Umur*: ${age}\n➸ *ID*: ${userId}\n➸ *Waktu pendaftaran*: ${time}\n➸ *Serial*: ${serial}\n\nCatatan:\nJangan pernah menyebarkan data *serial* ke pada siapapun!`
 }
 
 exports.registeredAlready = () => {
@@ -241,6 +241,18 @@ exports.playstore = (app_id, title, developer, description, price, free) => {
 
 exports.shopee = (nama, harga, terjual, shop_location, description, link_product) => {
     return `➸ *Nama*: ${nama}\n➸ *Harga*: ${harga}\n➸ *Terjual*: ${terjual}\n➸ *Lokasi*: ${shop_location}\n➸ *Link produk*: ${link_product}\n➸ *Deskripsi*: ${description}`
+}
+
+exports.pc = (pushname) => {
+    return `*「 REGISTRATION 」*\n\nAkun kamu berhasil terdaftar! Silakan cek private chat mu ya ${pushname}~ :3`
+}
+
+exports.registeredFound = (name, age, time, serial, userId) => {
+    return `*「 REGISTERED 」*\n\nAkun ditemukan!\n\n➸ *Nama*: ${name}\n➸ *Umur*: ${age}\n➸ *ID*: ${userId}\n➸ *Waktu pendaftaran*: ${time}\n➸ *Serial*: ${serial}`
+}
+
+exports.registeredNotFound = (serial) => {
+    return `Akun dengan serial: *${serial}* tidak ditemukan!`
 }
 
 exports.menu = () => {
@@ -738,6 +750,11 @@ Usage: *${prefix}premium* add/del @user
 Mengganti status about me.
 Aliases: *setstats setstat*
 Usage: *${prefix}status* teks
+
+10. *${prefix}serial*
+Cek pendaftaran akun via serial.
+Aliases: -
+Usage: *${prefix}serial* serial_user
 
 _Index of [9]_
     `

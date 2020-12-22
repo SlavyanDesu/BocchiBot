@@ -20,6 +20,7 @@ const nhentai = require('nhentai-js')
 const { API } = require('nhentai-api')
 const api = new API()
 const sagiri = require('sagiri')
+const crypto = require('crypto')
 const tts = require('node-gtts')
 const bent = require('bent')
 const ms = require('parse-ms')
@@ -37,7 +38,6 @@ const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
 const cd = 4.32e+7
 const errorImg = 'https://i.imgur.com/UxvMPUz.png'
-const notice = ['Bocchi', 'bocchi']
 /********** END OF UTILS **********/
 
 /********** DATABASES **********/
@@ -81,7 +81,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const url = args.length !== 0 ? args[0] : ''
         
         /********** FUNCTION **********/
-        const getInfoXp = (userId) => {
+        const getLevelingXp = (userId) => {
             let position = false
             Object.keys(_level).forEach((i) => {
                 if (_level[i].id === userId) {
@@ -93,7 +93,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
 
-        const getInfoLevel = (userId) => {
+        const getLevelingLevel = (userId) => {
             let position = false
             Object.keys(_level).forEach((i) => {
                 if (_level[i].id === userId) {
@@ -105,7 +105,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
 
-        const getInfoId = (userId) => {
+        const getLevelingId = (userId) => {
             let position = false
             Object.keys(_level).forEach((i) => {
                 if (_level[i].id === userId) {
@@ -117,7 +117,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
 
-        const addUserXp = (userId, amount) => {
+        const addLevelingXp = (userId, amount) => {
             let position = false
             Object.keys(_level).forEach((i) => {
                 if (_level[i].id === userId) {
@@ -130,7 +130,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
 
-        const addUserLevel = (userId, amount) => {
+        const addLevelingLevel = (userId, amount) => {
             let position = false
             Object.keys(_level).forEach((i) => {
                 if (_level[i].id === userId) {
@@ -143,14 +143,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
 
-        const addUserId = (userId) => {
-            let obj = {id: `${userId}`, xp: 1, level: 1}
+        const addLevelingId = (userId) => {
+            const obj = {id: userId, xp: 1, level: 1}
             _level.push(obj)
             fs.writeFileSync('./database/level.json', JSON.stringify(_level))
         }
 
         const addLimit = (userId) => {
-            let obj = {id: `${userId}`, time: Date.now()}
+            const obj = {id: userId, time: Date.now()}
             _limit.push(obj)
             fs.writeFileSync('./database/limit.json', JSON.stringify(_limit))
         }
@@ -167,36 +167,90 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
 
-        const addUserBio = (userId, nama, umur, time) => {
-            let obj = {id: `${userId}`, name: `${nama}`, age: umur, time: `${time}`}
+        const addRegisteredUser = (userId, name, age, time, serial) => {
+            const obj = {id: userId, name: name, age: age, time: time, serial: serial}
             _registered.push(obj)
             fs.writeFileSync('./database/registered.json', JSON.stringify(_registered))
         }
 
-        const getRegisteredUser = (userId) => {
-            let isRegis = false
-            Object.keys(_registered).forEach((i) => {
-                if (_registered[i].id === userId) {
-                    isRegis = true
-                }
-            })
-            return isRegis
+        const createSerial = (size) => {
+            return crypto.randomBytes(size).toString('hex').slice(0, size)
         }
 
-        const addAfk = (userId, time, reason) => {
-            let obj = {id: `${userId}`, time: `${time}`, reason: `${reason}`}
+        const checkRegisteredUser = (userId) => {
+            let status = false
+            Object.keys(_registered).forEach((i) => {
+                if (_registered[i].id === userId) {
+                    status = true
+                }
+            })
+            return status
+        }
+
+        const checkRegisteredUserFromSerial = (serial) => {
+            let status = false
+            Object.keys(_registered).forEach((i) => {
+                if (_registered[i].serial === serial) {
+                    status = true
+                }
+            })
+            return status
+        }
+
+        const getRegisteredNameFromSerial = (serial) => {
+            let position = false
+            Object.keys(_registered).forEach((i) => {
+                if (_registered[i].serial === serial) {
+                    position = i
+                }
+            })
+            return _registered[position].name
+        }
+
+        const getRegisteredAgeFromSerial = (serial) => {
+            let position = false
+            Object.keys(_registered).forEach((i) => {
+                if (_registered[i].serial === serial) {
+                    position = i
+                }
+            })
+            return _registered[position].age
+        }
+
+        const getRegisteredTimeFromSerial = (serial) => {
+            let position = false
+            Object.keys(_registered).forEach((i) => {
+                if (_registered[i].serial === serial) {
+                    position = i
+                }
+            })
+            return _registered[position].time
+        }
+
+        const getRegisteredIdFromSerial = (serial) => {
+            let position = false
+            Object.keys(_registered).forEach((i) => {
+                if (_registered[i].serial === serial) {
+                    position = i
+                }
+            })
+            return _registered[position].id
+        }
+
+        const addAfkUser = (userId, time, reason) => {
+            const obj = {id: `${userId}`, time: `${time}`, reason: `${reason}`}
             _afk.push(obj)
             fs.writeFileSync('./database/afk.json', JSON.stringify(_afk))
         }
 
-        const getAfk = (userId) => {
-            let isAfk = false
+        const checkAfkUser = (userId) => {
+            let status = false
             Object.keys(_afk).forEach((i) => {
                 if (_afk[i].id === userId) {
-                    isAfk = true
+                    status = true
                 }
             })
-            return isAfk
+            return status
         }
 
         const getAfkReason = (userId) => {
@@ -234,6 +288,16 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 return _afk[position].id
             }
         }
+
+        const getAfkPosition = (userId) => {
+            let position = false
+            Object.keys(_afk).forEach((i) => {
+                if (_afk[i].id === userId) {
+                    position = i
+                }
+            })
+            return position
+        }
         /********** END OF FUNCTION **********/
 
         /********** VALIDATOR **********/
@@ -244,12 +308,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isNsfw = isGroupMsg ? _nsfw.includes(chat.id) : false
         const isBanned = _ban.includes(sender.id)
         const isPremium = _premium.includes(sender.id)
-        const isRegistered = getRegisteredUser(sender.id)
+        const isRegistered = checkRegisteredUser(sender.id)
         const isWelcomeOn = isGroupMsg ? _welcome.includes(chat.id) : false
         const isDetectorOn = isGroupMsg ? _antilink.includes(chat.id) : false
         const isLevelingOn = isGroupMsg ? _leveling.includes(chat.id) : false
         const isAutoStikerOn = isGroupMsg ? _autostiker.includes(chat.id) : false
-        const isAfkOn = getAfk(sender.id)
+        const isAfkOn = checkAfkUser(sender.id)
         const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
         const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
         const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
@@ -257,29 +321,21 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isImage = type === 'image'
         /********** END OF VALIDATOR **********/
 
-        /* Notice me senpai!
-        if (chats.includes('Bocchi')) {
-            await bocchi.reply(from, 'Yes, master?', id)
-            console.log(color('[CALLED]'), color(time, 'yellow'), 'from', color(pushname))
-        }
-        */
-
         // Leveling [ALPHA]
         if (isGroupMsg && isRegistered && isLevelingOn && !isCmd) {
-            const currentLevel = getInfoLevel(sender.id)
-            const checkId = getInfoId(sender.id)
+            const currentLevel = getLevelingLevel(sender.id)
+            const checkId = getLevelingId(sender.id)
             try {
                 if (currentLevel === undefined && checkId === undefined) {
-                    addUserId(sender.id)
+                    addLevelingId(sender.id)
                 } else {
                     const amountXp = Math.floor(Math.random() * 10) + 500
                     const requiredXp = 5000 * (Math.pow(2, currentLevel) - 1)
-                    const getXp = getInfoXp(sender.id)
-                    addUserXp(sender.id, amountXp)
+                    addLevelingXp(sender.id, amountXp)
+                    const getXp = getLevelingXp(sender.id)
                     if (requiredXp <= getXp) {
-                        addUserLevel(sender.id, 1)
-                        const getLevel = getInfoLevel(sender.id)
-                        await bocchi.sendText(from, `Selamat ${pushname}! Kamu naik ke level ${getLevel}!`)
+                        addLevelingLevel(sender.id, 1)
+                        await bocchi.sendText(from, `Selamat ${pushname}! Kamu naik ke level *${getLevelingLevel(sender.id)}*!`)
                     }
                 }
             } catch (err) {
@@ -311,17 +367,16 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
         // AFK
         if (isGroupMsg) {
-            const checking = getAfk(sender.id)
             for (let ment of mentionedJidList) {
-                if (getAfk(ment)) {
+                if (checkAfkUser(ment)) {
                     const getId = getAfkId(ment)
                     const getReason = getAfkReason(getId)
                     const getTime = getAfkTime(getId)
                     await bocchi.reply(from, ind.afkMentioned(getReason, getTime), id)
                 }
             }
-            if (checking && !isCmd) {
-                _afk.splice(sender.id, 1)
+            if (checkAfkUser(sender.id) && !isCmd) {
+                _afk.splice(getAfkPosition(sender.id), 1)
                 fs.writeFileSync('./database/afk.json', JSON.stringify(_afk))
                 await bocchi.sendText(from, ind.afkDone(pushname))
             }
@@ -352,9 +407,17 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const namaUser = q.substring(0, q.indexOf('|') - 1)
                 const umurUser = q.substring(q.lastIndexOf('|') + 2)
-                addUserBio(sender.id, namaUser, umurUser, time)
-                await bocchi.reply(from, ind.registered(), id)
-                console.log(color('[REGISTER]'), color(time, 'yellow'), 'Name:', color(namaUser, 'cyan'), 'Age:', color(umurUser, 'cyan'))
+                const serialUser = createSerial(20)
+                if (isGroupMsg) {
+                    addRegisteredUser(sender.id, namaUser, umurUser, time, serialUser)
+                    await bocchi.reply(from, ind.pc(pushname), id)
+                    await bocchi.sendText(sender.id, ind.registered(namaUser, umurUser, sender.id, time, serialUser))
+                    console.log(color('[REGISTER]'), color(time, 'yellow'), 'Name:', color(namaUser, 'cyan'), 'Age:', color(umurUser, 'cyan'), 'Serial:', color(serialUser, 'cyan'),'in', color(name || formattedTitle))
+                } else {
+                    addRegisteredUser(sender.id, namaUser, umurUser, time, serialUser)
+                    await bocchi.reply(from, ind.registered(namaUser, umurUser, sender.id, time, serialUser), id)
+                    console.log(color('[REGISTER]'), color(time, 'yellow'), 'Name:', color(namaUser, 'cyan'), 'Age:', color(umurUser, 'cyan'), 'Serial:', color(serialUser, 'cyan'))
+                }
             break
                 
             // Level [ALPHA]
@@ -362,8 +425,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
-                const userLevel = getInfoLevel(sender.id)
-                const userXp = getInfoXp(sender.id)
+                const userLevel = getLevelingLevel(sender.id)
+                const userXp = getLevelingXp(sender.id)
                 if (userLevel === undefined && userXp === undefined) return await bocchi.reply(from, ind.levelNull(), id)
                 const ppLink = await bocchi.getProfilePicFromServer(sender.id)
                 if (ppLink === undefined) {
@@ -399,14 +462,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
                 if (!isGroupMsg) return await bocchi.reply(from. ind.groupOnly(), id)
-                const resp = _level
-                resp.sort((a, b) => (a.xp < b.xp) ? 1 : -1)
+                _level.sort((a, b) => (a.xp < b.xp) ? 1 : -1)
                 let leaderboard = '-----[ *LEADERBOARD* ]----\n\n'
                 let nom = 0
                 try {
                     for (let i = 0; i < 10; i++) {
                         nom++
-                        leaderboard += `${nom}. @${resp[i].id.replace('@c.us', '')}\n➸ XP: *${resp[i].xp}* Level: *${resp[i].level}*\n\n`
+                        leaderboard += `${nom}. @${_level[i].id.replace('@c.us', '')}\n➸ XP: *${_level[i].xp}* Level: *${_level[i].level}*\n\n`
                     }
                     await bocchi.sendTextWithMentions(from, leaderboard)
                 } catch (err) {
@@ -500,7 +562,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (isAfkOn) return await bocchi.reply(from, ind.afkOnAlready(), id)
                 const reason = q ? q : 'Nothing.'
-                addAfk(sender.id, time, reason)
+                addAfkUser(sender.id, time, reason)
                 await bocchi.reply(from, ind.afkOn(pushname, reason), id)
             break
             case 'lyric':
@@ -1989,6 +2051,20 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!q) return await bocchi.reply(from, ind.emptyMess(), id)
                 await bocchi.setMyStatus(q)
                 await bocchi.sendText(from, ind.doneOwner())
+            break
+            case 'serial':
+                if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
+                if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
+                const serials = args[0]
+                if (checkRegisteredUserFromSerial(serials)) {
+                    const name = getRegisteredNameFromSerial(serials)
+                    const age = getRegisteredAgeFromSerial(serials)
+                    const time = getRegisteredTimeFromSerial(serials)
+                    const id = getRegisteredIdFromSerial(serials)
+                    await bocchi.sendText(from, ind.registeredFound(name, age, time, serials, id))
+                } else {
+                    await bocchi.sendText(from, ind.registeredNotFound(serials))
+                }
             break
             default:
                 if (isCmd) {
