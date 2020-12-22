@@ -24,7 +24,7 @@
     "bent": "^7.3.12",
     "canvacord": "^5.0.8",
     "chalk": "^4.1.0",
-    "cheerio": "^1.0.0-rc.3",
+    "cheerio": "^1.0.0-rc.5",
     "figlet": "^1.5.0",
     "file-type": "^16.1.0",
     "form-data": "^3.0.0",
