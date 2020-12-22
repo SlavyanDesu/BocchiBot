@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@justalk/pornhub-api": "^3.4.0",
-    "@open-wa/wa-automate": "^3.1.10",
+    "@open-wa/wa-automate": "^3.1.11",
     "axios": "^0.21.0",
     "bent": "^7.3.12",
     "canvacord": "^5.0.8",
