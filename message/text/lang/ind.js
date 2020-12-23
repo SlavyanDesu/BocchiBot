@@ -25,6 +25,14 @@ exports.blocked = (ownerNumber) => {
     return `Bot tidak menerima panggilan. Karena kamu telah melanggar rules, maka kamu telah diblok!\n\nHarap hubungi owner: wa.me/${ownerNumber.replace('@c.us', '')}`
 }
 
+exports.Yt3 = () => {
+return `[❗] Terjadi kesalahan, tidak dapat meng konversi ke mp3!`
+}
+
+exports.Yt4 = () => {
+return `[❗] Terjadi kesalahan, mungkin error di sebabkan oleh sistem.`
+}
+
 exports.ownerOnly = () => {
     return `Command ini khusus Owner-sama!`
 }
