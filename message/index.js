@@ -810,7 +810,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 		const nomormutualan = [`ISI NOMORNYA YANG UDH KE REGISTER, CONTOH: '62888888888@c.us','6289988989@c.us', dan seterusnya,`]
 		case 'mutualan':
-await bocchi.reply(from, `fitur ini sedang owner matikan, terimakasih........` , id)
                        if (isLimit(pengirim)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik /limit Untuk Mengecek Kuota Limit Kamu`, id)
                         await limitAdd(pengirim)
                        if (!chatId) return await bocchi.reply(from, 'mutualan tidak bisa dalam grup', id)
@@ -821,7 +820,6 @@ await bocchi.reply(from, `fitur ini sedang owner matikan, terimakasih........` ,
                        .then(() => bocchi.sendText(from, 'Partner found :🙉\n/next — find a new Partner'))
                    break
                 case 'next':
-await bocchi.reply(from, `fitur ini sedang owner matikan, terimakasih........` , id)
                         if (isLimit(pengirim)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik /limit Untuk Mengecek Kuota Limit Kamu`, id)
                        await limitAdd(pengirim)
                         if (!isRegistered) return await bocchi.reply(from, 'mutualan tidak bisa dalam grup', id)
