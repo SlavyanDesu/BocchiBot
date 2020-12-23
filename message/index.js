@@ -550,7 +550,28 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
-
+case 'playt': 
+            if (args.length == 0) return bocchi.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}playt judul lagu`, id)
+            try {
+                bocchi.reply(from, ind.wait, id)
+                const serplay = body.slice(6)
+                const webplay = await fetch(`https://api.vhtear.com/ytmp3?query=${serplay}&apikey=${config.vhtear}`)
+                if (!webplay.ok) throw new Error(`Error Get Video : ${webplay.statusText}`)
+                const webplay2 = await webplay.json()
+                 if (webplay2.status == false) {
+                    bocchi.reply(from, `*Maaf Terdapat kesalahan saat mengambil data, mohon pilih media lain...*`, id)
+                } else {
+                    if (Number(webplay2.result.size.split(' MB')[0]) >= 10.00) return bocchi.reply(from, 'Maaf durasi music sudah melebihi batas maksimal 10 MB!', id)
+                    const { image, mp3, size, ext, title, duration } = await webplay2.result
+                    const captplay = `*「 PLAY 」*\n\n➸ *Judul* : ${title}\n➸ *Durasi* : ${duration}\n➸ *Filesize* : ${size}\n➸ *Exp* : ${ext}\n\n_*Music Sedang Dikirim*_`
+                    bocchi.sendFileFromUrl(from, image, `thumb.jpg`, captplay, id)
+                    await bocchi.sendFileFromUrl(from, mp3, `${title}.mp3`, '', id).catch(() => bocchi.reply(from, ind.Yt4, id))
+                }
+            } catch (err) {
+                bocchi.sendText(ownerNumber, 'Error Play : '+ err)
+                bocchi.reply(from, ind.Yt3, id)
+            }
+            break
             // Misc
             case 'say':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
