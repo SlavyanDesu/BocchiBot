@@ -628,6 +628,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
+	 
             case 'gempa':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -807,6 +808,28 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, `Error!\n\n${err}`, id)
                 }
             break
+		const nomormutualan = [`ISI NOMORNYA YANG UDH KE REGISTER, CONTOH: '62888888888@c.us','6289988989@c.us', dan seterusnya,`]
+		case 'mutualan':
+await bocchi.reply(from, `fitur ini sedang owner matikan, terimakasih........` , id)
+                       if (isLimit(pengirim)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik /limit Untuk Mengecek Kuota Limit Kamu`, id)
+                        await limitAdd(pengirim)
+                       if (!chatId) return await bocchi.reply(from, 'mutualan tidak bisa dalam grup', id)
+                      if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                       await bocchi.reply(from, ind.waitmutualan(), id)        
+                       const ganteng = nomormutualan[Math.floor(Math.random() * (nomormutualan.length))]
+                       await bocchi.sendContact(from, ganteng)
+                       .then(() => bocchi.sendText(from, 'Partner found :🙉\n/next — find a new Partner'))
+                   break
+                case 'next':
+await bocchi.reply(from, `fitur ini sedang owner matikan, terimakasih........` , id)
+                        if (isLimit(pengirim)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik /limit Untuk Mengecek Kuota Limit Kamu`, id)
+                       await limitAdd(pengirim)
+                        if (!isRegistered) return await bocchi.reply(from, 'mutualan tidak bisa dalam grup', id)
+                       await bocchi.reply(from, ind.waitmutualan(), id)        
+                        const cantik = nomormutualan[Math.floor(Math.random() * (nomormutualan.length))]
+                        await bocchi.sendContact(from, cantik)
+                        .then(() => bocchi.sendText(from, 'Partner found :🙉\n/next — find a new partner'))
+                       break	 
             case 'listsurah':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
