@@ -924,7 +924,19 @@ case 'playt':
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
-			
+		case 'motivasi':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+            fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/motivasi/main/motivasi.txt')
+            .then(res => res.text())
+            .then(body => {
+                let splitmotivasi = body.split('\n')
+                let randommotivasi = splitmotivasi[Math.floor(Math.random() * splitmotivasi.length)]
+                bocchi.reply(from, randommotivasi, id)
+            })
+            .catch(() => {
+                bocchi.reply(from, 'Ada yang Error!', id)
+            })
+            break	
             // Bot
             case 'menu':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
