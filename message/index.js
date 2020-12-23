@@ -808,18 +808,18 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, `Error!\n\n${err}`, id)
                 }
             break
-			const nomorMutualan = [`ISI NOMORNYA YANG UDH KE REGISTER, CONTOH: '62888888888@c.us','6289988989@c.us', dan seterusnya,`]
-			case 'mutualan':
+	    const nomorMutualan = [`ISI NOMORNYA YANG UDH KE REGISTER, CONTOH: '62888888888@c.us','6289988989@c.us', dan seterusnya`]
+	    case 'mutualan':
              	if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-				if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
+		if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
                 await bocchi.reply(from, 'Looking for a partner...', id)        
               	const ganteng = nomorMutualan[Math.floor(Math.random() * nomorMutualan.length)]
               	await bocchi.sendContact(from, ganteng)
             		.then(() => bocchi.sendText(from, `Partner found :🙉\n${prefix}next — find a new Partner`))
-    		break
+    	    break
             case 'next':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-				if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
+	        if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
                 await bocchi.reply(from, 'Looking for a partner...', id)        
               	const cantik = nomorMutualan[Math.floor(Math.random() * nomorMutualan.length)]
               	await bocchi.sendContact(from, cantik)
