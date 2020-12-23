@@ -550,6 +550,40 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
+case 'instagram':
+            if (args.length !== 1) return bocchi.reply(from, 'Maaf, format pesan salah silahkan periksa menu. [Wrong Format]', id)
+            if (!isUrl(url) && !url.includes('instagram.com')) return bocchi.reply(from, 'Maaf, link yang kamu kirim tidak valid. [Invalid Link]', id)
+            await bocchi.reply(from, `_Scraping Metadata..._ \n\n${menuId.textDonasi()}`, id)
+            downloader.insta(url).then(async (data) => {
+                if (data.type == 'GraphSidecar') {
+                    if (data.image.length != 0) {
+                        data.image.map((x) => bocchi.sendFileFromUrl(from, x, 'photo.jpg', '', null, null, true))
+                            .then((serialized) => console.log(`Sukses Mengirim File dengan id: ${serialized} diproses selama ${processTime(t, moment())}`))
+                            .catch((err) => console.error(err))
+                    }
+                    if (data.video.length != 0) {
+                        data.video.map((x) => bocchi.sendFileFromUrl(from, x.videoUrl, 'video.jpg', '', null, null, true))
+                            .then((serialized) => console.log(`Sukses Mengirim File dengan id: ${serialized} diproses selama ${processTime(t, moment())}`))
+                            .catch((err) => console.error(err))
+                    }
+                } else if (data.type == 'GraphImage') {
+                    bocchi.sendFileFromUrl(from, data.image, 'photo.jpg', '', null, null, true)
+                    await bocchi.sendText(from, `Nih Fotonya sayang`, id)
+                        .then((serialized) => console.log(`Sukses Mengirim File dengan id: ${serialized} diproses selama ${processTime(t, moment())}`))
+                        .catch((err) => console.error(err))
+                } else if (data.type == 'GraphVideo') {
+                    bocchi.sendFileFromUrl(from, data.video.videoUrl, 'video.mp4', '', null, null, true)
+                    await bocchi.sendText(from, `Nih Videonya `, id)
+                        .then((serialized) => console.log(`Sukses Mengirim File dengan id: ${serialized} diproses selama ${processTime(t, moment())}`))
+                        .catch((err) => console.error(err))
+                }
+            })
+                .catch((err) => {
+                    console.log(err)
+                    if (err === 'Not a video') { return bocchi.reply(from, 'Error, tidak ada video di link yang kamu kirim. [Invalid Link]', id) }
+                    bocchi.reply(from, 'Error, user private atau link salah [Private or Invalid Link]', id)
+                })
+            break		
 case 'playt': 
             if (args.length == 0) return bocchi.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}playt judul lagu`, id)
             try {
