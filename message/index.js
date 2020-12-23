@@ -355,6 +355,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
 
+        if (chats.includes('Bocchi')) {
+            await bocchi.reply(from, 'Yes, master?', id)
+        } else if (chats.includes('bocchi')) {
+            await bocchi.reply(from, 'Yes, master?', id)
+        }
+
         // Auto-stiker
         if (isGroupMsg && isAutoStikerOn && isMedia && isImage && !isCmd) {
             const mediaData = await decryptMedia(message, uaOverride)
@@ -886,7 +892,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'whois':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (args.length === 1) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 search.whois(args[0])
                     .then(async ({ result }) => {
