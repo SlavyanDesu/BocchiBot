@@ -25,14 +25,6 @@ exports.blocked = (ownerNumber) => {
     return `Bot tidak menerima panggilan. Karena kamu telah melanggar rules, maka kamu telah diblok!\n\nHarap hubungi owner: wa.me/${ownerNumber.replace('@c.us', '')}`
 }
 
-exports.Yt3 = () => {
-return `[❗] Terjadi kesalahan, tidak dapat meng konversi ke mp3!`
-}
-
-exports.Yt4 = () => {
-return `[❗] Terjadi kesalahan, mungkin error di sebabkan oleh sistem.`
-}
-
 exports.ownerOnly = () => {
     return `Command ini khusus Owner-sama!`
 }
@@ -108,7 +100,7 @@ exports.notRegistered = () => {
 }
 
 exports.registered = (name, age, userId, time, serial) => {
-    return `*「 REGISTRATION 」*\n\nAkun kamu telah terdaftar dengan data:\n\n➸ *Nama*: ${name}\n➸ *Umur*: ${age}\n➸ *ID*: ${userId}\n➸ *Waktu pendaftaran*: ${time}\n➸ *Serial*: ${serial}\n\nCatatan:\nJangan pernah menyebarkan data *serial* ke pada siapapun!`
+    return `*「 REGISTRATION 」*\n\nAkun kamu telah terdaftar dengan data:\n\n➸ *Nama*: ${name}\n➸ *Umur*: ${age}\n➸ *ID*: ${userId}\n➸ *Waktu pendaftaran*: ${time}\n➸ *Serial*: ${serial}\n\nCatatan:\nJangan pernah menyebarkan data *serial* ke pada siapapun!\n\nKetik ${prefix}rules terlebih dahulu ya~`
 }
 
 exports.registeredAlready = () => {
@@ -252,7 +244,7 @@ exports.shopee = (nama, harga, terjual, shop_location, description, link_product
 }
 
 exports.pc = (pushname) => {
-    return `*「 REGISTRATION 」*\n\nAkun kamu berhasil terdaftar! Silakan cek private chat mu ya ${pushname}~ :3`
+    return `*「 REGISTRATION 」*\n\nAkun kamu berhasil terdaftar! Silakan cek pesan ku di private chat mu ya ${pushname}~ :3`
 }
 
 exports.registeredFound = (name, age, time, serial, userId) => {
@@ -488,12 +480,12 @@ Membuat stiker fire dari gambar yang dikirim atau di-reply.
 Aliases: *sfire*
 Usage: Kirim gambar dengan caption *${prefix}stickerfire* atau reply gambar dengan caption *${prefix}stickerfire*.
 
-3. *${prefix}ttg*
+5. *${prefix}ttg*
 Membuat stiker text to GIF.
 Aliases: -
 Usage: *${prefix}ttg* teks
 
-4. *${prefix}stickertoimg*
+6. *${prefix}stickertoimg*
 Konversi stiker ke foto.
 Aliases: *stikertoimg*
 Usage: Reply sticker dengan caption *${prefix}stickertoimg*.

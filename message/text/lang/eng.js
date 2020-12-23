@@ -46,11 +46,15 @@ exports.notNsfw = () => {
 }
 
 exports.nsfwOn = () => {
-    return `NSFW Command was successfully *enabled*!`
+    return `NSFW command was successfully *enabled*!`
 }
 
 exports.nsfwOff = () => {
-    return `NSFW Command was successfully *disabled*!`
+    return `NSFW command was successfully *disabled*!`
+}
+
+exports.nsfwAlready = () => {
+    return `NSFW command has been enabled before.`
 }
 
 exports.addedGroup = (chat) => {
@@ -95,8 +99,8 @@ exports.notRegistered = () => {
     return `You are not registered in the database yet!\n\nPlease register with the format:\n*${prefix}register* name | age`
 }
 
-exports.registered = () => {
-    return `Congratulations! You have registered.\nType *${prefix}rules* first okay~`
+exports.registered = (name, age, userId, time, serial) => {
+    return `*「 REGISTRATION 」*\n\nYour account successfully registered with data:\n\n➸ *Name*: ${name}\n➸ *Age*: ${age}\n➸ *ID*: ${userId}\n➸ *Time registered*: ${time}\n➸ *Serial*: ${serial}\n\nNote:\nDO NOT share your *serial* to someone!\n\nType ${prefix}rules first okay~`
 }
 
 exports.registeredAlready = () => {
@@ -189,6 +193,66 @@ exports.welcomeOnAlready = () => {
 
 exports.minimalDb = () => {
     return `Need at least *10* users that have a level in database!`
+}
+
+exports.autoStikOn = () => {
+    return `Auto-sticker feature was successfully *enabled*!`
+}
+
+exports.autoStikOff = () => {
+    return `Auto-sticker feature was successfully *enabled*!`
+}
+
+exports.autoStikOnAlready = () => {
+    return `Auto-sticker feature has been enabled before.`
+}
+
+exports.afkOn = (pushname, reason) => {
+    return `AFK feature was successfully *enabled*!\n\n➸ *Username*: ${pushname}\n➸ *Reason*: ${reason}`
+}
+
+exports.afkOnAlready = () => {
+    return `AFK feature has been enabled before.`
+}
+
+exports.afkMentioned = (getReason, getTime) => {
+    return `*「 AFK MODE 」*\n\nSssttt! The person is on AFK state, don't bother!\n➸ *Reason*: ${getReason}\n➸ *Since*: ${getTime}`
+}
+
+exports.afkDone = (pushname) => {
+    return `*${pushname}* is back from AFK, welcome~`
+}
+
+exports.gcMute = () => {
+    return `*「 MUTED 」*\n\nOnly admins who can send message in this group.`
+}
+
+exports.gcUnmute = () => {
+    return `*「 UNMUTED 」*\n\nAll members can send message in this group now.`
+}
+
+exports.notNum = (q) => {
+    return `"${q}", are not a numbers!`
+}
+
+exports.playstore = (app_id, title, developer, description, price, free) => {
+    return `➸ *Name*: ${title}\n➸ *ID*: ${app_id}\n➸ *Developer*: ${developer}\n➸ *Free*: ${free}\n➸ *Price*: ${price}\n➸ *Description*: ${description}`
+}
+
+exports.shopee = (nama, harga, terjual, shop_location, description, link_product) => {
+    return `➸ *Name*: ${nama}\n➸ *Price*: ${harga}\n➸ *Sold*: ${terjual}\n➸ *Location*: ${shop_location}\n➸ *Product link*: ${link_product}\n➸ *Description*: ${description}`
+}
+
+exports.pc = (pushname) => {
+    return `*「 REGISTRATION 」*\n\nYour account is successfully registered! Please check my message in your private chat ${pushname}~ :3`
+}
+
+exports.registeredFound = (name, age, time, serial, userId) => {
+    return `*「 REGISTERED 」*\n\nAccount found!\n\n➸ *Name*: ${name}\n➸ *Age*: ${age}\n➸ *ID*: ${userId}\n➸ *Time registered*: ${time}\n➸ *Serial*: ${serial}`
+}
+
+exports.registeredNotFound = (serial) => {
+    return `Account with serial: *${serial}* not found!`
 }
 
 exports.menu = () => {
@@ -349,6 +413,40 @@ Create a Text to Speech. You need a language code, you can find it here https://
 Aliases: -
 Usage: *${prefix}tts* language_code | text
 
+11. *${prefix}afk*
+Set your account to AFK mode, I will them who mentioned you.
+Aliases: -
+Usage: *${prefix}afk* reason. Send any message to group to disable.
+
+12. *${prefix}distance*
+Sending city distance information.
+Aliases: -
+Usage: *${prefix}distance* from | to
+
+13. *${prefix}findsticker*
+Search sticker.
+Aliases: *findstiker*
+Usage: *${prefix}findsticker* text
+
+14. *${prefix}math*
+A calculator.
+* = multiplication
++ = addition
+- = subtraction
+/ = division
+Aliases: -
+Usage: *${prefix}math* 12*12
+
+15. *${prefix}listsurah*
+Sending Al-Qur'an list.
+Aliases: -
+Usage: *${prefix}listsurah*
+
+16. *${prefix}surah*
+Sending surah.
+Aliases: -
+Usage: *${prefix}surah* surah_number
+
 _Index of [3]_
     `
 }
@@ -377,12 +475,12 @@ Create fire stickers from images that are sent or replied to.
 Aliases: *sfire*
 Usage: Send images with caption *${prefix}stickerfire* or reply to the images with a caption *${prefix}stickerfire*.
 
-3. *${prefix}ttg*
+5. *${prefix}ttg*
 Create text to GIF stickers.
 Aliases: -
 Usage: *${prefix}ttg* text
 
-4. *${prefix}stickertoimg*
+6. *${prefix}stickertoimg*
 Convert stickers to image.
 Aliases: *stikertoimg*
 Usage: Reply to the stickers with a caption *${prefix}stickertoimg*.
@@ -478,6 +576,26 @@ Create a valentine images.
 Aliases: -
 Usage: Send your couple's images with caption *${prefix}valentine* your_name | couple's_name or reply to the couple's images with a caption *${prefix}valentine* your_name | couple's_name.
 
+8. *${prefix}glitchtext*
+Create a glitch styled text.
+Aliases: *glitext*
+Usage: *${prefix}glitchtext* text1 | text2
+
+9. *${prefix}simi*
+SimiSimi chat.
+Aliases: -
+Usage: *${prefix}simi* text
+
+10. *${prefix}blackpink*
+Create a Blackpink logo styled text.
+Aliases: -
+Usage: *${prefix}blackpink* text
+
+11. *${prefix}phmaker*
+Create a Pornhub logo styled text.
+Aliases: -
+Usage: *${prefix}phmaker* left_text | right_text
+
 _Index of [6]_
     `
 }
@@ -535,6 +653,11 @@ Usage: *${prefix}antilink* enable/disable
 Toogle welcome feature.
 Aliases: -
 Usage: *${prefix}welcome* enable/disable
+
+11. *${prefix}autosticker*
+Toogle auto-sticker feature. Every sended image will made into a sticker.
+Aliases: *autostiker autostik*
+Usage: *${prefix}autostiker* enable/disable
 
 _Index of [7]_
     `
@@ -642,6 +765,11 @@ Usage: *${prefix}premium* add/del @user
 Set about me.
 Aliases: *setstatus setstat*
 Usage: *${prefix}status* text
+
+10. *${prefix}serial*
+Check user's serial.
+Aliases: -
+Usage: *${prefix}serial* user_serial
 
 _Index of [9]_
     `
