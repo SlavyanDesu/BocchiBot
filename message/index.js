@@ -355,12 +355,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
 
-        if (chats.includes('Bocchi')) {
-            await bocchi.reply(from, 'Yes, master?', id)
-        } else if (chats.includes('bocchi')) {
-            await bocchi.reply(from, 'Yes, master?', id)
-        }
-
         // Auto-stiker
         if (isGroupMsg && isAutoStikerOn && isMedia && isImage && !isCmd) {
             const mediaData = await decryptMedia(message, uaOverride)
