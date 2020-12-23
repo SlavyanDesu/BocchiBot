@@ -151,6 +151,7 @@ If you want to unlock premium commands, please contact me~
 | Facebook video      |      ✔️      |
 | YouTube audio/video |      ✔️      |
 | Joox                |      ✔️      |
+| TikTok                |      ✔️      |
 
 |       Misc       | Availability |
 | :--------------: | :----------: |
@@ -169,6 +170,9 @@ If you want to unlock premium commands, please contact me~
 | Find Sticker     |      ✔️      |
 | List surah       |      ✔️      |
 | Surah            |      ✔️      |
+| Random contact   |      ✔️      |
+| Play             |      ✔️      |
+| Whois            |      ✔️      |
 
 |        Fun       | Availability |
 | :--------------: | :----------: |
@@ -179,10 +183,11 @@ If you want to unlock premium commands, please contact me~
 | Write            |      ✔️      |
 | Missing person   |      ✔️      |
 | Valentine        |      ✔️      |
-| Glitch Text      |      ✔️      |
+| Glitch text      |      ✔️      |
 | SimSimi          |      ✔️      |
 | Blackpink logo   |      ✔️      |
 | Pornhub logo     |      ✔️      |
+| Galaxy text      |      ✔️      |
 
 |      Weeb Zone     | Availability |
 | :----------------: | :----------: |

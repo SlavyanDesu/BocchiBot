@@ -167,6 +167,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
 
+        const getRegisteredRandomId = () => {
+            return _registered[Math.floor(Math.random() * _registered.length)].id
+        }
+
         const addRegisteredUser = (userId, name, age, time, serial) => {
             const obj = {id: userId, name: name, age: age, time: time, serial: serial}
             _registered.push(obj)
@@ -550,76 +554,20 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
-case 'instagram':
-            if (args.length !== 1) return bocchi.reply(from, 'Maaf, format pesan salah silahkan periksa menu. [Wrong Format]', id)
-            if (!isUrl(url) && !url.includes('instagram.com')) return bocchi.reply(from, 'Maaf, link yang kamu kirim tidak valid. [Invalid Link]', id)
-            await bocchi.reply(from, `_Scraping Metadata..._ \n\n${menuId.textDonasi()}`, id)
-            downloader.insta(url).then(async (data) => {
-                if (data.type == 'GraphSidecar') {
-                    if (data.image.length != 0) {
-                        data.image.map((x) => bocchi.sendFileFromUrl(from, x, 'photo.jpg', '', null, null, true))
-                            .then((serialized) => console.log(`Sukses Mengirim File dengan id: ${serialized} diproses selama ${processTime(t, moment())}`))
-                            .catch((err) => console.error(err))
-                    }
-                    if (data.video.length != 0) {
-                        data.video.map((x) => bocchi.sendFileFromUrl(from, x.videoUrl, 'video.jpg', '', null, null, true))
-                            .then((serialized) => console.log(`Sukses Mengirim File dengan id: ${serialized} diproses selama ${processTime(t, moment())}`))
-                            .catch((err) => console.error(err))
-                    }
-                } else if (data.type == 'GraphImage') {
-                    bocchi.sendFileFromUrl(from, data.image, 'photo.jpg', '', null, null, true)
-                    await bocchi.sendText(from, `Nih Fotonya sayang`, id)
-                        .then((serialized) => console.log(`Sukses Mengirim File dengan id: ${serialized} diproses selama ${processTime(t, moment())}`))
-                        .catch((err) => console.error(err))
-                } else if (data.type == 'GraphVideo') {
-                    bocchi.sendFileFromUrl(from, data.video.videoUrl, 'video.mp4', '', null, null, true)
-                    await bocchi.sendText(from, `Nih Videonya `, id)
-                        .then((serialized) => console.log(`Sukses Mengirim File dengan id: ${serialized} diproses selama ${processTime(t, moment())}`))
-                        .catch((err) => console.error(err))
-                }
-            })
-                .catch((err) => {
-                    console.log(err)
-                    if (err === 'Not a video') { return bocchi.reply(from, 'Error, tidak ada video di link yang kamu kirim. [Invalid Link]', id) }
-                    bocchi.reply(from, 'Error, user private atau link salah [Private or Invalid Link]', id)
-                })
-            break	
-case 'tiktok': {
-                    if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                    if (args.length !== 1) return bocchi.reply(from, 'kirim /tiktok https://vt.tiktok.com/xnxnxn', id)
-                    if (!isUrl(url) && !url.includes('tiktok.com')) return bocchi.reply(from, 'Maaf, link yang kamu kirim tidak valid. [Invalid Link]', id)
-                    await bocchi.reply(from, ind.wait(), id)
-                    await downloader.tik(url).then(async(res)=> {
-                            const capt = `Sukses download Video TikTok`
-                            await bocchi.sendFileFromUrl(from, res.video, `${res.title}.mp4`, capt, id)
-                        }).catch(err => {
-                            console.log(err)
-                            bocchi.reply(from, `Gagal, server errorrrrrrrrrrrr beroo!`, id)
-                        })
-                    }
-                    break			
-case 'playt': 
-            if (args.length == 0) return bocchi.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}playt judul lagu`, id)
-            try {
-                bocchi.reply(from, ind.wait, id)
-                const serplay = body.slice(6)
-                const webplay = await fetch(`https://api.vhtear.com/ytmp3?query=${serplay}&apikey=${config.vhtear}`)
-                if (!webplay.ok) throw new Error(`Error Get Video : ${webplay.statusText}`)
-                const webplay2 = await webplay.json()
-                 if (webplay2.status == false) {
-                    bocchi.reply(from, `*Maaf Terdapat kesalahan saat mengambil data, mohon pilih media lain...*`, id)
-                } else {
-                    if (Number(webplay2.result.size.split(' MB')[0]) >= 10.00) return bocchi.reply(from, 'Maaf durasi music sudah melebihi batas maksimal 10 MB!', id)
-                    const { image, mp3, size, ext, title, duration } = await webplay2.result
-                    const captplay = `*「 PLAY 」*\n\n➸ *Judul* : ${title}\n➸ *Durasi* : ${duration}\n➸ *Filesize* : ${size}\n➸ *Exp* : ${ext}\n\n_*Music Sedang Dikirim*_`
-                    bocchi.sendFileFromUrl(from, image, `thumb.jpg`, captplay, id)
-                    await bocchi.sendFileFromUrl(from, mp3, `${title}.mp3`, '', id).catch(() => bocchi.reply(from, ind.Yt4, id))
-                }
-            } catch (err) {
-                bocchi.sendText(ownerNumber, 'Error Play : '+ err)
-                bocchi.reply(from, ind.Yt3, id)
-            }
+            case 'tiktok': 
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isUrl(url) && !url.includes('tiktok.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                downloader.tik(url)
+                    .then(async ({ result })=> {
+                        await bocchi.sendFileFromUrl(from, result.video, 'tiktok.mp4', '', id)
+                    })
+                    .catch(async (err) => {
+                        console.log(err)
+                        await bocchi.reply(from, `Error!\n${err}`, id)
+                    })
             break
+
             // Misc
             case 'say':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -761,7 +709,7 @@ case 'playt':
                     await bocchi.reply(from, `Error!\n${err}`, id)
                 }
             break
-	    case 'findsticker':
+	        case 'findsticker':
             case 'findstiker':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -778,13 +726,13 @@ case 'playt':
                     console.error(err)
                     await bocchi.reply(from, `Error!\n\n${err}`, id)
                 }
-           break
-	   case 'distance':
+            break
+	        case 'distance':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const kotaAsal = q.substring(0, q.indexOf('|') - 1)
                 const kotaTujuan = q.substring(q.lastIndexOf('|') + 2)
-	        fun.distance(kotaAsal, kotaTujuan)
+	            fun.distance(kotaAsal, kotaTujuan)
                     .then(async ({ result }) => {
                         if (result.response !== 200) {
                             await bocchi.reply(from, 'Something is error, is the data you gave correct?', id)
@@ -876,22 +824,19 @@ case 'playt':
                     await bocchi.reply(from, `Error!\n\n${err}`, id)
                 }
             break
-	    const nomorMutualan = [`ISI NOMORNYA YANG UDH KE REGISTER, CONTOH: '62888888888@c.us','6289988989@c.us', dan seterusnya`]
-	    case 'mutualan':
+	        case 'mutualan':
              	if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-		if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
+		        if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
                 await bocchi.reply(from, 'Looking for a partner...', id)        
-              	const ganteng = nomorMutualan[Math.floor(Math.random() * nomorMutualan.length)]
-              	await bocchi.sendContact(from, ganteng)
-            		.then(() => bocchi.sendText(from, `Partner found :🙉\n${prefix}next — find a new Partner`))
+              	await bocchi.sendContact(from, getRegisteredRandomId())
+            		.then(() => bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`))
     	    break
             case 'next':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-	        if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
+	            if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
                 await bocchi.reply(from, 'Looking for a partner...', id)        
-              	const cantik = nomorMutualan[Math.floor(Math.random() * nomorMutualan.length)]
-              	await bocchi.sendContact(from, cantik)
-            		.then(() => bocchi.sendText(from, `Partner found :🙉\n${prefix}next — find a new Partner`))
+              	await bocchi.sendContact(from, getRegisteredRandomId())
+            		.then(() => bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`))
             break	 
             case 'listsurah':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -918,6 +863,34 @@ case 'playt':
                     .then(async ({ result }) => {
                         await bocchi.reply(from, `${result.surah}\n\n${result.quran}`, id)
                         console.log('Success sending surah!')
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, `Error!\n${err}`, id)
+                    })
+            break
+            case 'play':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait, id)
+                search.ytPlay(q)
+                    .then(async ({ result }) => {
+                        if (Number(result.size.split(' MB')[0]) >= 10.00) return await bocchi.reply(from, ind.videoLimit(), id)
+                        await bocchi.sendFileFromUrl(from, result.image, `${result.title}.jpg`, ind.ytPlay(result), id)
+                        await bocchi.sendFileFromUrl(from, result.mp3, `${result.title}.mp3`, '', id)
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, `Error!\n${err}`, id)
+                    })
+            break
+            case 'whois':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (args.length === 1) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                search.whois(args[0])
+                    .then(async ({ result }) => {
+                        await bocchi.reply(from, `*「 WHOIS 」*\n\n➸ *IP address*: ${result.ip_address}\n➸ *City*: ${result.city}\n➸ *Region*: ${result.region}\n➸ *Country*: ${result.country}\n➸ *ZIP code*: ${result.postal_code}\n➸ *Latitude and longitude*: ${result.latitude_longitude}\n➸ *Time zone*: ${result.time_zone}\n➸ *Call code*: ${result.calling_code}\n➸ *Currency*: ${result.currency}\n➸ *Language code*: ${result.languages}\n➸ *ASN*: ${result.asn}\n➸ *Organization*: ${result.org}`, id)
                     })
                     .catch(async (err) => {
                         console.error(err)
@@ -1215,6 +1188,7 @@ case 'playt':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
+                console.log('Creating harta tahta text...')
                 await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/hartatahta?text=${q}&apikey=${config.vhtear}`, `${q}.jpg`, '', id)
                     .then(() => console.log('Success creating image!'))
                     .catch(async (err) => {
@@ -1286,6 +1260,7 @@ case 'playt':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
+                console.log('Creating writing...')
                 await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/write?text=${q}&apikey=${config.vhtear}`, 'nulis.jpg', '', id)
                     .then(() => console.log('Success sending write image!'))
                     .catch(async (err) => {
@@ -1363,6 +1338,7 @@ case 'playt':
                 const teks1 = q.substring(0, q.indexOf('|') - 1)
                 const teks2 = q.substring(q.lastIndexOf('|') + 2)
                 await bocchi.reply(from, ind.wait(), id)
+                console.log('Creating glitch text...')
 		        await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/glitchtext?text1=${teks1}&text2=${teks2}&apikey=${config.vhtear}`, 'glitch.jpg', '', id)
                     .then(() => console.log('Success creating image!'))
                     .catch(async (err) => {
@@ -1376,6 +1352,7 @@ case 'playt':
                 const kiri = q.substring(0, q.indexOf('|') - 1)
                 const kanan = q.substring(q.lastIndexOf('|') + 2)
                 await bocchi.reply(from, ind.wait(), id)
+                console.log('Creating Pornhub text...')
                 await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/pornlogo?text1=${kiri}&text2=${kanan}&apikey=${config.vhtear}`, 'ph.jpg', '', id)
                     .then(() => console.log('Success creating image!'))
                     .catch(async (err) => {
@@ -1387,8 +1364,21 @@ case 'playt':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
+                console.log('Creating Blackpink text...')
                 await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/blackpinkicon?text=${q}&apikey=${config.vhtear}`, `${q}.jpg`, '', id)
                     .then(() => console.log('Success creting image!'))
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, `Error!\n${err}`, id)
+                    })
+            break
+            case 'galaxy':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                console.log('Creating galaxy text...')
+                await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/galaxytext?text=${q}&apikey=${config.vhtear}`, `${q}.jpg`, '', id)
+                    .then(() => console.log('Success creating image!'))
                     .catch(async (err) => {
                         console.error(err)
                         await bocchi.reply(from, `Error!\n${err}`, id)
