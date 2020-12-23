@@ -583,7 +583,21 @@ case 'instagram':
                     if (err === 'Not a video') { return bocchi.reply(from, 'Error, tidak ada video di link yang kamu kirim. [Invalid Link]', id) }
                     bocchi.reply(from, 'Error, user private atau link salah [Private or Invalid Link]', id)
                 })
-            break		
+            break	
+case 'tiktok': {
+                    if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                    if (args.length !== 1) return bocchi.reply(from, 'kirim /tiktok https://vt.tiktok.com/xnxnxn', id)
+                    if (!isUrl(url) && !url.includes('tiktok.com')) return bocchi.reply(from, 'Maaf, link yang kamu kirim tidak valid. [Invalid Link]', id)
+                    await bocchi.reply(from, ind.wait(), id)
+                    await downloader.tik(url).then(async(res)=> {
+                            const capt = `Sukses download Video TikTok`
+                            await bocchi.sendFileFromUrl(from, res.video, `${res.title}.mp4`, capt, id)
+                        }).catch(err => {
+                            console.log(err)
+                            bocchi.reply(from, `Gagal, server errorrrrrrrrrrrr beroo!`, id)
+                        })
+                    }
+                    break			
 case 'playt': 
             if (args.length == 0) return bocchi.reply(from, `Untuk mencari lagu dari youtube\n\nPenggunaan: ${prefix}playt judul lagu`, id)
             try {
