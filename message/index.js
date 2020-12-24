@@ -20,6 +20,7 @@ const nhentai = require('nhentai-js')
 const { API } = require('nhentai-api')
 const api = new API()
 const sagiri = require('sagiri')
+const fetch = require('node-fetch')
 const crypto = require('crypto')
 const tts = require('node-gtts')
 const bent = require('bent')
@@ -745,7 +746,7 @@ await bocchi.reply(from, `d nya kecil mas` , id)
                     await bocchi.reply(from, `Error!\n${err}`, id)
                 }
             break
-	        case 'findsticker':
+	    case 'findsticker':
             case 'findstiker':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -763,7 +764,7 @@ await bocchi.reply(from, `d nya kecil mas` , id)
                     await bocchi.reply(from, `Error!\n\n${err}`, id)
                 }
             break
-	        case 'distance':
+	    case 'distance':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const kotaAsal = q.substring(0, q.indexOf('|') - 1)
