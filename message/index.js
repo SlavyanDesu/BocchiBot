@@ -349,7 +349,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         }
 	    
         // Automate
-	if (chats.startsWith('truth') || chats.startsWith('Truth')) {
+	    if (chats.startsWith('truth') || chats.startsWith('Truth')) {
             fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/random/main/truth.txt')
                 .then((res) => res.text())
                 .then(async (body) => {
@@ -360,6 +360,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 .catch(async (err) => {
                     await bocchi.reply(from, `Error!\n${err}`, id)
                 })
+        }
 	    
         if (chats.startsWith('dare') || chats.startsWith('Dare')) {
             fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/random/main/dare.txt')
