@@ -350,27 +350,29 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 	    
         // Automate
 	    if (chats.startsWith('truth') || chats.startsWith('Truth')) {
-            fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/random/main/truth.txt')
-                .then((res) => res.text())
+            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+            fun.truth()
                 .then(async (body) => {
                     const tod = body.split('\n')
                     const randomTod = tod[Math.floor(Math.random() * tod.length)]
                     await bocchi.reply(from, randomTod, id)
                 })
                 .catch(async (err) => {
+                    console.error(err)
                     await bocchi.reply(from, `Error!\n${err}`, id)
                 })
         }
 	    
         if (chats.startsWith('dare') || chats.startsWith('Dare')) {
-            fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/random/main/dare.txt')
-                .then((res) => res.text())
+            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+            fun.dare()
                 .then(async (body) => {
                     const dare = body.split('\n')
                     const randomDare = dare[Math.floor(Math.random() * dare.length)]
                     await bocchi.reply(from, randomDare, id)
                 })
                 .catch(async (err) => {
+                    console.error(err)
                     await bocchi.reply(from, `Error!\n${err}`, id)
                 })
         }
@@ -598,9 +600,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
             // Misc
             case 'tod':
-	       if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-               await bocchi.reply(from, 'Sebelum bermain berjanjilah akan melaksanakan apapun perintah yang diberikan.' , id)
-               await bocchi.sendText(from, 'Silakan ketik *truth* atau *dare*.')
+	            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                await bocchi.reply(from, 'Sebelum bermain berjanjilah akan melaksanakan apapun perintah yang diberikan.' , id)
+                await bocchi.sendText(from, 'Silakan ketik *truth* atau *dare*.')
             break
             case 'say':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -621,13 +623,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 lirik(q)
-                    .then(async ({ status, result, pesan }) => {
-                        if (status === 'error') {
-                            return await bocchi.reply(from, pesan, id)
-                        } else {
-                            await bocchi.reply(from, result, id)
-                                .then(() => console.log('Success sending lyric!'))
-                        }
+                    .then(async ({ result }) => {
+                        if (result.response !== 200) return await bocchi.reply(from, 'Not found.', id)
+                        await bocchi.reply(from, result.result, id)
+                        console.log('Success sending lyric!')
                     })
                     .catch(async (err) => {
                         console.error(err)
@@ -904,15 +903,15 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'motivasi':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/motivasi/main/motivasi.txt')
-                    .then(res => res.text())
-                    .then(body => {
-                        let splitmotivasi = body.split('\n')
-                        let randommotivasi = splitmotivasi[Math.floor(Math.random() * splitmotivasi.length)]
-                        bocchi.reply(from, randommotivasi, id)
+                fun.motivasi()
+                    .then(async (body) => {
+                        const motivasiSplit = body.split('\n')
+                        const randomMotivasi = motivasiSplit[Math.floor(Math.random() * motivasiSplit.length)]
+                        await bocchi.sendText(from, randomMotivasi)
                     })
-                    .catch(() => {
-                        bocchi.reply(from, 'Ada yang Error!', id)
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break	
             case 'play':
