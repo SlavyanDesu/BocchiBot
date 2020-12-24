@@ -347,39 +347,33 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 console.error(err)
             }
         }
-        // AUTOMATE
-	    if (chats.includes('truth')){
-fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/random/main/truth.txt')
-            .then(res => res.text())
-            .then(body => {
-               let tod = body.split('\n')
-               let pjr = tod[Math.floor(Math.random() * tod.length)]
-               bocchi.reply(from, pjr, id)
-            })
-            .catch(() => {
-                bocchi.reply(from, 'Ada yang Error!', id)
-            })
-}
-
-if (chats.includes('dare')){
-fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/random/main/dare.txt')
-            .then(res => res.text())
-            .then(body => {
-               let yoo = body.split('\n')
-               let pajar = yoo[Math.floor(Math.random() * yoo.length)]
-               bocchi.reply(from, pajar, id)
-            })
-            .catch(() => {
-                bocchi.reply(from, 'Ada yang Error!', id)
-            })
-}
-	    if (chats.includes('Truth')){
-await bocchi.reply(from, `t nya kecil mas` , id)
-}
-
-if (chats.includes('Dare')){
-await bocchi.reply(from, `d nya kecil mas` , id)
-}
+	    
+        // Automate
+	if (chats.startsWith('truth') || chats.startsWith('Truth')) {
+            fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/random/main/truth.txt')
+                .then((res) => res.text())
+                .then(async (body) => {
+                    const tod = body.split('\n')
+                    const randomTod = tod[Math.floor(Math.random() * tod.length)]
+                    await bocchi.reply(from, randomTod, id)
+                })
+                .catch(async (err) => {
+                    await bocchi.reply(from, `Error!\n${err}`, id)
+                })
+	    
+        if (chats.startsWith('dare') || chats.startsWith('Dare')) {
+            fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/random/main/dare.txt')
+                .then((res) => res.text())
+                .then(async (body) => {
+                    const dare = body.split('\n')
+                    const randomDare = dare[Math.floor(Math.random() * dare.length)]
+                    await bocchi.reply(from, randomDare, id)
+                })
+                .catch(async (err) => {
+                    await bocchi.reply(from, `Error!\n${err}`, id)
+                })
+        }
+	    
         // Anti-group link detector
         if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner) {
             if (chats.match(new RegExp(/(https:\/\/chat.whatsapp.com)/gi))) {
@@ -603,9 +597,10 @@ await bocchi.reply(from, `d nya kecil mas` , id)
 
             // Misc
             case 'tod':
-         bocchi.reply(from, `Sebelum bermain berjanjilah akan melaksanakan apapapun perintah yang di berikan` , id)
-         await bocchi.sendText(from, `Silahkan pilih \n\n *truth*\n\n *dare*` , id)
-         break
+	       if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+               await bocchi.reply(from, 'Sebelum bermain berjanjilah akan melaksanakan apapun perintah yang diberikan.' , id)
+               await bocchi.sendText(from, 'Silakan ketik *truth* atau *dare*.')
+            break
             case 'say':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -861,16 +856,16 @@ await bocchi.reply(from, `d nya kecil mas` , id)
                     await bocchi.reply(from, `Error!\n\n${err}`, id)
                 }
             break
-	        case 'mutualan':
+	    case 'mutualan':
              	if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-		        if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
+		if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
                 await bocchi.reply(from, 'Looking for a partner...', id)        
               	await bocchi.sendContact(from, getRegisteredRandomId())
             		.then(() => bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`))
     	    break
             case 'next':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-	            if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
+	        if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
                 await bocchi.reply(from, 'Looking for a partner...', id)        
               	await bocchi.sendContact(from, getRegisteredRandomId())
             		.then(() => bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`))
@@ -906,7 +901,7 @@ await bocchi.reply(from, `d nya kecil mas` , id)
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
-		        case 'motivasi':
+            case 'motivasi':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/motivasi/main/motivasi.txt')
                     .then(res => res.text())
