@@ -348,7 +348,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         }
 	    
         // Automate
-	    if (chats.startsWith('truth') || chats.startsWith('Truth')) {
+	    if (chats.includes('truth') || chats.includes('Truth')) {
             if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
             fun.truth()
                 .then(async (body) => {
@@ -362,7 +362,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 })
         }
 	    
-        if (chats.startsWith('dare') || chats.startsWith('Dare')) {
+        if (chats.includes('dare') || chats.includes('Dare')) {
             if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
             fun.dare()
                 .then(async (body) => {
@@ -374,14 +374,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     console.error(err)
                     await bocchi.reply(from, `Error!\n${err}`, id)
                 })
-        }
-
-        if (chats.startsWith('bocchi') || chats.startsWith('Bocchi')) {
-            if (isOwner) {
-                await bocchi.reply(from, 'Can I help you master? :3', id)
-            } else {
-                await bocchi.reply(from, 'Can I help you?', id)
-            }
         }
 	    
         // Anti-group link detector
