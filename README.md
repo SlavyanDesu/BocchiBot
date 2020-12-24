@@ -56,7 +56,7 @@
 </details>
 
 <h1 align="center">
-  <a href="https://chat.whatsapp.com/LTTm0HGvFRu7uU23mr7ZaR">Whatsapp Group</a>
+  <a href="https://chat.whatsapp.com/LTTm0HGvFRu7uU23mr7ZaR">Join WA BOT DEV Indonesia!</a>
 </h1>
 </div>
 
