@@ -346,7 +346,39 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 console.error(err)
             }
         }
+        // AUTOMATE
+	    if (chats.includes('truth')){
+fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/random/main/truth.txt')
+            .then(res => res.text())
+            .then(body => {
+               let tod = body.split('\n')
+               let pjr = tod[Math.floor(Math.random() * tod.length)]
+               bocchi.reply(from, pjr, id)
+            })
+            .catch(() => {
+                bocchi.reply(from, 'Ada yang Error!', id)
+            })
+}
 
+if (chats.includes('dare')){
+fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/random/main/dare.txt')
+            .then(res => res.text())
+            .then(body => {
+               let yoo = body.split('\n')
+               let pajar = yoo[Math.floor(Math.random() * yoo.length)]
+               bocchi.reply(from, pajar, id)
+            })
+            .catch(() => {
+                bocchi.reply(from, 'Ada yang Error!', id)
+            })
+}
+	    if (chats.includes('Truth')){
+await bocchi.reply(from, `t nya kecil mas` , id)
+}
+
+if (chats.includes('Dare')){
+await bocchi.reply(from, `d nya kecil mas` , id)
+}
         // Anti-group link detector
         if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner) {
             if (chats.match(new RegExp(/(https:\/\/chat.whatsapp.com)/gi))) {
@@ -569,6 +601,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Misc
+            case 'tod':
+         bocchi.reply(from, `Sebelum bermain berjanjilah akan melaksanakan apapapun perintah yang di berikan` , id)
+         await bocchi.sendText(from, `Silahkan pilih \n\n *truth*\n\n *dare*` , id)
+         break
             case 'say':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
