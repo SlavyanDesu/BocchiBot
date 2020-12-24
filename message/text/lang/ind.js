@@ -255,6 +255,10 @@ exports.registeredNotFound = (serial) => {
     return `Akun dengan serial: *${serial}* tidak ditemukan!`
 }
 
+exports.ytPlay = (result) => {
+    return `*「 PLAY 」*\n\n➸ *Judul*: ${result.title}\n➸ *Durasi*: ${result.duration}\n➸ *Link*: ${result.url}\n\nMedia sedang dikirim, mohon tunggu...`
+}
+
 exports.menu = () => {
     return `
 ------[ WELCOME ]-----
@@ -290,7 +294,7 @@ exports.menuDownloader = () => {
 1. *${prefix}facebook*
 Download Facebook video.
 Aliases: *fb*
-Usage: *${prefix}facebook* video_link
+Usage: *${prefix}facebook* link_video
 
 2. *${prefix}ytmp3*
 Download YouTube audio.
@@ -303,9 +307,14 @@ Aliases: -
 Usage: *${prefix}ytmp4* link
 
 4. *${prefix}joox*
-Mencari & mendownload lagu dari joox
+Mencari dan men-download lagu dari Joox.
 Aliases: -
-Usage: *${prefix}joox* pump it
+Usage: *${prefix}joox* judul_lagu
+
+5. *${prefix}tiktok*
+Mendownload video TikTok.
+Aliases: -
+Usage: *${prefix}tiktok* link_video
 
 _Index of [1]_
     `
@@ -451,6 +460,21 @@ Usage: *${prefix}listsurah*
 Mengirim surah Al-Qur'an.
 Aliases: -
 Usage: *${prefix}surah* nomor_surah
+
+17. *${prefix}mutualan*
+Dapatkan kontak WA random.
+Aliases: -
+Usage: *${prefix}mutualan*
+
+18. *${prefix}whois*
+IP look-up.
+Aliases: -
+Usage: *${prefix}whois* ip_address
+
+19. *${prefix}play*
+Play audio dari YouTube.
+Aliases: - 
+Usage: *${prefix}play* judul_video
 
 _Index of [3]_
     `
@@ -600,6 +624,11 @@ Usage: *${prefix}blackpink* teks
 Membuat teks dengan style logo Pornhub.
 Aliases: -
 Usage: *${prefix}phmaker* teks_kiri | teks_kanan
+
+12. *${prefix}galaxy*
+Membuat gambar teks galaxy.
+Aliases: -
+Usage: *${prefix}galaxy* teks
 
 _Index of [6]_
     `
