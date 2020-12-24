@@ -55,9 +55,9 @@
 
 </details>
 
-<h1 align="center">
+<h4 align="center">
   <a href="https://chat.whatsapp.com/LTTm0HGvFRu7uU23mr7ZaR">Join WA BOT DEV Indonesia!</a>
-</h1>
+</h4>
 </div>
 
 # Requirements
