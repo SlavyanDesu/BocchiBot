@@ -476,6 +476,11 @@ Play audio dari YouTube.
 Aliases: - 
 Usage: *${prefix}play* judul_video
 
+20. *${prefix}sms*
+Mengirim SMS secara anonymous. (SMS gateway)
+Aliases: -
+Usage: *${prefix}sms* pesan | nomor_penerima
+
 _Index of [3]_
     `
 }
@@ -629,6 +634,11 @@ Usage: *${prefix}phmaker* teks_kiri | teks_kanan
 Membuat gambar teks galaxy.
 Aliases: -
 Usage: *${prefix}galaxy* teks
+
+13. *${prefix}tod*
+Bermain truth or dare.
+Aliases: -
+Usage: *${prefix}tod*
 
 _Index of [6]_
     `

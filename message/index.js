@@ -1,5 +1,5 @@
 /**
- * This source code below are free, please DO NOT sell this in any form!
+ * This source code below is free, please DO NOT sell this in any form!
  * Source code ini gratis, jadi tolong JANGAN jual dalam bentuk apapun!
  * 
  * If you want to contributing to this source code, pull requests are always open.
@@ -20,7 +20,6 @@ const nhentai = require('nhentai-js')
 const { API } = require('nhentai-api')
 const api = new API()
 const sagiri = require('sagiri')
-const fetch = require('node-fetch')
 const crypto = require('crypto')
 const tts = require('node-gtts')
 const bent = require('bent')
@@ -34,7 +33,7 @@ moment.tz.setDefault('Asia/Jakarta').locale('id')
 
 /********** UTILS **********/
 const { msgFilter, color, processTime, isUrl } = require('../tools')
-const { nsfw, lirik, shortener, wiki, kbbi, bmkg, weeaboo, medsos, nekopoi, downloader, sticker, fun, search, quran } = require('../lib')
+const { nsfw, weeaboo, downloader, sticker, fun, misc } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
 const cd = 4.32e+7
@@ -376,6 +375,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, `Error!\n${err}`, id)
                 })
         }
+
+        if (chats.startsWith('bocchi') || chats.startsWith('Bocchi')) {
+            if (isOwner) {
+                await bocchi.reply(from, 'Can I help you master? :3', id)
+            } else {
+                await bocchi.reply(from, 'Can I help you?', id)
+            }
+        }
 	    
         // Anti-group link detector
         if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner) {
@@ -599,11 +606,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Misc
-            case 'tod':
-	            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                await bocchi.reply(from, 'Sebelum bermain berjanjilah akan melaksanakan apapun perintah yang diberikan.' , id)
-                await bocchi.sendText(from, 'Silakan ketik *truth* atau *dare*.')
-            break
             case 'say':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -622,7 +624,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
-                lirik(q)
+                misc.lirik(q)
                     .then(async ({ result }) => {
                         if (result.response !== 200) return await bocchi.reply(from, 'Not found.', id)
                         await bocchi.reply(from, result.result, id)
@@ -636,7 +638,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'shortlink':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url)) return await bocchi.reply(from, ind.wrongFormat(), id)
-                const urlShort = await shortener(url)
+                const urlShort = await misc.shortener(url)
                 await bocchi.reply(from, ind.wait(), id)
                 await bocchi.reply(from, urlShort, id)
             break
@@ -645,7 +647,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
-                wiki(q)
+                misc.wiki(q)
                     .then(async ({ result, status }) => {
                         if (status !== 200) {
                             return await bocchi.reply(from, 'Not found.', id)
@@ -663,7 +665,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
-                kbbi(q)
+                misc.kbbi(q)
                     .then(async ({ status, result, pesan }) => {
                         if (status === 'error') {
                             await bocchi.reply(from, pesan, id)
@@ -680,7 +682,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'gempa':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
-                bmkg()
+                misc.bmkg()
                     .then(async ({ kedalaman, koordinat, lokasi, magnitude, map, potensi, waktu }) => {
                         let teksInfo = `${lokasi}\n\nKoordinat: ${koordinat}\nKedalaman: ${kedalaman}\nMagnitudo: ${magnitude} SR\nPotensi: ${potensi}\n\n${waktu}`
                         await bocchi.sendFileFromUrl(from, map, 'gempa.jpg', teksInfo, id)
@@ -695,7 +697,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
-                medsos.igStalk(q)
+                misc.igStalk(q)
                     .then(async ({ Biodata, Jumlah_Followers, Jumlah_Following, Jumlah_Post, Profile_pic, Username, status, error }) => {
                         if (status !== 200) {
                             return await bocchi.reply(from, error, id)
@@ -715,7 +717,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 try {
-                    search.gsmarena(q)
+                    misc.gsmarena(q)
                         .then(async ({ result }) => {
                             await bocchi.sendFileFromUrl(from, result.image, `${result.title}.jpg`, ind.gsm(result), id)
                                 .then(() => console.log('Success sending phone info!'))
@@ -731,7 +733,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 try {
-                    search.resep(q)
+                    misc.resep(q)
                         .then(async ({ result }) => {
                             await bocchi.sendFileFromUrl(from, result.image, `${result.title}.jpg`, ind.receipt(result), id)
                                 .then(() => console.log('Success sending food receipt!'))
@@ -741,13 +743,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, `Error!\n${err}`, id)
                 }
             break
-	    case 'findsticker':
+	        case 'findsticker':
             case 'findstiker':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 try {
-                    search.sticker(q)
+                    misc.sticker(q)
                         .then(async ({ result }) => {
                             for (let i = 0; i < result.data.length; i++) {
                                 await bocchi.sendStickerfromUrl(from, result.data[i])
@@ -759,12 +761,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, `Error!\n\n${err}`, id)
                 }
             break
-	    case 'distance':
+	        case 'distance':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const kotaAsal = q.substring(0, q.indexOf('|') - 1)
                 const kotaTujuan = q.substring(q.lastIndexOf('|') + 2)
-	            fun.distance(kotaAsal, kotaTujuan)
+	            misc.distance(kotaAsal, kotaTujuan)
                     .then(async ({ result }) => {
                         if (result.response !== 200) {
                             await bocchi.reply(from, 'Something is error, is the data you gave correct?', id)
@@ -780,7 +782,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 try {
-                    search.ytSearch(q)
+                    misc.ytSearch(q)
                         .then(async ({ result }) => {
                             for (let i = 0; i < 5; i++) {
                                 const { urlyt, image, title, channel, duration, views } = await result[i]
@@ -814,7 +816,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 try {
-                    search.playstore(q)
+                    misc.playstore(q)
                         .then(async ({ result }) => {
                             for (let i = 0; i < 5; i++) {
                                 const { app_id, icon, title, developer, description, price, free } = result[i]
@@ -843,7 +845,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const jumlahBarang = q.substring(q.lastIndexOf('|') + 2)
                 await bocchi.reply(from, ind.wait(), id)
                 try {
-                    search.shopee(namaBarang, jumlahBarang)
+                    misc.shopee(namaBarang, jumlahBarang)
                         .then(async ({ result }) => {
                             for (let i = 0; i < result.items.length; i++) {
                                 const { nama, harga, terjual, shop_location, description, link_product, image_cover } = result.items[i]
@@ -856,15 +858,15 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, `Error!\n\n${err}`, id)
                 }
             break
-	    case 'mutualan':
-             	if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-		if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
+	        case 'mutualan':
+            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+		    if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
                 await bocchi.reply(from, 'Looking for a partner...', id)        
               	await bocchi.sendContact(from, getRegisteredRandomId())
             		.then(() => bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`))
     	    break
             case 'next':
-                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
 	        if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
                 await bocchi.reply(from, 'Looking for a partner...', id)        
               	await bocchi.sendContact(from, getRegisteredRandomId())
@@ -873,7 +875,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'listsurah':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
-                quran.list()
+                misc.listSurah()
                     .then(async ({ result }) => {
                         let list = '-----[ AL-QUR\'AN LIST ]-----\n\n'
                         for (let i = 0; i < result.list.length; i++) {
@@ -891,7 +893,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
-                quran.getQuran(args[0])
+                misc.getSurah(args[0])
                     .then(async ({ result }) => {
                         await bocchi.reply(from, `${result.surah}\n\n${result.quran}`, id)
                         console.log('Success sending surah!')
@@ -903,7 +905,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'motivasi':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                fun.motivasi()
+                misc.motivasi()
                     .then(async (body) => {
                         const motivasiSplit = body.split('\n')
                         const randomMotivasi = motivasiSplit[Math.floor(Math.random() * motivasiSplit.length)]
@@ -918,7 +920,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait, id)
-                search.ytPlay(q)
+                misc.ytPlay(q)
                     .then(async ({ result }) => {
                         if (Number(result.size.split(' MB')[0]) >= 10.00) return await bocchi.reply(from, ind.videoLimit(), id)
                         await bocchi.sendFileFromUrl(from, result.image, `${result.title}.jpg`, ind.ytPlay(result), id)
@@ -933,9 +935,26 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
-                search.whois(args[0])
+                misc.whois(args[0])
                     .then(async ({ result }) => {
                         await bocchi.reply(from, `*「 WHOIS 」*\n\n➸ *IP address*: ${result.ip_address}\n➸ *City*: ${result.city}\n➸ *Region*: ${result.region}\n➸ *Country*: ${result.country}\n➸ *ZIP code*: ${result.postal_code}\n➸ *Latitude and longitude*: ${result.latitude_longitude}\n➸ *Time zone*: ${result.time_zone}\n➸ *Call code*: ${result.calling_code}\n➸ *Currency*: ${result.currency}\n➸ *Language code*: ${result.languages}\n➸ *ASN*: ${result.asn}\n➸ *Organization*: ${result.org}`, id)
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, `Error!\n${err}`, id)
+                    })
+            break
+            case 'sms':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
+                const pesanPengirim = q.substring(0, q.indexOf('|') - 1)
+                const nomorPenerima = q.substring(q.lastIndexOf('|') + 2)
+                await bocchi.reply(from, ind.wait(), id)
+                misc.sms(nomorPenerima, pesanPengirim)
+                    .then(async ({ status, pesan }) => {
+                        if (status !== 'success') return await bocchi.reply(from, pesan, id)
+                        await bocchi.reply(from, `Success sending SMS to: ${nomorPenerima}\nMessage: ${pesanPengirim}`, id)
+                        console.log(`Success sending SMS to ${nomorPenerima}!`)
                     })
                     .catch(async (err) => {
                         console.error(err)
@@ -1429,6 +1448,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
+            case 'tod':
+	            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                await bocchi.reply(from, 'Sebelum bermain berjanjilah akan melaksanakan apapun perintah yang diberikan.' , id)
+                await bocchi.sendText(from, 'Silakan ketik *truth* atau *dare*.')
+            break
 
             // Sticker
             case 'sticker':
@@ -1814,9 +1838,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (isGroupMsg) {
                     if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
                     await bocchi.reply(from, ind.wait(), id)
-                    nekopoi.getLatest()
+                    nsfw.getLatest()
                         .then((result) => {
-                            nekopoi.getVideo(result.link)
+                            nsfw.getVideo(result.link)
                                 .then(async (res) => {
                                     let heheq = '\n'
                                     for (let i of res.links) {
@@ -1831,9 +1855,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                 } else {
                     await bocchi.reply(from, ind.wait(), id)
-                    nekopoi.getLatest()
+                    nsfw.getLatest()
                         .then((result) => {
-                            nekopoi.getVideo(result.link)
+                            nsfw.getVideo(result.link)
                                 .then(async (res) => {
                                     let heheq = '\n'
                                     for (let i of res.links) {
@@ -1886,13 +1910,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                             .then(async ({ title, download_urls, thumbnail_url }) => {
                                 const count = Object.keys(download_urls).length
                                 if (count !== 2) {
-                                    const shortsLow = await shortener(download_urls['240P'])
-                                    const shortsMid = await shortener(download_urls['480P'])
-                                    const shortsHigh = await shortener(download_urls['720P'])
+                                    const shortsLow = await misc.shortener(download_urls['240P'])
+                                    const shortsMid = await misc.shortener(download_urls['480P'])
+                                    const shortsHigh = await misc.shortener(download_urls['720P'])
                                     await bocchi.sendFileFromUrl(from, thumbnail_url, `${title}`, `Title: ${title}\n\nLinks:\n${shortsLow} (240P)\n${shortsMid} (480P)\n${shortsHigh} (720P)`, id)
                                         .then(() => console.log('Success sending pornhub metadata!'))
                                 } else {
-                                    const shortsLow = await shortener(download_urls['240P'])
+                                    const shortsLow = await misc.shortener(download_urls['240P'])
                                     await bocchi.sendFileFromUrl(from, thumbnail_url, `${title}`, `Title: ${title}\n\nLinks:\n${shortsLow} (240P)`, id)
                                         .then(() => console.log('Success sending pornhub metadata!'))
                                 }
@@ -1909,13 +1933,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                             .then(async ({ title, download_urls, thumbnail_url }) => {
                                 const count = Object.keys(download_urls).length
                                 if (count !== 2) {
-                                    const shortsLow = await shortener(download_urls['240P'])
-                                    const shortsMid = await shortener(download_urls['480P'])
-                                    const shortsHigh = await shortener(download_urls['720P'])
+                                    const shortsLow = await misc.shortener(download_urls['240P'])
+                                    const shortsMid = await misc.shortener(download_urls['480P'])
+                                    const shortsHigh = await misc.shortener(download_urls['720P'])
                                     await bocchi.sendFileFromUrl(from, thumbnail_url, `${title}`, `Title: ${title}\n\nLinks:\n${shortsLow} (240P)\n${shortsMid} (480P)\n${shortsHigh} (720P)`, id)
                                         .then(() => console.log('Success sending pornhub metadata!'))
                                 } else {
-                                    const shortsLow = await shortener(download_urls['240P'])
+                                    const shortsLow = await misc.shortener(download_urls['240P'])
                                     await bocchi.sendFileFromUrl(from, thumbnail_url, `${title}`, `Title: ${title}\n\nLinks:\n${shortsLow} (240P)`, id)
                                         .then(() => console.log('Success sending pornhub metadata!'))
                                 }
