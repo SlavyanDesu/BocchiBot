@@ -735,7 +735,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, `Error!\n${err}`, id)
                 }
             break
-	        case 'findsticker':
+	    case 'findsticker':
             case 'findstiker':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -743,7 +743,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 try {
                     misc.sticker(q)
                         .then(async ({ result }) => {
-                            if (result.status !== 200) return await bocchi.reply(from, 'Not found!', id)
+                            if (result.response !== 200) return await bocchi.reply(from, 'Not found!', id)
                             for (let i = 0; i < result.data.length; i++) {
                                 await bocchi.sendStickerfromUrl(from, result.data[i])
                             }
