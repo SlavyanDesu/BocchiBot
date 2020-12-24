@@ -743,6 +743,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 try {
                     misc.sticker(q)
                         .then(async ({ result }) => {
+                            if (result.status !== 200) return await client.reply(from, 'Not found!', id)
                             for (let i = 0; i < result.data.length; i++) {
                                 await bocchi.sendStickerfromUrl(from, result.data[i])
                             }
