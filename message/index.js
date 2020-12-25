@@ -618,7 +618,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
                 misc.lirik(q)
                     .then(async ({ result }) => {
-                        if (result.response !== 200) return await bocchi.reply(from, 'Not found.', id)
+                        if (result.code !== 200) return await bocchi.reply(from, 'Not found.', id)
                         await bocchi.reply(from, result.result, id)
                         console.log('Success sending lyric!')
                     })
