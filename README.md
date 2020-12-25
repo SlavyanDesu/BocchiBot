@@ -15,6 +15,7 @@
   <a href="https://github.com/LeviathanH"><img src="https://avatars3.githubusercontent.com/u/75152820?s=400&u=8934104bf58533111f2f4cef7be5d72ebb79d75c&v=4" height="128" width="128" /></a>
   <a href="https://github.com/ferlitopym"><img src="https://avatars3.githubusercontent.com/u/33126545?s=400&u=04eff969ece93ae3d9cde917dc2b1649a721888f&v=4" height="128" width="128" /></a> <br>
   <a href="https://github.com/AlvioAdjiJanuar"><img src="https://avatars2.githubusercontent.com/u/68207798?s=400&u=29439908cd661d11443391cb74f5b07267b71117&v=4" height="128" width="128" /></a>
+  <a href="https://github.com/VideFrelan"><img src="https://avatars1.githubusercontent.com/u/76523793?s=400&u=365f732cd3fc09ce75f6556715a00386005db57c&v=4" height="128" width="128" />
 </p>
 
 <p align="center">
@@ -136,6 +137,7 @@ If you want to unlock premium commands, please contact me~
 | :-----------------: | :----------: |
 | Register            |      ✔️      |
 | Leveling            |      ✔️      |
+| Clean written code  |      ✔️      |
 
 |     Sticker Maker     | Availability |
 | :-------------------: | :----------: |
@@ -151,80 +153,79 @@ If you want to unlock premium commands, please contact me~
 | Facebook video      |      ✔️      |
 | YouTube audio/video |      ✔️      |
 | Joox                |      ✔️      |
-| TikTok                |      ✔️      |
+| TikTok              |      ✔️      |
 
-|       Misc       | Availability |
-| :--------------: | :----------: |
-| Say              |      ✔️      |
-| Lyric            |      ✔️      |
-| Shortlink        |      ✔️      |
-| Wikipedia        |      ✔️      |
-| KBBI search      |      ✔️      |
-| IG stalk         |      ✔️      |
-| GSMArena         |      ✔️      |
-| Food receipt     |      ✔️      |
-| YouTube search   |      ✔️      |
-| TTS              |      ✔️      |
-| AFK              |      ✔️      |
-| Distance         |      ✔️      |
-| Find Sticker     |      ✔️      |
-| List surah       |      ✔️      |
-| Surah            |      ✔️      |
-| Random contact   |      ✔️      |
-| Play             |      ✔️      |
-| Whois            |      ✔️      |
+|         Misc        | Availability |
+| :-----------------: | :----------: |
+| Say                 |      ✔️      |
+| Lyric finder        |      ✔️      |
+| Shortlink maker     |      ✔️      |
+| Wikipedia           |      ✔️      |
+| KBBI search         |      ✔️      |
+| IG stalk            |      ✔️      |
+| GSMArena            |      ✔️      |
+| Food receipt finder |      ✔️      |
+| YouTube search      |      ✔️      |
+| TTS                 |      ✔️      |
+| AFK                 |      ✔️      |
+| Distance calculator |      ✔️      |
+| Find sticker        |      ✔️      |
+| List surah          |      ✔️      |
+| Surah               |      ✔️      |
+| Random contact      |      ✔️      |
+| Play YouTube        |      ✔️      |
+| Whois               |      ✔️      |
+| SMS gateway         |      ✔️      |
 
-|      Primbon     | Availability |
-| :--------------: | :----------: |
-| Weton jodoh      |      ✔️      |
-| Zodiac           |      ✔️      |
-| Ramal weton      |      ✔️      |
 
-|        Fun       | Availability |
-| :--------------: | :----------: |
-| Harta tahta      |      ✔️      |
-| Calender         |      ✔️      |
-| Write            |      ✔️      |
-| Missing person   |      ✔️      |
-| Valentine        |      ✔️      |
-| Glitch text      |      ✔️      |
-| SimSimi          |      ✔️      |
-| Blackpink logo   |      ✔️      |
-| Pornhub logo     |      ✔️      |
-| Galaxy text      |      ✔️      |
+|          Fun          | Availability |
+| :-------------------: | :----------: |
+| Harta tahta maker     |      ✔️      |
+| Calender image maker  |      ✔️      |
+| Weton jodoh           |      ✔️      |
+| Zodiac                |      ✔️      |
+| Write on paper        |      ✔️      |
+| Missing person maker  |      ✔️      |
+| Valentine frame maker |      ✔️      |
+| Glitch text maker     |      ✔️      |
+| SimSimi               |      ✔️      |
+| Blackpink logo maker  |      ✔️      |
+| Pornhub logo maker    |      ✔️      |
+| Galaxy text maker     |      ✔️      |
+| Truth or dare         |      ✔️      |
 
 |      Weeb Zone     | Availability |
 | :----------------: | :----------: |
-| Neko               |      ✔️      |
-| Wallpaper          |      ✔️      |
-| Kemono             |      ✔️      |
-| Kusonime           |      ✔️      |
-| Komiku             |      ✔️      |
+| Random neko girl   |      ✔️      |
+| Random wallpaper   |      ✔️      |
+| Random kemonomimi  |      ✔️      |
+| Kusonime scrapper  |      ✔️      |
+| Komiku scrapper    |      ✔️      |
 | Anime tracer       |      ✔️      |
 | Source finder      |      ✔️      |
 | Random waifu       |      ✔️      |
 
 |        Bot       | Availability |
 | :--------------: | :----------: |
-| NSFW toogle      |      ✔️      |
-| Bot stats        |      ✔️      |
-| List block       |      ✔️      |
+| Toogle NSFW      |      ✔️      |
+| Bot usage status |      ✔️      |
+| Blocked list     |      ✔️      |
 | Ping             |      ✔️      |
-| Delete           |      ✔️      |
+| Delete message   |      ✔️      |
 | Report bug       |      ✔️      |
-| Group join       |      ✔️      |
+| Join group       |      ✔️      |
 
 |        Owner       | Availability |
 | :----------------: | :----------: |
 | Broadcast          |      ✔️      |
 | Clear all messages |      ✔️      |
 | Leave all groups   |      ✔️      |
-| Get session        |      ✔️      |
+| Get snapshot       |      ✔️      |
 | Ban                |      ✔️      |
-| Evaluates JS       |      ✔️      |
+| Eval               |      ✔️      |
 | Shutdown           |      ✔️      |
 | Add premium user   |      ✔️      |
-| Set status         |      ✔️      |
+| Set bot's info     |      ✔️      |
 
 |    Moderation    | Availability |
 | :--------------: | :----------: |
@@ -232,12 +233,12 @@ If you want to unlock premium commands, please contact me~
 | Kick             |      ✔️      |
 | Promote          |      ✔️      |
 | Demote           |      ✔️      |
-| Leave            |      ✔️      |
+| Leave bot        |      ✔️      |
 | Everyone         |      ✔️      |
 | Toogle NSFW      |      ✔️      |
 | Set group icon   |      ✔️      |
-| Anti-link        |      ✔️      |
-| Welcome          |      ✔️      |
+| Anti-group link  |      ✔️      |
+| Toogle welcome   |      ✔️      |
 | Auto-sticker     |      ✔️      |
 | Mute group       |      ✔️      |
 
@@ -263,6 +264,7 @@ If you want to unlock premium commands, please contact me~
 * [`LeviathanH`](https://github.com/LeviathanH)
 * [`ferlitopym`](https://github.com/ferlitopym)
 * [`AlvioAdjiJanuar`](https://github.com/AlvioAdjiJanuar)
+* [`VideFrelan`](https://github.com/VideFrelan)
 
 # License
 **BocchiBot** © [SlavyanDesu](https://github.com/SlavyanDesu), released under the MIT License.
