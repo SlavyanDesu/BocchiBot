@@ -1584,6 +1584,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'stickertoimg':
             case 'stikertoimg':
+            case 'toimg':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isQuotedSticker) {
                     await bocchi.reply(from, ind.wait(), id)

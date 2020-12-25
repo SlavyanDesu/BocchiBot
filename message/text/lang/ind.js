@@ -516,7 +516,7 @@ Usage: *${prefix}ttg* teks
 
 6. *${prefix}stickertoimg*
 Konversi stiker ke foto.
-Aliases: *stikertoimg*
+Aliases: *stikertoimg toimg*
 Usage: Reply sticker dengan caption *${prefix}stickertoimg*.
 
 _Index of [4]_
