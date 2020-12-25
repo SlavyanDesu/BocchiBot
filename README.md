@@ -174,7 +174,7 @@ If you want to unlock premium commands, please contact me~
 | Play             |      ✔️      |
 | Whois            |      ✔️      |
 
-|        PRIMBON       | Availability |
+|      Primbon     | Availability |
 | :--------------: | :----------: |
 | Weton jodoh      |      ✔️      |
 | Zodiac           |      ✔️      |
