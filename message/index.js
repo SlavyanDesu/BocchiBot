@@ -735,7 +735,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, `Error!\n${err}`, id)
                 }
             break
-	    case 'findsticker':
+	        case 'findsticker':
             case 'findstiker':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -1290,23 +1290,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
-	case 'weton':
-                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (!q) return await bocchi.reply(from, `Untuk meramal weton\ngunakan ${prefix}weton tgl | bln | thn\n\nContoh: ${prefix}weton 13 | 06 | 1895`, id)
-                const tgl = q.substring(0, q.indexOf('|'))
-                const bln = q.substring(q.indexOf('|') + 2, q.lastIndexOf('|'))
-                const thn = q.substring(q.lastIndexOf('|') + 2)
-                await bocchi.reply(from, 'Mohon tunggu sebentar...', id)
-			    misc.weton(tgl, bln, thn)
-                    .then(async ({ result }) => {
-                        if (!result.response === 200) {
-                            await bocchi.reply(from, 'Something is error, is the data you gave correct?', id)
-                        } else {
-                            await bocchi.reply(from, result.hasil, id)
-                            console.log('Success sending weton info!')
-                        }
-                    })
-            break
             case 'zodiac':
             case 'zodiak':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -1462,6 +1445,24 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 	            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, 'Sebelum bermain berjanjilah akan melaksanakan apapun perintah yang diberikan.' , id)
                 await bocchi.sendText(from, 'Silakan ketik *truth* atau *dare*.')
+            break
+            case 'weton':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
+                const tgl = q.substring(0, q.indexOf('|') - 1)
+                const bln = q.substring(q.indexOf('|') + 2, q.lastIndexOf('|'))
+                const thn = q.substring(q.lastIndexOf('|') + 2)
+                await bocchi.reply(from, ind.wait(), id)
+			    fun.weton(tgl, bln, thn)
+                    .then(async ({ result }) => {
+                        if (result.response !== 200) return await bocchi.reply(from, 'Invalid!', id)
+                        await bocchi.reply(from, result.hasil, id)
+                        console.log('Success sending weton info!')
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, `Error!\n${err}`, id)
+                    })
             break
 
             // Sticker

@@ -640,6 +640,11 @@ Bermain truth or dare.
 Aliases: -
 Usage: *${prefix}tod*
 
+14. *${prefix}weton*
+Kirim ramalan weton.
+Aliases: -
+Usage: *${prefix}weton* tanggal | bulan | tahun
+
 _Index of [6]_
     `
 }
