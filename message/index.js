@@ -479,7 +479,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .setRequiredXP(requiredXp)
                     .setProgressBar([randomHexs, randomHex], 'GRADIENT')
                     .setUsername(pushname)
-                    .setDiscriminator(userId)
+                    .setDiscriminator('0001', '#FFFFFF00')
                 rank.build()
                     .then(async (buffer) => {
                         canvas.write(buffer, `${pushname}.png`)
