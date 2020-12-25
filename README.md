@@ -174,12 +174,16 @@ If you want to unlock premium commands, please contact me~
 | Play             |      ✔️      |
 | Whois            |      ✔️      |
 
+|        PRIMBON       | Availability |
+| :--------------: | :----------: |
+| Weton jodoh      |      ✔️      |
+| Zodiac           |      ✔️      |
+| Ramal weton      |      ✔️      |
+
 |        Fun       | Availability |
 | :--------------: | :----------: |
 | Harta tahta      |      ✔️      |
 | Calender         |      ✔️      |
-| Weton jodoh      |      ✔️      |
-| Zodiac           |      ✔️      |
 | Write            |      ✔️      |
 | Missing person   |      ✔️      |
 | Valentine        |      ✔️      |
