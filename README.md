@@ -15,6 +15,7 @@
   <a href="https://github.com/LeviathanH"><img src="https://avatars3.githubusercontent.com/u/75152820?s=400&u=8934104bf58533111f2f4cef7be5d72ebb79d75c&v=4" height="128" width="128" /></a>
   <a href="https://github.com/ferlitopym"><img src="https://avatars3.githubusercontent.com/u/33126545?s=400&u=04eff969ece93ae3d9cde917dc2b1649a721888f&v=4" height="128" width="128" /></a> <br>
   <a href="https://github.com/AlvioAdjiJanuar"><img src="https://avatars2.githubusercontent.com/u/68207798?s=400&u=29439908cd661d11443391cb74f5b07267b71117&v=4" height="128" width="128" /></a>
+  <a href="https://github.com/VideFrelan"><img src="https://avatars1.githubusercontent.com/u/76523793?s=400&u=365f732cd3fc09ce75f6556715a00386005db57c&v=4" height="128" width="128" />
 </p>
 
 <p align="center">
@@ -259,6 +260,7 @@ If you want to unlock premium commands, please contact me~
 * [`LeviathanH`](https://github.com/LeviathanH)
 * [`ferlitopym`](https://github.com/ferlitopym)
 * [`AlvioAdjiJanuar`](https://github.com/AlvioAdjiJanuar)
+* [`VideFrelan`](https://github.com/VideFrelan)
 
 # License
 **BocchiBot** © [SlavyanDesu](https://github.com/SlavyanDesu), released under the MIT License.
