@@ -912,7 +912,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'play':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
-                await bocchi.reply(from, ind.wait, id)
+                await bocchi.reply(from, ind.wait(), id)
                 misc.ytPlay(q)
                     .then(async ({ result }) => {
                         if (Number(result.size.split(' MB')[0]) >= 10.00) return await bocchi.reply(from, ind.videoLimit(), id)
