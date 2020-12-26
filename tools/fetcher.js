@@ -36,9 +36,9 @@ const fetchText = (url, options) => {
  * @param {Buffer} buffData 
  * @param {String} fileName
  */
-const uploadImages = (buffData, fileName) => {
+const uploadImages = async (buffData, fileName) => {
     return new Promise((resolve, reject) => {
-        const { ext } = fromBuffer(buffData)
+        const { ext } = await fromBuffer(buffData)
         const filePath = `tools/${fileName}.${ext}`
         fs.writeFile(filePath, buffData, { encoding: 'base64' }, (err) => {
             if (err) return reject(err)
