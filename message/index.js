@@ -348,7 +348,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         }
 	    
         // Automate
-	    if (chats.includes('truth') || chats.includes('Truth')) {
+	if (chats.includes('truth') || chats.includes('Truth')) {
             if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
             fun.truth()
                 .then(async (body) => {
@@ -519,7 +519,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .then(async ({ result }) => {
                         await bocchi.sendFileFromUrl(from, result[0].linkImg, `${result[0].judul}.jpg`, ind.joox(result), id)
                         await bocchi.sendFileFromUrl(from, result[0].linkMp3, `${result[0].judul}.mp3`, '', id)
-                            .then(() => console.log('Success sending music from Joox!'))
+                        console.log('Success sending music from Joox!')
                     })
                     .catch(async (err) => {
                         console.error(err)
@@ -537,7 +537,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                             return await bocchi.reply(from, pesan, id)
                         } else {
                             await bocchi.sendFileFromUrl(from, link, `${title}.mp4`, title, id)
-                                .then(() => console.log(from, 'Success sending Facebook video!'))
+                            console.log(from, 'Success sending Facebook video!')
                         }
                     })
                     .catch(async (err) => {
@@ -556,7 +556,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         } else {
                             await bocchi.sendFileFromUrl(from, res.thumbnail, `${res.title}.jpg`, ind.ytFound(res), id)
                             await bocchi.sendFileFromUrl(from, res.url_audio, `${res.title}.mp3`, '', id)
-                                .then(() => console.log('Success sending YouTube audio!'))
+                            console.log('Success sending YouTube audio!')
                         }
                     })
                     .catch(async (err) => {
@@ -575,7 +575,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         } else {
                             await bocchi.sendFileFromUrl(from, res.thumbnail, `${res.title}.jpg`, ind.ytFound(res), id)
                             await bocchi.sendFileFromUrl(from, res.url_video, `${res.title}.mp4`, '', id)
-                                .then(() => console.log('Success sending YouTube video!'))
+                            console.log('Success sending YouTube video!')
                         }
                     })
                     .catch(async (err) => {
@@ -583,19 +583,21 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
-	case 'tiktokpic':
-                    if (args.length == 0) return bocchi.reply(from, `Kirim perintah *${prefix}tiktokpic username*\nContoh : *${prefix}tiktokpic sobathape*`, id)
-                    try {
-                    await bocchi.reply(from, ind.wait(), id)
-                    console.log('Mengambil data...')
-                    const tkt = await axios.get('https://docs-jojo.herokuapp.com/api/tiktokpp?user=' + body.slice(11))
+	    case 'tiktokpic':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                try {
+                    console.log(`Getting profile pic for ${q}`)
+                    const tkt = await axios.get(`https://docs-jojo.herokuapp.com/api/tiktokpp?user=${q}`)
                     if (tkt.data.error) return bocchi.reply(from, tkt.data.error, id)
-                    bocchi.sendFileFromUrl(from, tkt.data.result, 'tiktokpic.jpg', 'Ini :D', id)
-                    console.log('Sukses mengirim tiktok pic!')
-                    } catch (err) {
-                        console.error(err)
-                   }
-                    break
+                    await bocchi.sendFileFromUrl(from, tkt.data.result, 'tiktokpic.jpg', 'Ini :D', id)
+                    console.log('Success sending TikTok profile pic!')
+                } catch (err) {
+                    console.error(err)
+                    await bocchi.reply(from, `Error!\n${err}`, id)
+                }
+            break
             case 'tiktok': 
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('tiktok.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -864,19 +866,19 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, `Error!\n\n${err}`, id)
                 }
             break
-	        case 'mutualan':
-            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-		    if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
+	    case 'mutualan':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+		if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
                 await bocchi.reply(from, 'Looking for a partner...', id)        
               	await bocchi.sendContact(from, getRegisteredRandomId())
-            		.then(() => bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`))
+            	await bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`)
     	    break
             case 'next':
-            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
 	        if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
                 await bocchi.reply(from, 'Looking for a partner...', id)        
               	await bocchi.sendContact(from, getRegisteredRandomId())
-            		.then(() => bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`))
+            	await bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`)
             break	 
             case 'listsurah':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -1352,7 +1354,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     fun.missing(atas, tengah, bawah, imageLink)
                         .then(async ({ result }) => {
                             await bocchi.sendFileFromUrl(from, result.imgUrl, 'missing.jpg', '', id)
-                                .then(() => console.log('Success sending image!'))
+                            console.log('Success sending image!')
                         })
                         .catch(async (err) => {
                             console.error(err)
@@ -1362,13 +1364,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
-	  case 'text3d':
-    	  case '3dtext':
-        	   if (args.length == 0) return bocchi.reply(from, ind.wrongFormat(), id)
-        	   const tdtext = body.slice(7)
-                   bocchi.sendText(from, '_Sedang diproses, mohon tunggu sebentar!..._', id)
-        	   await bocchi.sendFileFromUrl(from, `https://docs-jojo.herokuapp.com/api/text3d?text=${tdtext}`,`${tdtext}.jpg`,`${tdtext}`, id)
-                   console.log('Sukses membuat logo 3dtext!')
+	    case 'text3d':
+    	    case '3dtext':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                console.log('Creating 3D text...')
+                await bocchi.sendFileFromUrl(from, `https://docs-jojo.herokuapp.com/api/text3d?text=${q}`,`${q}.jpg`, '', id)
+                console.log('Success creating 3D text!')
             break
             case 'valentine':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
