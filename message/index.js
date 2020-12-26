@@ -583,6 +583,19 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
+	case 'tiktokpic':
+                    if (args.length == 0) return bocchi.reply(from, `Kirim perintah *${prefix}tiktokpic username*\nContoh : *${prefix}tiktokpic sobathape*`, id)
+                    try {
+                    await bocchi.reply(from, ind.wait(), id)
+                    console.log('Mengambil data...')
+                    const tkt = await axios.get('https://docs-jojo.herokuapp.com/api/tiktokpp?user=' + body.slice(11))
+                    if (tkt.data.error) return bocchi.reply(from, tkt.data.error, id)
+                    bocchi.sendFileFromUrl(from, tkt.data.result, 'tiktokpic.jpg', 'Ini :D', id)
+                    console.log('Sukses mengirim tiktok pic!')
+                    } catch (err) {
+                        console.error(err)
+                   }
+                    break
             case 'tiktok': 
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('tiktok.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
