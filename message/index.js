@@ -53,6 +53,7 @@ const _level = JSON.parse(fs.readFileSync('./database/level.json'))
 const _limit = JSON.parse(fs.readFileSync('./database/limit.json'))
 const _afk = JSON.parse(fs.readFileSync('./database/afk.json'))
 const _autostiker = JSON.parse(fs.readFileSync('./database/autostiker.json'))
+const {insert} = require('././database')
 /********** END OF DATABASES **********/
 
 /********** MESSAGE HANDLER **********/
