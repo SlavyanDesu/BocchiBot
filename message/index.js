@@ -1368,7 +1368,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const atas = q.substring(0, q.indexOf('|') - 1)
-                const tengah = q.substring(q.indexOf('|') + 2, q.lastIndexOf('|'))
+                const tengah = q.substring(q.indexOf('|') + 2, q.lastIndexOf('|') - 1)
                 const bawah = q.substring(q.lastIndexOf('|') + 2)
                 if (isMedia && type === 'image' || isQuotedImage) {
                     await bocchi.reply(from, ind.wait(), id)
@@ -1498,7 +1498,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const tgl = q.substring(0, q.indexOf('|') - 1)
-                const bln = q.substring(q.indexOf('|') + 2, q.lastIndexOf('|'))
+                const bln = q.substring(q.indexOf('|') + 2, q.lastIndexOf('|') - 1)
                 const thn = q.substring(q.lastIndexOf('|') + 2)
                 await bocchi.reply(from, ind.wait(), id)
 			    fun.weton(tgl, bln, thn)
