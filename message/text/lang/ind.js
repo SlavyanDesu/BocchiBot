@@ -461,22 +461,27 @@ Mengirim surah Al-Qur'an.
 Aliases: -
 Usage: *${prefix}surah* nomor_surah
 
-17. *${prefix}mutualan*
+17. *${prefix}js*
+Mengetahui jadwal shalat di daerah kalian
+Aliases: - 
+Usage: *${prefix}js* namadaerah
+
+18. *${prefix}mutualan*
 Dapatkan kontak WA random.
 Aliases: -
 Usage: *${prefix}mutualan*
 
-18. *${prefix}whois*
+19. *${prefix}whois*
 IP look-up.
 Aliases: -
 Usage: *${prefix}whois* ip_address
 
-19. *${prefix}play*
+20. *${prefix}play*
 Play audio dari YouTube.
 Aliases: - 
 Usage: *${prefix}play* judul_video
 
-20. *${prefix}sms*
+21. *${prefix}sms*
 Mengirim SMS secara anonymous. (SMS gateway)
 Aliases: -
 Usage: *${prefix}sms* pesan | nomor_penerima
