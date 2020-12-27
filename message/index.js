@@ -703,7 +703,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         bocchi.reply(from, err, id)
                         console.log(err)
                     })
-                insert(author, type, content, pushname, from, argv)
+                insert(author, type, content, pushname, from, command)
                 break
             case 'gempa':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
