@@ -25,20 +25,20 @@ const tts = require('node-gtts')
 const bent = require('bent')
 const ms = require('parse-ms')
 const canvas = require('canvacord')
-const Math_js = require('mathjs')
+const mathjs = require('mathjs')
 const saus = sagiri(config.nao, { results: 5 })
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
-var tanggal  = moment.tz('Asia/Jakarta').format('YYYY-MM-DD')
 /********** END OF MODULES **********/
 
 /********** UTILS **********/
 const { msgFilter, color, processTime, isUrl } = require('../tools')
-const { nsfw, weeaboo, downloader, sticker, fun, misc , Jsholat } = require('../lib')
+const { nsfw, weeaboo, downloader, sticker, fun, misc } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
 const cd = 4.32e+7
 const errorImg = 'https://i.imgur.com/UxvMPUz.png'
+const tanggal = moment.tz('Asia/Jakarta').format('YYYY-MM-DD')
 /********** END OF UTILS **********/
 
 /********** DATABASES **********/
@@ -53,13 +53,12 @@ const _level = JSON.parse(fs.readFileSync('./database/level.json'))
 const _limit = JSON.parse(fs.readFileSync('./database/limit.json'))
 const _afk = JSON.parse(fs.readFileSync('./database/afk.json'))
 const _autostiker = JSON.parse(fs.readFileSync('./database/autostiker.json'))
-const {insert} = require('././database')
 /********** END OF DATABASES **********/
 
 /********** MESSAGE HANDLER **********/
 module.exports = msgHandler = async (bocchi = new Client(), message) => {
     try {
-        const { type, id, from, t, sender, isGroupMsg, chat, caption, isMedia, author,  content,  mimetype, quotedMsg, quotedMsgObj, mentionedJidList } = message
+        const { type, id, from, t, sender, isGroupMsg, chat, caption, isMedia, mimetype, quotedMsg, quotedMsgObj, mentionedJidList } = message
         let { body } = message
         const { name, formattedTitle } = chat
         let { pushname, verifiedName, formattedName } = sender
@@ -688,24 +687,29 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
-	    case 'js':
-                var nonOption = quotedMsg ? quotedMsgObj.body : args.join(' ')
-                Jsholat(nonOption)
-                    .then(data => {
-                        data.map(({isya, subuh, dzuhur, ashar, maghrib, terbit}) => {
-                            var x  = subuh.split(':'); y = terbit.split(':')
-                            var xy = x[0] - y[0]; yx = x[1] - y[1]
-                            let perbandingan = `${xy < 0 ? Math.abs(xy) : xy}jam ${yx< 0 ? Math.abs(yx) : yx}menit`
-                            let msg = `Jadwal Sholat untuk ${nonOption} dan Sekitarnya ( *${tanggal}* )\n\nDzuhur : ${dzuhur}\nAshar  : ${ashar}\nMaghrib: ${maghrib}\nIsya       : ${isya}\nSubuh   : ${subuh}\n\nDiperkirakan matahari akan terbit pada pukul ${terbit} dengan jeda dari subuh sekitar ${perbandingan}`
-                            bocchi.reply(from, msg, id)
+	        case 'jadwalsholat':
+            case 'jadwalsolat':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                misc.jadwalSholat(q)
+                    .then((data) => {
+                        data.map(async ({isya, subuh, dzuhur, ashar, maghrib, terbit}) => {
+                            const x  = subuh.split(':')
+                            const y = terbit.split(':')
+                            const xy = x[0] - y[0]
+                            const yx = x[1] - y[1]
+                            const perbandingan = `${xy < 0 ? Math.abs(xy) : xy} jam ${yx < 0 ? Math.abs(yx) : yx} menit`
+                            const msg = `Jadwal sholat untuk ${q} dan sekitarnya ( *${tanggal}* )\n\nDzuhur: ${dzuhur}\nAshar: ${ashar}\nMaghrib: ${maghrib}\nIsya: ${isya}\nSubuh: ${subuh}\n\nDiperkirakan matahari akan terbit pada pukul ${terbit} dengan jeda dari subuh sekitar ${perbandingan}`
+                            await bocchi.reply(from, msg, id)
+                            console.log('Success sending jadwal sholat!')
                         })
                     })
-                    .catch(err => {
-                        bocchi.reply(from, err, id)
-                        console.log(err)
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, `Error!\n${err}`, id)
                     })
-                insert(author, type, content, pushname, from, command)
-                break
+            break
             case 'gempa':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -860,10 +864,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'math':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
-                if (typeof Math_js.evaluate(q) !== "number") {
+                if (typeof mathjs.evaluate(q) !== "number") {
                     await bocchi.reply(from, ind.notNum(q), id)
                 } else {
-                    await bocchi.reply(from, `*「 MATH 」*\n\n${q} = ${Math_js.evaluate(q)}`, id)
+                    await bocchi.reply(from, `*「 MATH 」*\n\n${q} = ${mathjs.evaluate(q)}`, id)
                 }
             break
             case 'shopee':
@@ -886,16 +890,16 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, `Error!\n\n${err}`, id)
                 }
             break
-	    case 'mutualan':
+	        case 'mutualan':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-		if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
+		        if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
                 await bocchi.reply(from, 'Looking for a partner...', id)        
               	await bocchi.sendContact(from, getRegisteredRandomId())
             	await bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`)
     	    break
             case 'next':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-	        if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
+	            if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
                 await bocchi.reply(from, 'Looking for a partner...', id)        
               	await bocchi.sendContact(from, getRegisteredRandomId())
             	await bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`)
