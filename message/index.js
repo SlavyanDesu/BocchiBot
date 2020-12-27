@@ -34,7 +34,7 @@ var tanggal  = moment.tz('Asia/Jakarta').format('YYYY-MM-DD')
 
 /********** UTILS **********/
 const { msgFilter, color, processTime, isUrl } = require('../tools')
-const { nsfw, weeaboo, downloader, sticker, fun, misc , Jsholat } = require('../lib')
+const { nsfw, weeaboo, downloader, sticker, fun, misc , Jsholat , Toxic } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
 const cd = 4.32e+7
@@ -989,7 +989,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
-            
+            case 'toxic':
+                Toxic().then(toxic => {
+                    bocchi.sendText(from, toxic)
+                })
+                insert(author, type, content, pushname, from, command)
+                break
             // Bot
             case 'menu':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
