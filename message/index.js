@@ -29,11 +29,12 @@ const Math_js = require('mathjs')
 const saus = sagiri(config.nao, { results: 5 })
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
+var tanggal  = moment.tz('Asia/Jakarta').format('YYYY-MM-DD')
 /********** END OF MODULES **********/
 
 /********** UTILS **********/
 const { msgFilter, color, processTime, isUrl } = require('../tools')
-const { nsfw, weeaboo, downloader, sticker, fun, misc } = require('../lib')
+const { nsfw, weeaboo, downloader, sticker, fun, misc , Jsholat } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
 const cd = 4.32e+7
@@ -57,7 +58,7 @@ const _autostiker = JSON.parse(fs.readFileSync('./database/autostiker.json'))
 /********** MESSAGE HANDLER **********/
 module.exports = msgHandler = async (bocchi = new Client(), message) => {
     try {
-        const { type, id, from, t, sender, isGroupMsg, chat, caption, isMedia, mimetype, quotedMsg, quotedMsgObj, mentionedJidList } = message
+        const { type, id, from, t, sender, isGroupMsg, chat, caption, isMedia, author,  content,  mimetype, quotedMsg, quotedMsgObj, mentionedJidList } = message
         let { body } = message
         const { name, formattedTitle } = chat
         let { pushname, verifiedName, formattedName } = sender
@@ -686,6 +687,24 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
+	    case 'js':
+                var nonOption = quotedMsg ? quotedMsgObj.body : args.join(' ')
+                Jsholat(nonOption)
+                    .then(data => {
+                        data.map(({isya, subuh, dzuhur, ashar, maghrib, terbit}) => {
+                            var x  = subuh.split(':'); y = terbit.split(':')
+                            var xy = x[0] - y[0]; yx = x[1] - y[1]
+                            let perbandingan = `${xy < 0 ? Math.abs(xy) : xy}jam ${yx< 0 ? Math.abs(yx) : yx}menit`
+                            let msg = `Jadwal Sholat untuk ${nonOption} dan Sekitarnya ( *${tanggal}* )\n\nDzuhur : ${dzuhur}\nAshar  : ${ashar}\nMaghrib: ${maghrib}\nIsya       : ${isya}\nSubuh   : ${subuh}\n\nDiperkirakan matahari akan terbit pada pukul ${terbit} dengan jeda dari subuh sekitar ${perbandingan}`
+                            bocchi.reply(from, msg, id)
+                        })
+                    })
+                    .catch(err => {
+                        bocchi.reply(from, err, id)
+                        console.log(err)
+                    })
+                insert(author, type, content, pushname, from, argv)
+                break
             case 'gempa':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
