@@ -424,7 +424,17 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     console.log(color('[REGISTER]'), color(time, 'yellow'), 'Name:', color(namaUser, 'cyan'), 'Age:', color(umurUser, 'cyan'), 'Serial:', color(serialUser, 'cyan'))
                 }
             break
-                
+	    case 'alkitab':
+                await bocchi.reply(from, ind.wait(), id)
+                    misc.alkitab(q)
+                    .then(async ({ result }) => {
+                    let alkitab = `_*Hasil Pencarian Alkitab*_\n`
+                for (let i = 0; i < result.length; i++) {
+                    alkitab +=  `\n\n*Ayat*: ${result[i].ayat}\n\nIsi: ${result[i].isi}\nLink: ${result[i].link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                }
+                    bocchi.reply(from, alkitab, id);
+            })
+            break
             // Level [ALPHA]
             case 'level':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
