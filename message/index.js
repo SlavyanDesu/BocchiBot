@@ -34,7 +34,7 @@ moment.tz.setDefault('Asia/Jakarta').locale('id')
 
 /********** UTILS **********/
 const { msgFilter, color, processTime, isUrl } = require('../tools')
-const { nsfw, weeaboo, downloader, sticker, fun, misc } = require('../lib')
+const { nsfw, weeaboo, downloader, sticker, fun, misc, toxic } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
 const cd = 4.32e+7
@@ -981,7 +981,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
-            
+            case 'toxic':
+		        if (!isRegistered) return await bocchi.reply(from , ind.notRegistered(), id)
+                await bocchi.reply(from, toxic(), id)
+            break
+				
             // Bot
             case 'menu':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
