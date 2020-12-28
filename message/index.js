@@ -684,6 +684,18 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
+	case 'linesticker':
+    		if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                    misc.linesticker()
+                    .then(async ({ result }) => {
+                    let lines = `_*Hasil Pencarian*_\n`
+                for (let i = 0; i < result.hasil.length; i++) {
+                    lines +=  `\n\n*Judul* : ${result.hasil[i].title}\n\nURL: ${result.hasil[i].uri}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                }
+                    bocchi.reply(from, lines, id);
+            })
+            break	
             case 'gempa':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
