@@ -913,7 +913,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 });
                 nomer = data[idx].number
                 if(!isNaN(nomer)) {
-                  var responseh = await axios.get('https://api.misc.sutanlab.id/surah/'+nomer+"/"+args[1])
+                  var responseh = await axios.get('https://api.quran.sutanlab.id/surah/'+nomer+"/"+args[1])
                   var {data} = responseh.data
                   pesan = ""
                   pesan = pesan + "Tafsir Q.S. "+data.surah.name.transliteration.id+":"+args[1]+"\n\n"
