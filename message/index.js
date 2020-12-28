@@ -982,11 +982,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'toxic':
-                Toxic().then(toxic => {
-                    bocchi.sendText(from, toxic)
-                })
-                insert(author, type, content, pushname, from, command)
-                break
+				if (!isRegistered) return await bocchi.reply(from , ind.notRegistered(), id)
+                await bocchi.reply(from, toxic(), id)
+            break
+				
             // Bot
             case 'menu':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
