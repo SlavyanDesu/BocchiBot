@@ -27,6 +27,7 @@ const ms = require('parse-ms')
 const canvas = require('canvacord')
 const mathjs = require('mathjs')
 const saus = sagiri(config.nao, { results: 5 })
+const emojiUnicode = require('emoji-unicode')
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 /********** END OF MODULES **********/
@@ -1246,6 +1247,17 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Fun
+	case 'emojisticker':
+            if (args.length !== 1) return client.reply(from, `Kirim perintah *${config.prefix}emojisticker [emoji]*\nContoh : *${config.prefix}emojisticker 😫*`, id)
+            const emoji = emojiUnicode(q)
+            console.log('Creating code emoji => ' + emoji)
+            client.sendStickerfromUrl(from, `https://api.vhtear.com/emojitopng?code=${emoji}&apikey=${config.vhtear}`)
+             .catch ((err) => {
+                console.log(err)
+                client.reply(from, 'Maaf, emoji yang kamu kirim tidak support untuk dijadikan sticker, cobalah emoji lain', id)
+                client.sendText(ownerNumber, 'Sepertinya emojisticker sedang error : ' + err);
+            })
+            break
             case 'profile':
             case 'me':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
