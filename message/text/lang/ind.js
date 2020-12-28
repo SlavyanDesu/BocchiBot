@@ -486,6 +486,31 @@ Mengirim SMS secara anonymous. (SMS gateway)
 Aliases: -
 Usage: *${prefix}sms* pesan | nomor_penerima
 
+22. *${prefix}toxic*
+Random toxic.
+Aliases: -
+Usage: *${prefix}toxic*
+
+23. *${prefix}tafsir*
+Tafsir ayat surah Al-Qur'an.
+Aliases: -
+Usage: *${prefix}tafsir* nama_surah | ayat
+
+24. *${prefix}motivasi*
+Kata-kata motivasi.
+Aliases: -
+Usage: *${prefix}motivasi*
+
+25. *${prefix}linesticker*
+Sticker Line terbaru.
+Aliases: *linestiker*
+Usage: *${prefix}linesticker*
+
+26. *${prefix}alkitab*
+Al-Kitab search.
+Aliases: -
+Usage: *${prefix}* nama_injil
+
 _Index of [3]_
     `
 }
@@ -523,6 +548,11 @@ Usage: *${prefix}ttg* teks
 Konversi stiker ke foto.
 Aliases: *stikertoimg toimg*
 Usage: Reply sticker dengan caption *${prefix}stickertoimg*.
+
+7. *${prefix}emojisticker*
+Konversi emoji ke stiker.
+Aliases: *emojistiker*
+Usage: *${prefix}emojisticker* emoji
 
 _Index of [4]_
     `

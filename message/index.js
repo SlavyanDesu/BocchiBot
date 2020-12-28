@@ -21,19 +21,21 @@ const { API } = require('nhentai-api')
 const api = new API()
 const sagiri = require('sagiri')
 const crypto = require('crypto')
+const axios = require('axios')
 const tts = require('node-gtts')
 const bent = require('bent')
 const ms = require('parse-ms')
 const canvas = require('canvacord')
 const mathjs = require('mathjs')
 const saus = sagiri(config.nao, { results: 5 })
+const emojiUnicode = require('emoji-unicode')
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 /********** END OF MODULES **********/
 
 /********** UTILS **********/
 const { msgFilter, color, processTime, isUrl } = require('../tools')
-const { nsfw, weeaboo, downloader, sticker, fun, misc } = require('../lib')
+const { nsfw, weeaboo, downloader, sticker, fun, misc, toxic } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
 const cd = 4.32e+7
@@ -424,18 +426,21 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     console.log(color('[REGISTER]'), color(time, 'yellow'), 'Name:', color(namaUser, 'cyan'), 'Age:', color(umurUser, 'cyan'), 'Serial:', color(serialUser, 'cyan'))
                 }
             break
-	    case 'alkitab':
-		if (args.length == 0) return bocchi.reply(from, ind.wrongFormat(), id)
+            case 'alkitab':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
-                    misc.alkitab(q)
+                misc.alkitab(q)
                     .then(async ({ result }) => {
-                    let alkitab = `_*Hasil Pencarian Alkitab*_\n`
-                for (let i = 0; i < result.length; i++) {
-                    alkitab +=  `\n\n*Ayat*: ${result[i].ayat}\n\nIsi: ${result[i].isi}\nLink: ${result[i].link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
-                }
-                    bocchi.reply(from, alkitab, id);
-            })
+                        let alkitab = `-----[ *AL-KITAB* ]-----`
+                        for (let i = 0; i < result.length; i++) {
+                            alkitab +=  `\n\n➸ *Ayat*: ${result[i].ayat}\n➸ *Isi*: ${result[i].isi}\n➸ *Link*: ${result[i].link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                        }
+                        await bocchi.reply(from, alkitab, id)
+                        console.log('Success sending Al-Kitab!')
+                    })
             break
+
             // Level [ALPHA]
             case 'level':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -669,23 +674,25 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
-	          case 'linesticker':
-    		      if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-              await bocchi.reply(from, ind.wait(), id)
-              misc.linesticker()
-                  .then(async ({ result }) => {
-                      let lines = `-----[ *NEW STICKER* ]-----\n\n`
-                      for (let i = 0; i < result.hasil.length; i++) {
-                          lines +=  `➸ *Title*: ${result.hasil[i].title}\n➸ *URL**: ${result.hasil[i].uri}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
-                      }
-                      await bocchi.reply(from, lines, id);
-                  })
-                  .catch(async (err) => {
-                    console.error(err)
-                    await bocchi.reply(from, `Error!\n{err}`, id)
-                  })
+	        case 'linesticker':
+            case 'linestiker':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                misc.linesticker()
+                    .then(async ({ result }) => {
+                        let lines = `-----[ *NEW STICKER* ]-----`
+                        for (let i = 0; i < result.hasil.length; i++) {
+                            lines +=  `\n\n➸ *Title*: ${result.hasil[i].title}\n➸ *URL*: ${result.hasil[i].uri}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                        }
+                        await bocchi.reply(from, lines, id)
+                        console.log('Success sending sticker Line!')
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, `Error!\n{err}`, id)
+                    })
             break	
-	          case 'jadwalsholat':
+	        case 'jadwalsholat':
             case 'jadwalsolat':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -902,27 +909,26 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
               	await bocchi.sendContact(from, getRegisteredRandomId())
             	await bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`)
             break
-	   case 'tafsir':
-		if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-            	if (args.length == 0) return bocchi.reply(from, `Untuk menampilkan ayat Al-Qur'an tertentu beserta tafsir dan terjemahannya\ngunakan ${prefix}tafsir surah ayat\n\nContoh: ${prefix}tafsir Al-Mulk 10`, message.id)
-                var responsurah = await axios.get('https://raw.githubusercontent.com/VideFrelan/words/main/tafsir.txt')
+	        case 'tafsir':
+		        if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (args.length === 0) return bocchi.reply(from, `Untuk menampilkan ayat Al-Qur'an tertentu beserta tafsir dan terjemahannya\ngunakan ${prefix}tafsir surah ayat\n\nContoh: ${prefix}tafsir Al-Mulk 10`, id)
                 await bocchi.reply(from, ind.wait(), id)
-                var {data} = responsurah.data
-                var idx = data.findIndex(function(post, index) {
-                  if((post.name.transliteration.id.toLowerCase() == args[0].toLowerCase())||(post.name.transliteration.en.toLowerCase() == args[0].toLowerCase()))
-                    return true;
-                });
-                nomer = data[idx].number
-                if(!isNaN(nomer)) {
-                  var responseh = await axios.get('https://api.quran.sutanlab.id/surah/'+nomer+"/"+args[1])
-                  var {data} = responseh.data
-                  pesan = ""
-                  pesan = pesan + "Tafsir Q.S. "+data.surah.name.transliteration.id+":"+args[1]+"\n\n"
-                  pesan = pesan + data.text.arab + "\n\n"
-                  pesan = pesan + "_" + data.translation.id + "_" + "\n\n" +data.tafsir.id.long
-                  bocchi.reply(from, pesan, message.id)
-              }
-              break
+                const responSurah = await axios.get('https://raw.githubusercontent.com/VideFrelan/words/main/tafsir.txt')
+                const { data } = responSurah.data
+                const idx = data.findIndex((post) => {
+                    if ((post.name.transliteration.id.toLowerCase() === args[0].toLowerCase()) || (post.name.transliteration.en.toLowerCase() === args[0].toLowerCase())) return true
+                })
+                const nomerSurah = data[idx].number
+                if (!isNaN(nomerSurah)) {
+                    const responseh = await axios.get('https://api.quran.sutanlab.id/surah/'+ nomerSurah + '/'+ args[1])
+                    const { data } = responseh.data
+                    let pesan = ''
+                    pesan += 'Tafsir Q.S. ' + data.surah.name.transliteration.id + ':' + args[1] + '\n\n'
+                    pesan += data.text.arab + '\n\n'
+                    pesan += '_' + data.translation.id + '_\n\n' + data.tafsir.id.long
+                    await bocchi.reply(from, pesan, id)
+                }
+            break
             case 'listsurah':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -1012,7 +1018,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
-            
+            case 'toxic':
+		        if (!isRegistered) return await bocchi.reply(from , ind.notRegistered(), id)
+                await bocchi.reply(from, toxic(), id)
+            break
+				
             // Bot
             case 'menu':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -1067,7 +1077,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'status':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                await bocchi.sendText(from, `*RAM usage*: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB / ${Math.round(os.totalmem / 1024 / 1024)} MB\nCPU: ${os.cpus()[0].model}`)
+                await bocchi.sendText(from, `*RAM*: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB / ${Math.round(os.totalmem / 1024 / 1024)} MB\n*CPU*: ${os.cpus()[0].model}`)
             break
             case 'listblock':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -1077,9 +1087,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
                 await bocchi.sendTextWithMentions(from, block)
             break
-	    case 'ownerbot':
+	        case 'ownerbot':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.sendContact(from, ownerNumber)
-                bocchi.sendText(from, 'Itu nomor ownerku yg baik hati dan ganteng')
             break
             case 'ping':
             case 'p':
@@ -1515,7 +1525,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'tod':
 	            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, 'Sebelum bermain berjanjilah akan melaksanakan apapun perintah yang diberikan.' , id)
-                await bocchi.sendText(from, 'Silakan ketik *truth* atau *dare*.')
+                await bocchi.sendText(from, `Silakan ketik *${prefix}truth* atau *${prefix}dare*`)
             break
             case 'weton':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -1697,6 +1707,18 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
+            break
+            case 'emojisticker':
+            case 'emojistiker':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (args.length !== 1) return bocchi.reply(from, ind.wrongFormat(), id)
+                const emoji = emojiUnicode(q)
+                console.log('Creating code emoji =>', emoji)
+                await bocchi.sendStickerfromUrl(from, `https://api.vhtear.com/emojitopng?code=${emoji}&apikey=${config.vhtear}`)
+                    .catch ((err) => {
+                        console.log(err)
+                        bocchi.reply(from, 'Not supported!', id)
+                })
             break
 
             // NSFW
