@@ -487,9 +487,24 @@ Aliases: -
 Usage: *${prefix}sms* pesan | nomor_penerima
 
 22. *${prefix}toxic*
-Random toxic 
+Random toxic.
 Aliases: -
-Usage: *${prefix}toxic
+Usage: *${prefix}toxic*
+
+23. *${prefix}tafsir*
+Tafsir ayat surah Al-Qur'an.
+Aliases: -
+Usage: *${prefix}tafsir* nama_surah | ayat
+
+24. *${prefix}motivasi*
+Kata-kata motivasi.
+Aliases: -
+Usage: *${prefix}motivasi*
+
+25. *${prefix}linesticker*
+Sticker Line terbaru.
+Aliases: -
+Usage: *${prefix}linesticker*
 
 _Index of [3]_
     `

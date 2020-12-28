@@ -670,23 +670,23 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
-	          case 'linesticker':
-    		      if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-              await bocchi.reply(from, ind.wait(), id)
-              misc.linesticker()
-                  .then(async ({ result }) => {
-                      let lines = `-----[ *NEW STICKER* ]-----\n\n`
-                      for (let i = 0; i < result.hasil.length; i++) {
-                          lines +=  `➸ *Title*: ${result.hasil[i].title}\n➸ *URL**: ${result.hasil[i].uri}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
-                      }
-                      await bocchi.reply(from, lines, id);
-                  })
-                  .catch(async (err) => {
-                    console.error(err)
-                    await bocchi.reply(from, `Error!\n{err}`, id)
-                  })
+	        case 'linesticker':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                misc.linesticker()
+                    .then(async ({ result }) => {
+                        let lines = `-----[ *NEW STICKER* ]-----\n\n`
+                        for (let i = 0; i < result.hasil.length; i++) {
+                            lines +=  `➸ *Title*: ${result.hasil[i].title}\n➸ *URL**: ${result.hasil[i].uri}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                        }
+                        await bocchi.reply(from, lines, id);
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, `Error!\n{err}`, id)
+                    })
             break	
-	          case 'jadwalsholat':
+	        case 'jadwalsholat':
             case 'jadwalsolat':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -1529,7 +1529,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'tod':
 	            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, 'Sebelum bermain berjanjilah akan melaksanakan apapun perintah yang diberikan.' , id)
-                await bocchi.sendText(from, 'Silakan ketik *truth* atau *dare*.')
+                await bocchi.sendText(from, `Silakan ketik *${prefix}truth* atau *${prefix}dare*`)
             break
             case 'weton':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
