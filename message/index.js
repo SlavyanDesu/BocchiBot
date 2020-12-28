@@ -903,27 +903,26 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
               	await bocchi.sendContact(from, getRegisteredRandomId())
             	await bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`)
             break
-	   case 'tafsir':
-		if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-            	if (args.length == 0) return bocchi.reply(from, `Untuk menampilkan ayat Al-Qur'an tertentu beserta tafsir dan terjemahannya\ngunakan ${prefix}tafsir surah ayat\n\nContoh: ${prefix}tafsir Al-Mulk 10`, message.id)
-                var responsurah = await axios.get('https://raw.githubusercontent.com/VideFrelan/words/main/tafsir.txt')
+	        case 'tafsir':
+		        if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (args.length === 0) return bocchi.reply(from, `Untuk menampilkan ayat Al-Qur'an tertentu beserta tafsir dan terjemahannya\ngunakan ${prefix}tafsir surah ayat\n\nContoh: ${prefix}tafsir Al-Mulk 10`, id)
                 await bocchi.reply(from, ind.wait(), id)
-                var {data} = responsurah.data
-                var idx = data.findIndex(function(post, index) {
-                  if((post.name.transliteration.id.toLowerCase() == args[0].toLowerCase())||(post.name.transliteration.en.toLowerCase() == args[0].toLowerCase()))
-                    return true;
-                });
-                nomer = data[idx].number
-                if(!isNaN(nomer)) {
-                  var responseh = await axios.get('https://api.quran.sutanlab.id/surah/'+nomer+"/"+args[1])
-                  var {data} = responseh.data
-                  pesan = ""
-                  pesan = pesan + "Tafsir Q.S. "+data.surah.name.transliteration.id+":"+args[1]+"\n\n"
-                  pesan = pesan + data.text.arab + "\n\n"
-                  pesan = pesan + "_" + data.translation.id + "_" + "\n\n" +data.tafsir.id.long
-                  bocchi.reply(from, pesan, message.id)
-              }
-              break
+                const responSurah = await axios.get('https://raw.githubusercontent.com/VideFrelan/words/main/tafsir.txt')
+                const { data } = responSurah.data
+                const idx = data.findIndex((post) => {
+                    if ((post.name.transliteration.id.toLowerCase() === args[0].toLowerCase()) || (post.name.transliteration.en.toLowerCase() === args[0].toLowerCase())) return true
+                })
+                const nomerSurah = data[idx].number
+                if (!isNaN(nomerSurah)) {
+                    const responseh = await axios.get('https://api.quran.sutanlab.id/surah/'+ nomerSurah + '/'+ args[1])
+                    const { data } = responseh.data
+                    let pesan = ''
+                    pesan += 'Tafsir Q.S. ' + data.surah.name.transliteration.id + ':' + args[1] + '\n\n'
+                    pesan += data.text.arab + '\n\n'
+                    pesan += '_' + data.translation.id + '_\n\n' + data.tafsir.id.long
+                    await bocchi.reply(from, pesan, id)
+                }
+            break
             case 'listsurah':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
