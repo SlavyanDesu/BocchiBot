@@ -7,8 +7,5 @@ node_modules
 # Debug file
 debug.log
 
-# Local folders/files
-database
-asupan
-docs
+# Local folder
 .node-persist

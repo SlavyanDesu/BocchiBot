@@ -28,14 +28,14 @@ const start = async (bocchi = new Client()) => {
     // Listening added to group
     bocchi.onAddedToGroup(async (chat) => await bocchi.sendText(chat.groupMetadata.id, ind.addedGroup(chat)))
 
-    // Listening on message
+    // Listening to messages
     bocchi.onMessage((message) => {
         bocchi.getAmountOfLoadedMessages()
             .then((msg) => {
                 if (msg >= 1000) {
                     console.log('[BOCCHI]', color(`Loaded message reach ${msg}, cuting message cache...`, 'yellow'))
                     bocchi.cutMsgCache()
-                        .then(() => console.log('[BOCCHI]', color('Cache deleted!', 'yellow')))
+                    console.log('[BOCCHI]', color('Cache deleted!', 'yellow'))
                 }
             })
         msgHandler(bocchi, message) // Message handler
@@ -45,23 +45,22 @@ const start = async (bocchi = new Client()) => {
     bocchi.onIncomingCall(async (callData) => {
         await bocchi.sendText(callData.peerJid, ind.blocked(ownerNumber))
         await bocchi.contactBlock(callData.peerJid)
-            .then(() => console.log(color('[BLOCK]', 'red'), color(`${callData.peerJid} has been blocked. Reason:`, 'yellow'), color('CALLING THE BOT', 'cyan')))
+        console.log(color('[BLOCK]', 'red'), color(`${callData.peerJid} has been blocked. Reason:`, 'yellow'), color('CALLING THE BOT', 'cyan'))
     })
 
     // Listen to group's event
     bocchi.onGlobalParicipantsChanged(async (event) => {
-        const welcome = JSON.parse(fs.readFileSync('./database/welcome.json'))
-        const isWelcome = welcome.includes(event.chat)
+        const _welcome = JSON.parse(fs.readFileSync('./database/welcome.json'))
+        const isWelcome = _welcome.includes(event.chat)
         const botNumbers = await bocchi.getHostNumber() + '@c.us'
         try {
             if (event.action === 'add' && event.who !== botNumbers && isWelcome) {
                 const pic = await bocchi.getProfilePicFromServer(event.who)
                 if (pic === undefined) {
-                    var pp = 'https://i.imgur.com/UxvMPUz.png'
+                    await bocchi.sendFileFromUrl(event.chat, 'https://i.imgur.com/UxvMPUz.png', 'profile.png', '')
                 } else {
-                    var pp = pic
+                    await bocchi.sendFileFromUrl(event.chat, pic, 'profile.jpg', '')
                 }
-                await bocchi.sendFileFromUrl(event.chat, pp, 'profile.jpg', '')
                 await bocchi.sendTextWithMentions(event.chat, ind.welcome(event))
             }
         } catch (err) {
@@ -73,4 +72,4 @@ const start = async (bocchi = new Client()) => {
 // Creating session
 create(options(start))
     .then((bocchi) => start(bocchi))
-    .catch((err) => new Error(err))
+    .catch((err) => console.error(err))
