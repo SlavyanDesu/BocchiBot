@@ -348,35 +348,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
 	    
-        // Automate
-	if (chats.includes('truth') || chats.includes('Truth')) {
-            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-            fun.truth()
-                .then(async (body) => {
-                    const tod = body.split('\n')
-                    const randomTod = tod[Math.floor(Math.random() * tod.length)]
-                    await bocchi.reply(from, randomTod, id)
-                })
-                .catch(async (err) => {
-                    console.error(err)
-                    await bocchi.reply(from, `Error!\n${err}`, id)
-                })
-        }
-	    
-        if (chats.includes('dare') || chats.includes('Dare')) {
-            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-            fun.dare()
-                .then(async (body) => {
-                    const dare = body.split('\n')
-                    const randomDare = dare[Math.floor(Math.random() * dare.length)]
-                    await bocchi.reply(from, randomDare, id)
-                })
-                .catch(async (err) => {
-                    console.error(err)
-                    await bocchi.reply(from, `Error!\n${err}`, id)
-                })
-        }
-	    
         // Anti-group link detector
         if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner) {
             if (chats.match(new RegExp(/(https:\/\/chat.whatsapp.com)/gi))) {
@@ -1512,6 +1483,33 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
+            case 'truth':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                fun.truth()
+                    .then(async (body) => {
+                        const tod = body.split('\n')
+                        const randomTod = tod[Math.floor(Math.random() * tod.length)]
+                        await bocchi.reply(from, randomTod, id)
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, `Error!\n${err}`, id)
+                    })
+            break
+            case 'dare':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                fun.dare()
+                    .then(async (body) => {
+                        const dare = body.split('\n')
+                        const randomDare = dare[Math.floor(Math.random() * dare.length)]
+                        await bocchi.reply(from, randomDare, id)
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, `Error!\n${err}`, id)
+                    })
+            break
+
 
             // Sticker
             case 'sticker':
