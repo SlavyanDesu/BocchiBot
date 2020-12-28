@@ -503,8 +503,13 @@ Usage: *${prefix}motivasi*
 
 25. *${prefix}linesticker*
 Sticker Line terbaru.
-Aliases: -
+Aliases: *linestiker*
 Usage: *${prefix}linesticker*
+
+26. *${prefix}alkitab*
+Al-Kitab search.
+Aliases: -
+Usage: *${prefix}* nama_injil
 
 _Index of [3]_
     `
@@ -543,6 +548,11 @@ Usage: *${prefix}ttg* teks
 Konversi stiker ke foto.
 Aliases: *stikertoimg toimg*
 Usage: Reply sticker dengan caption *${prefix}stickertoimg*.
+
+7. *${prefix}emojisticker*
+Konversi emoji ke stiker.
+Aliases: *emojistiker*
+Usage: *${prefix}emojisticker* emoji
 
 _Index of [4]_
     `

@@ -426,17 +426,21 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     console.log(color('[REGISTER]'), color(time, 'yellow'), 'Name:', color(namaUser, 'cyan'), 'Age:', color(umurUser, 'cyan'), 'Serial:', color(serialUser, 'cyan'))
                 }
             break
-	    case 'alkitab':
+	        case 'alkitab':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
-                    misc.alkitab(q)
+                misc.alkitab(q)
                     .then(async ({ result }) => {
-                    let alkitab = `_*Hasil Pencarian Alkitab*_\n`
-                for (let i = 0; i < result.length; i++) {
-                    alkitab +=  `\n\n*Ayat*: ${result[i].ayat}\n\nIsi: ${result[i].isi}\nLink: ${result[i].link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
-                }
-                    bocchi.reply(from, alkitab, id);
-            })
+                        let alkitab = `-----[ *AL-KITAB* ]-----`
+                        for (let i = 0; i < result.length; i++) {
+                            alkitab +=  `\n\n➸ *Ayat*: ${result[i].ayat}\n➸ *Isi*: ${result[i].isi}\n➸ *Link*: ${result[i].link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                        }
+                        await bocchi.reply(from, alkitab, id)
+                        console.log('Success sending Al-Kitab!')
+                    })
             break
+
             // Level [ALPHA]
             case 'level':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -671,15 +675,17 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
 	        case 'linesticker':
+            case 'linestiker':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 misc.linesticker()
                     .then(async ({ result }) => {
-                        let lines = `-----[ *NEW STICKER* ]-----\n\n`
+                        let lines = `-----[ *NEW STICKER* ]-----`
                         for (let i = 0; i < result.hasil.length; i++) {
-                            lines +=  `➸ *Title*: ${result.hasil[i].title}\n➸ *URL**: ${result.hasil[i].uri}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                            lines +=  `\n\n➸ *Title*: ${result.hasil[i].title}\n➸ *URL*: ${result.hasil[i].uri}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
                         }
-                        await bocchi.reply(from, lines, id);
+                        await bocchi.reply(from, lines, id)
+                        console.log('Success sending sticker Line!')
                     })
                     .catch(async (err) => {
                         console.error(err)
@@ -1273,16 +1279,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Fun
-	case 'emojisticker':
-            if (args.length !== 1) return bocchi.reply(from, `Kirim perintah *${config.prefix}emojisticker [emoji]*\nContoh : *${config.prefix}emojisticker 😫*`, id)
-            const emoji = emojiUnicode(q)
-            console.log('Creating code emoji => ' + emoji)
-            bocchi.sendStickerfromUrl(from, `https://api.vhtear.com/emojitopng?code=${emoji}&apikey=${config.vhtear}`)
-             .catch ((err) => {
-                console.log(err)
-                bocchi.reply(from, 'Maaf, emoji yang kamu kirim tidak support untuk dijadikan sticker, cobalah emoji lain', id)
-               })
-            break
             case 'profile':
             case 'me':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -1711,6 +1707,18 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
+            break
+            case 'emojisticker':
+            case 'emojistiker':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (args.length !== 1) return bocchi.reply(from, ind.wrongFormat(), id)
+                const emoji = emojiUnicode(q)
+                console.log('Creating code emoji =>', emoji)
+                await bocchi.sendStickerfromUrl(from, `https://api.vhtear.com/emojitopng?code=${emoji}&apikey=${config.vhtear}`)
+                    .catch ((err) => {
+                        console.log(err)
+                        bocchi.reply(from, 'Not supported!', id)
+                })
             break
 
             // NSFW
