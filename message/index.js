@@ -982,7 +982,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'toxic':
-				if (!isRegistered) return await bocchi.reply(from , ind.notRegistered(), id)
+		        if (!isRegistered) return await bocchi.reply(from , ind.notRegistered(), id)
                 await bocchi.reply(from, toxic(), id)
             break
 				
