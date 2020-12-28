@@ -486,6 +486,11 @@ Mengirim SMS secara anonymous. (SMS gateway)
 Aliases: -
 Usage: *${prefix}sms* pesan | nomor_penerima
 
+22. *${prefix}toxic*
+Random toxic 
+Aliases: -
+Usage: *${prefix}toxic
+
 _Index of [3]_
     `
 }
