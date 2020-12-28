@@ -658,7 +658,23 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
-	        case 'jadwalsholat':
+	          case 'linesticker':
+    		      if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+              await bocchi.reply(from, ind.wait(), id)
+              misc.linesticker()
+                  .then(async ({ result }) => {
+                      let lines = `-----[ *NEW STICKER* ]-----\n\n`
+                      for (let i = 0; i < result.hasil.length; i++) {
+                          lines +=  `➸ *Title*: ${result.hasil[i].title}\n➸ *URL**: ${result.hasil[i].uri}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                      }
+                      await bocchi.reply(from, lines, id);
+                  })
+                  .catch(async (err) => {
+                    console.error(err)
+                    await bocchi.reply(from, `Error!\n{err}`, id)
+                  })
+            break	
+	          case 'jadwalsholat':
             case 'jadwalsolat':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -925,7 +941,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
                 misc.ytPlay(q)
                     .then(async ({ result }) => {
-                        if (Number(result.size.split(' MB')[0]) >= 10.00) return await bocchi.reply(from, ind.videoLimit(), id)
+                        if (Number(result.size.split(' MB')[0]) >= 10.00) return bocchi.sendFileFromUrl(from, result.image, `${result.title}.jpg`, `Judul: ${result.title}\nSize: *${result.size}*\n\nGagal, Maksimal video size adalah *10MB*!`, id)
                         await bocchi.sendFileFromUrl(from, result.image, `${result.title}.jpg`, ind.ytPlay(result), id)
                         await bocchi.sendFileFromUrl(from, result.mp3, `${result.title}.mp3`, '', id)
                     })
@@ -1028,6 +1044,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     block += `@${i.replace(/@c.us/g, '')}\n`
                 }
                 await bocchi.sendTextWithMentions(from, block)
+            break
+	    case 'ownerbot':
+                await bocchi.sendContact(from, ownerNumber)
+                bocchi.sendText(from, 'Itu nomor ownerku yg baik hati dan ganteng')
             break
             case 'ping':
             case 'p':
