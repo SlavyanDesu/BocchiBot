@@ -1248,15 +1248,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
             // Fun
 	case 'emojisticker':
-            if (args.length !== 1) return client.reply(from, `Kirim perintah *${config.prefix}emojisticker [emoji]*\nContoh : *${config.prefix}emojisticker 😫*`, id)
+            if (args.length !== 1) return bocchi.reply(from, `Kirim perintah *${config.prefix}emojisticker [emoji]*\nContoh : *${config.prefix}emojisticker 😫*`, id)
             const emoji = emojiUnicode(q)
             console.log('Creating code emoji => ' + emoji)
-            client.sendStickerfromUrl(from, `https://api.vhtear.com/emojitopng?code=${emoji}&apikey=${config.vhtear}`)
+            bocchi.sendStickerfromUrl(from, `https://api.vhtear.com/emojitopng?code=${emoji}&apikey=${config.vhtear}`)
              .catch ((err) => {
                 console.log(err)
-                client.reply(from, 'Maaf, emoji yang kamu kirim tidak support untuk dijadikan sticker, cobalah emoji lain', id)
-                client.sendText(ownerNumber, 'Sepertinya emojisticker sedang error : ' + err);
-            })
+                bocchi.reply(from, 'Maaf, emoji yang kamu kirim tidak support untuk dijadikan sticker, cobalah emoji lain', id)
+               })
             break
             case 'profile':
             case 'me':
