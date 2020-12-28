@@ -1077,7 +1077,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'status':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                await bocchi.sendText(from, `*RAM usage*: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB / ${Math.round(os.totalmem / 1024 / 1024)} MB\nCPU: ${os.cpus()[0].model}`)
+                await bocchi.sendText(from, `*RAM*: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB / ${Math.round(os.totalmem / 1024 / 1024)} MB\n*CPU*: ${os.cpus()[0].model}`)
             break
             case 'listblock':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -1087,9 +1087,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
                 await bocchi.sendTextWithMentions(from, block)
             break
-	    case 'ownerbot':
+	        case 'ownerbot':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.sendContact(from, ownerNumber)
-                bocchi.sendText(from, 'Itu nomor ownerku yg baik hati dan ganteng')
             break
             case 'ping':
             case 'p':
