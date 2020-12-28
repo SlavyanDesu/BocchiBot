@@ -425,7 +425,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
 	    case 'alkitab':
-		if (args.length == 0) return bocchi.reply(from, ind.wait(), id)
+		if (args.length == 0) return bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
                     misc.alkitab(q)
                     .then(async ({ result }) => {
