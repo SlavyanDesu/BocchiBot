@@ -1044,6 +1044,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
                 await bocchi.sendTextWithMentions(from, block)
             break
+	    case 'ownerbot':
+                await bocchi.sendContact(from, ownerNumber)
+                bocchi.sendText(from, 'Itu nomor ownerku yg baik hati dan ganteng')
+            break
             case 'ping':
             case 'p':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
