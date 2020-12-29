@@ -1736,6 +1736,19 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, `Error!\n${err}`, id)
                 }
             break
+            case 'phcomment':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
+                const usernamePh = q.substring(0, q.indexOf('|') - 1)
+                const commentPh = q.substring(q.lastIndexOf('|') + 2)
+                const ppPhRaw = await bocchi.getProfilePicFromServer(sender.id)
+                const dataPpPh = await bent('buffer')(ppPhRaw)
+                const linkPpPh = await uploadImages(dataPpPh, `${sender.id}_ph`)
+                await bocchi.reply(from, ind.wait(), id)
+                const preproccessPh = await axios.get(`https://nekobot.xyz/api/imagegen?type=phcomment&image=${linkPpPh}&text=${commentPh}&username=${usernamePh}`)
+                await bocchi.sendFileFromUrl(from, preproccessPh.data.message, 'ph.jpg', '', id)
+                console.log('Success creating image!')
+            break
 
             // Sticker
             case 'sticker':
