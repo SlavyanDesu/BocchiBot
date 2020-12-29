@@ -817,7 +817,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 		await bocchi.reply(from, ind.wait(), id)
                     misc.movie(q)
                     .then(async ({ result }) => {
-                    let movies = `_*Hasil Pencarian*_\n`
+                    let movies = `Hasil Pencarian film: *${result.judul}*\n`
                 for (let i = 0; i < result.data.length; i++) {
                     movies +=  `\n\n*Resolusi:* : ${result.data[i].resolusi}\nURL: ${result.data[i].urlDownload}\nBy: VideFrelan\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
                 }
