@@ -329,7 +329,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         /********** END OF VALIDATOR **********/
 
         // Leveling [ALPHA]
-        if (isGroupMsg && isRegistered && isLevelingOn && !isCmd) {
+        if (isGroupMsg && isRegistered && !isBanned && isLevelingOn && !isCmd) {
             const currentLevel = getLevelingLevel(sender.id)
             const checkId = getLevelingId(sender.id)
             try {
