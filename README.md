@@ -11,7 +11,6 @@
   <a href="https://github.com/SlavyanDesu"><img src="https://avatars3.githubusercontent.com/u/28254882?s=400&u=25765902db0b709938966cf4127ac11af5eafb5d&v=4" height="128" width="128" /></a>
   <a href="https://github.com/Pahri123"><img src="https://avatars1.githubusercontent.com/u/66406056?s=400&v=4" height="128" width="128" /></a>
   <a href="https://github.com/LeviathanH"><img src="https://avatars3.githubusercontent.com/u/75152820?s=400&u=8934104bf58533111f2f4cef7be5d72ebb79d75c&v=4" height="128" width="128" /></a>
-  <a href="https://github.com/ferlitopym"><img src="https://avatars3.githubusercontent.com/u/33126545?s=400&u=04eff969ece93ae3d9cde917dc2b1649a721888f&v=4" height="128" width="128" /></a><br>
   <a href="https://github.com/AlvioAdjiJanuar"><img src="https://avatars2.githubusercontent.com/u/68207798?s=400&u=29439908cd661d11443391cb74f5b07267b71117&v=4" height="128" width="128" /></a>
   <a href="https://github.com/VideFrelan"><img src="https://avatars1.githubusercontent.com/u/76523793?s=400&u=365f732cd3fc09ce75f6556715a00386005db57c&v=4" height="128" width="128" /></a>
 </p>
@@ -169,11 +168,15 @@ If you want to unlock premium commands, please contact me~
 | Distance calculator |      ✔️      |
 | Find sticker        |      ✔️      |
 | List surah          |      ✔️      |
+| Math                |      ✔️      |
 | Surah               |      ✔️      |
 | Random contact      |      ✔️      |
 | Play YouTube        |      ✔️      |
 | Whois               |      ✔️      |
 | SMS gateway         |      ✔️      |
+| Tafsir Al-Qur'an    |      ✔️      |
+| Al-Kitab search     |      ✔️      |
+| LK21                |      ✔️      |
 
 
 |          Fun          | Availability |
@@ -202,6 +205,7 @@ If you want to unlock premium commands, please contact me~
 | Anime tracer       |      ✔️      |
 | Source finder      |      ✔️      |
 | Random waifu       |      ✔️      |
+| Anitoki latest     |      ✔️      |
 
 |        Bot       | Availability |
 | :--------------: | :----------: |
@@ -264,6 +268,7 @@ If you want to unlock premium commands, please contact me~
 * [`AlvioAdjiJanuar`](https://github.com/AlvioAdjiJanuar)
 * [`VideFrelan`](https://github.com/VideFrelan)
 * [`VirusLauncher`](https://github.com/VirusLauncher)
+* [`shansekai`](https://github.com/shansekai)
 
 # License
 **BocchiBot** © [SlavyanDesu](https://github.com/SlavyanDesu), released under the MIT License.
