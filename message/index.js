@@ -798,6 +798,48 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, `Error!\n\n${err}`, id)
                 }
             break
+	    case 'anitoki':
+		if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                    misc.anitokil()
+                    .then(async ({ result }) => {
+                    let anitoki = `*Anitoki Last Update*\n`
+                for (let i = 0; i < result.length; i++) {
+                    anitoki +=  `\n\n*Judul:* : ${result[i].title}\nURL: ${result[i].link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                }
+                    bocchi.reply(from, anitoki, id);
+            })
+            break
+
+            case 'lk21':
+		if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+		await bocchi.reply(from, ind.wait(), id)
+                    misc.movie(q)
+                    .then(async ({ result }) => {
+                    let movies = `Hasil Pencarian film: *${result.judul}*\n`
+                for (let i = 0; i < result.data.length; i++) {
+                    movies +=  `\n\n*Resolusi:* : ${result.data[i].resolusi}\nURL: ${result.data[i].urlDownload}\nBy: VideFrelan\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                }
+                    bocchi.reply(from, movies, id);
+            })
+            break
+		case 'cekongkir': //By: VideFrelan
+		     if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                     if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                     await bocchi.reply(from, ind.wait(), id)
+                     const kurir = q.substring(0, q.indexOf('|') - 1)
+                     const askot = q.substring(q.indexOf('|') + 2, q.lastIndexOf('|') - 1)
+                     const tukot = q.substring(q.lastIndexOf('|') + 2)
+                     misc.ongkir(kurir, askot, tukot)
+                   .then(async ({ result }) => {
+                    let onkir = `_*${result.title}*_\n`
+                    for (let i = 0; i < result.data.length; i++) {
+                    onkir +=  `\n\n*Layanan:* : ${result.data[i].layanan}\nEstimated pengiriman: ${result.data[i].etd}\nTarif: ${result.data[i].tarif}\n\nBy: VideFrelanInfo: ${result.informasi}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                }
+                    bocchi.reply(from, onkir, id);
+            })
+            break
 	        case 'distance':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
