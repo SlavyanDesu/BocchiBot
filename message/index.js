@@ -1742,7 +1742,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const usernamePh = q.substring(0, q.indexOf('|') - 1)
                 const commentPh = q.substring(q.lastIndexOf('|') + 2)
                 const ppPhRaw = await bocchi.getProfilePicFromServer(sender.id)
-                const dataPpPh = await bent('buffer')(ppPhRaw)
+                if (ppPhRaw === undefined) {
+                    var ppPh = errorImg
+                } else {
+                    var ppPh = ppPhRaw
+                }
+                const dataPpPh = await bent('buffer')(ppPh)
                 const linkPpPh = await uploadImages(dataPpPh, `${sender.id}_ph`)
                 await bocchi.reply(from, ind.wait(), id)
                 const preproccessPh = await axios.get(`https://nekobot.xyz/api/imagegen?type=phcomment&image=${linkPpPh}&text=${commentPh}&username=${usernamePh}`)
