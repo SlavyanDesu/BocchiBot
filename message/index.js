@@ -26,7 +26,6 @@ const tts = require('node-gtts')
 const bent = require('bent')
 const ms = require('parse-ms')
 const canvas = require('canvacord')
-const canvacord = require('canvacord')
 const mathjs = require('mathjs')
 const saus = sagiri(config.nao, { results: 5 })
 const emojiUnicode = require('emoji-unicode')
@@ -427,20 +426,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     console.log(color('[REGISTER]'), color(time, 'yellow'), 'Name:', color(namaUser, 'cyan'), 'Age:', color(umurUser, 'cyan'), 'Serial:', color(serialUser, 'cyan'))
                 }
             break
-            case 'alkitab':
-                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
-                await bocchi.reply(from, ind.wait(), id)
-                misc.alkitab(q)
-                    .then(async ({ result }) => {
-                        let alkitab = `-----[ *AL-KITAB* ]-----`
-                        for (let i = 0; i < result.length; i++) {
-                            alkitab +=  `\n\n➸ *Ayat*: ${result[i].ayat}\n➸ *Isi*: ${result[i].isi}\n➸ *Link*: ${result[i].link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
-                        }
-                        await bocchi.reply(from, alkitab, id)
-                        console.log('Success sending Al-Kitab!')
-                    })
-            break
 
             // Level [ALPHA]
             case 'level':
@@ -468,7 +453,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .setRequiredXP(requiredXp)
                     .setProgressBar([randomHexs, randomHex], 'GRADIENT')
                     .setUsername(pushname)
-                    .setDiscriminator('0001', '#FFFFFF00')
+                    .setDiscriminator(userId)
                 rank.build()
                     .then(async (buffer) => {
                         canvas.write(buffer, `${pushname}.png`)
@@ -1065,6 +1050,20 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 		        if (!isRegistered) return await bocchi.reply(from , ind.notRegistered(), id)
                 await bocchi.reply(from, toxic(), id)
             break
+            case 'alkitab':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                misc.alkitab(q)
+                    .then(async ({ result }) => {
+                        let alkitab = `-----[ *AL-KITAB* ]-----`
+                        for (let i = 0; i < result.length; i++) {
+                            alkitab +=  `\n\n➸ *Ayat*: ${result[i].ayat}\n➸ *Isi*: ${result[i].isi}\n➸ *Link*: ${result[i].link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                        }
+                        await bocchi.reply(from, alkitab, id)
+                        console.log('Success sending Al-Kitab!')
+                    })
+            break
 				
             // Bot
             case 'menu':
@@ -1175,33 +1174,44 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.sendText(from, ind.ok())
             break
 			
-	    // Image Manipulation
-	    case 'trigger':
-                if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
+	        // Image Manipulation
+	        case 'trigger':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (quotedMsg) {
                     const profilePic1 = await bocchi.getProfilePicFromServer(quotedMsgObj.sender.id)
-                if (profilePic1 === undefined) {
-                    var pfp1 = errorImg
+                    if (profilePic1 === undefined) {
+                        var pfp1 = errorImg
+                    } else {
+                        var pfp1 = profilePic1
+                    }
+                    canvas.Canvas.trigger(pfp1)
+                        .then(async (buffer) => {
+                            canvas.write(buffer, `${sender.id}_triggered.png`)
+                            await bocchi.sendFile(from, `${sender.id}_triggered.png`, `${sender.id}_triggered.png`, '', id)
+                            fs.unlinkSync(`${sender.id}_triggered.png`)
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, `Error!\n${err}`, id)
+                        })
                 } else {
-                    var pfp1 = profilePic1
+                    const profilePic1 = await bocchi.getProfilePicFromServer(sender.id)
+                    if (profilePic1 === undefined) {
+                        var pfp1 = errorImg
+                    } else {
+                        var pfp1 = profilePic1
+                    }
+                    canvas.Canvas.trigger(pfp1)
+                        .then(async (buffer) => {
+                            canvas.write(buffer, `${sender.id}_triggered.png`)
+                            await bocchi.sendFile(from, `${sender.id}_triggered.png`, `${sender.id}_triggered.png`, '', id)
+                            fs.unlinkSync(`${sender.id}_triggered.png`)
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, `Error!\n${err}`, id)
+                        })
                 }
-                await fs.unlink("./media/triggered.gif");
-                await canvacord.Canvas.trigger(pfp1).then(buffer => {
-                    canvacord.write(buffer, "./media/triggered.gif");})
-                return bocchi.sendImage(from, "./media/triggered.gif", id);
-            } 
-            else {
-                const profilePic1 = await bocchi.getProfilePicFromServer(sender.id)
-                if (profilePic1 === undefined) {
-                    var pfp1 = errorImg
-                } else {
-                    var pfp1 = profilePic1
-                }
-                await fs.unlink("./media/triggered.gif");
-                await canvacord.Canvas.trigger(pfp1).then(buffer => {
-                    canvacord.write(buffer, "./media/triggered.gif");})
-                return bocchi.sendImage(from, "./media/triggered.gif", id);
-            }
             break
 
             // Weeb zone
