@@ -369,6 +369,11 @@ Join grup via link.
 Aliases: -
 Usage: *${prefix}join* link_group
 
+10. *${prefix}ownerbot*
+Mengirim kontak owner.
+Aliases: -
+Usage: *${prefix}ownerbot*
+
 _Index of [2]_
     `
 }
@@ -511,6 +516,16 @@ Al-Kitab search.
 Aliases: -
 Usage: *${prefix}* nama_injil
 
+27. *${prefix}cekongkir*
+Cek ongkos kirim.
+Aliases: -
+Usage: *${prefix}ongkir* kurir | asal | tujuan
+
+28. *${prefix}movie*
+Cari film.
+Aliases: -
+Usage: *${prefix}movie* judul
+
 _Index of [3]_
     `
 }
@@ -602,6 +617,21 @@ Mengirim random foto waifu.
 Aliases: -
 Usage: *${prefix}waifu*
 
+9. *${prefix}anitoki*
+Cek update terbaru Anitoki.
+Aliases: -
+Usage: *${prefix}anitoki*
+
+10. *${prefix}neonime*
+Cek update terbaru Neonime.
+Aliases: -
+Usage: *${prefix}neonime*
+
+11. *${prefix}anoboy*
+Cek on-going anime dari Anoboy.
+Aliases: -
+Usage: *${prefix}anoboy*
+
 _Index of [5]_
     `
 }
@@ -679,6 +709,16 @@ Usage: *${prefix}tod*
 Kirim ramalan weton.
 Aliases: -
 Usage: *${prefix}weton* tanggal | bulan | tahun
+
+15. *${prefix}triggered*
+Membuat efek triggered.
+Aliases: -
+Usage: Kirim gambar dengan caption *${prefix}triggered* atau reply pesan orang dengan *${prefix}triggered* atau bisa gunakan command *${prefix}triggered* langsung.
+
+16. *${prefix}kiss*
+Kiss someone ( ͡° ͜ʖ ͡°).
+Aliases: -
+Usage: Kirim gambar dengan caption *${prefix}kiss* atau reply gambar dengan *${prefix}kiss*.
 
 _Index of [6]_
     `
