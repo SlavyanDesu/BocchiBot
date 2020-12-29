@@ -26,6 +26,7 @@ const tts = require('node-gtts')
 const bent = require('bent')
 const ms = require('parse-ms')
 const canvas = require('canvacord')
+const canvacord = require('canvacord')
 const mathjs = require('mathjs')
 const saus = sagiri(config.nao, { results: 5 })
 const emojiUnicode = require('emoji-unicode')
@@ -1172,6 +1173,35 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isUrl(url) && !url.includes('chat.whatsapp.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.joinGroupViaLink(url)
                 await bocchi.sendText(from, ind.ok())
+            break
+			
+	    // Image Manipulation
+	    case 'trigger':
+                if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
+                if (quotedMsg) {
+                    const profilePic1 = await bocchi.getProfilePicFromServer(quotedMsgObj.sender.id)
+                if (profilePic1 === undefined) {
+                    var pfp1 = errorImg
+                } else {
+                    var pfp1 = profilePic1
+                }
+                await fs.unlink("./media/triggered.gif");
+                await canvacord.Canvas.trigger(pfp1).then(buffer => {
+                    canvacord.write(buffer, "./media/triggered.gif");})
+                return bocchi.sendImage(from, "./media/triggered.gif", id);
+            } 
+            else {
+                const profilePic1 = await bocchi.getProfilePicFromServer(sender.id)
+                if (profilePic1 === undefined) {
+                    var pfp1 = errorImg
+                } else {
+                    var pfp1 = profilePic1
+                }
+                await fs.unlink("./media/triggered.gif");
+                await canvacord.Canvas.trigger(pfp1).then(buffer => {
+                    canvacord.write(buffer, "./media/triggered.gif");})
+                return bocchi.sendImage(from, "./media/triggered.gif", id);
+            }
             break
 
             // Weeb zone
