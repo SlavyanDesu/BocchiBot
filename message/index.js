@@ -246,7 +246,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         }
 
         const addAfkUser = (userId, time, reason) => {
-            const obj = {id: `${userId}`, time: `${time}`, reason: `${reason}`}
+            const obj = {id: userId, time: time, reason: reason}
             _afk.push(obj)
             fs.writeFileSync('./database/afk.json', JSON.stringify(_afk))
         }
@@ -329,7 +329,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isImage = type === 'image'
         /********** END OF VALIDATOR **********/
 
-        // Leveling [ALPHA]
+        // Leveling [BETA] by Slavyan
         if (isGroupMsg && isRegistered && !isBanned && isLevelingOn && !isCmd) {
             const currentLevel = getLevelingLevel(sender.id)
             const checkId = getLevelingId(sender.id)
@@ -359,12 +359,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
 
-        // Auto-stiker
+        // Auto-sticker
         if (isGroupMsg && isAutoStikerOn && isMedia && isImage && !isCmd) {
             const mediaData = await decryptMedia(message, uaOverride)
             const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
             await bocchi.sendImageAsSticker(from, imageBase64)
-                .then(async () => {
+                .then(() => {
                     console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                 })
                 .catch(async (err) => {
@@ -373,7 +373,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 })
         }
 
-        // AFK
+        // AFK by Slavyan
         if (isGroupMsg) {
             for (let ment of mentionedJidList) {
                 if (checkAfkUser(ment)) {
@@ -402,14 +402,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         if (isCmd && msgFilter.isFiltered(from) && isGroupMsg) return console.log(color('[SPAM]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
 
         // Log
-        if (isCmd && !isGroupMsg) console.log(color('[EXEC]'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
-        if (isCmd && isGroupMsg) console.log(color('[EXEC]'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
+        if (isCmd && !isGroupMsg) console.log(color('[CMD]'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
+        if (isCmd && isGroupMsg) console.log(color('[CMD]'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
 
         // Anti-spam
         msgFilter.addFilter(from)
 
         switch (command) {
-            // Register
+            // Register by Slavyan
             case 'register':
                 if (isRegistered) return await bocchi.reply(from, ind.registeredAlready(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -420,7 +420,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     addRegisteredUser(sender.id, namaUser, umurUser, time, serialUser)
                     await bocchi.reply(from, ind.pc(pushname), id)
                     await bocchi.sendText(sender.id, ind.registered(namaUser, umurUser, sender.id, time, serialUser))
-                    console.log(color('[REGISTER]'), color(time, 'yellow'), 'Name:', color(namaUser, 'cyan'), 'Age:', color(umurUser, 'cyan'), 'Serial:', color(serialUser, 'cyan'),'in', color(name || formattedTitle))
+                    console.log(color('[REGISTER]'), color(time, 'yellow'), 'Name:', color(namaUser, 'cyan'), 'Age:', color(umurUser, 'cyan'), 'Serial:', color(serialUser, 'cyan'), 'in', color(name || formattedTitle))
                 } else {
                     addRegisteredUser(sender.id, namaUser, umurUser, time, serialUser)
                     await bocchi.reply(from, ind.registered(namaUser, umurUser, sender.id, time, serialUser), id)
@@ -428,7 +428,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
 
-            // Level [ALPHA]
+            // Level [BETA] by Slavyan
             case 'level':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
@@ -443,7 +443,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     var pepe = ppLink
                 }
                 const requiredXp = 5000 * (Math.pow(2, userLevel) - 1)
-                const userId = sender.id.substring(9, 13)
+                const userIds = sender.id.substring(9, 13)
                 const randomHexs = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`
                 const randomHex = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`
                 const rank = new canvas.Rank()
@@ -454,12 +454,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .setRequiredXP(requiredXp)
                     .setProgressBar([randomHexs, randomHex], 'GRADIENT')
                     .setUsername(pushname)
-                    .setDiscriminator(userId)
+                    .setDiscriminator(userIds)
                 rank.build()
                     .then(async (buffer) => {
-                        canvas.write(buffer, `${pushname}.png`)
-                        await bocchi.sendFile(from, `${pushname}.png`, `${pushname}.png`, '', id)
-                        fs.unlinkSync(`${pushname}.png`)
+                        canvas.write(buffer, `${pushname}_card.png`)
+                        await bocchi.sendFile(from, `${pushname}_card.png`, `${pushname}_card.png`, '', id)
+                        fs.unlinkSync(`${pushname}_card.png`)
                     })
                     .catch(async (err) => {
                         console.error(err)
@@ -1373,14 +1373,15 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Fun
-            case 'asupan':            
-            fetch('http://sansekai.my.id/sansekai.txt')
-                .then(res => res.text())
-                .then(body => {
-                    let asupan = body.split('\n')
-                    let asupanx = asupan[Math.floor(Math.random() * asupan.length)]
-                    bocchi.sendFileFromUrl(from, `http://sansekai.my.id/ptl_repost/${asupanx}`, '', 'Follow ig: https://www.instagram.com/ptl_repost untuk mendapatkan asupan lebih banyak', id)
-                })
+            case 'asupan':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                fetch('http://sansekai.my.id/sansekai.txt')
+                    .then((res) => res.text())
+                    .then(async (body) => {
+                        const asupan = body.split('\n')
+                        const asupanx = asupan[Math.floor(Math.random() * asupan.length)]
+                        await bocchi.sendFileFromUrl(from, `http://sansekai.my.id/ptl_repost/${asupanx}`, '', 'Follow IG: https://www.instagram.com/ptl_repost untuk mendapatkan asupan lebih banyak.', id)
+                    })
             break
             case 'profile':
             case 'me':
@@ -1524,7 +1525,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
-	        case 'text3d':
+            case 'text3d':
     	    case '3dtext':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
