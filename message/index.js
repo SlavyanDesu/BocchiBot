@@ -57,6 +57,7 @@ const _limit = JSON.parse(fs.readFileSync('./database/limit.json'))
 const _afk = JSON.parse(fs.readFileSync('./database/afk.json'))
 const _autostiker = JSON.parse(fs.readFileSync('./database/autostiker.json'))
 const _reminder = JSON.parse(fs.readFileSync('./database/reminder.json'))
+const _bg = JSON.parse(fs.readFileSync('./database/background.json'))
 /********** END OF DATABASES **********/
 
 /********** MESSAGE HANDLER **********/
@@ -347,6 +348,37 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             })
             return position
         }
+
+        const addBg = (userId) => {
+            const obj = { id: userId, link: 'https://i.ibb.co/tYf3jmz/amos-yan-no-entry-1.jpg' }
+            _bg.push(obj)
+            fs.writeFileSync('./database/background.json', JSON.stringify(_bg))
+        }
+
+        const getBg = (userId) => {
+            let position = false
+            Object.keys(_bg).forEach((i) => {
+                if (_bg[i].id === userId) {
+                    position = i
+                }
+            })
+            if (position !== false) {
+                return _bg[position].link
+            }
+        }
+
+        const replaceBg = (userId, link) => {
+            let position = false
+            Object.keys(_bg).forEach((i) => {
+                if (_bg[i].id === userId && _bg[i].link !== '') {
+                    position = i
+                }
+            })
+            if (position !== false) {
+                _bg[position].link = link
+                fs.writeFileSync('./database/background.json', JSON.stringify(_bg))
+            }
+        }
         /********** END OF FUNCTION **********/
 
         /********** VALIDATOR **********/
@@ -374,18 +406,17 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         if (isGroupMsg && isRegistered && !isBanned && isLevelingOn && !isCmd) {
             const currentLevel = getLevelingLevel(sender.id)
             const checkId = getLevelingId(sender.id)
+            const checkBg = getBg(sender.id)
             try {
-                if (currentLevel === undefined && checkId === undefined) {
-                    addLevelingId(sender.id)
-                } else {
-                    const amountXp = Math.floor(Math.random() * 10) + 500
-                    const requiredXp = 5000 * (Math.pow(2, currentLevel) - 1)
-                    addLevelingXp(sender.id, amountXp)
-                    const getXp = getLevelingXp(sender.id)
-                    if (requiredXp <= getXp) {
-                        addLevelingLevel(sender.id, 1)
-                        await bocchi.sendText(from, `Selamat ${pushname}! Kamu naik ke level *${getLevelingLevel(sender.id)}*!`)
-                    }
+                if (currentLevel === undefined && checkId === undefined) addLevelingId(sender.id)
+                if (checkBg === undefined) return addBg(sender.id)
+                const amountXp = Math.floor(Math.random() * 10) + 500
+                const requiredXp = 5000 * (Math.pow(2, currentLevel) - 1)
+                addLevelingXp(sender.id, amountXp)
+                const getXp = getLevelingXp(sender.id)
+                if (requiredXp <= getXp) {
+                    addLevelingLevel(sender.id, 1)
+                    await bocchi.sendText(from, `Selamat ${pushname}! Kamu naik ke level *${getLevelingLevel(sender.id)}*!`)
                 }
             } catch (err) {
                 console.error(err)
@@ -483,18 +514,20 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     var pepe = ppLink
                 }
+                const bege = getBg(sender.id)
                 const requiredXp = 5000 * (Math.pow(2, userLevel) - 1)
                 const randomHexs = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`
                 const randomHex = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`
                 const rank = new canvas.Rank()
                     .setAvatar(pepe)
                     .setLevel(userLevel)
-                    .setRankColor('#2c2f33', '#2c2f33')
+                    .setRank(1, '', false)
                     .setCurrentXP(userXp)
                     .setRequiredXP(requiredXp)
                     .setProgressBar([randomHexs, randomHex], 'GRADIENT')
+                    .setBackground('IMAGE', bege)
                     .setUsername(pushname)
-                    .setDiscriminator('#0001', '#2c2f33')
+                    .setDiscriminator('0001', '#2c2f33')
                 rank.build()
                     .then(async (buffer) => {
                         canvas.write(buffer, `${pushname}_card.png`)
@@ -523,6 +556,18 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     console.error(err)
                     await bocchi.reply(from, ind.minimalDb(), id)
                 }
+            break
+            case 'setbackground':
+            case 'setbg':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                if (!isUrl(url)) return await bocchi.reply(from, ind.wrongFormat(), id)
+                const levels = getLevelingLevel(sender.id)
+                const xps = getLevelingXp(sender.id)
+                if (levels === undefined && xps === undefined) return await bocchi.reply(from, ind.levelNull(), id)
+                replaceBg(sender.id, url)
+                await bocchi.reply(from, 'Success set new background!', id)
             break
 
             // Downloader
@@ -1120,6 +1165,20 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         clearInterval(intervRemind)
                     }
                 }, 1000)
+            break
+            case 'imagetourl':
+            case 'imgtourl':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (isMedia && isImage || isQuotedImage) {
+                    await bocchi.reply(from, ind.wait(), id)
+                    const encryptMedia = isQuotedImage ? quotedMsg : message
+                    const _mimetype = isQuotedImage ? quotedMsg.mimetype : mimetype
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const linkImg = await uploadImages(mediaData, `${sender.id}_img`)
+                    await bocchi.reply(from, linkImg, id)
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
             break
 				
             // Bot
