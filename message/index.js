@@ -29,6 +29,7 @@ const canvas = require('canvacord')
 const mathjs = require('mathjs')
 const saus = sagiri(config.nao, { results: 5 })
 const emojiUnicode = require('emoji-unicode')
+const fetch = require('node-fetch')
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 /********** END OF MODULES **********/
@@ -1372,6 +1373,15 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Fun
+            case 'asupan':            
+            fetch('http://sansekai.my.id/sansekai.txt')
+                .then(res => res.text())
+                .then(body => {
+                    let asupan = body.split('\n')
+                    let asupanx = asupan[Math.floor(Math.random() * asupan.length)]
+                    bocchi.sendFileFromUrl(from, `http://sansekai.my.id/ptl_repost/${asupanx}`, '', 'Follow ig: https://www.instagram.com/ptl_repost untuk mendapatkan asupan lebih banyak', id)
+                })
+            break
             case 'profile':
             case 'me':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
