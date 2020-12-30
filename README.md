@@ -40,19 +40,6 @@
   <a href="https://github.com/SlavyanDesu/BocchiBot#license">License</a>
 </p>
 
-<details>
-  <summary>Contact me!</summary>
-
-  [Facebook](https://facebook.com/jazz.overdose)
-
-  [Twitter](https://twitter.com/sl_avyan)
-
-  [Instagram](https://www.instagram.com/rl_slavyan)
-
-  [Discord](https://discord.com/users/446297580431998977)
-
-</details>
-
 <h4 align="center">
   <a href="https://chat.whatsapp.com/LTTm0HGvFRu7uU23mr7ZaR">Join WA BOT DEV Indonesia!</a>
 </h4>
