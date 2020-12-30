@@ -1172,7 +1172,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (isMedia && isImage || isQuotedImage) {
                     await bocchi.reply(from, ind.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
-                    const _mimetype = isQuotedImage ? quotedMsg.mimetype : mimetype
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
                     const linkImg = await uploadImages(mediaData, `${sender.id}_img`)
                     await bocchi.reply(from, linkImg, id)
