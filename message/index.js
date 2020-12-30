@@ -456,7 +456,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     var pepe = ppLink
                 }
                 const requiredXp = 5000 * (Math.pow(2, userLevel) - 1)
-                const userId = sender.id.substring(9, 13)
                 const randomHexs = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`
                 const randomHex = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`
                 const rank = new canvas.Rank()
@@ -467,7 +466,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .setRequiredXP(requiredXp)
                     .setProgressBar([randomHexs, randomHex], 'GRADIENT')
                     .setUsername(pushname)
-                    .setDiscriminator('0001', '#FFFFFF00')
+                    .setDiscriminator('0001')
                 rank.build()
                     .then(async (buffer) => {
                         canvas.write(buffer, `${pushname}.png`)
