@@ -25,11 +25,11 @@ const axios = require('axios')
 const tts = require('node-gtts')
 const bent = require('bent')
 const ms = require('parse-ms')
+const toMs = require('ms')
 const canvas = require('canvacord')
 const mathjs = require('mathjs')
 const saus = sagiri(config.nao, { results: 5 })
 const emojiUnicode = require('emoji-unicode')
-const fetch = require('node-fetch')
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 /********** END OF MODULES **********/
@@ -56,6 +56,7 @@ const _level = JSON.parse(fs.readFileSync('./database/level.json'))
 const _limit = JSON.parse(fs.readFileSync('./database/limit.json'))
 const _afk = JSON.parse(fs.readFileSync('./database/afk.json'))
 const _autostiker = JSON.parse(fs.readFileSync('./database/autostiker.json'))
+const _reminder = JSON.parse(fs.readFileSync('./database/reminder.json'))
 /********** END OF DATABASES **********/
 
 /********** MESSAGE HANDLER **********/
@@ -306,6 +307,46 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             })
             return position
         }
+
+        const addReminder = (userId, message, time) => {
+            const obj = { id: userId, msg: message, time: Date.now() + toMs(time) }
+            _reminder.push(obj)
+            fs.writeFileSync('./database/reminder.json', JSON.stringify(_reminder))
+        }
+
+        const getReminderTime = (userId) => {
+            let position = false
+            Object.keys(_reminder).forEach((i) => {
+                if(_reminder[i].id === userId) {
+                    position = i
+                }
+            })
+            if (position !== false) {
+                return _reminder[position].time
+            }
+        }
+
+        const getReminderMsg = (userId) => {
+            let position = false
+            Object.keys(_reminder).forEach((i) => {
+                if (_reminder[i].id === userId) {
+                    position = i
+                }
+            })
+            if (position !== false) {
+                return _reminder[position].msg
+            }
+        }
+
+        const getReminderPosition = (userId) => {
+            let position = false
+            Object.keys(_reminder).forEach((i) => {
+                if (_reminder[i].id === userId) {
+                    position = i
+                }
+            })
+            return position
+        }
         /********** END OF FUNCTION **********/
 
         /********** VALIDATOR **********/
@@ -443,7 +484,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     var pepe = ppLink
                 }
                 const requiredXp = 5000 * (Math.pow(2, userLevel) - 1)
-                const userIds = sender.id.substring(9, 13)
                 const randomHexs = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`
                 const randomHex = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`
                 const rank = new canvas.Rank()
@@ -454,7 +494,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .setRequiredXP(requiredXp)
                     .setProgressBar([randomHexs, randomHex], 'GRADIENT')
                     .setUsername(pushname)
-                    .setDiscriminator(userIds)
+                    .setDiscriminator('#0001', '#2c2f33')
                 rank.build()
                     .then(async (buffer) => {
                         canvas.write(buffer, `${pushname}_card.png`)
@@ -1064,6 +1104,23 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         console.log('Success sending Al-Kitab!')
                     })
             break
+            case 'reminder': // by Slavyan
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
+                const timeRemind = q.substring(0, q.indexOf('|') - 1)
+                const messRemind = q.substring(q.lastIndexOf('|') + 2)
+                const parsedTime = ms(toMs(timeRemind))
+                addReminder(sender.id, messRemind, timeRemind)
+                await bocchi.sendTextWithMentions(from, `*「 REMINDER 」*\n\nReminder diaktifkan! :3\n\n➸ *Pesan*: ${messRemind}\n➸ *Durasi*: ${parsedTime.hours} jam ${parsedTime.minutes} menit ${parsedTime.seconds} detik\n➸ *Untuk*: @${sender.id.replace('@c.us', '')}`, id)
+                const intervRemind = setInterval(async () => {
+                    if (Date.now() > getReminderTime(sender.id)) {
+                        await bocchi.sendTextWithMentions(from, `⏰ *「 REMINDER 」* ⏰\n\nAkhirnya tepat waktu~ @${sender.id.replace('@c.us', '')}\n\n➸ *Pesan*: ${getReminderMsg(sender.id)}`)
+                        _reminder.splice(getReminderPosition(sender.id), 1)
+                        fs.writeFileSync('./database/reminder.json', JSON.stringify(_reminder))
+                        clearInterval(intervRemind)
+                    }
+                }, 1000)
+            break
 				
             // Bot
             case 'menu':
@@ -1245,9 +1302,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'wait':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (isMedia && type === 'image' || isQuotedImage) {
+                if (isMedia && isImage || isQuotedImage) {
                     await bocchi.reply(from, ind.wait(), id)
-                    console.log('Searching for anime source...')
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const _mimetype = isQuotedImage ? quotedMsg.mimetype : mimetype
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
@@ -1375,12 +1431,17 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             // Fun
             case 'asupan':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                fetch('http://sansekai.my.id/sansekai.txt')
-                    .then((res) => res.text())
+                await bocchi.reply(from, ind.wait(), id)
+                fun.asupan()
                     .then(async (body) => {
                         const asupan = body.split('\n')
                         const asupanx = asupan[Math.floor(Math.random() * asupan.length)]
-                        await bocchi.sendFileFromUrl(from, `http://sansekai.my.id/ptl_repost/${asupanx}`, '', 'Follow IG: https://www.instagram.com/ptl_repost untuk mendapatkan asupan lebih banyak.', id)
+                        await bocchi.sendFileFromUrl(from, `http://sansekai.my.id/ptl_repost/${asupanx}`, 'asupan.mp4', 'Follow IG: https://www.instagram.com/ptl_repost untuk mendapatkan asupan lebih banyak.', id)
+                        console.log('Success sending video!')
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
             case 'profile':

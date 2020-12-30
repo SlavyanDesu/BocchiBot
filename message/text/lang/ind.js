@@ -96,7 +96,7 @@ exports.ytFound = (res) => {
 }
 
 exports.notRegistered = () => {
-    return `Kamu belum terdaftar di database!\n\nSilakan register dengan format:\n*${prefix}register* nama | umur`
+    return `Kamu belum terdaftar di database!\n\nSilakan register dengan format:\n*${prefix}register* nama | umur\n\nNote:\nHarap save nomor ku agar bisa mendapatkan serial!!`
 }
 
 exports.registered = (name, age, userId, time, serial) => {
@@ -526,6 +526,15 @@ Cari film.
 Aliases: -
 Usage: *${prefix}movie* judul
 
+28. *${prefix}reminder*
+Pengingat. 
+*s* - detik
+*m* - menit
+*h* - jam
+*d* - hari
+Aliases: -
+Usage: *${prefix}reminder* 10s | pesan_pengingat
+
 _Index of [3]_
     `
 }
@@ -719,6 +728,11 @@ Usage: Kirim gambar dengan caption *${prefix}triggered* atau reply pesan orang d
 Kiss someone ( ͡° ͜ʖ ͡°).
 Aliases: -
 Usage: Kirim gambar dengan caption *${prefix}kiss* atau reply gambar dengan *${prefix}kiss*.
+
+17. *${prefix}asupan*
+Asupan video cewek-cewek.
+Aliases: -
+Usage: *${prefix}asupan*
 
 _Index of [6]_
     `
