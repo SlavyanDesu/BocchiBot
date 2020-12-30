@@ -178,7 +178,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         }
 
         const addRegisteredUser = (userId, name, age, time, serial) => {
-            const obj = {id: userId, name: name, age: age, time: time, serial: serial}
+            const obj = { id: userId, name: name, age: age, time: time, serial: serial }
             _registered.push(obj)
             fs.writeFileSync('./database/registered.json', JSON.stringify(_registered))
         }
@@ -248,7 +248,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         }
 
         const addAfkUser = (userId, time, reason) => {
-            const obj = {id: userId, time: time, reason: reason}
+            const obj = { id: userId, time: time, reason: reason }
             _afk.push(obj)
             fs.writeFileSync('./database/afk.json', JSON.stringify(_afk))
         }
@@ -370,7 +370,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const replaceBg = (userId, link) => {
             let position = false
             Object.keys(_bg).forEach((i) => {
-                if (_bg[i].id === userId && _bg[i].link !== '') {
+                if (_bg[i].id === userId) {
                     position = i
                 }
             })
@@ -386,10 +386,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isOwner = sender.id === ownerNumber
         const isGroupAdmins = groupAdmins.includes(sender.id) || false
         const isBotGroupAdmins = groupAdmins.includes(botNumber) || false
-        const isNsfw = isGroupMsg ? _nsfw.includes(chat.id) : false
         const isBanned = _ban.includes(sender.id)
         const isPremium = _premium.includes(sender.id)
         const isRegistered = checkRegisteredUser(sender.id)
+        const isNsfw = isGroupMsg ? _nsfw.includes(chat.id) : false
         const isWelcomeOn = isGroupMsg ? _welcome.includes(chat.id) : false
         const isDetectorOn = isGroupMsg ? _antilink.includes(chat.id) : false
         const isLevelingOn = isGroupMsg ? _leveling.includes(chat.id) : false
@@ -409,14 +409,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             const checkBg = getBg(sender.id)
             try {
                 if (currentLevel === undefined && checkId === undefined) addLevelingId(sender.id)
-                if (checkBg === undefined) return addBg(sender.id)
+                if (checkBg === undefined) addBg(sender.id)
                 const amountXp = Math.floor(Math.random() * 10) + 500
                 const requiredXp = 5000 * (Math.pow(2, currentLevel) - 1)
+                const getLevel = getLevelingLevel(sender.id)
                 addLevelingXp(sender.id, amountXp)
-                const getXp = getLevelingXp(sender.id)
-                if (requiredXp <= getXp) {
+                if (requiredXp <= getLevelingXp(sender.id)) {
                     addLevelingLevel(sender.id, 1)
-                    await bocchi.sendText(from, `Selamat ${pushname}! Kamu naik ke level *${getLevelingLevel(sender.id)}*!`)
+                    await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${getLevelingXp(sender.id)}\n➸ *Level*: ${getLevel} -> ${getLevelingLevel(sender.id)}\n\nCongrats!! 🎉🎉`, id)
                 }
             } catch (err) {
                 console.error(err)
