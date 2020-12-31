@@ -586,7 +586,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
-            case 'igdl': //By: VieFrelan
+            case 'igdl': //By: VideFrelan
             case 'instadl':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (args.length == 0) return bocchi.reply(from, ind.wrongFormat(), id)
