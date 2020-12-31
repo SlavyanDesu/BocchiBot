@@ -7,6 +7,7 @@
 >
 >
 
+<h3 align="center">Made with ❤️ by</h3>
 <p align="center">
   <a href="https://github.com/SlavyanDesu"><img src="https://avatars3.githubusercontent.com/u/28254882?s=400&u=25765902db0b709938966cf4127ac11af5eafb5d&v=4" height="128" width="128" /></a>
   <a href="https://github.com/Pahri123"><img src="https://avatars1.githubusercontent.com/u/66406056?s=400&v=4" height="128" width="128" /></a>
@@ -67,7 +68,8 @@ Edit the required value in `config.json`.
     "uaOverride": "WhatsApp/2.2037.6 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36",
     "token": "api-key",
     "nao": "api-key",
-    "vhtear": "api-key"
+    "vhtear": "api-key",
+    "melodic": "api-key"
 }
 ```
 
@@ -76,7 +78,8 @@ Edit the required value in `config.json`.
 `uaOverride`: your user agent.  
 `token`: API token. You can get it [here](https://api.i-tech.id) by creating an account. After that, set your server/host static IP in [here](https://api.i-tech.id/settings/profile).  
 `nao`: SauceNAO API token. You can get it [here](https://saucenao.com/user.php) by creating an account.  
-`vhtear`: VHTear API token. You can get it [here](https://api.vhtear.com/) by purchasing his API key.   
+`vhtear`: VHTear API token. You can get it [here](https://api.vhtear.com/) by purchasing his API key.
+`melodic`: MelodicXT API token. You can get it [here](https://melodicxt.herokuapp.com/) by purchasing his API key.  
 
 ## 🗣️ Changing language
 If you want to change the language, replace all `ind` function to `eng`.   
