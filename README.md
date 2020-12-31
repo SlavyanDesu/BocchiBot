@@ -117,11 +117,14 @@ After that scan the QR code using your WhatsApp apps in your phone!
 # Features
 If you want to unlock premium commands, please contact me~
 
-|   Unique Features   |  Conditions  |
-| :-----------------: | :----------: |
-| Register            |      ✔️      |
-| Leveling            |      ✔️      |
-| Clean written code  |      ✔️      |
+|     Leveling     |  Availability  |
+| :--------------: | :------------: |
+| Leveling         |       ✔️       |
+| Set background   |       ✔️       |
+| Set status color |      Soon      |
+| Set level color  |      Soon      |
+| Set XP color     |      Soon      |
+| Set bar color    |      Soon      |
 
 |     Sticker Maker     | Availability |
 | :-------------------: | :----------: |
@@ -164,7 +167,9 @@ If you want to unlock premium commands, please contact me~
 | Tafsir Al-Qur'an    |      ✔️      |
 | Al-Kitab search     |      ✔️      |
 | LK21                |      ✔️      |
-
+| Reminder            |      ✔️      |
+| Image to URL        |      ✔️      |
+| Jadwal sholat       |      ✔️      |
 
 |          Fun          | Availability |
 | :-------------------: | :----------: |
@@ -181,6 +186,7 @@ If you want to unlock premium commands, please contact me~
 | Pornhub logo maker    |      ✔️      |
 | Galaxy text maker     |      ✔️      |
 | Truth or dare         |      ✔️      |
+| TikTok asupan         |      ✔️      |
 
 |      Weeb Zone     | Availability |
 | :----------------: | :----------: |
