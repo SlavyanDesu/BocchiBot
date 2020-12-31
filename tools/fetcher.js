@@ -39,7 +39,7 @@ const fetchText = (url, options) => {
 const uploadImages = (buffData, fileName) => {
     return new Promise(async (resolve, reject) => {
         const { ext } = await fromBuffer(buffData)
-        const filePath = `tools/${fileName}.${ext}`
+        const filePath = `temp/${fileName}.${ext}`
         fs.writeFile(filePath, buffData, { encoding: 'base64' }, (err) => {
             if (err) return reject(err)
             console.log('Uploading image to telegra.ph server...')
