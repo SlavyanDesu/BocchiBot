@@ -2049,7 +2049,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.log(err)
-                    bocchi.reply(from, 'Maaf, emoji yang kamu kirim tidak support untuk dijadikan sticker, cobalah emoji lain', id)
+                    bocchi.reply(from, 'Emoji not supported!', id)
                     })
             break
 
