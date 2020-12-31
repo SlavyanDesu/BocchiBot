@@ -586,6 +586,23 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
+            case 'igdl': //By: VideFrelan
+            case 'instadl':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (args.length == 0) return bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                    downloader.insta(q)
+                    .then(async ({ result }) => {
+                for (let i = 0; i < result.post.length; i++) {
+                    if (result.post[i].type == "image") {
+                        await bocchi.sendFileFromUrl(from, result.post[i].urlDownload, 'igpostdl.jpg', `*...:* *Instagram Downloader* *...:*\n\nUsername: ${result.owner_username}\nCaption: ${result.caption}`, id)
+                    } else if (result.post[i].type == "video") {
+                        await bocchi.sendFileFromUrl(from, result.post[i].urlDownload, 'igpostdl.mp4', `*...:* Instagram Downloader* *:...*\n\nUsername: ${result.owner_username}\nCaption: ${result.caption}`, id)
+                    }
+                }
+                console.log('Sukses mengirimkan IG Post Downloader!')
+            })
+            break
             case 'facebook':
             case 'fb':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
