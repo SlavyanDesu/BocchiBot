@@ -422,7 +422,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 console.error(err)
             }
         }
-	    
+
         // Anti-group link detector
         if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner) {
             if (chats.match(new RegExp(/(https:\/\/chat.whatsapp.com)/gi))) {
@@ -643,7 +643,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
-	        case 'tiktokpic':
+            case 'tiktokpic':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -746,7 +746,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
-	        case 'linesticker':
+            case 'linesticker':
             case 'linestiker':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -763,8 +763,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         console.error(err)
                         await bocchi.reply(from, `Error!\n{err}`, id)
                     })
-            break	
-	        case 'jadwalsholat':
+            break
+            case 'jadwalsholat':
             case 'jadwalsolat':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -851,7 +851,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, `Error!\n${err}`, id)
                 }
             break
-	        case 'findsticker':
+            case 'findsticker':
             case 'findstiker':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -871,9 +871,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'movie':
-		        if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
-		        await bocchi.reply(from, ind.wait(), id)
+                await bocchi.reply(from, ind.wait(), id)
                 misc.movie(q)
                     .then(async ({ result }) => {
                         let movies = `Result for: *${result.judul}*`
@@ -889,8 +889,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
-		    case 'cekongkir': // By: VideFrelan
-		        if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+            case 'cekongkir': // By: VideFrelan
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 const kurir = q.substring(0, q.indexOf('|') - 1)
@@ -911,12 +911,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
-	        case 'distance':
+            case 'distance':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const kotaAsal = q.substring(0, q.indexOf('|') - 1)
                 const kotaTujuan = q.substring(q.lastIndexOf('|') + 2)
-	            misc.distance(kotaAsal, kotaTujuan)
+                misc.distance(kotaAsal, kotaTujuan)
                     .then(async ({ result }) => {
                         if (result.response !== 200) {
                             await bocchi.reply(from, 'Error!', id)
@@ -1008,22 +1008,22 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, `Error!\n\n${err}`, id)
                 }
             break
-	        case 'mutualan':
+            case 'mutualan':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-		        if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
+                if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
                 await bocchi.reply(from, 'Looking for a partner...', id)        
-              	await bocchi.sendContact(from, getRegisteredRandomId())
-            	await bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`)
-    	    break
+                await bocchi.sendContact(from, getRegisteredRandomId())
+                await bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`)
+            break
             case 'next':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-	            if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
+                if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
                 await bocchi.reply(from, 'Looking for a partner...', id)        
-              	await bocchi.sendContact(from, getRegisteredRandomId())
-            	await bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`)
+                await bocchi.sendContact(from, getRegisteredRandomId())
+                await bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`)
             break
-	        case 'tafsir':
-		        if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+            case 'tafsir':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (args.length === 0) return bocchi.reply(from, `Untuk menampilkan ayat Al-Qur'an tertentu beserta tafsir dan terjemahannya\ngunakan ${prefix}tafsir surah ayat\n\nContoh: ${prefix}tafsir Al-Mulk 10`, id)
                 await bocchi.reply(from, ind.wait(), id)
                 const responSurah = await axios.get('https://raw.githubusercontent.com/VideFrelan/words/main/tafsir.txt')
@@ -1132,7 +1132,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'toxic':
-		        if (!isRegistered) return await bocchi.reply(from , ind.notRegistered(), id)
+                if (!isRegistered) return await bocchi.reply(from , ind.notRegistered(), id)
                 await bocchi.reply(from, toxic(), id)
             break
             case 'alkitab':
@@ -1179,7 +1179,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
-				
+
             // Bot
             case 'menu':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -1244,7 +1244,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
                 await bocchi.sendTextWithMentions(from, block)
             break
-	        case 'ownerbot':
+            case 'ownerbot':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.sendContact(from, ownerNumber)
             break
@@ -1434,7 +1434,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'anitoki':
-		        if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 weeaboo.anitoki()
                     .then(async ({ result }) => {
@@ -1645,7 +1645,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'text3d':
-    	    case '3dtext':
+            case '3dtext':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -1700,7 +1700,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const teks2 = q.substring(q.lastIndexOf('|') + 2)
                 await bocchi.reply(from, ind.wait(), id)
                 console.log('Creating glitch text...')
-		        await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/glitchtext?text1=${teks1}&text2=${teks2}&apikey=${config.vhtear}`, 'glitch.jpg', '', id)
+                await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/glitchtext?text1=${teks1}&text2=${teks2}&apikey=${config.vhtear}`, 'glitch.jpg', '', id)
                     .then(() => console.log('Success creating image!'))
                     .catch(async (err) => {
                         console.error(err)
@@ -1746,7 +1746,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'tod':
-	            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, 'Sebelum bermain berjanjilah akan melaksanakan apapun perintah yang diberikan.' , id)
                 await bocchi.sendText(from, `Silakan ketik *${prefix}truth* atau *${prefix}dare*`)
             break
@@ -1757,7 +1757,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const bln = q.substring(q.indexOf('|') + 2, q.lastIndexOf('|') - 1)
                 const thn = q.substring(q.lastIndexOf('|') + 2)
                 await bocchi.reply(from, ind.wait(), id)
-			    fun.weton(tgl, bln, thn)
+                fun.weton(tgl, bln, thn)
                     .then(async ({ result }) => {
                         if (result.response !== 200) return await bocchi.reply(from, 'Invalid!', id)
                         await bocchi.reply(from, result.hasil, id)
@@ -2396,22 +2396,22 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Moderation command
-	        case 'mutegc':
-	        case 'mute': 
-	            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-		        if (!isGroupMsg) return bocchi.reply(from, ind.groupOnly(), id)
+            case 'mutegc':
+            case 'mute': 
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return bocchi.reply(from, ind.adminOnly(), id)
                 if (!isBotGroupAdmins) return bocchi.reply(from, ind.botNotAdmin(), id)
                 if (ar[0] === 'enable') {
                     await bocchi.setGroupToAdminsOnly(groupId, true)
                     await bocchi.sendText(from, ind.gcMute())
-	            } else if (ar[0] === 'disable') {
+                } else if (ar[0] === 'disable') {
                     await bocchi.setGroupToAdminsOnly(groupId, false)
                     await bocchi.sendText(from, ind.gcUnmute())
-		        } else {
-		            await bocchi.reply(from, ind.wrongFormat(), id)
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
                 }
-	        break
+            break
             case 'add':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
@@ -2566,7 +2566,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'autosticker':
-	        case 'autostiker':
+            case 'autostiker':
             case 'autostik':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
