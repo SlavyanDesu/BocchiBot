@@ -2044,10 +2044,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const emoji = emojiUnicode(q)
                 console.log('Creating code emoji =>', emoji)
                 await bocchi.sendStickerfromUrl(from, `https://api.vhtear.com/emojitopng?code=${emoji}&apikey=${config.vhtear}`)
-                    .catch ((err) => {
+                    .then(async () => {
+                    console.log('Success sending Emoji!')
+                    })
+                    .catch(async (err) => {
                         console.log(err)
-                        bocchi.reply(from, 'Not supported!', id)
-                })
+                    bocchi.reply(from, 'Emoji not supported!', id)
+                    })
             break
 
             // NSFW
