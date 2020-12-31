@@ -546,10 +546,10 @@ Make a picture of the "Harta Tahta Nama".
 Aliases: -
 Usage: *${prefix}hartatahta* name
 
-2. *${prefix}calender*
+2. *${prefix}calendar*
 Create a calendar from sent photos.
 Aliases: -
-Usage: Send images with caption *${prefix}calender* or reply to the images with a caption *${prefix}calender*.
+Usage: Send images with caption *${prefix}calendar* or reply to the images with a caption *${prefix}calendar*.
 
 3. *${prefix}partner*
 Weton match.

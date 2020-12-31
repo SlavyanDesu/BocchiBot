@@ -654,10 +654,10 @@ Membuat gambar Harta Tahta Nama.
 Aliases: -
 Usage: *${prefix}hartatahta* nama
 
-2. *${prefix}calender*
-Membuat calender dari foto yang dikirim.
+2. *${prefix}calendar*
+Membuat kalender dari foto yang dikirim.
 Aliases: -
-Usage: Kirim gambar dengan caption *${prefix}calender* atau reply gambar dengan caption *${prefix}calender*.
+Usage: Kirim gambar dengan caption *${prefix}calendar* atau reply gambar dengan caption *${prefix}calendar*.
 
 3. *${prefix}partner*
 Weton jodoh.

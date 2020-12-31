@@ -50,7 +50,7 @@ const start = async (bocchi = new Client()) => {
 
     // Listen to group's event
     bocchi.onGlobalParicipantsChanged(async (event) => {
-        const _welcome = JSON.parse(fs.readFileSync('./database/welcome.json'))
+        const _welcome = JSON.parse(fs.readFileSync('./database/group/welcome.json'))
         const isWelcome = _welcome.includes(event.chat)
         const botNumbers = await bocchi.getHostNumber() + '@c.us'
         try {

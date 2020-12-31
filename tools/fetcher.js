@@ -57,7 +57,7 @@ const uploadImages = (buffData, fileName) => {
                 })
                 .then(() => {
                     fs.unlinkSync(filePath)
-                    console.log('Success!')
+                    console.log('Uploading success!')
                 })
                 .catch((err) => reject(err))
         })

@@ -44,23 +44,23 @@ const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
 const cd = 4.32e+7
 const errorImg = 'https://i.imgur.com/UxvMPUz.png'
-const tanggal = moment.tz('Asia/Jakarta').format('YYYY-MM-DD')
+const tanggal = moment.tz('Asia/Jakarta').format('DD-MM-YYYY')
 /********** END OF UTILS **********/
 
 /********** DATABASES **********/
-const _nsfw = JSON.parse(fs.readFileSync('./database/nsfw.json'))
-const _ban = JSON.parse(fs.readFileSync('./database/banned.json'))
-const _premium = JSON.parse(fs.readFileSync('./database/premium.json'))
-const _registered = JSON.parse(fs.readFileSync('./database/registered.json'))
-const _antilink = JSON.parse(fs.readFileSync('./database/antilink.json'))
-const _leveling = JSON.parse(fs.readFileSync('./database/leveling.json'))
-const _welcome = JSON.parse(fs.readFileSync('./database/welcome.json'))
-const _level = JSON.parse(fs.readFileSync('./database/level.json'))
-const _limit = JSON.parse(fs.readFileSync('./database/limit.json'))
-const _afk = JSON.parse(fs.readFileSync('./database/afk.json'))
-const _autostiker = JSON.parse(fs.readFileSync('./database/autostiker.json'))
-const _reminder = JSON.parse(fs.readFileSync('./database/reminder.json'))
-const _bg = JSON.parse(fs.readFileSync('./database/background.json'))
+const _nsfw = JSON.parse(fs.readFileSync('./database/group/nsfw.json'))
+const _ban = JSON.parse(fs.readFileSync('./database/bot/banned.json'))
+const _premium = JSON.parse(fs.readFileSync('./database/bot/premium.json'))
+const _registered = JSON.parse(fs.readFileSync('./database/bot/registered.json'))
+const _antilink = JSON.parse(fs.readFileSync('./database/group/antilink.json'))
+const _leveling = JSON.parse(fs.readFileSync('./database/group/leveling.json'))
+const _welcome = JSON.parse(fs.readFileSync('./database/group/welcome.json'))
+const _level = JSON.parse(fs.readFileSync('./database/user/level.json'))
+const _limit = JSON.parse(fs.readFileSync('./database/user/limit.json'))
+const _afk = JSON.parse(fs.readFileSync('./database/user/afk.json'))
+const _autosticker = JSON.parse(fs.readFileSync('./database/group/autosticker.json'))
+const _reminder = JSON.parse(fs.readFileSync('./database/user/reminder.json'))
+const _bg = JSON.parse(fs.readFileSync('./database/user/card/background.json'))
 /********** END OF DATABASES **********/
 
 /********** MESSAGE HANDLER **********/
@@ -135,7 +135,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             })
             if (position !== false) {
                 _level[position].xp += amount
-                fs.writeFileSync('./database/level.json', JSON.stringify(_level))
+                fs.writeFileSync('./database/user/level.json', JSON.stringify(_level))
             }
         }
 
@@ -148,20 +148,20 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             })
             if (position !== false) {
                 _level[position].level += amount
-                fs.writeFileSync('./database/level.json', JSON.stringify(_level))
+                fs.writeFileSync('./database/user/level.json', JSON.stringify(_level))
             }
         }
 
         const addLevelingId = (userId) => {
             const obj = {id: userId, xp: 1, level: 1}
             _level.push(obj)
-            fs.writeFileSync('./database/level.json', JSON.stringify(_level))
+            fs.writeFileSync('./database/user/level.json', JSON.stringify(_level))
         }
 
         const addLimit = (userId) => {
             const obj = {id: userId, time: Date.now()}
             _limit.push(obj)
-            fs.writeFileSync('./database/limit.json', JSON.stringify(_limit))
+            fs.writeFileSync('./database/user/limit.json', JSON.stringify(_limit))
         }
 
         const getLimit = (userId) => {
@@ -183,7 +183,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const addRegisteredUser = (userId, name, age, time, serial) => {
             const obj = { id: userId, name: name, age: age, time: time, serial: serial }
             _registered.push(obj)
-            fs.writeFileSync('./database/registered.json', JSON.stringify(_registered))
+            fs.writeFileSync('./database/bot/registered.json', JSON.stringify(_registered))
         }
 
         const createSerial = (size) => {
@@ -253,7 +253,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const addAfkUser = (userId, time, reason) => {
             const obj = { id: userId, time: time, reason: reason }
             _afk.push(obj)
-            fs.writeFileSync('./database/afk.json', JSON.stringify(_afk))
+            fs.writeFileSync('./database/user/afk.json', JSON.stringify(_afk))
         }
 
         const checkAfkUser = (userId) => {
@@ -315,7 +315,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const addReminder = (userId, message, time) => {
             const obj = { id: userId, msg: message, time: Date.now() + toMs(time) }
             _reminder.push(obj)
-            fs.writeFileSync('./database/reminder.json', JSON.stringify(_reminder))
+            fs.writeFileSync('./database/user/reminder.json', JSON.stringify(_reminder))
         }
 
         const getReminderTime = (userId) => {
@@ -355,7 +355,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const addBg = (userId) => {
             const obj = { id: userId, link: 'https://i.ibb.co/tYf3jmz/amos-yan-no-entry-1.jpg' }
             _bg.push(obj)
-            fs.writeFileSync('./database/background.json', JSON.stringify(_bg))
+            fs.writeFileSync('./database/user/card/background.json', JSON.stringify(_bg))
         }
 
         const getBg = (userId) => {
@@ -379,7 +379,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             })
             if (position !== false) {
                 _bg[position].link = link
-                fs.writeFileSync('./database/background.json', JSON.stringify(_bg))
+                fs.writeFileSync('./database/user/card/background.json', JSON.stringify(_bg))
             }
         }
         /********** END OF FUNCTION **********/
@@ -396,7 +396,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isWelcomeOn = isGroupMsg ? _welcome.includes(chat.id) : false
         const isDetectorOn = isGroupMsg ? _antilink.includes(chat.id) : false
         const isLevelingOn = isGroupMsg ? _leveling.includes(chat.id) : false
-        const isAutoStikerOn = isGroupMsg ? _autostiker.includes(chat.id) : false
+        const isAutoStickerOn = isGroupMsg ? _autosticker.includes(chat.id) : false
         const isAfkOn = checkAfkUser(sender.id)
         const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
         const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
@@ -406,7 +406,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         /********** END OF VALIDATOR **********/
 
         // Leveling [BETA] by Slavyan
-        if (isGroupMsg && isRegistered && !isBanned && isLevelingOn && !isCmd) {
+        if (isGroupMsg && isRegistered && !isBanned && isLevelingOn) {
             const currentLevel = getLevelingLevel(sender.id)
             const checkId = getLevelingId(sender.id)
             const checkBg = getBg(sender.id)
@@ -435,7 +435,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         }
 
         // Auto-sticker
-        if (isGroupMsg && isAutoStikerOn && isMedia && isImage && !isCmd) {
+        if (isGroupMsg && isAutoStickerOn && isMedia && isImage && !isCmd) {
             const mediaData = await decryptMedia(message, uaOverride)
             const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
             await bocchi.sendImageAsSticker(from, imageBase64)
@@ -460,7 +460,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
             if (checkAfkUser(sender.id) && !isCmd) {
                 _afk.splice(getAfkPosition(sender.id), 1)
-                fs.writeFileSync('./database/afk.json', JSON.stringify(_afk))
+                fs.writeFileSync('./database/user/afk.json', JSON.stringify(_afk))
                 await bocchi.sendText(from, ind.afkDone(pushname))
             }
         }
@@ -530,7 +530,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .setProgressBar([randomHexs, randomHex], 'GRADIENT')
                     .setBackground('IMAGE', bege)
                     .setUsername(pushname)
-                    .setDiscriminator('0001', '#2c2f33')
+                    .setDiscriminator(sender.id.substring(6, 10))
                 rank.build()
                     .then(async (buffer) => {
                         canvas.write(buffer, `${pushname}_card.png`)
@@ -589,22 +589,26 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
-            case 'igdl': //By: VideFrelan
+            case 'igdl': // by: VideFrelan
             case 'instadl':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (args.length == 0) return bocchi.reply(from, ind.wrongFormat(), id)
+                if (!isUrl(url) && !url.includes('instagram.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
-                    downloader.insta(q)
+                downloader.insta(url)
                     .then(async ({ result }) => {
-                for (let i = 0; i < result.post.length; i++) {
-                    if (result.post[i].type == "image") {
-                        await bocchi.sendFileFromUrl(from, result.post[i].urlDownload, 'igpostdl.jpg', `*...:* *Instagram Downloader* *...:*\n\nUsername: ${result.owner_username}\nCaption: ${result.caption}`, id)
-                    } else if (result.post[i].type == "video") {
-                        await bocchi.sendFileFromUrl(from, result.post[i].urlDownload, 'igpostdl.mp4', `*...:* Instagram Downloader* *:...*\n\nUsername: ${result.owner_username}\nCaption: ${result.caption}`, id)
-                    }
-                }
-                console.log('Sukses mengirimkan IG Post Downloader!')
-            })
+                        for (let i = 0; i < result.post.length; i++) {
+                            if (result.post[i].type === "image") {
+                                await bocchi.sendFileFromUrl(from, result.post[i].urlDownload, 'igpostdl.jpg', `*...:* *Instagram Downloader* *:...*\n\nUsername: ${result.owner_username}\nCaption: ${result.caption}`, id)
+                            } else if (result.post[i].type === "video") {
+                                await bocchi.sendFileFromUrl(from, result.post[i].urlDownload, 'igpostdl.mp4', `*...:* *Instagram Downloader* *:...*\n\nUsername: ${result.owner_username}\nCaption: ${result.caption}`, id)
+                            }
+                        }
+                        console.log('Success sending Instagram media!')
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, `Error!\n${err}`, id)
+                    })
             break
             case 'facebook':
             case 'fb':
@@ -1181,7 +1185,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     if (Date.now() > getReminderTime(sender.id)) {
                         await bocchi.sendTextWithMentions(from, `⏰ *「 REMINDER 」* ⏰\n\nAkhirnya tepat waktu~ @${sender.id.replace('@c.us', '')}\n\n➸ *Pesan*: ${getReminderMsg(sender.id)}`)
                         _reminder.splice(getReminderPosition(sender.id), 1)
-                        fs.writeFileSync('./database/reminder.json', JSON.stringify(_reminder))
+                        fs.writeFileSync('./database/user/reminder.json', JSON.stringify(_reminder))
                         clearInterval(intervRemind)
                     }
                 }, 1000)
@@ -1242,11 +1246,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (ar[0] === 'enable') {
                     if (isNsfw) return await bocchi.reply(from, ind.nsfwAlready(), id)
                     _nsfw.push(chat.id)
-                    fs.writeFileSync('./database/nsfw.json', JSON.stringify(_nsfw))
+                    fs.writeFileSync('./database/group/nsfw.json', JSON.stringify(_nsfw))
                     await bocchi.reply(from, ind.nsfwOn(), id)
                 } else if (ar[0] === 'disable') {
                     _nsfw.splice(chat.id, 1)
-                    fs.writeFileSync('./database/nsfw.json', JSON.stringify(_nsfw))
+                    fs.writeFileSync('./database/group/nsfw.json', JSON.stringify(_nsfw))
                     await bocchi.reply(from, ind.nsfwOff(), id)
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
@@ -1414,7 +1418,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'source':
             case 'sauce':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (isMedia && type === 'image' || isQuotedImage) {
+                if (isMedia && isImage || isQuotedImage) {
                     await bocchi.reply(from, ind.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
@@ -1568,16 +1572,16 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
-            case 'calender':
+            case 'calendar':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (isMedia && type === 'image' || isQuotedImage) {
+                if (isMedia && isImage || isQuotedImage) {
                     await bocchi.reply(from, ind.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
-                    const imageLink = await uploadImages(mediaData, `calender.${sender.id}`)
-                    fun.calender(imageLink)
+                    const imageLink = await uploadImages(mediaData, `calendar.${sender.id}`)
+                    fun.calendar(imageLink)
                         .then(async ({ result }) => {
-                            await bocchi.sendFileFromUrl(from, result.imgUrl, 'calender.jpg', '', id)
+                            await bocchi.sendFileFromUrl(from, result.imgUrl, 'calendar.jpg', '', id)
                                 .then(() => console.log('Success creating image!'))
                         })
                         .catch(async (err) => {
@@ -1646,7 +1650,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const atas = q.substring(0, q.indexOf('|') - 1)
                 const tengah = q.substring(q.indexOf('|') + 2, q.lastIndexOf('|') - 1)
                 const bawah = q.substring(q.lastIndexOf('|') + 2)
-                if (isMedia && type === 'image' || isQuotedImage) {
+                if (isMedia && isImage || isQuotedImage) {
                     await bocchi.reply(from, ind.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
@@ -1676,7 +1680,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'valentine':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
-                if (isMedia && type === 'image' || isQuotedImage) {
+                if (isMedia && isImage || isQuotedImage) {
                     await bocchi.reply(from, ind.wait(), id)
                     const nama = q.substring(0, q.indexOf('|') - 1)
                     const pasangan = q.substring(q.lastIndexOf('|') + 2)
@@ -1966,7 +1970,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'stickerlightning':
             case 'slightning':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (isMedia && type === 'image' || isQuotedImage) {
+                if (isMedia && isImage || isQuotedImage) {
                     await bocchi.reply(from, ind.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
@@ -1990,7 +1994,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'stickerfire':
             case 'sfire':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (isMedia && type === 'image' || isQuotedImage) {
+                if (isMedia && isImage || isQuotedImage) {
                     await bocchi.reply(from, ind.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
@@ -2044,15 +2048,17 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'emojistiker':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (args.length !== 1) return bocchi.reply(from, ind.wrongFormat(), id)
-                const emoji = emojiUnicode(q)
-                console.log('Creating code emoji =>', emoji)
+                const emoji = emojiUnicode(args[0])
+                await bocchi.reply(from, ind.wait(), id)
+                console.log('Creating emoji code for =>', emoji)
                 await bocchi.sendStickerfromUrl(from, `https://api.vhtear.com/emojitopng?code=${emoji}&apikey=${config.vhtear}`)
                     .then(async () => {
-                    console.log('Success sending Emoji!')
+                        await bocchi.reply(from, ind.ok(), id)
+                        console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                     })
                     .catch(async (err) => {
-                        console.log(err)
-                    bocchi.reply(from, 'Emoji not supported!', id)
+                        console.error(err)
+                        await bocchi.reply(from, 'Emoji not supported!', id)
                     })
             break
 
@@ -2524,7 +2530,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
                 if (!isBotGroupAdmins) return bocchi.reply(from, ind.botNotAdmin(), id)
-                if (isMedia && type === 'image' || isQuotedImage) {
+                if (isMedia && isImage || isQuotedImage) {
                     await bocchi.reply(from, ind.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const _mimetype = isQuotedImage ? quotedMsg.mimetype : mimetype
@@ -2544,11 +2550,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (ar[0] === 'enable') {
                     if (isDetectorOn) return await bocchi.reply(from, ind.detectorOnAlready(), id)
                     _antilink.push(chat.id)
-                    fs.writeFileSync('./database/antilink.json', JSON.stringify(_antilink))
+                    fs.writeFileSync('./database/group/antilink.json', JSON.stringify(_antilink))
                     await bocchi.reply(from, ind.detectorOn(name, formattedTitle), id)
                 } else if (ar[0] === 'disable') {
                     _antilink.splice(chat.id, 1)
-                    fs.writeFileSync('./database/antilink.json', JSON.stringify(_antilink))
+                    fs.writeFileSync('./database/group/antilink.json', JSON.stringify(_antilink))
                     await bocchi.reply(from, ind.detectorOff(), id)
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
@@ -2561,11 +2567,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (ar[0] === 'enable') {
                     if (isLevelingOn) return await bocchi.reply(from, ind.levelingOnAlready(), id)
                     _leveling.push(chat.id)
-                    fs.writeFileSync('./database/leveling.json', JSON.stringify(_leveling))
+                    fs.writeFileSync('./database/group/leveling.json', JSON.stringify(_leveling))
                     await bocchi.reply(from, ind.levelingOn(), id)
                 } else if (ar[0] === 'disable') {
                     _leveling.splice(chat.id, 1)
-                    fs.writeFileSync('./database/leveling.json', JSON.stringify(_leveling))
+                    fs.writeFileSync('./database/group/leveling.json', JSON.stringify(_leveling))
                     await bocchi.reply(from, ind.levelingOff(), id)
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
@@ -2578,11 +2584,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (ar[0] === 'enable') {
                     if (isWelcomeOn) return await bocchi.reply(from, ind.welcomeOnAlready(), id)
                     _welcome.push(chat.id)
-                    fs.writeFileSync('./database/welcome.json', JSON.stringify(_welcome))
+                    fs.writeFileSync('./database/group/welcome.json', JSON.stringify(_welcome))
                     await bocchi.reply(from, ind.welcomeOn(), id)
                 } else if (ar[0] === 'disable') {
                     _welcome.splice(chat.id, 1)
-                    fs.writeFileSync('./database/welcome.json', JSON.stringify(_welcome))
+                    fs.writeFileSync('./database/group/welcome.json', JSON.stringify(_welcome))
                     await bocchi.reply(from, ind.welcomeOff(), id)
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
@@ -2595,13 +2601,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
                 if (ar[0] === 'enable') {
-                    if (isAutoStikerOn) return await bocchi.reply(from, ind.autoStikOnAlready(), id)
-                    _autostiker.push(chat.id)
-                    fs.writeFileSync('./database/autostiker.json', JSON.stringify(_autostiker))
+                    if (isAutoStickerOn) return await bocchi.reply(from, ind.autoStikOnAlready(), id)
+                    _autosticker.push(chat.id)
+                    fs.writeFileSync('./database/group/autosticker.json', JSON.stringify(_autosticker))
                     await bocchi.reply(from, ind.autoStikOn(), id)
                 } else if (ar[0] === 'disable') {
-                    _autostiker.splice(chat.id, 1)
-                    fs.writeFileSync('./database/autostiker.json', JSON.stringify(_autostiker))
+                    _autosticker.splice(chat.id, 1)
+                    fs.writeFileSync('./database/group/autosticker.json', JSON.stringify(_autosticker))
                     await bocchi.reply(from, ind.autoStikOff(), id)
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
@@ -2650,23 +2656,23 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         for (let benet of mentionedJidList) {
                             if (benet === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
                             _ban.push(benet)
-                            fs.writeFileSync('./database/banned.json', JSON.stringify(_ban))
+                            fs.writeFileSync('./database/bot/banned.json', JSON.stringify(_ban))
                         }
                         await bocchi.reply(from, ind.doneOwner(), id)
                     } else {
                         _ban.push(args[0] + '@c.us')
-                        fs.writeFileSync('./database/banned.json', JSON.stringify(_ban))
+                        fs.writeFileSync('./database/bot/banned.json', JSON.stringify(_ban))
                         await bocchi.reply(from, ind.doneOwner(), id)
                     }
                 } else if (ar[0] === 'del') {
                     if (mentionedJidList.length !== 0) {
                         if (mentionedJidList[0] === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
                         _ban.splice(_ban.indexOf(mentionedJidList[0]), 1)
-                        fs.writeFileSync('./database/banned.json', JSON.stringify(_ban))
+                        fs.writeFileSync('./database/bot/banned.json', JSON.stringify(_ban))
                         await bocchi.reply(from, ind.doneOwner(), id)
                     } else{
                         _ban.splice(args[0] + '@c.us', 1)
-                        fs.writeFileSync('./database/banned.json', JSON.stringify(_ban))
+                        fs.writeFileSync('./database/bot/banned.json', JSON.stringify(_ban))
                         await bocchi.reply(from, ind.doneOwner(), id)
                     }
                 } else {
@@ -2698,14 +2704,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     for (let premi of mentionedJidList) {
                         if (premi === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
                         _premium.push(premi)
-                        fs.writeFileSync('./database/premium.json', JSON.stringify(_premium))
+                        fs.writeFileSync('./database/bot/premium.json', JSON.stringify(_premium))
                     }
                     await bocchi.reply(from, ind.doneOwner(), id)
                 } else if (ar[0] === 'del') {
                     if (mentionedJidList[0] === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
                     let predel = _premium.indexOf(mentionedJidList[0])
                     _premium.splice(predel, 1)
-                    fs.writeFileSync('./database/premium.json', JSON.stringify(_premium))
+                    fs.writeFileSync('./database/bot/premium.json', JSON.stringify(_premium))
                     await bocchi.reply(from, ind.doneOwner(), id)
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
