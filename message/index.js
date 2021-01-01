@@ -1526,6 +1526,19 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
+            case 'citacita'://Piyobot
+            fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/citacita/main/citacita.txt')
+            .then(res => res.text())
+            .then(body => {
+            let cita = body.split('\n')
+            let raya = cita[Math.floor(Math.random() * cita.length)]
+            bocchi.sendFileFromUrl(from, raya, 'citacita.mp3', id)
+                .then(() => console.log('Success sending cita'))
+              })
+             .catch(() => {
+            bocchi.reply(from, 'Ada yang Error!', id)
+             })
+             break
             case 'profile':
             case 'me':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
