@@ -695,6 +695,39 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
+            case 'twitter':
+            case 'twt':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isUrl(url) && !url.includes('twitter.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                downloader.tweet(url)
+                    .then(async (data) => {
+                        if (data.type === 'video') {
+                            const content = data.variants.filter((x) => x.content_type !== 'application/x-mpegURL').sort((a, b) => b.bitrate - a.bitrate)
+                            const result = await misc.shortener(content[0].url)
+                            console.log('Shortlink:', result)
+                            await bocchi.sendFileFromUrl(from, content[0].url, 'video.mp4', `Link HD: ${result}`, id)
+                                .then(() => console.log('Success sending Twitter media!'))
+                                .catch(async (err) => {
+                                    console.error(err)
+                                    await bocchi.reply(from, `Error!\n${err}`, id)
+                                })
+                        } else if (data.type === 'photo') {
+                            for (let i = 0; i < data.variants.length; i++) {
+                                await bocchi.sendFileFromUrl(from, data.variants[i], data.variants[i].split('/media/')[1], '', id)
+                                .then(() => console.log('Success sending Twitter media!'))
+                                .catch(async (err) => {
+                                    console.error(err)
+                                    await bocchi.reply(from, `Error!\n${err}`, id)
+                                })
+                            }
+                        }
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, `Error!\n${err}`, id)
+                    })
+            break
 
             // Misc
             case 'say':

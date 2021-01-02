@@ -316,6 +316,16 @@ Mendownload video TikTok.
 Aliases: -
 Usage: *${prefix}tiktok* link_video
 
+6. *${prefix}twitter*
+Download Twitter media.
+Aliases: *twt*
+Usage: *${prefix}twiter* link
+
+7. *${prefix}tiktokpic*
+Download profile pic user
+Aliases: -
+Usage: *${prefix}tiktokpic* username
+
 _Index of [1]_
     `
 }
@@ -535,6 +545,11 @@ Pengingat.
 Aliases: -
 Usage: *${prefix}reminder* 10s | pesan_pengingat
 
+29. *${prefix}imagetourl*
+Image uploader.
+Aliases: *imgtourl*
+Usage: Kirim gambar dengan caption *${prefix}imagetourl* atau reply gambar dengan caption *${prefix}imagetourl*.
+
 _Index of [3]_
     `
 }
@@ -734,6 +749,16 @@ Asupan video cewek-cewek.
 Aliases: -
 Usage: *${prefix}asupan*
 
+17. *${prefix}citacita*
+Meme cita-cita.
+Aliases: -
+Usage: *${prefix}citacita*
+
+17. *${prefix}phcomment*
+Membuat capton ala PH comment.
+Aliases: -
+Usage: *${prefix}phcomment* username | teks
+
 _Index of [6]_
     `
 }
@@ -926,6 +951,11 @@ Usage: *${prefix}level*
 Untuk melihat leaderboard.
 Aliaases: -
 Usage: *${prefix}leaderboard*
+
+3. *${prefix}setbackground*
+Set background level card.
+Aliases: *setbg*
+Usage: *${prefix}setbackground* link_foto
 
 _Index of [10]_
     `
