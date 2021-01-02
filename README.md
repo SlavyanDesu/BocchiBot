@@ -77,7 +77,7 @@ Edit the required value in `config.json`.
 `uaOverride`: your user agent.  
 `token`: API token. You can get it [here](https://api.i-tech.id) by creating an account. After that, set your server/host static IP in [here](https://api.i-tech.id/settings/profile).  
 `nao`: SauceNAO API token. You can get it [here](https://saucenao.com/user.php) by creating an account.  
-`vhtear`: VHTear API token. You can get it [here](https://api.vhtear.com/) by purchasing his API key.
+`vhtear`: VHTear API token. You can get it [here](https://api.vhtear.com/) by purchasing his API key.  
 `melodic`: MelodicXT API token. You can get it [here](https://melodicxt.herokuapp.com/) by purchasing his API key.  
 
 ## 🗣️ Changing language
