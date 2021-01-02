@@ -43,7 +43,7 @@ const { nsfw, weeaboo, downloader, sticker, fun, misc, toxic } = require('../lib
 const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
 const cd = 4.32e+7
-const errorImg = 'https://i.imgur.com/UxvMPUz.png'
+const errorImg = 'https://i.ibb.co/jRCpLfn/user.png'
 const tanggal = moment.tz('Asia/Jakarta').format('DD-MM-YYYY')
 /********** END OF UTILS **********/
 
