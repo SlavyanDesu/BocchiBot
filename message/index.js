@@ -787,7 +787,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'igstory':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (!q) return vf.reply(from, ind.wrongFormat(), id)
+                if (!q) return bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
                     misc.its(q)
                     .then(async ({ result }) => {
