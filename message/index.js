@@ -785,6 +785,19 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
+            case 'igstory':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                    misc.its(q)
+                    .then(async ({ result }) => {
+                for (let i = 0; i < result.story.itemlist.length; i++) {
+                    const { urlDownload } = result.story.itemlist[i]
+                    await bocchi.sendFileFromUrl(from, `${urlDownload}`, 'story.jpg', '', id)
+                    console.log('Success sending IG Story!')
+                }
+            })
+            break
             case 'kbbi':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
