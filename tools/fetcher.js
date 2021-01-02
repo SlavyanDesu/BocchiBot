@@ -55,10 +55,7 @@ const uploadImages = (buffData, fileName) => {
                     if (result.error) return reject(result.error)
                     resolve('https://telegra.ph' + result[0].src)
                 })
-                .then(() => {
-                    fs.unlinkSync(filePath)
-                    console.log('Uploading success!')
-                })
+                .then(() => fs.unlinkSync(filePath))
                 .catch((err) => reject(err))
         })
     })
