@@ -444,7 +444,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 })
                 .catch(async (err) => {
                     console.error(err)
-                    await bocchi.reply(from, `Error!\n${err}`, id)
+                    await bocchi.reply(from, 'Error!', id)
                 })
         }
 
@@ -539,7 +539,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'leaderboard':
@@ -586,7 +586,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'igdl': // by: VideFrelan
@@ -607,7 +607,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'facebook':
@@ -626,7 +626,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'ytmp3':
@@ -645,7 +645,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'ytmp4':
@@ -664,7 +664,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'tiktokpic':
@@ -679,7 +679,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     console.log('Success sending TikTok profile pic!')
                 } catch (err) {
                     console.error(err)
-                    await bocchi.reply(from, `Error!\n${err}`, id)
+                    await bocchi.reply(from, 'Error!', id)
                 }
             break
             case 'tiktok': 
@@ -692,7 +692,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.log(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'twitter':
@@ -710,7 +710,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                 .then(() => console.log('Success sending Twitter media!'))
                                 .catch(async (err) => {
                                     console.error(err)
-                                    await bocchi.reply(from, `Error!\n${err}`, id)
+                                    await bocchi.reply(from, 'Error!', id)
                                 })
                         } else if (data.type === 'photo') {
                             for (let i = 0; i < data.variants.length; i++) {
@@ -718,14 +718,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                 .then(() => console.log('Success sending Twitter media!'))
                                 .catch(async (err) => {
                                     console.error(err)
-                                    await bocchi.reply(from, `Error!\n${err}`, id)
+                                    await bocchi.reply(from, 'Error!', id)
                                 })
                             }
                         }
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
 
@@ -756,7 +756,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'shortlink':
@@ -765,6 +765,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const urlShort = await misc.shortener(url)
                 await bocchi.reply(from, ind.wait(), id)
                 await bocchi.reply(from, urlShort, id)
+                console.log('Success!')
             break
             case 'wikipedia':
             case 'wiki':
@@ -782,7 +783,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'igstory':
@@ -793,7 +794,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .then(async ({ result }) => {
                         for (let i = 0; i < result.story.itemlist.length; i++) {
                             const { urlDownload } = result.story.itemlist[i]
-                            await bocchi.sendFileFromUrl(from, `${urlDownload}`, 'story.jpg', '', id)
+                            await bocchi.sendFileFromUrl(from, urlDownload, '', '', id)
                             console.log('Success sending IG Story!')
                         }
                     })
@@ -813,7 +814,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'linesticker':
@@ -854,7 +855,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'gempa':
@@ -868,7 +869,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'igstalk':
@@ -887,7 +888,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'gsmarena':
@@ -902,7 +903,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                 } catch (err) {
                     console.error(err)
-                    await bocchi.reply(from, `Error!\n${err}`, id)
+                    await bocchi.reply(from, 'Error!', id)
                 }
             break
             case 'receipt':
@@ -918,7 +919,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                 } catch (err) {
                     console.error(err)
-                    await bocchi.reply(from, `Error!\n${err}`, id)
+                    await bocchi.reply(from, 'Error!', id)
                 }
             break
             case 'findsticker':
@@ -956,7 +957,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'cekongkir': // By: VideFrelan
@@ -978,7 +979,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'distance':
@@ -1012,7 +1013,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                 } catch (err) {
                     console.error(err)
-                    await bocchi.reply(from, `Error!\n${err}`, id)
+                    await bocchi.reply(from, 'Error!', id)
                 }
             break
             case 'tts':
@@ -1027,7 +1028,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                 } catch (err) {
                     console.error(err)
-                    await bocchi.reply(from, `Error!\n${err}`, id)
+                    await bocchi.reply(from, 'Error!', id)
                 }
             break
             case 'playstore':
@@ -1126,7 +1127,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'surah':
@@ -1140,7 +1141,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'motivasi':
@@ -1153,7 +1154,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break	
             case 'play':
@@ -1168,7 +1169,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'whois':
@@ -1181,7 +1182,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'sms':
@@ -1198,7 +1199,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'toxic':
@@ -1368,7 +1369,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .then(() => console.log('Success sending neko image!'))
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break 
             case 'wallpaper':
@@ -1380,7 +1381,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .then(() => console.log('Success sending wallpaper image!'))
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id )
+                        await bocchi.reply(from, 'Error!', id )
                     })
             break
             case 'kemono':
@@ -1391,7 +1392,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .then(() => console.log('Success sending kemonomimi image!'))
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'kusonime':
@@ -1410,7 +1411,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'komiku':
@@ -1425,7 +1426,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'wait':
@@ -1455,7 +1456,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                         .catch(async (err) => {
                             console.error(err)
-                            await bocchi.reply(from, `Error!\n${err}`, id)
+                            await bocchi.reply(from, 'Error!', id)
                         })
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
@@ -1484,7 +1485,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         }
                     } catch (err) {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     }
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
@@ -1500,7 +1501,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'anitoki':
@@ -1516,7 +1517,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'neonime':
@@ -1535,7 +1536,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'anoboy':
@@ -1552,7 +1553,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
 
@@ -1569,7 +1570,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'citacita': // Piyobot
@@ -1582,7 +1583,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'profile':
@@ -1628,7 +1629,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .then(() => console.log('Success creating image!'))
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'calendar':
@@ -1645,7 +1646,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                         .catch(async (err) => {
                             console.error(err)
-                            await bocchi.reply(from, `Error!\n${err}`, id)
+                            await bocchi.reply(from, 'Error!', id)
                         })
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
@@ -1665,7 +1666,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'zodiac':
@@ -1685,7 +1686,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'write':
@@ -1698,7 +1699,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .then(() => console.log('Success sending write image!'))
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'missing':
@@ -1719,7 +1720,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                         .catch(async (err) => {
                             console.error(err)
-                            await bocchi.reply(from, `Error!\n${err}`, id)
+                            await bocchi.reply(from, 'Error!', id)
                         })
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
@@ -1754,7 +1755,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                         .catch(async (err) => {
                             console.error(err)
-                            await bocchi.reply(from, `Error!\n${err}`, id)
+                            await bocchi.reply(from, 'Error!', id)
                         })
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
@@ -1785,7 +1786,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .then(() => console.log('Success creating image!'))
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'phmaker':
@@ -1799,7 +1800,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .then(() => console.log('Success creating image!'))
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'blackpink':
@@ -1811,7 +1812,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .then(() => console.log('Success creting image!'))
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'galaxy':
@@ -1823,7 +1824,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .then(() => console.log('Success creating image!'))
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'tod':
@@ -1846,7 +1847,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'truth':
@@ -1859,7 +1860,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'dare':
@@ -1872,7 +1873,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'triggered':
@@ -1905,7 +1906,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     }
                 } catch (err) {
                     console.error(err)
-                    await bocchi.reply(from, `Error!\n${err}`, id)
+                    await bocchi.reply(from, 'Error!', id)
                 }
             break
             case 'kiss':
@@ -1944,7 +1945,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     }
                 } catch (err) {
                     console.error(err)
-                    await bocchi.reply(from, `Error!\n${err}`, id)
+                    await bocchi.reply(from, 'Error!', id)
                 }
             break
             case 'phcomment':
@@ -1983,7 +1984,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                         .catch(async (err) => {
                             console.error(err)
-                            await bocchi.reply(from, `Error!\n${err}`, id)
+                            await bocchi.reply(from, 'Error!', id)
                         })
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
@@ -2042,7 +2043,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                         .catch(async (err) => {
                             console.error(err)
-                            await bocchi.reply(from, `Error!\n${err}`, id)
+                            await bocchi.reply(from, 'Error!', id)
                         })
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
@@ -2067,7 +2068,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                         .catch(async (err) => {
                             console.error(err)
-                            await bocchi.reply(from, `Error!\n${err}`, id)
+                            await bocchi.reply(from, 'Error!', id)
                         })
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), err)
@@ -2081,7 +2082,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .then(() => console.log('Success creating GIF!'))
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'stickertoimg':
@@ -2096,7 +2097,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.sendFile(from, imageBase64, 'sticker.jpg', '', id)
                     } catch (err) {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     }
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
@@ -2162,7 +2163,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                         .catch(async (err) => {
                             console.error(err)
-                            await bocchi.reply(from, `Error!\n${err}`, id)
+                            await bocchi.reply(from, 'Error!', id)
                         })
                 } else {
                     await bocchi.reply(from, ind.wait(), id)
@@ -2173,7 +2174,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                         .catch(async (err) => {
                             console.error(err)
-                            await bocchi.reply(from, `Error!\n${err}`, id)
+                            await bocchi.reply(from, 'Error!', id)
                         })
                 }
             break
@@ -2295,7 +2296,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         }
                     } catch (err) {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     }
                 }
             break
@@ -2322,7 +2323,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                 .then(() => console.log('Success sending nHentai info!'))
                         } catch (err) {
                             console.error(err)
-                            await bocchi.reply(from, `Error!\n${err}`, id)
+                            await bocchi.reply(from, 'Error!', id)
                         }
                     } else {
                         await bocchi.reply(from, ind.nhFalse(), id)
@@ -2345,7 +2346,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                 .then(() => console.log('Success sending nHentai info!'))
                         } catch (err) {
                             console.error(err)
-                            await bocchi.reply(from, `Error!\n${err}`, id)
+                            await bocchi.reply(from, 'Error!', id)
                         }
                     } else {
                         await bocchi.reply(from, ind.nhFalse(), id)
@@ -2382,7 +2383,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                         .catch(async (err) => {
                             console.error(err)
-                            await bocchi.reply(from, `Error!\n${err}`, id)
+                            await bocchi.reply(from, 'Error!', id)
                         })
                 } else {
                     await bocchi.reply(from, ind.wait(), id)
@@ -2399,7 +2400,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                         .catch(async (err) => {
                             console.error(err)
-                            await bocchi.reply(from, `Error!\n${err}`, id)
+                            await bocchi.reply(from, 'Error!', id)
                         })
                 }
             break
@@ -2415,7 +2416,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                         .catch(async (err) => {
                             console.error(err)
-                            await bocchi.reply(from, `Error!\n${err}`, id)
+                            await bocchi.reply(from, 'Error!', id)
                         })
                 } else {
                     await bocchi.reply(from, ind.wait(), id)
@@ -2426,7 +2427,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                         .catch(async (err) => {
                             console.error(err)
-                            await bocchi.reply(from, `Error!\n${err}`, id)
+                            await bocchi.reply(from, 'Error!', id)
                         })
                 }
             break
@@ -2454,7 +2455,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                             })
                     } catch (err) {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     }
                 } else {
                     if (!isUrl(url) && !url.includes('pornhub.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -2477,7 +2478,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                             })
                     } catch (err) {
                         console.error(err)
-                        await bocchi.reply(from, `Error!\n${err}`, id)
+                        await bocchi.reply(from, 'Error!', id)
                     }
                 }
             break
@@ -2510,7 +2511,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.sendText(from, '🎉 Welcome! 🎉')
                 } catch (err) {
                     console.error(err)
-                    await bocchi.reply(from, `Error!\n${err}`, id)
+                    await bocchi.reply(from, 'Error!', id)
                 }
             break
             case 'kick':
@@ -2747,7 +2748,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.sendText(from, evaled)
                 } catch (err) {
                     console.error(err)
-                    await bocchi.reply(from, `Error!\n${err}`, id)
+                    await bocchi.reply(from, 'Error!', id)
                 }
             break
             case 'shutdown':
