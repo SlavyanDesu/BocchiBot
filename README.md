@@ -143,6 +143,8 @@ If you want to unlock premium commands, please contact me~
 | YouTube audio/video |      ✔️      |
 | Joox                |      ✔️      |
 | TikTok              |      ✔️      |
+| TikTok pic          |      ✔️      |
+| Twitter             |      ✔️      |
 
 |         Misc        | Availability |
 | :-----------------: | :----------: |
@@ -189,6 +191,7 @@ If you want to unlock premium commands, please contact me~
 | Galaxy text maker     |      ✔️      |
 | Truth or dare         |      ✔️      |
 | TikTok asupan         |      ✔️      |
+| PH comment maker      |      ✔️      |
 
 |      Weeb Zone     | Availability |
 | :----------------: | :----------: |
