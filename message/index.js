@@ -23,6 +23,7 @@ const nhentai = require('nhentai-js')
 const { API } = require('nhentai-api')
 const api = new API()
 const sagiri = require('sagiri')
+const saus = sagiri(config.nao, { results: 5 })
 const crypto = require('crypto')
 const axios = require('axios')
 const tts = require('node-gtts')
@@ -31,7 +32,6 @@ const ms = require('parse-ms')
 const toMs = require('ms')
 const canvas = require('canvacord')
 const mathjs = require('mathjs')
-const saus = sagiri(config.nao, { results: 5 })
 const emojiUnicode = require('emoji-unicode')
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
@@ -49,16 +49,16 @@ const tanggal = moment.tz('Asia/Jakarta').format('DD-MM-YYYY')
 
 /********** DATABASES **********/
 const _nsfw = JSON.parse(fs.readFileSync('./database/group/nsfw.json'))
-const _ban = JSON.parse(fs.readFileSync('./database/bot/banned.json'))
-const _premium = JSON.parse(fs.readFileSync('./database/bot/premium.json'))
-const _registered = JSON.parse(fs.readFileSync('./database/bot/registered.json'))
 const _antilink = JSON.parse(fs.readFileSync('./database/group/antilink.json'))
 const _leveling = JSON.parse(fs.readFileSync('./database/group/leveling.json'))
 const _welcome = JSON.parse(fs.readFileSync('./database/group/welcome.json'))
+const _autosticker = JSON.parse(fs.readFileSync('./database/group/autosticker.json'))
+const _ban = JSON.parse(fs.readFileSync('./database/bot/banned.json'))
+const _premium = JSON.parse(fs.readFileSync('./database/bot/premium.json'))
+const _registered = JSON.parse(fs.readFileSync('./database/bot/registered.json'))
 const _level = JSON.parse(fs.readFileSync('./database/user/level.json'))
 const _limit = JSON.parse(fs.readFileSync('./database/user/limit.json'))
 const _afk = JSON.parse(fs.readFileSync('./database/user/afk.json'))
-const _autosticker = JSON.parse(fs.readFileSync('./database/group/autosticker.json'))
 const _reminder = JSON.parse(fs.readFileSync('./database/user/reminder.json'))
 const _bg = JSON.parse(fs.readFileSync('./database/user/card/background.json'))
 /********** END OF DATABASES **********/
@@ -83,7 +83,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video') && caption) && caption.startsWith(prefix)) ? caption : ''
         const command = body.slice(1).trim().split(/ +/).shift().toLowerCase()
         const args = body.trim().split(/ +/).slice(1)
-        const isCmd = body.startsWith(prefix)
         const uaOverride = config.uaOverride
         const q = args.join(' ')
         const ar = args.map((v) => v.toLowerCase())
@@ -385,6 +384,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         /********** END OF FUNCTION **********/
 
         /********** VALIDATOR **********/
+        const isCmd = body.startsWith(prefix)
         const isBlocked = blockNumber.includes(sender.id)
         const isOwner = sender.id === ownerNumber
         const isGroupAdmins = groupAdmins.includes(sender.id) || false
@@ -392,11 +392,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isBanned = _ban.includes(sender.id)
         const isPremium = _premium.includes(sender.id)
         const isRegistered = checkRegisteredUser(sender.id)
-        const isNsfw = isGroupMsg ? _nsfw.includes(chat.id) : false
-        const isWelcomeOn = isGroupMsg ? _welcome.includes(chat.id) : false
-        const isDetectorOn = isGroupMsg ? _antilink.includes(chat.id) : false
-        const isLevelingOn = isGroupMsg ? _leveling.includes(chat.id) : false
-        const isAutoStickerOn = isGroupMsg ? _autosticker.includes(chat.id) : false
+        const isNsfw = isGroupMsg ? _nsfw.includes(groupId) : false
+        const isWelcomeOn = isGroupMsg ? _welcome.includes(groupId) : false
+        const isDetectorOn = isGroupMsg ? _antilink.includes(groupId) : false
+        const isLevelingOn = isGroupMsg ? _leveling.includes(groupId) : false
+        const isAutoStickerOn = isGroupMsg ? _autosticker.includes(groupId) : false
         const isAfkOn = checkAfkUser(sender.id)
         const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
         const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
@@ -1035,14 +1035,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'mutualan':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
-                await bocchi.reply(from, 'Looking for a partner...', id)        
+                await bocchi.reply(from, 'Looking for a partner...', id)
                 await bocchi.sendContact(from, getRegisteredRandomId())
                 await bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`)
             break
             case 'next':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
-                await bocchi.reply(from, 'Looking for a partner...', id)        
+                await bocchi.reply(from, 'Looking for a partner...', id)
                 await bocchi.sendContact(from, getRegisteredRandomId())
                 await bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`)
             break
@@ -1245,11 +1245,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
                 if (ar[0] === 'enable') {
                     if (isNsfw) return await bocchi.reply(from, ind.nsfwAlready(), id)
-                    _nsfw.push(chat.id)
+                    _nsfw.push(groupId)
                     fs.writeFileSync('./database/group/nsfw.json', JSON.stringify(_nsfw))
                     await bocchi.reply(from, ind.nsfwOn(), id)
                 } else if (ar[0] === 'disable') {
-                    _nsfw.splice(chat.id, 1)
+                    _nsfw.splice(groupId, 1)
                     fs.writeFileSync('./database/group/nsfw.json', JSON.stringify(_nsfw))
                     await bocchi.reply(from, ind.nsfwOff(), id)
                 } else {
@@ -1264,7 +1264,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 let block = ind.listBlock(blockNumber)
                 for (let i of blockNumber) {
-                    block += `@${i.replace(/@c.us/g, '')}\n`
+                    block += `@${i.replace('@c.us', '')}\n`
                 }
                 await bocchi.sendTextWithMentions(from, block)
             break
@@ -1526,19 +1526,19 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, `Error!\n${err}`, id)
                     })
             break
-            case 'citacita'://Piyobot
-            fetch('https://raw.githubusercontent.com/AlvioAdjiJanuar/citacita/main/citacita.txt')
-            .then(res => res.text())
-            .then(body => {
-            let cita = body.split('\n')
-            let raya = cita[Math.floor(Math.random() * cita.length)]
-            bocchi.sendFileFromUrl(from, raya, 'citacita.mp3', id)
-                .then(() => console.log('Success sending cita'))
-              })
-             .catch(() => {
-            bocchi.reply(from, 'Ada yang Error!', id)
-             })
-             break
+            case 'citacita': // Piyobot
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                fun.cita()
+                    .then(async (body) => {
+                        const cita = body.split('\n')
+                        const randomCita = cita[Math.floor(Math.random() * cita.length)]
+                        await bocchi.sendFileFromUrl(from, randomCita, 'cita.mp3', '', id)
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, `Error!\n${err}`, id)
+                    })
+            break
             case 'profile':
             case 'me':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -1625,11 +1625,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'zodiac':
             case 'zodiak':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                const zodiak = args[0]
-                if (!zodiak) return await bocchi.reply(from, ind.wrongFormat(), id)
-                if (zodiak.length === 1) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
-                fun.zodiak(zodiak)
+                fun.zodiak(args[0])
                     .then(async ({ result }) => {
                         if (result.status === 204) {
                             return await bocchi.reply(from, result.ramalan, id)
@@ -2014,6 +2012,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const imageLink = await uploadImages(mediaData, `fire.${sender.id}`)
                     sticker.stickerFire(imageLink)
                         .then(async ({ result }) => {
+                            if (result.error) return await bocchi.reply(from, 'Error... :(', id)
                             await bocchi.sendStickerfromUrl(from, result.imgUrl)
                                 .then(async () => {
                                     console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
@@ -2562,11 +2561,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isBotGroupAdmins) return await bocchi.reply(from, ind.botNotAdmin(), id)
                 if (ar[0] === 'enable') {
                     if (isDetectorOn) return await bocchi.reply(from, ind.detectorOnAlready(), id)
-                    _antilink.push(chat.id)
+                    _antilink.push(groupId)
                     fs.writeFileSync('./database/group/antilink.json', JSON.stringify(_antilink))
                     await bocchi.reply(from, ind.detectorOn(name, formattedTitle), id)
                 } else if (ar[0] === 'disable') {
-                    _antilink.splice(chat.id, 1)
+                    _antilink.splice(groupId, 1)
                     fs.writeFileSync('./database/group/antilink.json', JSON.stringify(_antilink))
                     await bocchi.reply(from, ind.detectorOff(), id)
                 } else {
@@ -2579,11 +2578,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
                 if (ar[0] === 'enable') {
                     if (isLevelingOn) return await bocchi.reply(from, ind.levelingOnAlready(), id)
-                    _leveling.push(chat.id)
+                    _leveling.push(groupId)
                     fs.writeFileSync('./database/group/leveling.json', JSON.stringify(_leveling))
                     await bocchi.reply(from, ind.levelingOn(), id)
                 } else if (ar[0] === 'disable') {
-                    _leveling.splice(chat.id, 1)
+                    _leveling.splice(groupId, 1)
                     fs.writeFileSync('./database/group/leveling.json', JSON.stringify(_leveling))
                     await bocchi.reply(from, ind.levelingOff(), id)
                 } else {
@@ -2596,11 +2595,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
                 if (ar[0] === 'enable') {
                     if (isWelcomeOn) return await bocchi.reply(from, ind.welcomeOnAlready(), id)
-                    _welcome.push(chat.id)
+                    _welcome.push(groupId)
                     fs.writeFileSync('./database/group/welcome.json', JSON.stringify(_welcome))
                     await bocchi.reply(from, ind.welcomeOn(), id)
                 } else if (ar[0] === 'disable') {
-                    _welcome.splice(chat.id, 1)
+                    _welcome.splice(groupId, 1)
                     fs.writeFileSync('./database/group/welcome.json', JSON.stringify(_welcome))
                     await bocchi.reply(from, ind.welcomeOff(), id)
                 } else {
@@ -2615,11 +2614,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
                 if (ar[0] === 'enable') {
                     if (isAutoStickerOn) return await bocchi.reply(from, ind.autoStikOnAlready(), id)
-                    _autosticker.push(chat.id)
+                    _autosticker.push(groupId)
                     fs.writeFileSync('./database/group/autosticker.json', JSON.stringify(_autosticker))
                     await bocchi.reply(from, ind.autoStikOn(), id)
                 } else if (ar[0] === 'disable') {
-                    _autosticker.splice(chat.id, 1)
+                    _autosticker.splice(groupId, 1)
                     fs.writeFileSync('./database/group/autosticker.json', JSON.stringify(_autosticker))
                     await bocchi.reply(from, ind.autoStikOff(), id)
                 } else {
@@ -2680,7 +2679,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else if (ar[0] === 'del') {
                     if (mentionedJidList.length !== 0) {
                         if (mentionedJidList[0] === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
-                        _ban.splice(_ban.indexOf(mentionedJidList[0]), 1)
+                        _ban.splice(mentionedJidList[0], 1)
                         fs.writeFileSync('./database/bot/banned.json', JSON.stringify(_ban))
                         await bocchi.reply(from, ind.doneOwner(), id)
                     } else{
@@ -2709,7 +2708,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
                 await bocchi.sendText(from, 'Otsukaresama deshita~ 👋')
                     .then(async () => await bocchi.kill())
-                    .catch(() => console.error('Target closed.'))
+                    .catch(() => new Error('Target closed.'))
             break
             case 'premium':
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
@@ -2722,8 +2721,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.doneOwner(), id)
                 } else if (ar[0] === 'del') {
                     if (mentionedJidList[0] === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
-                    let predel = _premium.indexOf(mentionedJidList[0])
-                    _premium.splice(predel, 1)
+                    _premium.splice(mentionedJidList[0], 1)
                     fs.writeFileSync('./database/bot/premium.json', JSON.stringify(_premium))
                     await bocchi.reply(from, ind.doneOwner(), id)
                 } else {
@@ -2754,7 +2752,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             default:
                 if (isCmd) {
-                    await bocchi.reply(from, `Command ${prefix}${command} tidak ditemukan.`, id)
+                    await bocchi.reply(from, `Command *${prefix}${command}* tidak ditemukan.`, id)
                 }
             break
         }

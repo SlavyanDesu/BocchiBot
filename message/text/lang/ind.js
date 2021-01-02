@@ -244,7 +244,7 @@ exports.shopee = (nama, harga, terjual, shop_location, description, link_product
 }
 
 exports.pc = (pushname) => {
-    return `*「 REGISTRATION 」*\n\nAkun kamu berhasil terdaftar! Silakan cek pesan ku di private chat mu ya ${pushname}~ :3`
+    return `*「 REGISTRATION 」*\n\nAkun kamu berhasil terdaftar! Silakan cek pesan ku di private chat mu ya ${pushname}~ :3\n\nNote:\nJika kamu tidak menerima pesan, artinya kamu belum save nomor bot.`
 }
 
 exports.registeredFound = (name, age, time, serial, userId) => {
