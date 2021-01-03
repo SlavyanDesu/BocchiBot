@@ -612,21 +612,17 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'facebook':
             case 'fb':
-                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (!isUrl(url) && !url.includes('facebook.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(pushname), id)
+                if (!isUrl(url) && !url.includes('facebook.com')) return await bocchi.reply(from, `URL bukan dari facebook!`, id)
                 await bocchi.reply(from, ind.wait(), id)
-                downloader.facebook(url)
-                    .then(async ({ status, title, link, pesan }) => {
-                        if (status === 'error') {
-                            return await bocchi.reply(from, pesan, id)
-                        } else {
-                            await bocchi.sendFileFromUrl(from, link, `${title}.mp4`, title, id)
+                downloader.fb(q)
+                .then(async ({ result }) => {
+                            await bocchi.sendFileFromUrl(from, result.VideoUrl, 'videofb.mp4', '', id)
                             console.log(from, 'Success sending Facebook video!')
-                        }
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, 'Error!', id)
+                        await bocchi.reply(from, `Ada yang Error!`, id)
                     })
             break
             case 'ytmp3':
