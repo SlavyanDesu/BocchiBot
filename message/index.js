@@ -24,7 +24,6 @@ const { API } = require('nhentai-api')
 const api = new API()
 const sagiri = require('sagiri')
 const saus = sagiri(config.nao, { results: 5 })
-const crypto = require('crypto')
 const axios = require('axios')
 const tts = require('node-gtts')
 const bent = require('bent')
@@ -38,10 +37,11 @@ moment.tz.setDefault('Asia/Jakarta').locale('id')
 /********** END OF MODULES **********/
 
 /********** UTILS **********/
-const { msgFilter, color, processTime, isUrl } = require('../tools')
+const { msgFilter, color, processTime, isUrl, createSerial } = require('../tools')
 const { nsfw, weeaboo, downloader, sticker, fun, misc, toxic } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
+const { limit, level, card, register, afk, reminder } = require('../function')
 const cd = 4.32e+7
 const errorImg = 'https://i.ibb.co/jRCpLfn/user.png'
 const tanggal = moment.tz('Asia/Jakarta').format('DD-MM-YYYY')
@@ -87,301 +87,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const q = args.join(' ')
         const ar = args.map((v) => v.toLowerCase())
         const url = args.length !== 0 ? args[0] : ''
-        
-        /********** FUNCTION **********/
-        const getLevelingXp = (userId) => {
-            let position = false
-            Object.keys(_level).forEach((i) => {
-                if (_level[i].id === userId) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                return _level[position].xp
-            }
-        }
-
-        const getLevelingLevel = (userId) => {
-            let position = false
-            Object.keys(_level).forEach((i) => {
-                if (_level[i].id === userId) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                return _level[position].level
-            }
-        }
-
-        const getLevelingId = (userId) => {
-            let position = false
-            Object.keys(_level).forEach((i) => {
-                if (_level[i].id === userId) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                return _level[position].id
-            }
-        }
-
-        const addLevelingXp = (userId, amount) => {
-            let position = false
-            Object.keys(_level).forEach((i) => {
-                if (_level[i].id === userId) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                _level[position].xp += amount
-                fs.writeFileSync('./database/user/level.json', JSON.stringify(_level))
-            }
-        }
-
-        const addLevelingLevel = (userId, amount) => {
-            let position = false
-            Object.keys(_level).forEach((i) => {
-                if (_level[i].id === userId) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                _level[position].level += amount
-                fs.writeFileSync('./database/user/level.json', JSON.stringify(_level))
-            }
-        }
-
-        const addLevelingId = (userId) => {
-            const obj = {id: userId, xp: 1, level: 1}
-            _level.push(obj)
-            fs.writeFileSync('./database/user/level.json', JSON.stringify(_level))
-        }
-
-        const addLimit = (userId) => {
-            const obj = {id: userId, time: Date.now()}
-            _limit.push(obj)
-            fs.writeFileSync('./database/user/limit.json', JSON.stringify(_limit))
-        }
-
-        const getLimit = (userId) => {
-            let position = false
-            Object.keys(_limit).forEach((i) => {
-                if (_limit[i].id === userId) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                return _limit[position].time
-            }
-        }
-
-        const getRegisteredRandomId = () => {
-            return _registered[Math.floor(Math.random() * _registered.length)].id
-        }
-
-        const addRegisteredUser = (userId, name, age, time, serial) => {
-            const obj = { id: userId, name: name, age: age, time: time, serial: serial }
-            _registered.push(obj)
-            fs.writeFileSync('./database/bot/registered.json', JSON.stringify(_registered))
-        }
-
-        const createSerial = (size) => {
-            return crypto.randomBytes(size).toString('hex').slice(0, size)
-        }
-
-        const checkRegisteredUser = (userId) => {
-            let status = false
-            Object.keys(_registered).forEach((i) => {
-                if (_registered[i].id === userId) {
-                    status = true
-                }
-            })
-            return status
-        }
-
-        const checkRegisteredUserFromSerial = (serial) => {
-            let status = false
-            Object.keys(_registered).forEach((i) => {
-                if (_registered[i].serial === serial) {
-                    status = true
-                }
-            })
-            return status
-        }
-
-        const getRegisteredNameFromSerial = (serial) => {
-            let position = false
-            Object.keys(_registered).forEach((i) => {
-                if (_registered[i].serial === serial) {
-                    position = i
-                }
-            })
-            return _registered[position].name
-        }
-
-        const getRegisteredAgeFromSerial = (serial) => {
-            let position = false
-            Object.keys(_registered).forEach((i) => {
-                if (_registered[i].serial === serial) {
-                    position = i
-                }
-            })
-            return _registered[position].age
-        }
-
-        const getRegisteredTimeFromSerial = (serial) => {
-            let position = false
-            Object.keys(_registered).forEach((i) => {
-                if (_registered[i].serial === serial) {
-                    position = i
-                }
-            })
-            return _registered[position].time
-        }
-
-        const getRegisteredIdFromSerial = (serial) => {
-            let position = false
-            Object.keys(_registered).forEach((i) => {
-                if (_registered[i].serial === serial) {
-                    position = i
-                }
-            })
-            return _registered[position].id
-        }
-
-        const addAfkUser = (userId, time, reason) => {
-            const obj = { id: userId, time: time, reason: reason }
-            _afk.push(obj)
-            fs.writeFileSync('./database/user/afk.json', JSON.stringify(_afk))
-        }
-
-        const checkAfkUser = (userId) => {
-            let status = false
-            Object.keys(_afk).forEach((i) => {
-                if (_afk[i].id === userId) {
-                    status = true
-                }
-            })
-            return status
-        }
-
-        const getAfkReason = (userId) => {
-            let position = false
-            Object.keys(_afk).forEach((i) => {
-                if (_afk[i].id === userId) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                return _afk[position].reason
-            }
-        }
-
-        const getAfkTime = (userId) => {
-            let position = false
-            Object.keys(_afk).forEach((i) => {
-                if (_afk[i].id === userId) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                return _afk[position].time
-            }
-        }
-
-        const getAfkId = (userId) => {
-            let position = false
-            Object.keys(_afk).forEach((i) => {
-                if (_afk[i].id === userId) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                return _afk[position].id
-            }
-        }
-
-        const getAfkPosition = (userId) => {
-            let position = false
-            Object.keys(_afk).forEach((i) => {
-                if (_afk[i].id === userId) {
-                    position = i
-                }
-            })
-            return position
-        }
-
-        const addReminder = (userId, message, time) => {
-            const obj = { id: userId, msg: message, time: Date.now() + toMs(time) }
-            _reminder.push(obj)
-            fs.writeFileSync('./database/user/reminder.json', JSON.stringify(_reminder))
-        }
-
-        const getReminderTime = (userId) => {
-            let position = false
-            Object.keys(_reminder).forEach((i) => {
-                if(_reminder[i].id === userId) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                return _reminder[position].time
-            }
-        }
-
-        const getReminderMsg = (userId) => {
-            let position = false
-            Object.keys(_reminder).forEach((i) => {
-                if (_reminder[i].id === userId) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                return _reminder[position].msg
-            }
-        }
-
-        const getReminderPosition = (userId) => {
-            let position = false
-            Object.keys(_reminder).forEach((i) => {
-                if (_reminder[i].id === userId) {
-                    position = i
-                }
-            })
-            return position
-        }
-
-        const addBg = (userId) => {
-            const obj = { id: userId, link: 'https://i.ibb.co/tYf3jmz/amos-yan-no-entry-1.jpg' }
-            _bg.push(obj)
-            fs.writeFileSync('./database/user/card/background.json', JSON.stringify(_bg))
-        }
-
-        const getBg = (userId) => {
-            let position = false
-            Object.keys(_bg).forEach((i) => {
-                if (_bg[i].id === userId) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                return _bg[position].link
-            }
-        }
-
-        const replaceBg = (userId, link) => {
-            let position = false
-            Object.keys(_bg).forEach((i) => {
-                if (_bg[i].id === userId) {
-                    position = i
-                }
-            })
-            if (position !== false) {
-                _bg[position].link = link
-                fs.writeFileSync('./database/user/card/background.json', JSON.stringify(_bg))
-            }
-        }
-        /********** END OF FUNCTION **********/
 
         /********** VALIDATOR **********/
         const isCmd = body.startsWith(prefix)
@@ -391,13 +96,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isBotGroupAdmins = groupAdmins.includes(botNumber) || false
         const isBanned = _ban.includes(sender.id)
         const isPremium = _premium.includes(sender.id)
-        const isRegistered = checkRegisteredUser(sender.id)
+        const isRegistered = register.checkRegisteredUser(sender.id, _registered)
         const isNsfw = isGroupMsg ? _nsfw.includes(groupId) : false
         const isWelcomeOn = isGroupMsg ? _welcome.includes(groupId) : false
         const isDetectorOn = isGroupMsg ? _antilink.includes(groupId) : false
         const isLevelingOn = isGroupMsg ? _leveling.includes(groupId) : false
         const isAutoStickerOn = isGroupMsg ? _autosticker.includes(groupId) : false
-        const isAfkOn = checkAfkUser(sender.id)
+        const isAfkOn = afk.checkAfkUser(sender.id, _afk)
         const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
         const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
         const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
@@ -407,19 +112,19 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
         // Leveling [BETA] by Slavyan
         if (isGroupMsg && isRegistered && !isBanned && isLevelingOn) {
-            const currentLevel = getLevelingLevel(sender.id)
-            const checkId = getLevelingId(sender.id)
-            const checkBg = getBg(sender.id)
+            const currentLevel = level.getLevelingLevel(sender.id, _level)
+            const checkId = level.getLevelingId(sender.id, _level)
+            const checkBg = card.getBg(sender.id, _bg)
             try {
-                if (currentLevel === undefined && checkId === undefined) addLevelingId(sender.id)
-                if (checkBg === undefined) addBg(sender.id)
-                const amountXp = Math.floor(Math.random() * 10) + 500
-                const requiredXp = 5000 * (Math.pow(2, currentLevel) - 1)
-                const getLevel = getLevelingLevel(sender.id)
-                addLevelingXp(sender.id, amountXp)
-                if (requiredXp <= getLevelingXp(sender.id)) {
-                    addLevelingLevel(sender.id, 1)
-                    await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${getLevelingXp(sender.id)}\n➸ *Level*: ${getLevel} -> ${getLevelingLevel(sender.id)}\n\nCongrats!! 🎉🎉`, id)
+                if (currentLevel === undefined && checkId === undefined) level.addLevelingId(sender.id, _level)
+                if (checkBg === undefined) card.addBg(sender.id, _bg)
+                const amountXp = Math.floor(Math.random() * 10) + 20
+                const requiredXp = 200 * (Math.pow(2, currentLevel) - 1)
+                const getLevel = level.getLevelingLevel(sender.id, _level)
+                level.addLevelingXp(sender.id, amountXp, _level)
+                if (requiredXp <= level.getLevelingXp(sender.id, _level)) {
+                    level.addLevelingLevel(sender.id, 1, _level)
+                    await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)}\n\nCongrats!! 🎉🎉`, id)
                 }
             } catch (err) {
                 console.error(err)
@@ -451,15 +156,15 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         // AFK by Slavyan
         if (isGroupMsg) {
             for (let ment of mentionedJidList) {
-                if (checkAfkUser(ment)) {
-                    const getId = getAfkId(ment)
-                    const getReason = getAfkReason(getId)
-                    const getTime = getAfkTime(getId)
+                if (afk.checkAfkUser(ment, _afk)) {
+                    const getId = afk.getAfkId(ment, _afk)
+                    const getReason = afk.getAfkReason(getId, _afk)
+                    const getTime = afk.getAfkTime(getId, _afk)
                     await bocchi.reply(from, ind.afkMentioned(getReason, getTime), id)
                 }
             }
-            if (checkAfkUser(sender.id) && !isCmd) {
-                _afk.splice(getAfkPosition(sender.id), 1)
+            if (afk.checkAfkUser(sender.id, _afk) && !isCmd) {
+                _afk.splice(afk.getAfkPosition(sender.id, _afk), 1)
                 fs.writeFileSync('./database/user/afk.json', JSON.stringify(_afk))
                 await bocchi.sendText(from, ind.afkDone(pushname))
             }
@@ -492,12 +197,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const umurUser = q.substring(q.lastIndexOf('|') + 2)
                 const serialUser = createSerial(20)
                 if (isGroupMsg) {
-                    addRegisteredUser(sender.id, namaUser, umurUser, time, serialUser)
+                    register.addRegisteredUser(sender.id, namaUser, umurUser, time, serialUser, _registered)
                     await bocchi.reply(from, ind.pc(pushname), id)
                     await bocchi.sendText(sender.id, ind.registered(namaUser, umurUser, sender.id, time, serialUser))
                     console.log(color('[REGISTER]'), color(time, 'yellow'), 'Name:', color(namaUser, 'cyan'), 'Age:', color(umurUser, 'cyan'), 'Serial:', color(serialUser, 'cyan'), 'in', color(name || formattedTitle))
                 } else {
-                    addRegisteredUser(sender.id, namaUser, umurUser, time, serialUser)
+                    register.addRegisteredUser(sender.id, namaUser, umurUser, time, serialUser, _registered)
                     await bocchi.reply(from, ind.registered(namaUser, umurUser, sender.id, time, serialUser), id)
                     console.log(color('[REGISTER]'), color(time, 'yellow'), 'Name:', color(namaUser, 'cyan'), 'Age:', color(umurUser, 'cyan'), 'Serial:', color(serialUser, 'cyan'))
                 }
@@ -508,8 +213,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
-                const userLevel = getLevelingLevel(sender.id)
-                const userXp = getLevelingXp(sender.id)
+                const userLevel = level.getLevelingLevel(sender.id, _level)
+                const userXp = level.getLevelingXp(sender.id, _level)
                 if (userLevel === undefined && userXp === undefined) return await bocchi.reply(from, ind.levelNull(), id)
                 const ppLink = await bocchi.getProfilePicFromServer(sender.id)
                 if (ppLink === undefined) {
@@ -517,8 +222,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     var pepe = ppLink
                 }
-                const bege = getBg(sender.id)
-                const requiredXp = 5000 * (Math.pow(2, userLevel) - 1)
+                const bege = card.getBg(sender.id, _bg)
+                const requiredXp = 200 * (Math.pow(2, userLevel) - 1)
                 const randomHexs = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`
                 const randomHex = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`
                 const rank = new canvas.Rank()
@@ -566,10 +271,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isUrl(url)) return await bocchi.reply(from, ind.wrongFormat(), id)
-                const levels = getLevelingLevel(sender.id)
-                const xps = getLevelingXp(sender.id)
+                const levels = level.getLevelingLevel(sender.id, _level)
+                const xps = level.getLevelingXp(sender.id, _level)
                 if (levels === undefined && xps === undefined) return await bocchi.reply(from, ind.levelNull(), id)
-                replaceBg(sender.id, url)
+                card.replaceBg(sender.id, url, _bg)
                 await bocchi.reply(from, 'Success set new background!', id)
             break
 
@@ -736,7 +441,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (isAfkOn) return await bocchi.reply(from, ind.afkOnAlready(), id)
                 const reason = q ? q : 'Nothing.'
-                addAfkUser(sender.id, time, reason)
+                afk.addAfkUser(sender.id, time, reason, _afk)
                 await bocchi.reply(from, ind.afkOn(pushname, reason), id)
             break
             case 'lyric':
@@ -1079,14 +784,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
                 await bocchi.reply(from, 'Looking for a partner...', id)
-                await bocchi.sendContact(from, getRegisteredRandomId())
+                await bocchi.sendContact(from, register.getRegisteredRandomId(_registered))
                 await bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`)
             break
             case 'next':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
                 await bocchi.reply(from, 'Looking for a partner...', id)
-                await bocchi.sendContact(from, getRegisteredRandomId())
+                await bocchi.sendContact(from, register.getRegisteredRandomId(_registered))
                 await bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`)
             break
             case 'tafsir':
@@ -1222,12 +927,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const timeRemind = q.substring(0, q.indexOf('|') - 1)
                 const messRemind = q.substring(q.lastIndexOf('|') + 2)
                 const parsedTime = ms(toMs(timeRemind))
-                addReminder(sender.id, messRemind, timeRemind)
+                reminder.addReminder(sender.id, messRemind, timeRemind, _reminder)
                 await bocchi.sendTextWithMentions(from, `*「 REMINDER 」*\n\nReminder diaktifkan! :3\n\n➸ *Pesan*: ${messRemind}\n➸ *Durasi*: ${parsedTime.hours} jam ${parsedTime.minutes} menit ${parsedTime.seconds} detik\n➸ *Untuk*: @${sender.id.replace('@c.us', '')}`, id)
                 const intervRemind = setInterval(async () => {
-                    if (Date.now() > getReminderTime(sender.id)) {
-                        await bocchi.sendTextWithMentions(from, `⏰ *「 REMINDER 」* ⏰\n\nAkhirnya tepat waktu~ @${sender.id.replace('@c.us', '')}\n\n➸ *Pesan*: ${getReminderMsg(sender.id)}`)
-                        _reminder.splice(getReminderPosition(sender.id), 1)
+                    if (Date.now() > reminder.getReminderTime(sender.id, _reminder)) {
+                        await bocchi.sendTextWithMentions(from, `⏰ *「 REMINDER 」* ⏰\n\nAkhirnya tepat waktu~ @${sender.id.replace('@c.us', '')}\n\n➸ *Pesan*: ${reminder.getReminderMsg(sender.id, _reminder)}`)
+                        _reminder.splice(reminder.getReminderPosition(sender.id, _reminder), 1)
                         fs.writeFileSync('./database/user/reminder.json', JSON.stringify(_reminder))
                         clearInterval(intervRemind)
                     }
@@ -1330,7 +1035,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'report':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.emptyMess(), id)
-                const lastReport = getLimit(sender.id)
+                const lastReport = limit.getLimit(sender.id, _limit)
                 if (lastReport !== undefined && cd - (Date.now() - lastReport) > 0) {
                     const time = ms(cd - (Date.now() - lastReport))
                     await bocchi.reply(from, ind.limit(time), id)
@@ -1342,7 +1047,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.sendText(ownerNumber, `-----[ REPORT ]-----\n\n*From*: ${pushname}\n*ID*: ${sender.id}\n*Message*: ${q}`)
                         await bocchi.reply(from, ind.received(pushname), id)
                     }
-                    addLimit(sender.id)
+                    limit.addLimit(sender.id, _limit)
                 }
             break
             case 'tos':
@@ -2557,7 +2262,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
                 const groupMem = await bocchi.getGroupMembers(groupId)
-                const lastEveryone = getLimit(sender.id)
+                const lastEveryone = limit.getLimit(sender.id, _limit)
                 if (lastEveryone !== undefined && cd - (Date.now() - lastEveryone) > 0) {
                     const time = ms(cd - (Date.now() - lastEveryone))
                     await bocchi.reply(from, ind.limit(time), id)
@@ -2577,7 +2282,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         }
                     txt += '╚═〘 *B O C C H I  B O T* 〙'
                     await bocchi.sendTextWithMentions(from, txt)
-                    addLimit(sender.id)
+                    limit.addLimit(sender.id, _limit)
                 }
             break
             case 'groupicon':
@@ -2783,11 +2488,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
                 if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const serials = args[0]
-                if (checkRegisteredUserFromSerial(serials)) {
-                    const name = getRegisteredNameFromSerial(serials)
-                    const age = getRegisteredAgeFromSerial(serials)
-                    const time = getRegisteredTimeFromSerial(serials)
-                    const id = getRegisteredIdFromSerial(serials)
+                if (register.checkRegisteredUserFromSerial(serials, _registered)) {
+                    const name = register.getRegisteredNameFromSerial(serials, _registered)
+                    const age = register.getRegisteredAgeFromSerial(serials, _registered)
+                    const time = register.getRegisteredTimeFromSerial(serials, _registered)
+                    const id = register.getRegisteredIdFromSerial(serials, _registered)
                     await bocchi.sendText(from, ind.registeredFound(name, age, time, serials, id))
                 } else {
                     await bocchi.sendText(from, ind.registeredNotFound(serials))

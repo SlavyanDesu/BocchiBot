@@ -100,7 +100,7 @@ exports.notRegistered = () => {
 }
 
 exports.registered = (name, age, userId, time, serial) => {
-    return `*「 REGISTRATION 」*\n\nAkun kamu telah terdaftar dengan data:\n\n➸ *Nama*: ${name}\n➸ *Umur*: ${age}\n➸ *ID*: ${userId}\n➸ *Waktu pendaftaran*: ${time}\n➸ *Serial*: ${serial}\n\nCatatan:\nJangan pernah menyebarkan data *serial* ke pada siapapun!\n\nKetik ${prefix}rules terlebih dahulu ya~`
+    return `*「 REGISTRATION 」*\n\nAkun kamu telah terdaftar dengan data:\n\n➸ *Nama*: ${name}\n➸ *Umur*: ${age}\n➸ *ID*: ${userId}\n➸ *Waktu pendaftaran*: ${time}\n➸ *Serial*: ${serial}\n\nCatatan:\nJangan pernah menyebarkan data *serial* ke pada siapapun!\n\nKetik *${prefix}rules* terlebih dahulu ya~`
 }
 
 exports.registeredAlready = () => {
@@ -509,7 +509,7 @@ Usage: *${prefix}toxic*
 23. *${prefix}tafsir*
 Tafsir ayat surah Al-Qur'an.
 Aliases: -
-Usage: *${prefix}tafsir* nama_surah | ayat
+Usage: *${prefix}tafsir* nama_surah  ayat
 
 24. *${prefix}motivasi*
 Kata-kata motivasi.

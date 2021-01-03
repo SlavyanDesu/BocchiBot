@@ -1,4 +1,5 @@
 const chalk = require('chalk')
+const crypto = require('crypto')
 const moment = require('moment-timezone')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 
@@ -9,6 +10,14 @@ moment.tz.setDefault('Asia/Jakarta').locale('id')
  */
 const color = (text, color) => {
     return !color ? chalk.green(text) : chalk.keyword(color)(text)
+}
+
+/**
+ * Create serial ID.
+ * @param {Number} size 
+ */
+const createSerial = (size) => {
+    return crypto.randomBytes(size).toString('hex').slice(0, size)
 }
 
 /**
@@ -86,5 +95,6 @@ module.exports = {
     color,
     isUrl,
     processTime,
-    options
+    options,
+    createSerial
 }
