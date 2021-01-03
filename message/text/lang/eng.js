@@ -100,7 +100,7 @@ exports.notRegistered = () => {
 }
 
 exports.registered = (name, age, userId, time, serial) => {
-    return `*「 REGISTRATION 」*\n\nYour account successfully registered with data:\n\n➸ *Name*: ${name}\n➸ *Age*: ${age}\n➸ *ID*: ${userId}\n➸ *Time registered*: ${time}\n➸ *Serial*: ${serial}\n\nNote:\nDO NOT share your *serial* to someone!\n\nType ${prefix}rules first okay~`
+    return `*「 REGISTRATION 」*\n\nYour account successfully registered with data:\n\n➸ *Name*: ${name}\n➸ *Age*: ${age}\n➸ *ID*: ${userId}\n➸ *Time registered*: ${time}\n➸ *Serial*: ${serial}\n\nNote:\nDO NOT share your *serial* to someone!\n\nType *${prefix}rules* first okay~`
 }
 
 exports.registeredAlready = () => {
@@ -255,6 +255,14 @@ exports.registeredNotFound = (serial) => {
     return `Account with serial: *${serial}* not found!`
 }
 
+exports.ytPlay = (result) => {
+    return `*「 PLAY 」*\n\n➸ *Title*: ${result.title}\n➸ *Duration*: ${result.duration}\n➸ *Link*: ${result.url}\n\nMedia is being shipped, please wait...`
+}
+
+exports.pcOnly = () => {
+    return `This command only available in private chat only!`
+}
+
 exports.menu = () => {
     return `
 ------[ WELCOME ]-----
@@ -301,6 +309,26 @@ Usage: *${prefix}ytmp3* link
 Download YouTube video.
 Aliases: -
 Usage: *${prefix}ytmp4* link
+
+4. *${prefix}joox*
+Download music from Joox.
+Aliases: -
+Usage: *${prefix}joox* song's_title
+
+5. *${prefix}tiktok*
+Downlaod TikTok video.
+Aliases: -
+Usage: *${prefix}tiktok* link
+
+6. *${prefix}twitter*
+Download Twitter media.
+Aliases: *twt*
+Usage: *${prefix}twiter* link
+
+7. *${prefix}tiktokpic*
+Download TikTok profile pic.
+Aliases: -
+Usage: *${prefix}tiktokpic* username
 
 _Index of [1]_
     `
@@ -355,6 +383,11 @@ Join to group via link.
 Aliases: -
 Usage: *${prefix}join* group's_link
 
+10. *${prefix}ownerbot*
+Send owner contact.
+Aliases: -
+Usage: *${prefix}ownerbot*
+
 _Index of [2]_
     `
 }
@@ -368,10 +401,10 @@ The bot will repeat your message.
 Aliases: -
 Usage: *${prefix}say* text
 
-2. *${prefix}lirik*
+2. *${prefix}lyric*
 Search for song lyrics.
 Aliases: -
-Usage: *${prefix}lirik* song's_title
+Usage: *${prefix}lyric* song's_title
 
 3. *${prefix}shortlink*
 Create a shortlink.
@@ -447,6 +480,80 @@ Sending surah.
 Aliases: -
 Usage: *${prefix}surah* surah_number
 
+17. *${prefix}js*
+Get sholat schedule.
+Aliases: - 
+Usage: *${prefix}js* area
+
+18. *${prefix}mutual*
+Get random contact.
+Aliases: -
+Usage: *${prefix}mutual*
+
+19. *${prefix}whois*
+IP look-up.
+Aliases: -
+Usage: *${prefix}whois* ip_address
+
+20. *${prefix}play*
+Play audio from YouTube.
+Aliases: - 
+Usage: *${prefix}play* title
+
+21. *${prefix}sms*
+Send SMS as anonymous. (SMS gateway)
+Aliases: -
+Usage: *${prefix}sms* message | number
+
+22. *${prefix}toxic*
+Random toxic. (Indonesian)
+Aliases: -
+Usage: *${prefix}toxic*
+
+23. *${prefix}tafsir*
+Al-Qur'an tafsir.
+Aliases: -
+Usage: *${prefix}tafsir* surah_name ayat
+
+24. *${prefix}motivasi*
+Motivation text. (Indonesian)
+Aliases: -
+Usage: *${prefix}motivasi*
+
+25. *${prefix}linesticker*
+Latest Line sticker.
+Aliases: *linestiker*
+Usage: *${prefix}linesticker*
+
+26. *${prefix}alkitab*
+Bible search. (Indonesian)
+Aliases: -
+Usage: *${prefix}* gospel_name
+
+27. *${prefix}cekongkir*
+Postal fee check. (Indonesian)
+Aliases: -
+Usage: *${prefix}ongkir* service_name | from | to
+
+28. *${prefix}movie*
+Search for movies.
+Aliases: -
+Usage: *${prefix}movie* title
+
+28. *${prefix}reminder*
+Reminder. 
+*s* - seconds
+*m* - minutes
+*h* - hours
+*d* - days
+Aliases: -
+Usage: *${prefix}reminder* 10s | reminder_message
+
+29. *${prefix}imagetourl*
+Image uploader.
+Aliases: *imgtourl*
+Usage: Send images with caption *${prefix}imagetourl* or reply to the image with a caption *${prefix}imagetourl*.
+
 _Index of [3]_
     `
 }
@@ -484,6 +591,11 @@ Usage: *${prefix}ttg* text
 Convert stickers to image.
 Aliases: *stikertoimg*
 Usage: Reply to the stickers with a caption *${prefix}stickertoimg*.
+
+7. *${prefix}emojisticker*
+Converts emoji to sticker.
+Aliases: *emojistiker*
+Usage: *${prefix}emojisticker* emoji
 
 _Index of [4]_
     `
@@ -532,6 +644,21 @@ Usage: Send images with caption *${prefix}source* or reply to the images with a 
 Send random waifu photos.
 Aliases: -
 Usage: *${prefix}waifu*
+
+9. *${prefix}anitoki*
+Anitoki fansub latest update.
+Aliases: -
+Usage: *${prefix}anitoki*
+
+10. *${prefix}neonime*
+Neonime fansub latest update.
+Aliases: -
+Usage: *${prefix}neonime*
+
+11. *${prefix}anoboy*
+On-going anime on Anoboy fansub.
+Aliases: -
+Usage: *${prefix}anoboy*
 
 _Index of [5]_
     `
@@ -595,6 +722,46 @@ Usage: *${prefix}blackpink* text
 Create a Pornhub logo styled text.
 Aliases: -
 Usage: *${prefix}phmaker* left_text | right_text
+
+12. *${prefix}galaxy*
+Create a galaxy styled text.
+Aliases: -
+Usage: *${prefix}galaxy* text
+
+13. *${prefix}tod*
+Play truth or dare. (Indonesian)
+Aliases: -
+Usage: *${prefix}tod*
+
+14. *${prefix}weton*
+Weton fortune.
+Aliases: -
+Usage: *${prefix}weton* date | month | year
+
+15. *${prefix}triggered*
+Apply a triggered effect to image.
+Aliases: -
+Usage: Send image with caption *${prefix}triggered* or reply to someone message with caption *${prefix}triggered* or you can directly use *${prefix}triggered*.
+
+16. *${prefix}kiss*
+Kiss someone ( ͡° ͜ʖ ͡°).
+Aliases: -
+Usage: Send image with caption *${prefix}kiss* or reply image with caption *${prefix}kiss*.
+
+17. *${prefix}asupan*
+Daily dose of TikTok.
+Aliases: -
+Usage: *${prefix}asupan*
+
+17. *${prefix}citacita*
+Cita-cita meme. (Indonesian)
+Aliases: -
+Usage: *${prefix}citacita*
+
+17. *${prefix}phcomment*
+Create a Pornhub comment section styled image.
+Aliases: -
+Usage: *${prefix}phcomment* username | text
 
 _Index of [6]_
     `
@@ -788,6 +955,11 @@ Usage: *${prefix}level*
 Check leaderboard.
 Aliaases: -
 Usage: *${prefix}leaderboard*
+
+3. *${prefix}setbackground*
+Set background level card.
+Aliases: *setbg*
+Usage: *${prefix}setbackground* image_link
 
 _Index of [10]_
     `

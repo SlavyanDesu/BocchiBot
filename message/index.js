@@ -780,7 +780,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, `Error!\n\n${err}`, id)
                 }
             break
-            case 'mutualan':
+            case 'mutual':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
                 await bocchi.reply(from, 'Looking for a partner...', id)

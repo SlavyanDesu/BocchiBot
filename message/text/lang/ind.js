@@ -258,6 +258,9 @@ exports.registeredNotFound = (serial) => {
 exports.ytPlay = (result) => {
     return `*「 PLAY 」*\n\n➸ *Judul*: ${result.title}\n➸ *Durasi*: ${result.duration}\n➸ *Link*: ${result.url}\n\nMedia sedang dikirim, mohon tunggu...`
 }
+exports.pcOnly = () => {
+    return `Command ini hanya bisa digunakan di dalam private chat saja!`
+}
 
 exports.menu = () => {
     return `
@@ -481,10 +484,10 @@ Mengetahui jadwal shalat di daerah kalian
 Aliases: - 
 Usage: *${prefix}js* namadaerah
 
-18. *${prefix}mutualan*
+18. *${prefix}mutual*
 Dapatkan kontak WA random.
 Aliases: -
-Usage: *${prefix}mutualan*
+Usage: *${prefix}mutual*
 
 19. *${prefix}whois*
 IP look-up.
