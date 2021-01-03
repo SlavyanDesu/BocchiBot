@@ -68,7 +68,7 @@ Edit the required value in `config.json`.
     "token": "api-key",
     "nao": "api-key",
     "vhtear": "api-key",
-    "melodic": "api-key"
+    "melodic": "administrator"
 }
 ```
 
@@ -78,7 +78,7 @@ Edit the required value in `config.json`.
 `token`: API token. You can get it [here](https://api.i-tech.id) by creating an account. After that, set your server/host static IP in [here](https://api.i-tech.id/settings/profile).  
 `nao`: SauceNAO API token. You can get it [here](https://saucenao.com/user.php) by creating an account.  
 `vhtear`: VHTear API token. You can get it [here](https://api.vhtear.com/) by purchasing his API key.  
-`melodic`: MelodicXT API token. You can get it [here](https://melodicxt.herokuapp.com/) by purchasing his API key.  
+`melodic`: MelodicXT API token. You can use `administrator` key.  
 
 ## 🗣️ Changing language
 If you want to change the language, replace all `ind` function to `eng`.   
