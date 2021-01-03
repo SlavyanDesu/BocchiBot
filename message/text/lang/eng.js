@@ -10,31 +10,31 @@ exports.ok = () => {
 }
 
 exports.wrongFormat = () => {
-    return `Incorrect format! Please check how to use it at *${prefix}menu*.`
+    return `Incorrect format! Please check the usage in *${prefix}menu*.`
 }
 
 exports.emptyMess = () => {
-    return `Please enter the message you wish to convey!`
+    return `Please enter the message!`
 }
 
-exports.cmdNotFound = () => {
-    return `Command not found!`
+exports.cmdNotFound = (cmd) => {
+    return `Command *${cmd}* not found!`
 }
 
 exports.blocked = () => {
-    return `Bot not receiving calls. Because you have broken the rules, then you have been blocked!\n\nContact the owner: wa.me/${ownerNumber.replace('@c.us', '')}`
+    return `Bot not receiving calls. You have been blocked because breaking the rules!\n\nContact the owner: wa.me/${ownerNumber.replace('@c.us', '')}`
 }
 
 exports.ownerOnly = () => {
-    return `This command is special Owner-sama!`
+    return `This command only Owner-sama can use!`
 }
 
 exports.doneOwner = () => {
-    return `Already completed, Owner-sama~`
+    return `Done, Owner-sama~`
 }
 
 exports.groupOnly = () => {
-    return `This command can only be used within a group!`
+    return `This command can only be used in group!`
 }
 
 exports.adminOnly = () => {
@@ -42,7 +42,7 @@ exports.adminOnly = () => {
 }
 
 exports.notNsfw = () => {
-    return `NSFW command has not been enabled!`
+    return `NSFW command hasn't been enabled!`
 }
 
 exports.nsfwOn = () => {
@@ -54,11 +54,11 @@ exports.nsfwOff = () => {
 }
 
 exports.nsfwAlready = () => {
-    return `NSFW command has been enabled before.`
+    return `NSFW command was successfully enabled before.`
 }
 
 exports.addedGroup = (chat) => {
-    return `Thank you for inviting me, members *${chat.contact.name}*!\n\nPlease register by typing:\n*${prefix}register* name | age`
+    return `Thank you for inviting me, members of *${chat.contact.name}*!\n\nPlease register by typing:\n*${prefix}register* name | age`
 }
 
 exports.nhFalse = () => {
@@ -66,13 +66,11 @@ exports.nhFalse = () => {
 }
 
 exports.listBlock = (blockNumber) => {
-    return `------[ HALL OF SHAME ]------
-    
-Total blocked: *${blockNumber.length}* user(s)\n`
+    return `------[ HALL OF SHAME ]------\n\nTotal blocked: *${blockNumber.length}* user(s)\n`
 }
 
 exports.notPremium = () => {
-    return `Sorry! This command is only for premium users.`
+    return `Sorry! This command can only be used by premium users.`
 }
 
 exports.notAdmin = () => {
@@ -80,7 +78,7 @@ exports.notAdmin = () => {
 }
 
 exports.adminAlready = () => {
-    return `Cannot promote a user who is an admin!`
+    return `Cannot promote a user who is an admin already!`
 }
 
 exports.botNotPremium = () => {
@@ -92,27 +90,27 @@ exports.botNotAdmin = () => {
 }
 
 exports.ytFound = (res) => {
-    return `*Video found!*\n\n➸ *Title*:${res.title}\n➸ *Description*:${res.desc}\n➸ *Duration*: ${res.duration} minutes\n\nMedia is being shipped, please wait...`
+    return `*Video found!*\n\n➸ *Title*: ${res.title}\n➸ *Description*: ${res.desc}\n➸ *Duration*: ${res.duration} minutes\n\nMedia is being shipped, please wait...`
 }
 
 exports.notRegistered = () => {
-    return `You are not registered in the database yet!\n\nPlease register with the format:\n*${prefix}register* name | age`
+    return `Your haven't registered in our database!\n\nPlease register by typing:\n*${prefix}register* name | age`
 }
 
 exports.registered = (name, age, userId, time, serial) => {
-    return `*「 REGISTRATION 」*\n\nYour account successfully registered with data:\n\n➸ *Name*: ${name}\n➸ *Age*: ${age}\n➸ *ID*: ${userId}\n➸ *Time registered*: ${time}\n➸ *Serial*: ${serial}\n\nNote:\nDO NOT share your *serial* to someone!\n\nType *${prefix}rules* first okay~`
+    return `*「 REGISTRATION 」*\n\nYour account was successfully registered with the data:\n\n➸ *Name*: ${name}\n➸ *Age*: ${age}\n➸ *ID*: ${userId}\n➸ *Time registered*: ${time}\n➸ *Serial*: ${serial}\n\nNote:\nDO NOT share your *serial* to someone!\n\nConsider to read *${prefix}rules* first.`
 }
 
 exports.registeredAlready = () => {
-    return `You have registered before.`
+    return `You've registered before.`
 }
 
 exports.received = (pushname) => {
-    return `Hello ${pushname}!\nThank you for reporting, we will receive your report soon.`
+    return `Hello ${pushname}!\nThank you for reporting, we will work on it ASAP.`
 }
 
 exports.limit = (time) => {
-    return `Sorry, but you have reached the limit using this command.\nPlease wait *${time.hours}* hour(s) *${time.minutes}* minute(s) *${time.seconds}* second(s) more.`
+    return `Sorry, but you have reached the limit using this commands.\nPlease wait *${time.hours}* hour(s) *${time.minutes}* minute(s) *${time.seconds}* second(s) more.`
 }
 
 exports.videoLimit = () => {
@@ -140,7 +138,7 @@ exports.profile = (username, status, premi, benet, adm) => {
 }
 
 exports.detectorOn = (name, formattedTitle) => {
-    return `*「 ANTI GROUP LINK 」*\n\nAnnouncement for all group members ${(name || formattedTitle)}\nIf somebody sending a group link on this group, they will be kicked automatically by bot.\n\nThank you.\n- Admin ${(name || formattedTitle)}`
+    return `*「 ANTI GROUP LINK 」*\n\nAnnouncement for all group members of ${(name || formattedTitle)}\nIf somebody sending a group link on this group, they will be kicked automatically by bot.\n\nThank you.\n- Admin ${(name || formattedTitle)}`
 }
 
 exports.detectorOff = () => {
@@ -152,7 +150,7 @@ exports.detectorOnAlready = () => {
 }
 
 exports.linkDetected = () => {
-    return `*「 ANTI GROUP LINK 」*\n\nYou've sent a group link!\nSorry, but you have to leave...\nTake care~`
+    return `*「 ANTI GROUP LINK 」*\n\nYou've sent a group link!\nSorry, but you have to leave...\nNice knowing you~`
 }
 
 exports.levelingOn = () => {
@@ -168,7 +166,7 @@ exports.levelingOnAlready = () => {
 }
 
 exports.levelingNotOn = () => {
-    return `Leveling feature has not been enabled!`
+    return `Leveling feature hasn't been enabled!`
 }
 
 exports.levelNull = () => {
@@ -224,7 +222,7 @@ exports.afkDone = (pushname) => {
 }
 
 exports.gcMute = () => {
-    return `*「 MUTED 」*\n\nOnly admins who can send message in this group.`
+    return `*「 MUTED 」*\n\nOnly admins who can send message in this group.` 
 }
 
 exports.gcUnmute = () => {
@@ -260,7 +258,7 @@ exports.ytPlay = (result) => {
 }
 
 exports.pcOnly = () => {
-    return `This command only available in private chat only!`
+    return `This command can only be used in private chat!`
 }
 
 exports.menu = () => {
