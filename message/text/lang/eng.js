@@ -94,7 +94,7 @@ exports.ytFound = (res) => {
 }
 
 exports.notRegistered = () => {
-    return `Your haven't registered in our database!\n\nPlease register by typing:\n*${prefix}register* name | age`
+    return `You haven't registered in our database!\n\nPlease register by typing:\n*${prefix}register* name | age`
 }
 
 exports.registered = (name, age, userId, time, serial) => {
