@@ -509,7 +509,7 @@ Aliases: -
 Usage: *${prefix}toxic*
 
 23. *${prefix}tafsir*
-Al-Qur'an tafsir.
+Al-Qur'an tafsir. (Indonesian)
 Aliases: -
 Usage: *${prefix}tafsir* surah_name ayat
 
@@ -586,12 +586,12 @@ Aliases: -
 Usage: *${prefix}ttg* text
 
 6. *${prefix}stickertoimg*
-Convert stickers to image.
+Convert sticker to image.
 Aliases: *stikertoimg*
 Usage: Reply to the stickers with a caption *${prefix}stickertoimg*.
 
 7. *${prefix}emojisticker*
-Converts emoji to sticker.
+Convert emoji to sticker.
 Aliases: *emojistiker*
 Usage: *${prefix}emojisticker* emoji
 
@@ -677,12 +677,12 @@ Aliases: -
 Usage: Send images with caption *${prefix}calendar* or reply to the images with a caption *${prefix}calendar*.
 
 3. *${prefix}partner*
-Weton match.
+Weton match. (Indonesian)
 Aliases: *pasangan*
 Usage: *${prefix}partner* name | partner
 
 4. *${prefix}zodiac*
-Weekly zodiac forecast.
+Weekly zodiac fortune. (Indonesian)
 Aliases: *zodiak*
 Usage: *${prefix}zodiac* zodiac
 
@@ -707,7 +707,7 @@ Aliases: *glitext*
 Usage: *${prefix}glitchtext* text1 | text2
 
 9. *${prefix}simi*
-SimiSimi chat.
+SimiSimi chat. (Indonesian)
 Aliases: -
 Usage: *${prefix}simi* text
 
@@ -732,7 +732,7 @@ Aliases: -
 Usage: *${prefix}tod*
 
 14. *${prefix}weton*
-Weton fortune.
+Weton fortune. (Indonesian)
 Aliases: -
 Usage: *${prefix}weton* date | month | year
 
@@ -770,7 +770,7 @@ exports.menuModeration = () => {
 -----[ MODERATION ]-----
 
 1. *${prefix}add*
-Add users to groups.
+Add users to group.
 Aliases: -
 Usage: *${prefix}add* 628xxxxxxxxxx
 
@@ -790,7 +790,7 @@ Aliases: -
 Usage: *${prefix}demote* @member1
 
 5. *${prefix}leave*
-The bot will leave the group.
+Leave bot from group.
 Aliases: -
 Usage: *${prefix}leave*
 
@@ -902,12 +902,12 @@ Aliases: -
 Usage: *${prefix}getses*
 
 4. *${prefix}ban*
-Add / remove banned users.
+Add/remove banned users.
 Aliases: -
 Usage: *${prefix}ban* add/del @user/62812xxxxxxxx
 
 5. *${prefix}leaveall*
-Leave all groups.
+Leave from all groups.
 Aliases: -
 Usage: *${prefix}leaveall*
 
@@ -922,7 +922,7 @@ Aliases: -
 Usage: *${prefix}shutdown*
 
 8. *${prefix}premium*
-Add / remove premium users.
+Add/remove premium users.
 Aliases: -
 Usage: *${prefix}premium* add/del @user
 
@@ -976,19 +976,19 @@ Penalty: *SOFT BLOCK*
 3. Do NOT exploit bots.
 Penalty: *PERMANENT BLOCK*
 
-If the rules are understood, please type *${prefix}menu* to get started!
+If you've understand these rules, please type *${prefix}menu* to get started.
 
 Source code by:
-wa.me/6281294958473 (Kal a.k.a. Slavyan)
+wa.me/6281294958473 (Slavyan)
     `
 }
 
-// Please the owner / hoster, don't edit this, thank you.
+// Note for owner/hoster, please DO NOT edit this section.
 exports.tos = () => {
     return `
 -----[ TERMS OF SERVICE ]-----
 
-This bot is an open-source bot with the real name BocchiBot which is available on GitHub for free.
+This bot is an open-source bot, come with the name of BocchiBot which is available on GitHub for free.
 The owner/hoster of this bot is independent from the responsibility and supervision of the developer (Slavyan).
 Owner/hoster may plagiarize, add, delete, replace source code with notes *DO NOT SELL* this source code in any form.
 If an error occurs, the first person you should contact is the owner/hoster.  
@@ -1005,6 +1005,6 @@ You guys can also support me to keep this bot up to date with:
 
 Thank you!
 
-Slavyan.
+- Slavyan
     `
 }
