@@ -487,6 +487,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
+            case 'instastory': //By: VideFrelan
             case 'igstory':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return bocchi.reply(from, ind.wrongFormat(), id)
@@ -495,7 +496,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .then(async ({ result }) => {
                         for (let i = 0; i < result.story.itemlist.length; i++) {
                             const { urlDownload } = result.story.itemlist[i]
-                            await bocchi.sendFileFromUrl(from, urlDownload, '', '', id)
+                            await bocchi.sendFileFromUrl(from, urlDownload, '', 'By: VideFrelan', id)
                             console.log('Success sending IG Story!')
                         }
                     })
