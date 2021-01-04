@@ -487,6 +487,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
+            case 'instastory': //By: VideFrelan
             case 'igstory':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return bocchi.reply(from, ind.wrongFormat(), id)
@@ -495,7 +496,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .then(async ({ result }) => {
                         for (let i = 0; i < result.story.itemlist.length; i++) {
                             const { urlDownload } = result.story.itemlist[i]
-                            await bocchi.sendFileFromUrl(from, urlDownload, '', '', id)
+                            await bocchi.sendFileFromUrl(from, urlDownload, '', 'By: VideFrelan', id)
                             console.log('Success sending IG Story!')
                         }
                     })
@@ -1426,6 +1427,26 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
+            break
+            case 'ffbanner': //By: VideFrelan
+            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+            if (!q.includes('|')) return bocchi.reply(from, `Untuk membuat banner Freefire\ngunakan ${prefix}ffbanner teks1 | teks 2\n\nContoh: ${prefix}ffbanner fikri gans | pake banget`, id)
+            await bocchi.reply(from, ind.wait(), id)
+            console.log('Creating FF Banner...')
+            const teks1ffanjg = q.substring(0, q.indexOf('|') - 1)
+            const teks2ffanjg = q.substring(q.lastIndexOf('|') + 2)
+            await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/bannerff?title=${teks1ffanjg}&text=${teks2ffanjg}&apikey=${config.vhtear}`, id)
+            console.log('Sukes mengirimkan Banner Freefire!')
+            break
+            case 'fflogo': //By: VideFrelan
+            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+            if (!q.includes('|')) return bocchi.reply(from, `Untuk membuat Logo Karakter Freefire\ngunakan ${prefix}fflogo karakter | teks\n\nContoh: ${prefix}fflogo alok | Fikri gans`, id)
+            await bocchi.reply(from, ind.wait(), id)
+            console.log('Creating FF Logo...')
+            const karakter = q.substring(0, q.indexOf('|') - 1)
+            const teksff = q.substring(q.lastIndexOf('|') + 2)
+            await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/logoff?hero=${karakter}&text=${teksff}&apikey=${config.vhtear}`, id)
+            console.log('Sukes mengirimkan Logo Freefire!')
             break
             case 'text3d':
             case '3dtext':
