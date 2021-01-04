@@ -145,6 +145,9 @@ If you want to unlock premium commands, please contact me~
 | TikTok              |      ✔️      |
 | TikTok pic          |      ✔️      |
 | Twitter             |      ✔️      |
+| Instagram post      |      ✔️      |
+| Instagram story     |      ✔️      |
+| Layarkaca21 film    |      ✔️      |
 
 |         Misc        | Availability |
 | :-----------------: | :----------: |
@@ -174,6 +177,8 @@ If you want to unlock premium commands, please contact me~
 | Reminder            |      ✔️      |
 | Image to URL        |      ✔️      |
 | Jadwal sholat       |      ✔️      |
+| Line sticker latest |      ✔️      |
+| Cek ongkir          |      ✔️      |
 
 |          Fun          | Availability |
 | :-------------------: | :----------: |
@@ -195,6 +200,7 @@ If you want to unlock premium commands, please contact me~
 | Triggered effect      |      ✔️      |
 | Deep fry effect       |      ✔️      |
 | Kiss someone          |      ✔️      |
+| 3D Text               |      ✔️      |
 
 |      Weeb Zone     | Availability |
 | :----------------: | :----------: |
