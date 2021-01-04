@@ -201,6 +201,8 @@ If you want to unlock premium commands, please contact me~
 | Deep fry effect       |      ✔️      |
 | Kiss someone          |      ✔️      |
 | 3D Text               |      ✔️      |
+| Freefire logo         |      ✔️      |
+| Freefire banner       |      ✔️      |
 
 |      Weeb Zone     | Availability |
 | :----------------: | :----------: |
