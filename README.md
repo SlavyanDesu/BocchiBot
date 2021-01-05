@@ -262,6 +262,9 @@ If you want to unlock premium commands, please contact me~
 | Waifu NSFW         |      ✔️      |
 | Pornhub downloader |      ✔️      |
 | Waifu 18+          |      ✔️      |
+| Yuri               |      ✔️      |
+| Femdom             |      ✔️      |
+| Avatar lewd        |      ✔️      |
 | nHentai downloader |    Premium   |
 | Multi lewds        |    Premium   |
 | Multi fetish       |    Premium   |

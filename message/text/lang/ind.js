@@ -878,6 +878,21 @@ Download video dari Pornhub.
 Aliases: -
 Usage *${prefix}phdl* link
 
+10. *${prefix}yuri*
+Mengirim random foto lewd yuri.
+Aliases: -
+Usage: *${prefix}yuri*
+
+11. *${prefix}lewdavatar*
+Mengirim random avatar lewd.
+Aliases: -
+Usage: *${prefix}lewdavatar*
+
+12. *${prefix}femdom*
+Mengirim random foto ero femdom.
+Aliases: -
+Usage: *${prefix}femdom*
+
 _Index of [8]_
     `
 }

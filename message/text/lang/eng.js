@@ -877,6 +877,21 @@ Download videos from Pornhub.
 Aliases: -
 Usage *${prefix}phdl* link
 
+10. *${prefix}yuri*
+Send random yuri pics.
+Aliases: -
+Usage: *${prefix}yuri*
+
+11. *${prefix}lewdavatar*
+Send random lewd avatars.
+Aliases: -
+Usage: *${prefix}lewdavatar*
+
+12. *${prefix}femdom*
+Send random femdom pics.
+Aliases: -
+Usage: *${prefix}femdom*
+
 _Index of [8]_
     `
 }
