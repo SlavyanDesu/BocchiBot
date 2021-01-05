@@ -2485,7 +2485,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'premium':
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
                 if (args.length !== 3) return await bocchi.reply(from, ind.wrongFormat(), id)
-                if (ar[0] === 'add') {
+                if (ar[0] == 'add') {
                     if (mentionedJidList.length !== 0) {
                         for (let benet of mentionedJidList) {
                             if (benet === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -2494,9 +2494,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         }
                     } else {
                         premium.addPremiumUser(args[0] + '@c.us', args[2], _premium)
-                        await bocchi.reply(from, `*「 PREMIUM ADDED 」*\n\n➸ *ID*: ${args[0]}@c.us\n➸ *Expired*: ${ms(toMs(args[2])).days} day(s) ${ms(toMs(args[2])).hours} hour(s) ${ms(toMs(args[2])).minutes} minute(s)`, id)
+                        await bocchi.reply(from, `*「 PREMIUM ADDED 」*\n\n➸ *ID*: ${args[1]}@c.us\n➸ *Expired*: ${ms(toMs(args[2])).days} day(s) ${ms(toMs(args[2])).hours} hour(s) ${ms(toMs(args[2])).minutes} minute(s)`, id)
                     }
-                } else if (ar[0] === 'del') {
+                } else if (ar[0] == 'del') {
                     if (mentionedJidList.length !== 0) {
                         if (mentionedJidList[0] === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
                         _premium.splice(premium.getPremiumPosition(sender.id, _premium), 1)
