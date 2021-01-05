@@ -43,7 +43,7 @@ const checkPremiumUser = (userId, _dir) => {
 }
 
 const expiredCheck = (_dir) => {
-    setInterval(async () => {
+    setInterval(() => {
         let position = null
         Object.keys(_dir).forEach((i) => {
             if (Date.now() > _dir[i].expired) {
