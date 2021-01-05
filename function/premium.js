@@ -42,7 +42,7 @@ const checkPremiumUser = (userId, _dir) => {
     return status
 }
 
-const expiredCheck = (_dir, client) => {
+const expiredCheck = (_dir) => {
     setInterval(async () => {
         let position = null
         Object.keys(_dir).forEach((i) => {
@@ -51,7 +51,6 @@ const expiredCheck = (_dir, client) => {
             }
         })
         if (position !== null) {
-            await client.sendText(ownerBot, `Masa aktif premium dengan ID: ${_dir[position].id} telah habis!`)
             _dir.splice(position, 1)
             fs.writeFileSync('./database/bot/premium.json', JSON.stringify(_dir))
         }
