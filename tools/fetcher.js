@@ -6,7 +6,8 @@ const FormData = require('form-data')
 /**
  * Fetch JSON from URL.
  * @param {String} url 
- * @param {Object} options 
+ * @param {Object} options
+ * @returns {Object} 
  */
 const fetchJson = (url, options) => {
     return new Promise((resolve, reject) => {
@@ -21,6 +22,7 @@ const fetchJson = (url, options) => {
  * Fetch text from URL.
  * @param {String} url 
  * @param {Object} options 
+ * @returns {String}
  */
 const fetchText = (url, options) => {
     return new Promise((resolve, reject) => {
@@ -35,6 +37,7 @@ const fetchText = (url, options) => {
  * Upload images to telegra.ph server.
  * @param {Buffer} buffData 
  * @param {String} fileName
+ * @returns {String}
  */
 const uploadImages = (buffData, fileName) => {
     return new Promise(async (resolve, reject) => {

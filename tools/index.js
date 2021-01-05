@@ -15,6 +15,7 @@ const color = (text, color) => {
 /**
  * Create serial ID.
  * @param {Number} size 
+ * @returns {Number}
  */
 const createSerial = (size) => {
     return crypto.randomBytes(size).toString('hex').slice(0, size)
@@ -23,6 +24,7 @@ const createSerial = (size) => {
 /**
  * URL validator.
  * @param {String} url 
+ * @returns {Boolean}
  */
 const isUrl = (url) => {
     return url.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/gi))
@@ -32,6 +34,7 @@ const isUrl = (url) => {
  * Get time duration.
  * @param {Date} timestamp 
  * @param {Date} now 
+ * @returns {Number}
  */
 const processTime = (timestamp, now) => {
     return moment.duration(now - moment(timestamp * 1000)).asSeconds()
@@ -40,6 +43,7 @@ const processTime = (timestamp, now) => {
 /**
  * Client options.
  * @param {Function} start 
+ * @returns {Object}
  */
 const options = (start) => {
     const options = {
@@ -71,6 +75,7 @@ const usedCommandRecently = new Set()
 /**
  * Check is number filtered.
  * @param {String} from 
+ * @returns {Boolean}
  */
 const isFiltered = (from) => {
     return !!usedCommandRecently.has(from)
