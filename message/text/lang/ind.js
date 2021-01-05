@@ -924,8 +924,12 @@ Usage: *${prefix}shutdown*
 
 8. *${prefix}premium*
 Menambah/menghapus user premium.
+*s* - detik
+*m* - menit
+*h* - jam
+*d* - hari
 Aliases: -
-Usage: *${prefix}premium* add/del @user
+Usage: *${prefix}premium* add/del @user/62812xxxxxxxx 30d
 
 9. *${prefix}setstatus*
 Mengganti status about me.

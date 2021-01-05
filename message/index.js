@@ -41,7 +41,7 @@ const { msgFilter, color, processTime, isUrl, createSerial } = require('../tools
 const { nsfw, weeaboo, downloader, sticker, fun, misc, toxic } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
-const { limit, level, card, register, afk, reminder } = require('../function')
+const { limit, level, card, register, afk, reminder, premium } = require('../function')
 const cd = 4.32e+7
 const errorImg = 'https://i.ibb.co/jRCpLfn/user.png'
 const tanggal = moment.tz('Asia/Jakarta').format('DD-MM-YYYY')
@@ -95,7 +95,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isGroupAdmins = groupAdmins.includes(sender.id) || false
         const isBotGroupAdmins = groupAdmins.includes(botNumber) || false
         const isBanned = _ban.includes(sender.id)
-        const isPremium = _premium.includes(sender.id)
+        const isPremium = premium.checkPremiumUser(sender.id, _premium)
         const isRegistered = register.checkRegisteredUser(sender.id, _registered)
         const isNsfw = isGroupMsg ? _nsfw.includes(groupId) : false
         const isWelcomeOn = isGroupMsg ? _welcome.includes(groupId) : false
@@ -109,6 +109,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isQuotedGif = quotedMsg && quotedMsg.mimetype === 'image/gif'
         const isImage = type === 'image'
         /********** END OF VALIDATOR **********/
+
+        // Automate
+        premium.expiredCheck(_premium, bocchi)
 
         // Leveling [BETA] by Slavyan
         if (isGroupMsg && isRegistered && !isBanned && isLevelingOn) {
@@ -1298,7 +1301,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const statuses = await bocchi.getStatus(getQuoted)
                     const benet = _ban.includes(getQuoted) ? 'Yes' : 'No'
                     const adm = groupAdmins.includes(getQuoted) ? 'Yes' : 'No'
-                    const premi = _premium.includes(getQuoted) ? 'Yes' : 'No'
+                    const premi = premium.checkPremiumUser(getQuoted, _premium) ? 'Yes' : 'No'
                     const { status } = statuses
                     if (profilePic === undefined) {
                         var pfp = errorImg
@@ -2481,22 +2484,34 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'premium':
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
+                if (args.length !== 3) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (ar[0] === 'add') {
-                    for (let premi of mentionedJidList) {
-                        if (premi === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
-                        _premium.push(premi)
-                        fs.writeFileSync('./database/bot/premium.json', JSON.stringify(_premium))
+                    if (mentionedJidList.length !== 0) {
+                        for (let benet of mentionedJidList) {
+                            if (benet === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
+                            premium.addPremiumUser(benet, args[2], _premium)
+                            await bocchi.reply(from, `*「 PREMIUM ADDED 」*\n\n➸ *ID*: ${benet}\n➸ *Expired*: ${ms(toMs(args[2])).days} day(s) ${ms(toMs(args[2])).hours} hour(s) ${ms(toMs(args[2])).minutes} minute(s)`, id)
+                        }
+                    } else {
+                        premium.addPremiumUser(args[0] + '@c.us', args[2], _premium)
+                        await bocchi.reply(from, `*「 PREMIUM ADDED 」*\n\n➸ *ID*: ${args[0]}@c.us\n➸ *Expired*: ${ms(toMs(args[2])).days} day(s) ${ms(toMs(args[2])).hours} hour(s) ${ms(toMs(args[2])).minutes} minute(s)`, id)
                     }
-                    await bocchi.reply(from, ind.doneOwner(), id)
                 } else if (ar[0] === 'del') {
-                    if (mentionedJidList[0] === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
-                    _premium.splice(mentionedJidList[0], 1)
-                    fs.writeFileSync('./database/bot/premium.json', JSON.stringify(_premium))
-                    await bocchi.reply(from, ind.doneOwner(), id)
+                    if (mentionedJidList.length !== 0) {
+                        if (mentionedJidList[0] === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
+                        _premium.splice(premium.getPremiumPosition(sender.id, _premium), 1)
+                        fs.writeFileSync('./database/bot/premium.json', JSON.stringify(_premium))
+                        await bocchi.reply(from, ind.doneOwner(), id)
+                    } else {
+                        _premium.splice(premium.getPremiumPosition(args[0] + '@c.us', _premium), 1)
+                        fs.writeFileSync('./database/bot/premium.json', JSON.stringify(_premium))
+                        await bocchi.reply(from, ind.doneOwner(), id)
+                    }
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
+
             case 'setstatus':
             case 'setstats':
             case 'setstat':
