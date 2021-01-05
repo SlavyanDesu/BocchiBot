@@ -1,7 +1,7 @@
 const fs = require('fs-extra')
 const toMs = require('ms')
 
-const addPremiumUser = (userId, expired,_dir) => {
+const addPremiumUser = (userId, expired, _dir) => {
     const obj = { id: userId, expired: Date.now() + toMs(expired) }
     _dir.push(obj)
     fs.writeFileSync('./database/bot/premium.json', JSON.stringify(_dir))
