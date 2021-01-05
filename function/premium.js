@@ -45,11 +45,12 @@ const expiredCheck = (_dir) => {
     setInterval(() => {
         let position = null
         Object.keys(_dir).forEach((i) => {
-            if (Date.now() > _dir[i].expired) {
+            if (Date.now() >= _dir[i].expired) {
                 position = i
             }
         })
         if (position !== null) {
+            console.log(`Premium expired: ${_dir[position].id}`)
             _dir.splice(position, 1)
             fs.writeFileSync('./database/bot/premium.json', JSON.stringify(_dir))
         }
