@@ -9,3 +9,6 @@ debug.log
 
 # Local folder
 .node-persist
+
+# Lock file
+package-lock.json
