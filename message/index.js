@@ -1060,9 +1060,17 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'join':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isPremium) return await bocchi.reply(from, ind.notPremium(), id)
                 if (!isUrl(url) && !url.includes('chat.whatsapp.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.joinGroupViaLink(url)
                 await bocchi.sendText(from, ind.ok())
+            break
+            case 'premiumcheck':
+            case 'cekpremium':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isPremium) return await bocchi.reply(from, ind.notPremium(), id)
+                const cekExp = ms(premium.getPremiumExpired(sender.id, _premium) - Date.now())
+                await bocchi.reply(from, `「 *PREMIUM EXPIRE* 」\n\n➸ *ID*: ${sender.id}\n➸ *Premium left*: ${cekExp.days} day(s) ${cekExp.hours} hour(s) ${cekExp.minutes} minute(s)`, id)
             break
 
             // Weeb zone
@@ -2424,7 +2432,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 for (let gclist of allGroup) {
                     await bocchi.sendText(gclist.contact.id, q)
                     await bocchi.leaveGroup(gclist.contact.id)
-                   
                 }
                 await bocchi.reply(from, ind.doneOwner())
             break
@@ -2444,7 +2451,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         }
                         await bocchi.reply(from, ind.doneOwner(), id)
                     } else {
-                        _ban.push(args[0] + '@c.us')
+                        _ban.push(args[1] + '@c.us')
                         fs.writeFileSync('./database/bot/banned.json', JSON.stringify(_ban))
                         await bocchi.reply(from, ind.doneOwner(), id)
                     }
@@ -2455,7 +2462,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         fs.writeFileSync('./database/bot/banned.json', JSON.stringify(_ban))
                         await bocchi.reply(from, ind.doneOwner(), id)
                     } else{
-                        _ban.splice(args[0] + '@c.us', 1)
+                        _ban.splice(args[1] + '@c.us', 1)
                         fs.writeFileSync('./database/bot/banned.json', JSON.stringify(_ban))
                         await bocchi.reply(from, ind.doneOwner(), id)
                     }
@@ -2493,8 +2500,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                             await bocchi.reply(from, `*「 PREMIUM ADDED 」*\n\n➸ *ID*: ${benet}\n➸ *Expired*: ${ms(toMs(args[2])).days} day(s) ${ms(toMs(args[2])).hours} hour(s) ${ms(toMs(args[2])).minutes} minute(s)`, id)
                         }
                     } else {
-                        premium.addPremiumUser(args[0] + '@c.us', args[2], _premium)
-                        await bocchi.reply(from, `*「 PREMIUM ADDED 」*\n\n➸ *ID*: ${args[0]}@c.us\n➸ *Expired*: ${ms(toMs(args[2])).days} day(s) ${ms(toMs(args[2])).hours} hour(s) ${ms(toMs(args[2])).minutes} minute(s)`, id)
+                        premium.addPremiumUser(args[1] + '@c.us', args[2], _premium)
+                        await bocchi.reply(from, `*「 PREMIUM ADDED 」*\n\n➸ *ID*: ${args[1]}@c.us\n➸ *Expired*: ${ms(toMs(args[2])).days} day(s) ${ms(toMs(args[2])).hours} hour(s) ${ms(toMs(args[2])).minutes} minute(s)`, id)
                     }
                 } else if (ar[0] === 'del') {
                     if (mentionedJidList.length !== 0) {
@@ -2503,7 +2510,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         fs.writeFileSync('./database/bot/premium.json', JSON.stringify(_premium))
                         await bocchi.reply(from, ind.doneOwner(), id)
                     } else {
-                        _premium.splice(premium.getPremiumPosition(args[0] + '@c.us', _premium), 1)
+                        _premium.splice(premium.getPremiumPosition(args[1] + '@c.us', _premium), 1)
                         fs.writeFileSync('./database/bot/premium.json', JSON.stringify(_premium))
                         await bocchi.reply(from, ind.doneOwner(), id)
                     }
