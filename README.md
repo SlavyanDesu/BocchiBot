@@ -114,7 +114,7 @@ PM2 with cron job (restart after 5 hours):
 > pm2 monit
 ```
 
-After that scan the QR code using your WhatsApp apps in your phone!
+After that scan the QR code using your WhatsApp in your phone!
 
 # Features
 If you want to unlock premium commands, please contact me~
