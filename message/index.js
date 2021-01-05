@@ -2493,7 +2493,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                             await bocchi.reply(from, `*「 PREMIUM ADDED 」*\n\n➸ *ID*: ${benet}\n➸ *Expired*: ${ms(toMs(args[2])).days} day(s) ${ms(toMs(args[2])).hours} hour(s) ${ms(toMs(args[2])).minutes} minute(s)`, id)
                         }
                     } else {
-                        premium.addPremiumUser(args[0] + '@c.us', args[2], _premium)
+                        premium.addPremiumUser(args[0]+'@c.us', args[2], _premium)
                         await bocchi.reply(from, `*「 PREMIUM ADDED 」*\n\n➸ *ID*: ${args[1]}@c.us\n➸ *Expired*: ${ms(toMs(args[2])).days} day(s) ${ms(toMs(args[2])).hours} hour(s) ${ms(toMs(args[2])).minutes} minute(s)`, id)
                     }
                 } else if (ar[0] == 'del') {
@@ -2503,7 +2503,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         fs.writeFileSync('./database/bot/premium.json', JSON.stringify(_premium))
                         await bocchi.reply(from, ind.doneOwner(), id)
                     } else {
-                        _premium.splice(premium.getPremiumPosition(args[0] + '@c.us', _premium), 1)
+                        _premium.splice(premium.getPremiumPosition(args[0]+'@c.us', _premium), 1)
                         fs.writeFileSync('./database/bot/premium.json', JSON.stringify(_premium))
                         await bocchi.reply(from, ind.doneOwner(), id)
                     }
