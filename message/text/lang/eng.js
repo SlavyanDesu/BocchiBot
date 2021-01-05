@@ -386,6 +386,16 @@ Send owner contact.
 Aliases: -
 Usage: *${prefix}ownerbot*
 
+11. *${prefix}getpic*
+Send user's profile pic.
+Aliases: -
+Usage: *${prefix}getpic* @user/62812xxxxxxxx
+
+12. *${prefix}premiumcheck*
+Premium active time check.
+Aliases: *cekpremium*
+Usage: *${prefix}premiumcheck*
+
 _Index of [2]_
     `
 }

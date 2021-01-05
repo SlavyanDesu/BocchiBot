@@ -1072,6 +1072,28 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const cekExp = ms(premium.getPremiumExpired(sender.id, _premium) - Date.now())
                 await bocchi.reply(from, `「 *PREMIUM EXPIRE* 」\n\n➸ *ID*: ${sender.id}\n➸ *Premium left*: ${cekExp.days} day(s) ${cekExp.hours} hour(s) ${cekExp.minutes} minute(s)`, id)
             break
+            case 'getpic':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (mentionedJidList.length !== 0) {
+                    const userPic = await bocchi.getProfilePicFromServer(mentionedJidList[0])
+                    if (userPic === undefined) {
+                        pek = errorImg
+                    } else {
+                        pek = userPic
+                    }
+                    await bocchi.sendFileFromUrl(from, pek, 'pic.jpg', '', id)
+                } else if (args.length !== 0) {
+                    const userPic = await bocchi.getProfilePicFromServer(args[0] + '@c.us')
+                    if (userPic === undefined) {
+                        peks = errorImg
+                    } else {
+                        peks = userPic
+                    }
+                    await bocchi.sendFileFromUrl(from, peks, 'pic.jpg', '', id)
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
+            break
 
             // Weeb zone
             case 'neko':

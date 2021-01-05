@@ -387,6 +387,16 @@ Mengirim kontak owner.
 Aliases: -
 Usage: *${prefix}ownerbot*
 
+11. *${prefix}getpic*
+Mengirim foto profil user.
+Aliases: -
+Usage: *${prefix}getpic* @user/62812xxxxxxxx
+
+12. *${prefix}premiumcheck*
+Cek masa aktif premium.
+Aliases: *cekpremium*
+Usage: *${prefix}premiumcheck*
+
 _Index of [2]_
     `
 }
