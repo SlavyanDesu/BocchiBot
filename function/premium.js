@@ -1,6 +1,5 @@
 const fs = require('fs-extra')
 const toMs = require('ms')
-const { ownerBot } = require('../config.json')
 
 const addPremiumUser = (userId, expired,_dir) => {
     const obj = { id: userId, expired: Date.now() + toMs(expired) }
