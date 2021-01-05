@@ -3,7 +3,7 @@ const fs = require('fs-extra')
 /**
  * Add background card.
  * @param {String} userId 
- * @param {String} _dir 
+ * @param {Object} _dir 
  */
 const addBg = (userId, _dir) => {
     const obj = { id: userId, link: 'https://i.ibb.co/tYf3jmz/amos-yan-no-entry-1.jpg' }
@@ -14,7 +14,8 @@ const addBg = (userId, _dir) => {
 /**
  * Get background.
  * @param {String} userId 
- * @param {String} _dir 
+ * @param {Object} _dir 
+ * @returns {String}
  */
 const getBg = (userId, _dir) => {
     let position = null
@@ -32,7 +33,7 @@ const getBg = (userId, _dir) => {
  * Replace background.
  * @param {String} userId 
  * @param {String} link 
- * @param {String} _dir 
+ * @param {Object} _dir 
  */
 const replaceBg = (userId, link, _dir) => {
     let position = null

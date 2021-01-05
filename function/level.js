@@ -3,7 +3,8 @@ const fs = require('fs-extra')
 /**
  * Get user ID from leveling.
  * @param {String} userId 
- * @param {String} _dir 
+ * @param {Object} _dir 
+ * @returns {String}
  */
 const getLevelingId = (userId, _dir) => {
     let position = null
@@ -20,7 +21,8 @@ const getLevelingId = (userId, _dir) => {
 /**
  * Get user level from leveling.
  * @param {String} userId 
- * @param {String} _dir 
+ * @param {Object} _dir 
+ * @returns {Number}
  */
 const getLevelingLevel = (userId, _dir) => {
     let position = null
@@ -37,7 +39,8 @@ const getLevelingLevel = (userId, _dir) => {
 /**
  * Get user XP from leveling.
  * @param {String} userId 
- * @param {String} _dir 
+ * @param {Object} _dir 
+ * @returns {Number}
  */
 const getLevelingXp = (userId, _dir) => {
     let position = null
@@ -54,7 +57,7 @@ const getLevelingXp = (userId, _dir) => {
 /**
  * Add user to leveling.
  * @param {String} userId 
- * @param {String} _dir 
+ * @param {Object} _dir 
  */
 const addLevelingId = (userId, _dir) => {
     const obj = { id: userId, xp: 0, level: 1 }
@@ -66,7 +69,7 @@ const addLevelingId = (userId, _dir) => {
  * Add user level to leveling.
  * @param {String} userId 
  * @param {Number} amount 
- * @param {String} _dir 
+ * @param {Object} _dir 
  */
 const addLevelingLevel = (userId, amount, _dir) => {
     let position = null
@@ -85,7 +88,7 @@ const addLevelingLevel = (userId, amount, _dir) => {
  * Add user XP to leveling.
  * @param {String} userId 
  * @param {Number} amount 
- * @param {String} _dir 
+ * @param {Object} _dir 
  */
 const addLevelingXp = (userId, amount, _dir) => {
     let position = null

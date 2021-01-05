@@ -1,12 +1,24 @@
 const fs = require('fs-extra')
 const toMs = require('ms')
 
+/**
+ * Add premium user.
+ * @param {String} userId 
+ * @param {String} expired 
+ * @param {Object} _dir 
+ */
 const addPremiumUser = (userId, expired, _dir) => {
     const obj = { id: userId, expired: Date.now() + toMs(expired) }
     _dir.push(obj)
     fs.writeFileSync('./database/bot/premium.json', JSON.stringify(_dir))
 }
 
+/**
+ * Get premium user position.
+ * @param {String} userId 
+ * @param {Object} _dir 
+ * @returns {Number}
+ */
 const getPremiumPosition = (userId, _dir) => {
     let position = null
     Object.keys(_dir).forEach((i) => {
@@ -19,6 +31,12 @@ const getPremiumPosition = (userId, _dir) => {
     }
 }
 
+/**
+ * Get premium user expire.
+ * @param {String} userId 
+ * @param {Object} _dir 
+ * @returns {Number}
+ */
 const getPremiumExpired = (userId, _dir) => {
     let position = null
     Object.keys(_dir).forEach((i) => {
@@ -31,6 +49,12 @@ const getPremiumExpired = (userId, _dir) => {
     }
 }
 
+/**
+ * Check user is premium.
+ * @param {String} userId 
+ * @param {Object} _dir 
+ * @returns {Boolean}
+ */
 const checkPremiumUser = (userId, _dir) => {
     let status = false
     Object.keys(_dir).forEach((i) => {
@@ -41,6 +65,10 @@ const checkPremiumUser = (userId, _dir) => {
     return status
 }
 
+/**
+ * Constantly checking premium.
+ * @param {Object} _dir 
+ */
 const expiredCheck = (_dir) => {
     setInterval(() => {
         let position = null
