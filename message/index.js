@@ -111,7 +111,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         /********** END OF VALIDATOR **********/
 
         // Automate
-        premium.expiredCheck(_premium, bocchi)
+        premium.expiredCheck(_premium)
 
         // Leveling [BETA] by Slavyan
         if (isGroupMsg && isRegistered && !isBanned && isLevelingOn) {
