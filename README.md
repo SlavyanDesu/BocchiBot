@@ -117,7 +117,7 @@ PM2 with cron job (restart after 5 hours):
 After that scan the QR code using your WhatsApp in your phone!
 
 # Features
-If you want to unlock premium commands, please at least buy me a coffee at least 6 on Ko-fi platform.
+If you want to unlock premium commands, please at least buy me a coffee at least 1 on Ko-fi platform.
 
 |     Leveling     |  Availability  |
 | :--------------: | :------------: |
