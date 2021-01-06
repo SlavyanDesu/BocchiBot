@@ -18,7 +18,7 @@ exports.emptyMess = () => {
 }
 
 exports.cmdNotFound = (cmd) => {
-    return `Command *${cmd}* not found!`
+    return `Command *${prefix}${cmd}* not found!`
 }
 
 exports.blocked = () => {

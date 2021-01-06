@@ -17,8 +17,8 @@ exports.emptyMess = () => {
     return `Harap masukkan pesan yang ingin disampaikan!`
 }
 
-exports.cmdNotFound = () => {
-    return `Command tidak ditemukan!`
+exports.cmdNotFound = (cmd) => {
+    return `Command *${prefix}${cmd}* tidak ditemukan!`
 }
 
 exports.blocked = (ownerNumber) => {

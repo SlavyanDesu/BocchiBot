@@ -1,6 +1,7 @@
 const { create, Client } = require('@open-wa/wa-automate')
 const { color, options } = require('./tools')
 const { ind, eng } = require('./message/text/lang/')
+const { loader } = require('./function')
 const figlet = require('figlet')
 const msgHandler = require('./message')
 const config = require('./config.json')
@@ -9,7 +10,9 @@ const fs = require('fs-extra')
 
 const start = async (bocchi = new Client()) => {
     console.log(color(figlet.textSync('BocchiBot', 'Larry 3D'), 'cyan'))
+    console.log(color('=> Bot successfully loaded! Database:', 'yellow'), color(loader.getAllDirFiles('./database').length), color('Library:', 'yellow'), color(loader.getAllDirFiles('./lib').length), color('Function:', 'yellow'), color(loader.getAllDirFiles('./function').length))
     console.log('[BOCCHI]', color('BocchiBot is now online!'))
+    console.log(color('[DEV]', 'cyan'), color('Welcome back, Owner! Hope you are doing well~', 'magenta'))
 
     // Force it to keep the current session
     bocchi.onStateChanged((state) => {

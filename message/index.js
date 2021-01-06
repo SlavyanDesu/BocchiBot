@@ -2615,7 +2615,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             default:
                 if (isCmd) {
-                    await bocchi.reply(from, `Command *${prefix}${command}* tidak ditemukan.`, id)
+                    await bocchi.reply(from, ind.cmdNotFound(command), id)
                 }
             break
         }
