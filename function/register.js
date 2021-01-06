@@ -48,6 +48,24 @@ const checkRegisteredUserFromSerial = (serial, _dir) => {
 }
 
 /**
+ * Get ID.
+ * @param {String} userId
+ * @param {Object} _dir
+ * @returns {String}
+ */
+const getRegisteredUserId = (userId, _dir) => {
+    let position = null
+    Object.keys(_dir).forEach((i) => {
+        if (_dir[i].id === userId) {
+            position = i
+        }
+    })
+    if (position !== null) {
+        return _dir[position].id
+    }
+}
+
+/**
  * Check user name from serial.
  * @param {String} serial 
  * @param {Object} _dir 
@@ -137,4 +155,5 @@ module.exports = {
     getRegisteredTimeFromSerial,
     getRegisteredIdFromSerial,
     getRegisteredRandomId
+    getRegisteredUserId
 }
