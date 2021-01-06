@@ -61,6 +61,8 @@ const _limit = JSON.parse(fs.readFileSync('./database/user/limit.json'))
 const _afk = JSON.parse(fs.readFileSync('./database/user/afk.json'))
 const _reminder = JSON.parse(fs.readFileSync('./database/user/reminder.json'))
 const _bg = JSON.parse(fs.readFileSync('./database/user/card/background.json'))
+const _setting = JSON.parse(fs.readFileSync('./database/bot/setting.json'))
+let { memberLimit, groupLimit } = _setting
 /********** END OF DATABASES **********/
 
 /********** MESSAGE HANDLER **********/
@@ -172,9 +174,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.sendText(from, ind.afkDone(pushname))
             }
         }
-
-        // Ignore non-cmd
-        if (!isCmd) return
 
         // Ignore banned and blocked users
         if (isCmd && (isBanned || isBlocked) && !isGroupMsg) return console.log(color('[BAN]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
@@ -1064,10 +1063,24 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'join':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (!isPremium) return await bocchi.reply(from, ind.notPremium(), id)
                 if (!isUrl(url) && !url.includes('chat.whatsapp.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
-                await bocchi.joinGroupViaLink(url)
-                await bocchi.sendText(from, ind.ok())
+                const checkInvite = await bocchi.inviteInfo(url)
+                if (isOwner) {
+                    await bocchi.joinGroupViaLink(url)
+                    await bocchi.reply(from, ind.ok(), id)
+                    await bocchi.sendText(checkInvite.id, `Hello!! I was invited by ${pushname}`)
+                } else {
+                    const getGroupData = await bocchi.getAllGroups()
+                    if (getGroupData.length >= groupLimit) {
+                        await bocchi.reply(from, `Invite refused. Max group is: ${groupLimit}`, id)
+                    } else if (getGroupData.size <= memberLimit) {
+                        await bocchi.reply(from, `Invite refused. Minimum member is: ${memberLimit}`, id)
+                    } else {
+                        await bocchi.joinGroupViaLink(url)
+                        await bocchi.reply(from, ind.ok(), id)
+                        await bocchi.sendText(checkInvite.id, `Hello!! I was invited by ${pushname}`)
+                    }
+                }
             break
             case 'premiumcheck':
             case 'cekpremium':
