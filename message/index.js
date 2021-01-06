@@ -2590,7 +2590,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
-
             case 'setstatus':
             case 'setstats':
             case 'setstat':
