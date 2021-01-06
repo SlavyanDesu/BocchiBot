@@ -154,6 +154,6 @@ module.exports = {
     getRegisteredAgeFromSerial,
     getRegisteredTimeFromSerial,
     getRegisteredIdFromSerial,
-    getRegisteredRandomId
+    getRegisteredRandomId,
     getRegisteredUserId
 }
