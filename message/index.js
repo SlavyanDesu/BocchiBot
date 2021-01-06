@@ -340,11 +340,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 downloader.ytdl(url)
                     .then(async (res) => {
                         if (res.status === 'error') {
-                            return await bocchi.reply(from, res.pesan, id)
+                            await bocchi.reply(from, res.pesan, id)
+                        } else if (Number(res.size.split(' MB')[0]) >= 30) {
+                            await bocchi.reply(from, ind.videoLimit(), id)
                         } else {
                             await bocchi.sendFileFromUrl(from, res.thumbnail, `${res.title}.jpg`, ind.ytFound(res), id)
                             await bocchi.sendFileFromUrl(from, res.url_audio, `${res.title}.mp3`, '', id)
-                            console.log('Success sending YouTube audio!')
+                            console.log('Success sending YouTube video!')
                         }
                     })
                     .catch(async (err) => {
@@ -359,7 +361,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 downloader.ytdl(url)
                     .then(async (res) => {
                         if (res.status === 'error') {
-                            return await bocchi.reply(from, res.pesan, id)
+                            await bocchi.reply(from, res.pesan, id)
+                        } else if (Number(res.size.split(' MB')[0]) >= 30) {
+                            await bocchi.reply(from, ind.videoLimit(), id)
                         } else {
                             await bocchi.sendFileFromUrl(from, res.thumbnail, `${res.title}.jpg`, ind.ytFound(res), id)
                             await bocchi.sendFileFromUrl(from, res.url_video, `${res.title}.mp4`, '', id)
