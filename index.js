@@ -3,10 +3,38 @@ const { color, options } = require('./tools')
 const { ind, eng } = require('./message/text/lang/')
 const { loader } = require('./function')
 const figlet = require('figlet')
-const msgHandler = require('./message')
+// const msgHandler = require('./message')
 const config = require('./config.json')
 const ownerNumber = config.ownerBot
 const fs = require('fs-extra')
+const { groupLimit, memberLimit } =  require('./database/bot/setting.json')
+
+// Is it work or not?
+const uncache = (module = '.') => {
+    return new Promise((resolve, reject) => {
+        try {
+            delete require.cache[require.resolve(module)]
+            resolve()
+        } catch (err) {
+            reject(err)
+        }
+    })
+}
+
+const nocache = (module, call = () => { }) => {
+    console.log(color('[WATCH]', 'orange'), color(`=> '${module}'`, 'yellow'), 'file is now being watched by me!')
+    fs.watchFile(require.resolve(module), async () => {
+        await uncache(require.resolve(module))
+        call(module)
+    })
+}
+
+require('./message/index.js')
+nocache('./message/index.js', m => console.log(color('[WATCH]', 'orange'), color(`=> '${m}'`, 'yellow'), 'file is updated!'))
+require('./message/text/lang/ind.js')
+nocache('./message/text/lang/ind.js', m => console.log(color('[WATCH]', 'orange'), color(`=> '${m}'`, 'yellow'), 'file is updated!'))
+require('./message/text/lang/eng.js')
+nocache('./message/text/lang/eng.js', m => console.log(color('[WATCH]', 'orange'), color(`=> '${m}'`, 'yellow'), 'file is updated!'))
 
 const start = async (bocchi = new Client()) => {
     console.log(color(figlet.textSync('BocchiBot', 'Larry 3D'), 'cyan'))
@@ -29,7 +57,22 @@ const start = async (bocchi = new Client()) => {
     })
 
     // Listening added to group
-    bocchi.onAddedToGroup(async (chat) => await bocchi.sendText(chat.groupMetadata.id, ind.addedGroup(chat)))
+    bocchi.onAddedToGroup(async (chat) => {
+        const gc = await bocchi.getAllGroups()
+        if (ownerNumber.includes(chat.id)) {
+            await bocchi.sendText(chat.id, ind.addedGroup(chat))
+        } else if (gc.length >= groupLimit) {
+            await bocchi.sendText(chat.id, `Max groups reached!\n\nCurrent status: ${gc.length}/${groupLimit}`)
+            await bocchi.deleteChat(chat.id)
+            await bocchi.leaveGroup(chat.id)
+        } else if (chat.groupMetadata.participants.length <= memberLimit) {
+            await bocchi.sendText(chat.id, `Need at least ${memberLimit} members in group!`)
+            await bocchi.deleteChat(chat.id)
+            await bocchi.leaveGroup(chat.id)
+        } else {
+            await bocchi.sendText(chat.id, ind.addedGroup(chat))
+        }
+    })
 
     // Listening to messages
     bocchi.onMessage((message) => {
@@ -41,7 +84,8 @@ const start = async (bocchi = new Client()) => {
                     console.log('[BOCCHI]', color('Cache deleted!', 'yellow'))
                 }
             })
-        msgHandler(bocchi, message) // Message handler
+        // msgHandler(bocchi, message)
+        require('./message/index.js')(bocchi, message)
     })
 
     // Block person who called bot
