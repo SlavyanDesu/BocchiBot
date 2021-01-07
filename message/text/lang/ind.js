@@ -344,7 +344,7 @@ Usage: *${prefix}rules*
 
 2. *${prefix}menu*
 Menampilkan commands yang tersedia.
-Aliases: -
+Aliases: *help*
 Usage: *${prefix}menu* angka_index
 
 3. *${prefix}status*

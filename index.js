@@ -7,40 +7,16 @@ const figlet = require('figlet')
 const config = require('./config.json')
 const ownerNumber = config.ownerBot
 const fs = require('fs-extra')
-const { groupLimit, memberLimit } =  require('./database/bot/setting.json')
-
-// Is it work or not?
-const uncache = (module = '.') => {
-    return new Promise((resolve, reject) => {
-        try {
-            delete require.cache[require.resolve(module)]
-            resolve()
-        } catch (err) {
-            reject(err)
-        }
-    })
-}
-
-const nocache = (module, call = () => { }) => {
-    console.log(color('[WATCH]', 'orange'), color(`=> '${module}'`, 'yellow'), 'file is now being watched by me!')
-    fs.watchFile(require.resolve(module), async () => {
-        await uncache(require.resolve(module))
-        call(module)
-    })
-}
-
-require('./message/index.js')
-nocache('./message/index.js', m => console.log(color('[WATCH]', 'orange'), color(`=> '${m}'`, 'yellow'), 'file is updated!'))
-require('./message/text/lang/ind.js')
-nocache('./message/text/lang/ind.js', m => console.log(color('[WATCH]', 'orange'), color(`=> '${m}'`, 'yellow'), 'file is updated!'))
-require('./message/text/lang/eng.js')
-nocache('./message/text/lang/eng.js', m => console.log(color('[WATCH]', 'orange'), color(`=> '${m}'`, 'yellow'), 'file is updated!'))
+const { groupLimit, memberLimit } = require('./database/bot/setting.json')
 
 const start = async (bocchi = new Client()) => {
     console.log(color(figlet.textSync('BocchiBot', 'Larry 3D'), 'cyan'))
     console.log(color('=> Bot successfully loaded! Database:', 'yellow'), color(loader.getAllDirFiles('./database').length), color('Library:', 'yellow'), color(loader.getAllDirFiles('./lib').length), color('Function:', 'yellow'), color(loader.getAllDirFiles('./function').length))
     console.log('[BOCCHI]', color('BocchiBot is now online!'))
     console.log(color('[DEV]', 'cyan'), color('Welcome back, Owner! Hope you are doing well~', 'magenta'))
+    loader.nocache('../message/index.js', m => console.log(color('[WATCH]', 'orange'), color(`=> '${m}'`, 'yellow'), 'file is updated!'))
+    loader.nocache('../message/text/lang/ind.js', m => console.log(color('[WATCH]', 'orange'), color(`=> '${m}'`, 'yellow'), 'file is updated!'))
+    loader.nocache('../message/text/lang/eng.js', m => console.log(color('[WATCH]', 'orange'), color(`=> '${m}'`, 'yellow'), 'file is updated!'))
 
     // Force it to keep the current session
     bocchi.onStateChanged((state) => {
@@ -84,8 +60,7 @@ const start = async (bocchi = new Client()) => {
                     console.log('[BOCCHI]', color('Cache deleted!', 'yellow'))
                 }
             })
-        // msgHandler(bocchi, message)
-        require('./message/index.js')(bocchi, message)
+        require('./message/index')(bocchi, message)
     })
 
     // Block person who called bot

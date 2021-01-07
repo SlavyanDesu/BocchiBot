@@ -961,6 +961,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
             // Bot
             case 'menu':
+            case 'help':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (args[0] === '1') {
                     await bocchi.sendText(from, ind.menuDownloader())
