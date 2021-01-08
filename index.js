@@ -3,7 +3,7 @@ const { color, options } = require('./tools')
 const { ind, eng } = require('./message/text/lang/')
 const { loader } = require('./function')
 const figlet = require('figlet')
-// const msgHandler = require('./message')
+const msgHandler = require('./message')
 const config = require('./config.json')
 const ownerNumber = config.ownerBot
 const fs = require('fs-extra')
@@ -14,9 +14,11 @@ const start = async (bocchi = new Client()) => {
     console.log(color('=> Bot successfully loaded! Database:', 'yellow'), color(loader.getAllDirFiles('./database').length), color('Library:', 'yellow'), color(loader.getAllDirFiles('./lib').length), color('Function:', 'yellow'), color(loader.getAllDirFiles('./function').length))
     console.log('[BOCCHI]', color('BocchiBot is now online!'))
     console.log(color('[DEV]', 'cyan'), color('Welcome back, Owner! Hope you are doing well~', 'magenta'))
+    /*
     loader.nocache('../message/index.js', m => console.log(color('[WATCH]', 'orange'), color(`=> '${m}'`, 'yellow'), 'file is updated!'))
     loader.nocache('../message/text/lang/ind.js', m => console.log(color('[WATCH]', 'orange'), color(`=> '${m}'`, 'yellow'), 'file is updated!'))
     loader.nocache('../message/text/lang/eng.js', m => console.log(color('[WATCH]', 'orange'), color(`=> '${m}'`, 'yellow'), 'file is updated!'))
+    */
 
     // Force it to keep the current session
     bocchi.onStateChanged((state) => {
@@ -60,7 +62,9 @@ const start = async (bocchi = new Client()) => {
                     console.log('[BOCCHI]', color('Cache deleted!', 'yellow'))
                 }
             })
-        require('./message/index')(bocchi, message)
+        // Below is an watched version but it will affect the performance
+        // require('./message/index.js')(bocchi, message)
+        msgHandler(bocchi, message)
     })
 
     // Block person who called bot
