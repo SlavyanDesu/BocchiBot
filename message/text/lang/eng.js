@@ -771,6 +771,16 @@ Create a Pornhub comment section styled image.
 Aliases: -
 Usage: *${prefix}phcomment* username | text
 
+18. *${prefix}ffbanner*
+Create a Free Fire banner.
+Aliases: -
+Usage: *${prefix}ffbanner* text1 | text2
+
+19. *${prefix}fflogo*
+Create a Free Fire characters logo.
+Aliases: -
+Usage: *${prefix}fflogo* text1 | text2
+
 _Index of [6]_
     `
 }
@@ -852,10 +862,10 @@ Send up to 5 anime lewd pics. (PREMIUM ONLY)
 Aliases: *multilewds multilewd mlewd mlewds*
 Usage: *${prefix}multilewds*
 
-3. *${prefix}nh*
+3. *${prefix}nhentai*
 Sending doujinshi info from nHentai.
-Aliases: -
-Usage: *${prefix}nh* code
+Aliases: *nh*
+Usage: *${prefix}nhentai* code
 
 4. *${prefix}nhdl*
 Download doujin from nHentai as a PDF file. (PREMIUM ONLY)
@@ -901,6 +911,11 @@ Usage: *${prefix}lewdavatar*
 Send random femdom pics.
 Aliases: -
 Usage: *${prefix}femdom*
+
+13. *${prefix}nhsearch*
+nHentai search.
+Aliases: -
+Usage: *${prefix}nhsearch* query
 
 _Index of [8]_
     `

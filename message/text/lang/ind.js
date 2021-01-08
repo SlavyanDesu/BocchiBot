@@ -151,8 +151,20 @@ exports.detectorOnAlready = () => {
     return `Fitur anti-group link telah diaktifkan sebelumnya.`
 }
 
+exports.antiNsfwOn = (name, formattedTitle) => {
+    return `*「 ANTI NSFW LINK 」*\n\nPerhatian untuk penghuni grup ${(name || formattedTitle)}\nGrup ini memiliki anti-NSFW link detector, apabila ada salah satu member mengirim link NSFW/porn di sini maka dia akan ter-kick secara otomatis.\n\nSekian terima kasih.\n- Admin ${(name || formattedTitle)}`
+}
+
+exports.antiNsfwOff = () => {
+    return `Fitur anti-NSFW link berhasil *dinonaktifkan*!`
+}
+
+exports.antiNsfwOnAlready = () => {
+    return `Fitur anti-NSFW link telah diaktifkan sebelumnya.`
+}
+
 exports.linkDetected = () => {
-    return `*「 ANTI GROUP LINK 」*\n\nKamu mengirim link group chat!\nMaaf tapi kami harus mengkick kamu...\nSelamat tinggal~`
+    return `*「 ANTI GROUP LINK 」*\n\nKamu mengirim link group chat!\nMaaf tapi kami harus mengeluarkan mu...\nSelamat tinggal~`
 }
 
 exports.levelingOn = () => {
@@ -260,6 +272,10 @@ exports.ytPlay = (result) => {
 }
 exports.pcOnly = () => {
     return `Command ini hanya bisa digunakan di dalam private chat saja!`
+}
+
+exports.linkNsfw = () => {
+    return `Kamu telah mengirim link NSFW! Maaf, tapi aku harus mengeluarkan mu...`
 }
 
 exports.menu = () => {
@@ -772,6 +788,16 @@ Membuat capton ala PH comment.
 Aliases: -
 Usage: *${prefix}phcomment* username | teks
 
+18. *${prefix}ffbanner*
+Membuat banner Free Fire.
+Aliases: -
+Usage: *${prefix}ffbanner* teks1 | teks2
+
+19. *${prefix}fflogo*
+Membuat logo karakter Free Fire.
+Aliases: -
+Usage: *${prefix}fflogo* teks1 | teks2
+
 _Index of [6]_
     `
 }
@@ -821,7 +847,7 @@ Aliases: -
 Usage: Kirim gambar dengan caption *${prefix}groupicon* atau reply gambar dengan caption *${prefix}groupicon*.
 
 9. *${prefix}antilink*
-Mematikan/menyalakan fitur anti group link.
+Mematikan/menyalakan fitur anti-group link.
 Aliases: -
 Usage: *${prefix}antilink* enable/disable
 
@@ -834,6 +860,11 @@ Usage: *${prefix}welcome* enable/disable
 Mematikan/menyalakan fitur auto-stiker. Setiap foto yang dikirim akan selalu diubah ke stiker.
 Aliases: *autostiker autostik*
 Usage: *${prefix}autostiker* enable/disable
+
+12. *${prefix}antinsfw*
+Mematikan/menyalakan fitur anti-NSFW link.
+Aliases: -
+Usage: *${prefix}antinsfw* enable/disable
 
 _Index of [7]_
     `
@@ -853,10 +884,10 @@ Mengirim up to 5 anime lewd pics. (PREMIUM ONLY)
 Aliases: *multilewds multilewd mlewd mlewds*
 Usage: *${prefix}multilewds*
 
-3. *${prefix}nh*
+3. *${prefix}nhentai*
 Mengirim info doujinshi dari nHentai.
-Aliases: -
-Usage: *${prefix}nh* kode
+Aliases: *nh*
+Usage: *${prefix}nhentai* kode
 
 4. *${prefix}nhdl*
 Mendownload doujin dari nHentai sebagai file PDF. (PREMIUM ONLY)
@@ -902,6 +933,11 @@ Usage: *${prefix}lewdavatar*
 Mengirim random foto ero femdom.
 Aliases: -
 Usage: *${prefix}femdom*
+
+13. *${prefix}nhsearch*
+nHentai search.
+Aliases: -
+Usage: *${prefix}nhsearch* query
 
 _Index of [8]_
     `
