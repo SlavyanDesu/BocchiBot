@@ -23,6 +23,9 @@ const nhentai = require('nhentai-js')
 const { API } = require('nhentai-api')
 const api = new API()
 const sagiri = require('sagiri')
+const NanaAPI = require('nana-api')
+const nana = new NanaAPI()
+const isPorn = require('is-porn')
 const saus = sagiri(config.nao, { results: 5 })
 const axios = require('axios')
 const tts = require('node-gtts')
@@ -50,6 +53,7 @@ const tanggal = moment.tz('Asia/Jakarta').format('DD-MM-YYYY')
 /********** DATABASES **********/
 const _nsfw = JSON.parse(fs.readFileSync('./database/group/nsfw.json'))
 const _antilink = JSON.parse(fs.readFileSync('./database/group/antilink.json'))
+const _antinsfw = JSON.parse(fs.readFileSync('./database/group/antinsfw.json'))
 const _leveling = JSON.parse(fs.readFileSync('./database/group/leveling.json'))
 const _welcome = JSON.parse(fs.readFileSync('./database/group/welcome.json'))
 const _autosticker = JSON.parse(fs.readFileSync('./database/group/autosticker.json'))
@@ -104,6 +108,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isDetectorOn = isGroupMsg ? _antilink.includes(groupId) : false
         const isLevelingOn = isGroupMsg ? _leveling.includes(groupId) : false
         const isAutoStickerOn = isGroupMsg ? _autosticker.includes(groupId) : false
+        const isAntiNsfw = isGroupMsg ? _antinsfw.includes(groupId) : false
         const isAfkOn = afk.checkAfkUser(sender.id, _afk)
         const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
         const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
@@ -139,8 +144,33 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         // Anti-group link detector
         if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner) {
             if (chats.match(new RegExp(/(https:\/\/chat.whatsapp.com)/gi))) {
-                await bocchi.reply(from, ind.linkDetected(), id)
-                await bocchi.removeParticipant(groupId, sender.id)
+                const valid = await bocchi.inviteInfo(chats)
+                if (valid) {
+                    console.log(color('[KICK]', 'red'), color('Received a group link and it is a valid link!', 'yellow'))
+                    await bocchi.reply(from, ind.linkDetected(), id)
+                    await bocchi.removeParticipant(groupId, sender.id)
+                } else {
+                    console.log(color('[WARN]', 'yellow'), color('Received a group link but is not a valid link!', 'yellow'))
+                }
+            }
+        }
+
+        // Anti NSFW links but kinda uneffective
+        if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isAntiNsfw &&!isOwner) {
+            if (isUrl(chats)) {
+                const classify = new URL(isUrl(chats))
+                console.log(color('[FILTER]', 'yellow'), 'Checking link:', classify.hostname)
+                await bocchi.sendText(from, classify.hostname)
+                isPorn(classify.hostname, async (err, status) => {
+                    if (err) return console.error(err)
+                    if (status) {
+                        console.log(color('[NSFW]', 'red'), color('The link is classified as NSFW!', 'yellow'))
+                        await bocchi.reply(from, ind.linkNsfw(), id)
+                        await bocchi.removeParticipant(groupId, sender.id)
+                    } else {
+                        console.log(('[NEUTRAL]'), color('The link is safe!'))
+                    }
+                })
             }
         }
 
@@ -174,9 +204,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.sendText(from, ind.afkDone(pushname))
             }
         }
-        
-        // Ignore cmd
-        if (!isCmd) return
 
         // Ignore banned and blocked users
         if (isCmd && (isBanned || isBlocked) && !isGroupMsg) return console.log(color('[BAN]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
@@ -191,26 +218,20 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         if (isCmd && isGroupMsg) console.log(color('[CMD]'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
 
         // Anti-spam
-        msgFilter.addFilter(from)
+        if (isCmd) msgFilter.addFilter(from)
 
         switch (command) {
             // Register by Slavyan
             case 'register':
                 if (isRegistered) return await bocchi.reply(from, ind.registeredAlready(), id)
+                if (isGroupMsg) return await bocchi.reply(from, ind.pcOnly(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const namaUser = q.substring(0, q.indexOf('|') - 1)
                 const umurUser = q.substring(q.lastIndexOf('|') + 2)
                 const serialUser = createSerial(20)
-                if (isGroupMsg) {
-                    register.addRegisteredUser(sender.id, namaUser, umurUser, time, serialUser, _registered)
-                    await bocchi.reply(from, ind.pc(pushname), id)
-                    await bocchi.sendText(sender.id, ind.registered(namaUser, umurUser, sender.id, time, serialUser))
-                    console.log(color('[REGISTER]'), color(time, 'yellow'), 'Name:', color(namaUser, 'cyan'), 'Age:', color(umurUser, 'cyan'), 'Serial:', color(serialUser, 'cyan'), 'in', color(name || formattedTitle))
-                } else {
-                    register.addRegisteredUser(sender.id, namaUser, umurUser, time, serialUser, _registered)
-                    await bocchi.reply(from, ind.registered(namaUser, umurUser, sender.id, time, serialUser), id)
-                    console.log(color('[REGISTER]'), color(time, 'yellow'), 'Name:', color(namaUser, 'cyan'), 'Age:', color(umurUser, 'cyan'), 'Serial:', color(serialUser, 'cyan'))
-                }
+                register.addRegisteredUser(sender.id, namaUser, umurUser, time, serialUser, _registered)
+                await bocchi.reply(from, ind.registered(namaUser, umurUser, sender.id, time, serialUser), id)
+                console.log(color('[REGISTER]'), color(time, 'yellow'), 'Name:', color(namaUser, 'cyan'), 'Age:', color(umurUser, 'cyan'), 'Serial:', color(serialUser, 'cyan'))
             break
 
             // Level [BETA] by Slavyan
@@ -1115,6 +1136,21 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
+            case 'serial':
+                if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
+                if (isGroupMsg) return await bocchi.reply(from, ind.pcOnly(), id)
+                if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
+                const serials = args[0]
+                if (register.checkRegisteredUserFromSerial(serials, _registered)) {
+                    const name = register.getRegisteredNameFromSerial(serials, _registered)
+                    const age = register.getRegisteredAgeFromSerial(serials, _registered)
+                    const time = register.getRegisteredTimeFromSerial(serials, _registered)
+                    const id = register.getRegisteredIdFromSerial(serials, _registered)
+                    await bocchi.sendText(from, ind.registeredFound(name, age, time, serials, id))
+                } else {
+                    await bocchi.sendText(from, ind.registeredNotFound(serials))
+                }
+            break
 
             // Weeb zone
             case 'neko':
@@ -1482,25 +1518,25 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
-            case 'ffbanner': //By: VideFrelan
-            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-            if (!q.includes('|')) return bocchi.reply(from, `Untuk membuat banner Freefire\ngunakan ${prefix}ffbanner teks1 | teks 2\n\nContoh: ${prefix}ffbanner fikri gans | pake banget`, id)
-            await bocchi.reply(from, ind.wait(), id)
-            console.log('Creating FF Banner...')
-            const teks1ffanjg = q.substring(0, q.indexOf('|') - 1)
-            const teks2ffanjg = q.substring(q.lastIndexOf('|') + 2)
-            await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/bannerff?title=${teks1ffanjg}&text=${teks2ffanjg}&apikey=${config.vhtear}`, id)
-            console.log('Sukes mengirimkan Banner Freefire!')
+            case 'ffbanner': // By: VideFrelan
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q.includes('|')) return bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                console.log('Creating FF banner...')
+                const teks1ffanjg = q.substring(0, q.indexOf('|') - 1)
+                const teks2ffanjg = q.substring(q.lastIndexOf('|') + 2)
+                await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/bannerff?title=${teks1ffanjg}&text=${teks2ffanjg}&apikey=${config.vhtear}`, id)
+                console.log('Success!')
             break
-            case 'fflogo': //By: VideFrelan
-            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-            if (!q.includes('|')) return bocchi.reply(from, `Untuk membuat Logo Karakter Freefire\ngunakan ${prefix}fflogo karakter | teks\n\nContoh: ${prefix}fflogo alok | Fikri gans`, id)
-            await bocchi.reply(from, ind.wait(), id)
-            console.log('Creating FF Logo...')
-            const karakter = q.substring(0, q.indexOf('|') - 1)
-            const teksff = q.substring(q.lastIndexOf('|') + 2)
-            await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/logoff?hero=${karakter}&text=${teksff}&apikey=${config.vhtear}`, id)
-            console.log('Sukes mengirimkan Logo Freefire!')
+            case 'fflogo': // By: VideFrelan
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q.includes('|')) return bocchi.reply(from, `Untuk membuat Logo Karakter Freefire\ngunakan ${prefix}fflogo karakter | teks\n\nContoh: ${prefix}fflogo alok | Fikri gans`, id)
+                await bocchi.reply(from, ind.wait(), id)
+                console.log('Creating FF logo...')
+                const karakter = q.substring(0, q.indexOf('|') - 1)
+                const teksff = q.substring(q.lastIndexOf('|') + 2)
+                await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/logoff?hero=${karakter}&text=${teksff}&apikey=${config.vhtear}`, id)
+                console.log('Success!')
             break
             case 'text3d':
             case '3dtext':
@@ -2076,22 +2112,23 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     }
                 }
             break
+            case 'nhentai':
             case 'nh':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                const kode = args[0]
-                if (!kode) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (isNaN(Number(args[0]))) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (isGroupMsg) {
                     if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
                     await bocchi.reply(from, ind.wait(), id)
-                    console.log(`Searching nHentai for ${kode}...`)
-                    const validate = await nhentai.exists(kode)
+                    console.log(`Searching nHentai for ${args[0]}...`)
+                    const validate = await nhentai.exists(args[0])
                     if (validate === true) {
                         try {
-                            const pic = await api.getBook(kode)
+                            const pic = await api.getBook(args[0])
                                 .then((book) => {
                                      return api.getImageURL(book.cover)
                                 })
-                            const dojin = await nhentai.getDoujin(kode)
+                            const dojin = await nhentai.getDoujin(args[0])
                             const { title, details, link } = dojin
                             const { tags, artists, languages, categories } = await details
                             let teks = `*Title*: ${title}\n\n*Tags*: ${tags.join(', ')}\n\n*Artists*: ${artists}\n\n*Languages*: ${languages.join(', ')}\n\n*Categories*: ${categories}\n\n*Link*: ${link}`
@@ -2106,15 +2143,15 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     }
                 } else {
                     await bocchi.reply(from, ind.wait(), id)
-                    console.log(`Searching nHentai for ${kode}...`)
-                    const validate = await nhentai.exists(kode)
+                    console.log(`Searching nHentai for ${args[0]}...`)
+                    const validate = await nhentai.exists(args[0])
                     if (validate === true) {
                         try {
-                            const pic = await api.getBook(kode)
+                            const pic = await api.getBook(args[0])
                                 .then((book) => {
                                      return api.getImageURL(book.cover)
                                 })
-                            const dojin = await nhentai.getDoujin(kode)
+                            const dojin = await nhentai.getDoujin(args[0])
                             const { title, details, link } = dojin
                             const { tags, artists, languages, categories } = await details
                             let teks = `*Title*: ${title}\n\n*Tags*: ${tags.join(', ')}\n\n*Artists*: ${artists}\n\n*Languages*: ${languages.join(', ')}\n\n*Categories*: ${categories}\n\n*Link*: ${link}`
@@ -2139,6 +2176,46 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     if (!isPremium) return await bocchi.reply(from, ind.notPremium(), id)
                     await bocchi.reply(from, ind.botNotPremium(), id)
+                }
+            break
+            case 'nhsearch':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (isGroupMsg) {
+                    if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
+                    await bocchi.reply(from, ind.wait(), id)
+                    console.log(`Searching nHentai for ${q}...`)
+                    nana.search(q)
+                        .then(async (g) => {
+                            let txt = `-----[ *NHENTAI* ]-----\n\n➸ *Result for*: ${q}`
+                            for (let i = 0; i < g.results.length; i++) {
+                                const { id, title, language } = g.results[i]
+                                txt += `\n\n➸ *Title*: ${title}\n➸ *Language*: ${language.charAt(0).toUpperCase() + language.slice(1)}\n➸ *Link*: nhentai.net/g/${id}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                            }
+                            await bocchi.sendFileFromUrl(from, g.results[0].thumbnail.s, `${g.results[0].title}`, txt, id)
+                                .then(() => console.log('Success sending nHentai results!'))
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, 'Error!', id)
+                        })
+                } else {
+                    await bocchi.reply(from, ind.wait(), id)
+                    console.log(`Searching nHentai for ${q}...`)
+                    nana.search(q)
+                        .then(async (g) => {
+                            let txt = `-----[ *NHENTAI* ]-----\n\n➸ *Result for*: ${q}`
+                            for (let i = 0; i < g.results.length; i++) {
+                                const { id, title, language } = g.results[i]
+                                txt += `\n\n➸ *Title*: ${title}\n➸ *Language*: ${language.charAt(0).toUpperCase() + language.slice(1)}\n➸ *Link*: nhentai.net/g/${id}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                            }
+                            await bocchi.sendFileFromUrl(from, g.results[0].thumbnail.s, `${g.results[0].title}`, txt, id)
+                                .then(() => console.log('Success sending nHentai results!'))
+                        })
+                        .catch(async(err) => {
+                            console.error(err)
+                            await bocchi.reply(from, 'Error!', id)
+                        })
                 }
             break
             case 'nekopoi': // Thanks to ArugaZ
@@ -2481,6 +2558,24 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
+            case 'antinsfw':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
+                if (!isBotGroupAdmins) return await bocchi.reply(from, ind.botNotAdmin(), id)
+                if (ar[0] === 'enable') {
+                    if (isDetectorOn) return await bocchi.reply(from, ind.antiNsfwOnAlready(), id)
+                    _antinsfw.push(groupId)
+                    fs.writeFileSync('./database/group/antinsfw.json', JSON.stringify(_antinsfw))
+                    await bocchi.reply(from, ind.antiNsfwOn(name, formattedTitle), id)
+                } else if (ar[0] === 'disable') {
+                    _antinsfw.splice(groupId, 1)
+                    fs.writeFileSync('./database/group/antinsfw.json', JSON.stringify(_antinsfw))
+                    await bocchi.reply(from, ind.antiNsfwOff(), id)
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
+            break
 
             // Owner command
             case 'bc':
@@ -2601,20 +2696,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!q) return await bocchi.reply(from, ind.emptyMess(), id)
                 await bocchi.setMyStatus(q)
                 await bocchi.sendText(from, ind.doneOwner())
-            break
-            case 'serial':
-                if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
-                if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
-                const serials = args[0]
-                if (register.checkRegisteredUserFromSerial(serials, _registered)) {
-                    const name = register.getRegisteredNameFromSerial(serials, _registered)
-                    const age = register.getRegisteredAgeFromSerial(serials, _registered)
-                    const time = register.getRegisteredTimeFromSerial(serials, _registered)
-                    const id = register.getRegisteredIdFromSerial(serials, _registered)
-                    await bocchi.sendText(from, ind.registeredFound(name, age, time, serials, id))
-                } else {
-                    await bocchi.sendText(from, ind.registeredNotFound(serials))
-                }
             break
             default:
                 if (isCmd) {
