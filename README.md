@@ -47,7 +47,7 @@
 
 # Requirements
 * [Node.js](https://nodejs.org/en/)
-* [Git](https://git-scm.com/downloads) plz install this
+* [Git](https://git-scm.com/downloads)
 * [FFmpeg](https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2020-12-08-13-03/ffmpeg-n4.3.1-26-gca55240b8c-win64-gpl-4.3.zip) (for sticker GIF command)
 * Any text editor
 
@@ -117,7 +117,7 @@ PM2 with cron job (restart after 5 hours):
 After that scan the QR code using your WhatsApp in your phone!
 
 # Features
-If you want to unlock premium commands, please at least buy me a coffee at least 1 on Ko-fi platform.
+If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-fi platform.
 
 |     Leveling     |  Availability  |
 | :--------------: | :------------: |
@@ -225,6 +225,7 @@ If you want to unlock premium commands, please at least buy me a coffee at least
 | Delete message   |      ✔️      |
 | Report bug       |      ✔️      |
 | Join group       |      ✔️      |
+| Serial check       |      ✔️      |
 
 |        Owner       | Availability |
 | :----------------: | :----------: |
@@ -252,6 +253,7 @@ If you want to unlock premium commands, please at least buy me a coffee at least
 | Toogle welcome   |      ✔️      |
 | Auto-sticker     |      ✔️      |
 | Mute group       |      ✔️      |
+| Anti-NSFW link   |      ✔️      |
 
 |        NSFW        | Availability |
 | :----------------: | :----------: |
@@ -265,6 +267,7 @@ If you want to unlock premium commands, please at least buy me a coffee at least
 | Yuri               |      ✔️      |
 | Femdom             |      ✔️      |
 | Avatar lewd        |      ✔️      |
+| nHentai search     |      ✔️      |
 | nHentai downloader |    Premium   |
 | Multi lewds        |    Premium   |
 | Multi fetish       |    Premium   |
