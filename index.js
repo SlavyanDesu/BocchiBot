@@ -39,11 +39,11 @@ const start = async (bocchi = new Client()) => {
         const gc = await bocchi.getAllGroups()
         if (ownerNumber.includes(chat.id)) {
             await bocchi.sendText(chat.id, ind.addedGroup(chat))
-        } else if (gc.length >= groupLimit) {
+        } else if (gc.length > groupLimit) {
             await bocchi.sendText(chat.id, `Max groups reached!\n\nCurrent status: ${gc.length}/${groupLimit}`)
             await bocchi.deleteChat(chat.id)
             await bocchi.leaveGroup(chat.id)
-        } else if (chat.groupMetadata.participants.length <= memberLimit) {
+        } else if (chat.groupMetadata.participants.length < memberLimit) {
             await bocchi.sendText(chat.id, `Need at least ${memberLimit} members in group!`)
             await bocchi.deleteChat(chat.id)
             await bocchi.leaveGroup(chat.id)
