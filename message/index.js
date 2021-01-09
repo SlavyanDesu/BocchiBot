@@ -156,11 +156,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         }
 
         // Anti NSFW links but kinda uneffective
-        if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isAntiNsfw &&!isOwner) {
+        if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isAntiNsfw && !isOwner) {
             if (isUrl(chats)) {
                 const classify = new URL(isUrl(chats))
                 console.log(color('[FILTER]', 'yellow'), 'Checking link:', classify.hostname)
-                await bocchi.sendText(from, classify.hostname)
                 isPorn(classify.hostname, async (err, status) => {
                     if (err) return console.error(err)
                     if (status) {
