@@ -15,7 +15,7 @@ const color = (text, color) => {
 /**
  * Create serial ID.
  * @param {Number} size 
- * @returns {Number}
+ * @returns {String}
  */
 const createSerial = (size) => {
     return crypto.randomBytes(size).toString('hex').slice(0, size)
