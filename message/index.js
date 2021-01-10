@@ -1364,6 +1364,21 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
+            case 'chika'://Piyobot
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                fun.chika()
+                    .then(async (body) => {
+                        const chika = body.split('\n')
+                        const chikax = chika[Math.floor(Math.random() * chika.length)]
+                        await bocchi.sendFileFromUrl(from, `https://piyobot.000webhostapp.com//${chikax}.mp4`, 'asupan.mp4', 'Follow IG: https://www.instagram.com/alvio151 untuk mendapatkan asupan lebih banyak.', id)
+                        console.log('Success sending video!')
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
+            break
             case 'citacita': // Piyobot
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 fun.cita()
