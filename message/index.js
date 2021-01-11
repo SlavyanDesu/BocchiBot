@@ -29,6 +29,7 @@ const isPorn = require('is-porn')
 const saus = sagiri(config.nao, { results: 5 })
 const axios = require('axios')
 const tts = require('node-gtts')
+const nekobocc = require('nekobocc')
 const bent = require('bent')
 const ms = require('parse-ms')
 const toMs = require('ms')
@@ -282,9 +283,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 try {
                     for (let i = 0; i < 10; i++) {
                         nom++
-                        leaderboard += `${nom}. @${_level[i].id.replace('@c.us', '')}\n➸ XP: *${_level[i].xp}* Level: *${_level[i].level}*\n\n`
+                        const names = await bocchi.getContact(_level[i].id)
+                        leaderboard += `${nom}. ${names.pushname}\n➸ *XP*: ${_level[i].xp} *Level*: ${_level[i].level}\n\n`
                     }
-                    await bocchi.sendTextWithMentions(from, leaderboard)
+                    leaderboard += `\n\n_=_=_=_=_=_=_=_=_=_=_=_=\n\nYour progress:\n➸ *XP*: ${level.getLevelingXp(sender.id)} *Level*: ${level.getLevelingLevel(sender.id)}`
+                    await bocchi.reply(from, leaderboard, id)
                 } catch (err) {
                     console.error(err)
                     await bocchi.reply(from, ind.minimalDb(), id)
@@ -2232,43 +2235,71 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                 }
             break
-            case 'nekopoi': // Thanks to ArugaZ
+            case 'nekopoi':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) {
                     if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
                     await bocchi.reply(from, ind.wait(), id)
-                    nsfw.getLatest()
-                        .then((result) => {
-                            nsfw.getVideo(result.link)
-                                .then(async (res) => {
-                                    let heheq = '\n'
-                                    for (let i of res.links) {
-                                        heheq += `${i}\n`
-                                    }
-                                    await bocchi.sendText(from, `Title: ${res.title}\n\nLink:${heheq}`)
-                                })
-                        })
-                        .catch(async (err) => {
-                            console.error(err)
-                            await bocchi.reply(from, 'Error!', id)
-                        })
+                    try {
+                        const res = await nekobocc.latest()
+                        let text = '-----[ *NEKOPOI LATEST* ]-----'
+                        for (let i = 0; i < res.result.length; i++) {
+                            const { title, link } = res.result[i]
+                            text += `\n\n➵ *Title*: ${title}\n➵ *Link*: ${link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                        }
+                        await bocchi.reply(from, text, id)
+                    } catch (err) {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    }
                 } else {
                     await bocchi.reply(from, ind.wait(), id)
-                    nsfw.getLatest()
-                        .then((result) => {
-                            nsfw.getVideo(result.link)
-                                .then(async (res) => {
-                                    let heheq = '\n'
-                                    for (let i of res.links) {
-                                        heheq += `${i}\n`
-                                    }
-                                    await bocchi.sendText(from, `Title: ${res.title}\n\nLink:${heheq}`)
-                                })
-                        })
-                        .catch(async (err) => {
-                            console.error(err)
-                            await bocchi.reply(from, 'Error!', id)
-                        })
+                    try {
+                        const res = await nekobocc.latest()
+                        let text = '-----[ *NEKOPOI LATEST* ]-----'
+                        for (let i = 0; i < res.result.length; i++) {
+                            const { title, link } = res.result[i]
+                            text += `\n\n➵ *Title*: ${title}\n➵ *Link*: ${link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                        }
+                        await bocchi.reply(from, text, id)
+                    } catch (err) {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    }
+                }
+            break
+            case 'nekosearch':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (isGroupMsg) {
+                    if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
+                    await bocchi.reply(from, ind.wait(), id)
+                    try {
+                        const res = await nekobocc.search(q)
+                        let text = '-----[ *NEKOPOI RESULT* ]-----'
+                        for (let i = 0; i < res.result.length; i++) {
+                            const { title, link } = res.result[i]
+                            text += `\n\n➵ *Title*: ${title}\n➵ *Link*: ${link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                        }
+                        await bocchi.reply(from, text, id)
+                    } catch (err) {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    }
+                } else {
+                    await bocchi.reply(from, ind.wait(), id)
+                    try {
+                        const res = await nekobocc.search(q)
+                        let text = '-----[ *NEKOPOI RESULT* ]-----'
+                        for (let i = 0; i < res.result.length; i++) {
+                            const { title, link } = res.result[i]
+                            text += `\n\n➵ *Title*: ${title}\n➵ *Link*: ${link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                        }
+                        await bocchi.reply(from, text, id)
+                    } catch (err) {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    }
                 }
             break
             case 'waifu18':
