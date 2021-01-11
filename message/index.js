@@ -284,7 +284,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     for (let i = 0; i < 10; i++) {
                         nom++
                         const names = await bocchi.getContact(_level[i].id)
-                        leaderboard += `${nom}. ${names.pushname}\n➸ *XP*: ${_level[i].xp} *Level*: ${_level[i].level}\n\n`
+                        leaderboard += `${nom}. ${names.pushname}\nhttps://wa.me/${_level[i].id.replace('@c.us', '')}\n➸ *XP*: ${_level[i].xp} *Level*: ${_level[i].level}\n\n`
                     }
                     leaderboard += `\n\n_=_=_=_=_=_=_=_=_=_=_=_=\n\nYour progress:\n➸ *XP*: ${level.getLevelingXp(sender.id)} *Level*: ${level.getLevelingLevel(sender.id)}`
                     await bocchi.reply(from, leaderboard, id)
