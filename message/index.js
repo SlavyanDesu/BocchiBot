@@ -2707,7 +2707,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'premium':
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
-                if (args.length !== 3) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (ar[0] === 'add') {
                     if (mentionedJidList.length !== 0) {
                         for (let benet of mentionedJidList) {
@@ -2722,7 +2721,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else if (ar[0] === 'del') {
                     if (mentionedJidList.length !== 0) {
                         if (mentionedJidList[0] === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
-                        _premium.splice(premium.getPremiumPosition(sender.id, _premium), 1)
+                        _premium.splice(premium.getPremiumPosition(mentionedJidList[0], _premium), 1)
                         fs.writeFileSync('./database/bot/premium.json', JSON.stringify(_premium))
                         await bocchi.reply(from, ind.doneOwner(), id)
                     } else {
