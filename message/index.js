@@ -511,7 +511,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                             return await bocchi.reply(from, 'Not found.', id)
                         } else {
                             await bocchi.reply(from, result, id)
-                                .then(() => console.log('Success sending Wiki!'))
+                            console.log('Success sending Wiki!')
                         }
                     })
                     .catch(async (err) => {
@@ -597,7 +597,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
                 misc.bmkg()
                     .then(async ({ kedalaman, koordinat, lokasi, magnitude, map, potensi, waktu }) => {
-                        let teksInfo = `${lokasi}\n\nKoordinat: ${koordinat}\nKedalaman: ${kedalaman}\nMagnitudo: ${magnitude} SR\nPotensi: ${potensi}\n\n${waktu}`
+                        const teksInfo = `${lokasi}\n\nKoordinat: ${koordinat}\nKedalaman: ${kedalaman}\nMagnitudo: ${magnitude} SR\nPotensi: ${potensi}\n\n${waktu}`
                         await bocchi.sendFileFromUrl(from, map, 'gempa.jpg', teksInfo, id)
                             .then(() => console.log('Success sending info!'))
                     })
@@ -611,13 +611,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 misc.igStalk(q)
-                    .then(async ({ Biodata, Jumlah_Followers, Jumlah_Following, Jumlah_Post, Profile_pic, Username, status, error }) => {
-                        if (status !== 200) {
-                            return await bocchi.reply(from, error, id)
+                    .then(async ({ graphql }) => {
+                        if (graphql === undefined) {
+                            await bocchi.reply(from, 'Not found.', id)
                         } else {
-                            let igCaption = `${Biodata.split('\nby: ArugaZ').join('')}\n\nUsername: ${Username}\nFollowers: ${Jumlah_Followers}\nFollowing: ${Jumlah_Following}\nPost: ${Jumlah_Post}`
-                            await bocchi.sendFileFromUrl(from, Profile_pic, `${Username}.jpg`, igCaption, null, null, true)
-                                .then(() => console.log('Success sending Instagram info!'))
+                            const { biography, edge_followed_by, edge_follow, full_name, is_private, is_verified, profile_pic_url_hd, username, edge_owner_to_timeline_media } = graphql.user
+                            const text = `*「 IG STALK 」*\n\n➸ *Username*: ${username}\n➸ *Bio*: ${biography}\n➸ *Full name*: ${full_name}\n➸ *Followers*: ${edge_followed_by.count}\n➸ *Followings*: ${edge_follow.count}\n➸ *Private*: ${is_private ? 'Yes' : 'No'}\n➸ *Verified*: ${is_verified ? 'Yes' : 'No'}\n➸ *Total posts*: ${edge_owner_to_timeline_media.count}`
+                            await bocchi.sendFileFromUrl(from, profile_pic_url_hd, 'insta.jpg', text, id)
+                            console.log('Success sending IG stalk!')
                         }
                     })
                     .catch(async (err) => {
@@ -963,7 +964,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 reminder.addReminder(sender.id, messRemind, timeRemind, _reminder)
                 await bocchi.sendTextWithMentions(from, `*「 REMINDER 」*\n\nReminder diaktifkan! :3\n\n➸ *Pesan*: ${messRemind}\n➸ *Durasi*: ${parsedTime.hours} jam ${parsedTime.minutes} menit ${parsedTime.seconds} detik\n➸ *Untuk*: @${sender.id.replace('@c.us', '')}`, id)
                 const intervRemind = setInterval(async () => {
-                    if (Date.now() > reminder.getReminderTime(sender.id, _reminder)) {
+                    if (Date.now() >= reminder.getReminderTime(sender.id, _reminder)) {
                         await bocchi.sendTextWithMentions(from, `⏰ *「 REMINDER 」* ⏰\n\nAkhirnya tepat waktu~ @${sender.id.replace('@c.us', '')}\n\n➸ *Pesan*: ${reminder.getReminderMsg(sender.id, _reminder)}`)
                         _reminder.splice(reminder.getReminderPosition(sender.id, _reminder), 1)
                         fs.writeFileSync('./database/user/reminder.json', JSON.stringify(_reminder))
@@ -983,6 +984,99 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
+            break
+            case 'infohoax':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                misc.infoHoax()
+                    .then(async ({ result }) => {
+                        let txt = '*「 HOAXES 」*'
+                        for (let i = 0; i < result.length; i++) {
+                            const { tag, title, link } = result[i]
+                            txt += `\n\n➸ *Status*: ${tag}\n➸ *Deskripsi*: ${title}\n➸ *Link*: ${link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                        }
+                        await bocchi.sendFileFromUrl(from, result[0].image, 'hoax.jpg', txt, id)
+                        console.log('Success sending info!')
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
+            break
+            case 'trending':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                misc.trendingTwt()
+                    .then(async ({ result }) => {
+                        let txt = '*「 TRENDING TWITTER 」*'
+                        for (let i = 0; i < result.length; i++) {
+                            const { hastag, rank, tweet, link } = result[i]
+                            txt += `\n\n${rank}. *${hastag}*\n➸ *Tweets*: ${tweet}\n➸ *Link*: ${link}`
+                        }
+                        await bocchi.reply(from, txt, id)
+                        console.log('Success sending trending!')
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
+            break
+            case 'jobseek':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                misc.jobSeek()
+                    .then(async ({ result }) => {
+                        let txt = '*「 JOB SEEKER 」*'
+                        for (let i = 0; i < result.length; i++) {
+                            const { perusahaan, link, profesi, gaji, lokasi, pengalaman, edukasi, desc, syarat } = result[i]
+                            txt += `\n\n➸ *Perusahaan*: ${perusahaan}\n➸ *Lokasi*: ${lokasi}\n➸ *Profesi*: ${profesi}\n➸ *Gaji*: ${gaji}\n➸ *Pengalaman*: ${pengalaman}\n➸ *Deskripsi*: ${desc}\n➸ *Syarat*: ${syarat}\n➸ *Edukasi*: ${edukasi}\n➸ *Link*: ${link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                        }
+                        await bocchi.reply(from, txt, id)
+                        console.log('Success sending jobseek!')
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
+            break
+            case 'spamcall':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (isNaN(Number(args[0]))) return await bocchi.reply(from, ind.wrongFormat())
+                await bocchi.reply(from, ind.wait(), id)
+                misc.spamcall(args[0])
+                    .then(async ({ status, logs, msg }) => {
+                        if (status !== 200) {
+                            await bocchi.reply(from, msg, id)
+                        } else {
+                            await bocchi.reply(from, logs, id)
+                            console.log('Success sending spam!')
+                        }
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
+            break
+            case 'spamsms':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (args.length !== 2) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (isNaN(Number(args[0])) && isNaN(Number(args[1]))) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (Number(args[1]) > 10) return await bocchi.reply(from, 'Maximum 10 SMS.', id)
+                await bocchi.reply(from, ind.wait(), id)
+                misc.spamsms(args[0], args[1])
+                    .then(async ({ status, logs, msg }) => {
+                        if (status !== 200) {
+                            await bocchi.reply(from, msg, id)
+                        } else {
+                            await bocchi.reply(from, logs, id)
+                            console.log('Success sending spam!')
+                        }
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
             break
 
             // Bot
@@ -1794,6 +1888,18 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const preproccessPh = await axios.get(`https://nekobot.xyz/api/imagegen?type=phcomment&image=${linkPpPh}&text=${commentPh}&username=${usernamePh}`)
                 await bocchi.sendFileFromUrl(from, preproccessPh.data.message, 'ph.jpg', '', id)
                 console.log('Success creating image!')
+            break
+            case 'readmore':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
+                const rawReadMore = `x
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+y`
+                const pertama = q.substring(0, q.indexOf('|') - 1)
+                const kedua = q.substring(q.lastIndexOf('|') + 2)
+                const formatted1 = rawReadMore.replace('x', pertama)
+                const formatted2 = formatted1.replace('y', kedua)
+                await bocchi.sendText(from, formatted2)
             break
 
             // Sticker

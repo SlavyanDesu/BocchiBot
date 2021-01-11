@@ -579,6 +579,31 @@ Image uploader.
 Aliases: *imgtourl*
 Usage: Kirim gambar dengan caption *${prefix}imagetourl* atau reply gambar dengan caption *${prefix}imagetourl*.
 
+30. *${prefix}infohoax*
+Cek update info hoax.
+Aliases: -
+Usage: *${prefix}infohoax*
+
+31. *${prefix}trending*
+Cek trending di Twitter.
+Aliases: -
+Usage: *${prefix}trending*
+
+32. *${prefix}jobseek*
+Mencari info lowongan kerja.
+Aliases: -
+Usage: *${prefix}jobseek*
+
+33. *${prefix}spamcall*
+Spam call.
+Aliases: -
+Usage: *${prefix}spamcall* 812xxxxxxxx
+
+34. *${prefix}spamsms*
+Spam SMS.
+Aliases: -
+Usage: *${prefix}spamsms* 0812xxxxxxxx jumlah_pesan
+
 _Index of [3]_
     `
 }
@@ -798,6 +823,11 @@ Membuat logo karakter Free Fire.
 Aliases: -
 Usage: *${prefix}fflogo* teks1 | teks2
 
+20. *${prefix}readmore*
+Generate text baca selengkapnya.
+Aliases: -
+Usage: *${prefix}readmore* teks1 | teks2
+
 _Index of [6]_
     `
 }
@@ -938,6 +968,11 @@ Usage: *${prefix}femdom*
 nHentai search.
 Aliases: -
 Usage: *${prefix}nhsearch* query
+
+14. *${prefix}nekosearch*
+Nekopoi search.
+Aliases: -
+Usage: *${prefix}nekosearch* query
 
 _Index of [8]_
     `
