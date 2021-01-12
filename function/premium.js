@@ -85,10 +85,24 @@ const expiredCheck = (_dir) => {
     }, 1000)
 }
 
+/**
+ * Get all premium user ID.
+ * @param {Object} _dir 
+ * @returns {String[]}
+ */
+const getAllPremiumUser = (_dir) => {
+    const array = []
+    Object.keys(_dir).forEach((i) => {
+        array.push(_dir[i].id)
+    })
+    return array
+}
+
 module.exports = {
     addPremiumUser,
     getPremiumExpired,
     getPremiumPosition,
     expiredCheck,
-    checkPremiumUser
+    checkPremiumUser,
+    getAllPremiumUser
 }

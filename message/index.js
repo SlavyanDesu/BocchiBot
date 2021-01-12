@@ -125,17 +125,53 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         if (isGroupMsg && isRegistered && !isBanned && isLevelingOn) {
             const currentLevel = level.getLevelingLevel(sender.id, _level)
             const checkId = level.getLevelingId(sender.id, _level)
+            const checkRole = level.getLevelingRole(sender.id, _level)
             const checkBg = card.getBg(sender.id, _bg)
             try {
                 if (currentLevel === undefined && checkId === undefined) level.addLevelingId(sender.id, _level)
                 if (checkBg === undefined) card.addBg(sender.id, _bg)
-                const amountXp = Math.floor(Math.random() * 10) + 20
+                if (checkRole === undefined) level.addLevelingRole(sender.id, 'Copper V', _level)
+                const amountXp = Math.floor(Math.random() * 10) + 150
                 const requiredXp = 200 * (Math.pow(2, currentLevel) - 1)
                 const getLevel = level.getLevelingLevel(sender.id, _level)
+                const getRole = level.getLevelingRole(sender.id, _level)
                 level.addLevelingXp(sender.id, amountXp, _level)
                 if (requiredXp <= level.getLevelingXp(sender.id, _level)) {
                     level.addLevelingLevel(sender.id, 1, _level)
-                    await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)}\n\nCongrats!! 🎉🎉`, id)
+                    const fetchXp = 200 * (Math.pow(2, level.getLevelingLevel(sender.id, _level)) - 1)
+                    if (5 <= level.getLevelingLevel(sender.id, _level)) {
+                        level.addLevelingRole(sender.id, 'Copper IV', _level)
+                        await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n➸ *Role*: ${getRole} -> ${level.getLevelingRole(sender.id, _level)} 🆙\nCongrats!! 🎉🎉`, id)
+                    } else if (10 <= level.getLevelingLevel(sender.id, _level)) {
+                        level.addLevelingRole(sender.id, 'Copper III', _level)
+                        await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n➸ *Role*: ${getRole} -> ${level.getLevelingRole(sender.id, _level)} 🆙\nCongrats!! 🎉🎉`, id)
+                    } else if (15 <= level.getLevelingLevel(sender.id, _level)) {
+                        level.addLevelingRole(sender.id, 'Copper II', _level)
+                        await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n➸ *Role*: ${getRole} -> ${level.getLevelingRole(sender.id, _level)} 🆙\nCongrats!! 🎉🎉`, id)
+                    } else if (20 <= level.getLevelingLevel(sender.id, _level)) {
+                        level.addLevelingRole(sender.id, 'Copper I', _level)
+                        await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n➸ *Role*: ${getRole} -> ${level.getLevelingRole(sender.id, _level)} 🆙\nCongrats!! 🎉🎉`, id)
+                    } else if (25 <= level.getLevelingLevel(sender.id, _level)) {
+                        level.addLevelingRole(sender.id, 'Silver V', _level)
+                        await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n➸ *Role*: ${getRole} -> ${level.getLevelingRole(sender.id, _level)} 🆙\nCongrats!! 🎉🎉`, id)
+                    } else if (30 <= level.getLevelingLevel(sender.id, _level)) {
+                        level.addLevelingRole(sender.id, 'Silver IV', _level)
+                        await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n➸ *Role*: ${getRole} -> ${level.getLevelingRole(sender.id, _level)} 🆙\nCongrats!! 🎉🎉`, id)
+                    } else if (35 <= level.getLevelingLevel(sender.id, _level)) {
+                        level.addLevelingRole(sender.id, 'Silver III', _level)
+                        await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n➸ *Role*: ${getRole} -> ${level.getLevelingRole(sender.id, _level)} 🆙\nCongrats!! 🎉🎉`, id)
+                    } else if (40 <= level.getLevelingLevel(sender.id, _level)) {
+                        level.addLevelingRole(sender.id, 'Silver II', _level)
+                        await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n➸ *Role*: ${getRole} -> ${level.getLevelingRole(sender.id, _level)} 🆙\nCongrats!! 🎉🎉`, id)
+                    } else if (45 <= level.getLevelingLevel(sender.id, _level)) {
+                        level.addLevelingRole(sender.id, 'Silver I', _level)
+                        await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n➸ *Role*: ${getRole} -> ${level.getLevelingRole(sender.id, _level)} 🆙\nCongrats!! 🎉🎉`, id)
+                    } else if (50 <= level.getLevelingLevel(sender.id, _level)) {
+                        level.addLevelingRole(sender.id, 'Gold V', _level)
+                        await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n➸ *Role*: ${getRole} -> ${level.getLevelingRole(sender.id, _level)} 🆙\nCongrats!! 🎉🎉`, id)
+                    } else {
+                        await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n\nCongrats!! 🎉🎉`, id)
+                    }
                 }
             } catch (err) {
                 console.error(err)
@@ -280,11 +316,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 _level.sort((a, b) => (a.xp < b.xp) ? 1 : -1)
                 let leaderboard = '-----[ *LEADERBOARD* ]----\n\n'
                 let nom = 0
+                const arrayLeader = []
                 try {
                     for (let i = 0; i < 10; i++) {
+                        arrayLeader.push(await bocchi.getContact(_level[i].id))
                         nom++
-                        const names = await bocchi.getContact(_level[i].id)
-                        leaderboard += `${nom}. ${names.pushname}\nhttps://wa.me/${_level[i].id.replace('@c.us', '')}\n➸ *XP*: ${_level[i].xp} *Level*: ${_level[i].level}\n\n`
+                        leaderboard += `${nom}. ${arrayLeader[i].pushname}\nwa.me/${_level[i].id.replace('@c.us', '')}\n➸ *XP*: ${_level[i].xp} *Level*: ${_level[i].level}\n\n`
                     }
                     leaderboard += `\n\n_=_=_=_=_=_=_=_=_=_=_=_=\n\nYour progress:\n➸ *XP*: ${level.getLevelingXp(sender.id)} *Level*: ${level.getLevelingLevel(sender.id)}`
                     await bocchi.reply(from, leaderboard, id)
@@ -891,7 +928,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         console.error(err)
                         await bocchi.reply(from, 'Error!', id)
                     })
-            break	
+            break
             case 'play':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -1208,7 +1245,20 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isPremium) return await bocchi.reply(from, ind.notPremium(), id)
                 const cekExp = ms(premium.getPremiumExpired(sender.id, _premium) - Date.now())
-                await bocchi.reply(from, `「 *PREMIUM EXPIRE* 」\n\n➸ *ID*: ${sender.id}\n➸ *Premium left*: ${cekExp.days} day(s) ${cekExp.hours} hour(s) ${cekExp.minutes} minute(s)`, id)
+                await bocchi.reply(from, `*「 PREMIUM EXPIRE 」*\n\n➸ *ID*: ${sender.id}\n➸ *Premium left*: ${cekExp.days} day(s) ${cekExp.hours} hour(s) ${cekExp.minutes} minute(s)`, id)
+            break
+            case 'premiumlist':
+            case 'listpremium':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                let listPremi = '「 *PREMIUM USER LIST* 」\n\n'
+                let nomorList = 0
+                const arrayPremi = []
+                for (let i = 0; i < premium.getAllPremiumUser(_premium).length; i++) {
+                    arrayPremi.push(await bocchi.getContact(premium.getAllPremiumUser(_premium)[i]))
+                    nomorList++
+                    listPremi += `${nomorList}. ${premium.getAllPremiumUser(_premium)[i]}\n➸ *Name*: ${arrayPremi[i].pushname}\n\n`
+                }
+                await bocchi.reply(from, listPremi, id)
             break
             case 'getpic':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -1500,13 +1550,17 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const benet = _ban.includes(getQuoted) ? 'Yes' : 'No'
                     const adm = groupAdmins.includes(getQuoted) ? 'Yes' : 'No'
                     const premi = premium.checkPremiumUser(getQuoted, _premium) ? 'Yes' : 'No'
+                    const levelMe = level.getLevelingLevel(getQuoted, _level)
+                    const xpMe = level.getLevelingXp(getQuoted, _level)
+                    const roleMe = level.getLevelingRole(getQuoted, _level)
+                    const req = 200 * (Math.pow(2, levelMe) - 1)
                     const { status } = statuses
                     if (profilePic === undefined) {
                         var pfp = errorImg
                     } else {
                         var pfp = profilePic
                     }
-                    await bocchi.sendFileFromUrl(from, pfp, `${username}.jpg`, ind.profile(username, status, premi, benet, adm), id)
+                    await bocchi.sendFileFromUrl(from, pfp, `${username}.jpg`, ind.profile(username, status, premi, benet, adm, levelMe, req, xpMe, roleMe), id)
                 } else {
                     const profilePic = await bocchi.getProfilePicFromServer(sender.id)
                     const username = pushname
@@ -1514,13 +1568,17 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const benet = isBanned ? 'Yes' : 'No'
                     const adm = isGroupAdmins ? 'Yes' : 'No'
                     const premi = isPremium ? 'Yes' : 'No'
+                    const levelMe = level.getLevelingLevel(sender.id, _level)
+                    const xpMe = level.getLevelingXp(sender.id, _level)
+                    const roleMe = level.getLevelingRole(sender.id, _level)
+                    const req = 200 * (Math.pow(2, levelMe) - 1)
                     const { status } = statuses
                     if (profilePic === undefined) {
                         var pfp = errorImg
                     } else {
                         var pfp = profilePic
                     }
-                    await bocchi.sendFileFromUrl(from, pfp, `${username}.jpg`, ind.profile(username, status, premi, benet, adm), id)
+                    await bocchi.sendFileFromUrl(from, pfp, `${username}.jpg`, ind.profile(username, status, premi, benet, adm, levelMe, req, xpMe, roleMe), id)
                 }
             break
             case 'hartatahta':

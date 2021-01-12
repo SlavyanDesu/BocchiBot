@@ -135,8 +135,8 @@ exports.ytResult = (urlyt, title, channel, duration, views) => {
     return `➸ *Judul*: ${title}\n➸ *Channel*: ${channel}\n➸ *Durasi*: ${duration}\n➸ *Views*: ${views}\n➸ *Link*: ${urlyt}`
 }
 
-exports.profile = (username, status, premi, benet, adm) => {
-    return `-----[ *USER INFO* ]-----\n\n➸ *Username*: ${username}\n➸ *Status*: ${status}\n➸ *Premium*: ${premi}\n➸ *Banned*: ${benet}\n➸ *Admin*: ${adm}`
+exports.profile = (username, status, premi, benet, adm, level, requiredXp, xp, role) => {
+    return `-----[ *USER INFO* ]-----\n\n➸ *Username*: ${username}\n➸ *Status*: ${status}\n➸ *Premium*: ${premi}\n➸ *Banned*: ${benet}\n➸ *Admin*: ${adm}\n\nProgress\n=_=_=_=_=_=_=_=_=_=_=_=_=\n\n➸ *Level*: ${level}\n➸ *XP*: ${xp} / ${requiredXp}\n➸ *Role*: ${role}`
 }
 
 exports.detectorOn = (name, formattedTitle) => {
@@ -412,6 +412,11 @@ Usage: *${prefix}getpic* @user/62812xxxxxxxx
 Cek masa aktif premium.
 Aliases: *cekpremium*
 Usage: *${prefix}premiumcheck*
+
+13. *${prefix}premiumlist*
+Cek list user premium.
+Aliases: *listpremium*
+Usage: *${prefix}premiumlist*
 
 _Index of [2]_
     `
