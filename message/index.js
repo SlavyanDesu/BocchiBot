@@ -453,6 +453,24 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, 'Error!', id)
                 }
             break
+            case 'tiktoknowm'://By: VideFrelan
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(pushname), id)
+                if (!q) return bocchi.reply(from, `Utuk mendownload tiktok no watermark\ngunakan ${prefix}tiktonowm link\n\nContoh: ${prefix}tiktoknowm https://vt.tiktok.com/ZS3AjTVV/`, id)
+                const tktknowm = await axios.get(`http://videfikri.com/api/tiktok/?url=${q}`)
+                const responsess = await fetch(tktknowm.data.result.link);
+                const bufferss = await responsess.buffer(); 
+                await bocchi.reply(from, ind.wait(), id)
+	            await fs.writeFile(`./media/tiktoknowm.mp4`, bufferss)
+                await bocchi.sendFile(from,'./media/tiktoknowm.mp4', `BOCCHIBOTTIKTOKNOWM.mp4`, '', id)
+                .then(async () => {
+                    console.log('Sukses mengirimkan Tiktok nowm!')
+                    limitAdd(serial)
+                })
+                .catch(async (err) => {
+                    console.error(err)
+                    await bocchi.reply(from, 'Ada yang Error!', id)
+                })
+        break
             case 'tiktok': 
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('tiktok.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
