@@ -292,7 +292,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const rank = new canvas.Rank()
                     .setAvatar(pepe)
                     .setLevel(userLevel)
-                    .setRank(1, '${getUserRole}', true)
+                    .setRank(1, `${getUserRole}`, true)
                     .setCurrentXP(userXp)
                     .setRequiredXP(requiredXp)
                     .setProgressBar([randomHexs, randomHex], 'GRADIENT')
