@@ -277,6 +277,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 const userLevel = level.getLevelingLevel(sender.id, _level)
                 const userXp = level.getLevelingXp(sender.id, _level)
+                const getUserRole = level.getLevelingRole
                 if (userLevel === undefined && userXp === undefined) return await bocchi.reply(from, ind.levelNull(), id)
                 const ppLink = await bocchi.getProfilePicFromServer(sender.id)
                 if (ppLink === undefined) {
@@ -291,7 +292,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const rank = new canvas.Rank()
                     .setAvatar(pepe)
                     .setLevel(userLevel)
-                    .setRank(1, '', false)
+                    .setRank(1, '${getUserRole}', true)
                     .setCurrentXP(userXp)
                     .setRequiredXP(requiredXp)
                     .setProgressBar([randomHexs, randomHex], 'GRADIENT')
