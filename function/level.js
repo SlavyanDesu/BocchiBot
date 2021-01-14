@@ -140,6 +140,28 @@ const getLevelingRole = (userId, _dir) => {
     }
 }
 
+/**
+ * Push a new data.
+ * @param {String} userId 
+ * @param {String} role 
+ * @param {Number} xp 
+ * @param {Number} level 
+ * @param {Object} _dir 
+ */
+const pushLevelingRole = (userId, role, xp, level, _dir) => {
+    let position = null
+    Object.keys(_dir).forEach((i) => {
+        if (_dir[i].id === userId) {
+            position = i
+        }
+    })
+    if (position !== null) {
+        const obj = { id: userId, xp: xp, level: level, role: role }
+        _dir.push(obj)
+        fs.writeFileSync('./database/user/level.json', JSON.stringify(obj))
+    }
+}
+
 module.exports = {
     getLevelingId,
     getLevelingLevel,
@@ -148,5 +170,6 @@ module.exports = {
     addLevelingLevel,
     addLevelingXp,
     addLevelingRole,
-    getLevelingRole
+    getLevelingRole,
+    pushLevelingRole
 }

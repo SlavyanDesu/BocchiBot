@@ -124,13 +124,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         // Leveling [BETA] by Slavyan
         if (isGroupMsg && isRegistered && !isBanned && isLevelingOn) {
             const currentLevel = level.getLevelingLevel(sender.id, _level)
+            const currentXp = level.getLevelingXp(sender.id, _level)
             const checkId = level.getLevelingId(sender.id, _level)
             const checkRole = level.getLevelingRole(sender.id, _level)
             const checkBg = card.getBg(sender.id, _bg)
             try {
                 if (currentLevel === undefined && checkId === undefined) level.addLevelingId(sender.id, _level)
                 if (checkBg === undefined) card.addBg(sender.id, _bg)
-                if (checkRole === undefined) level.addLevelingRole(sender.id, 'Copper V', _level)
+                if (checkRole === undefined) level.pushLevelingRole(sender.id, 'Copper V', currentXp, currentLevel, _level)
                 const amountXp = Math.floor(Math.random() * 10) + 150
                 const requiredXp = 200 * (Math.pow(2, currentLevel) - 1)
                 const getLevel = level.getLevelingLevel(sender.id, _level)
