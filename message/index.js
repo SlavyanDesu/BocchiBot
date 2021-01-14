@@ -121,6 +121,52 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         // Automate
         premium.expiredCheck(_premium)
 
+        //ROLE (Change to what you want, or add) and You can change the role sort based on XP
+        const levelrole = getLevelingLevel(sender.id)
+                    if (levelrole < 1) {
+                        var role = 'Newbie'
+                    } else if (levelrole < 2) {
+                        var role = 'Master'
+                    } else if (levelrole < 3) {
+                        var role = 'Ravoler'
+                    } else if (levelrole < 4) {
+                        var role = 'Netic'
+                    } else if (levelrole < 5) {
+                        var role = 'Platinum'
+                    } else if (levelrole < 6) {
+                        var role = 'Diamond'
+                    } else if (levelrole < 7) {
+                        var role = 'Sanguine'
+                    } else if (levelrole < 8) {
+                        var role = 'Senior'
+                    } else if (levelrole < 9) {
+                        var role = 'Vanguinsher'
+                    } else if (levelrole < 10) {
+                        var role = 'Level Master'
+                    } else if (levelrole < 11) {
+                        var role = 'Sg. Grade I'
+                    } else if (levelrole < 12) {
+                        var role = 'Sg. Grade II'
+                    } else if (levelrole < 13) {
+                        var role = 'Sg. Grade III'
+                    } else if (levelrole < 14) {
+                        var role = 'Letcol'
+                    } else if (levelrole < 15) {
+                        var role = 'Colonel I'
+                    } else if (levelrole < 16) {
+                        var role = 'Colonel II'
+                    } else if (levelrole < 17) {
+                        var role = 'Colonel III'
+                    } else if (levelrole < 18) {
+                        var role = 'Colonel IV'
+                    } else if (levelrole < 19) {
+                        var role = 'Colonel V'
+                    } else if (levelrole < 20) {
+                        var role = 'Brigadier'
+                    } else if (levelrole < 21) {
+                        var role = 'Commander'
+                    }
+
         // Leveling [BETA] by Slavyan
         if (isGroupMsg && isRegistered && !isBanned && isLevelingOn) {
             const currentLevel = level.getLevelingLevel(sender.id, _level)
@@ -140,40 +186,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (requiredXp <= level.getLevelingXp(sender.id, _level)) {
                     level.addLevelingLevel(sender.id, 1, _level)
                     const fetchXp = 200 * (Math.pow(2, level.getLevelingLevel(sender.id, _level)) - 1)
-                    // HERE WE GO A FUKIN MESSY CODE REEEEE
-                    if (5 <= level.getLevelingLevel(sender.id, _level)) {
-                        level.addLevelingRole(sender.id, 'Copper IV', _level)
-                        await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n➸ *Role*: ${getRole} -> ${level.getLevelingRole(sender.id, _level)} 🆙\nCongrats!! 🎉🎉`, id)
-                    } else if (10 <= level.getLevelingLevel(sender.id, _level)) {
-                        level.addLevelingRole(sender.id, 'Copper III', _level)
-                        await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n➸ *Role*: ${getRole} -> ${level.getLevelingRole(sender.id, _level)} 🆙\nCongrats!! 🎉🎉`, id)
-                    } else if (15 <= level.getLevelingLevel(sender.id, _level)) {
-                        level.addLevelingRole(sender.id, 'Copper II', _level)
-                        await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n➸ *Role*: ${getRole} -> ${level.getLevelingRole(sender.id, _level)} 🆙\nCongrats!! 🎉🎉`, id)
-                    } else if (20 <= level.getLevelingLevel(sender.id, _level)) {
-                        level.addLevelingRole(sender.id, 'Copper I', _level)
-                        await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n➸ *Role*: ${getRole} -> ${level.getLevelingRole(sender.id, _level)} 🆙\nCongrats!! 🎉🎉`, id)
-                    } else if (25 <= level.getLevelingLevel(sender.id, _level)) {
-                        level.addLevelingRole(sender.id, 'Silver V', _level)
-                        await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n➸ *Role*: ${getRole} -> ${level.getLevelingRole(sender.id, _level)} 🆙\nCongrats!! 🎉🎉`, id)
-                    } else if (30 <= level.getLevelingLevel(sender.id, _level)) {
-                        level.addLevelingRole(sender.id, 'Silver IV', _level)
-                        await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n➸ *Role*: ${getRole} -> ${level.getLevelingRole(sender.id, _level)} 🆙\nCongrats!! 🎉🎉`, id)
-                    } else if (35 <= level.getLevelingLevel(sender.id, _level)) {
-                        level.addLevelingRole(sender.id, 'Silver III', _level)
-                        await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n➸ *Role*: ${getRole} -> ${level.getLevelingRole(sender.id, _level)} 🆙\nCongrats!! 🎉🎉`, id)
-                    } else if (40 <= level.getLevelingLevel(sender.id, _level)) {
-                        level.addLevelingRole(sender.id, 'Silver II', _level)
-                        await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n➸ *Role*: ${getRole} -> ${level.getLevelingRole(sender.id, _level)} 🆙\nCongrats!! 🎉🎉`, id)
-                    } else if (45 <= level.getLevelingLevel(sender.id, _level)) {
-                        level.addLevelingRole(sender.id, 'Silver I', _level)
-                        await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n➸ *Role*: ${getRole} -> ${level.getLevelingRole(sender.id, _level)} 🆙\nCongrats!! 🎉🎉`, id)
-                    } else if (50 <= level.getLevelingLevel(sender.id, _level)) {
-                        level.addLevelingRole(sender.id, 'Gold V', _level)
-                        await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n➸ *Role*: ${getRole} -> ${level.getLevelingRole(sender.id, _level)} 🆙\nCongrats!! 🎉🎉`, id)
-                    } else {
-                        await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n\nCongrats!! 🎉🎉`, id)
-                    }
+                    await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)}\n➸ *Role*: ${role} 🆙\n\nCongrats!! 🎉🎉`, id)
                 }
             } catch (err) {
                 console.error(err)
@@ -277,7 +290,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
-                const getUserRole = level.getLevelingRole(sender.id, _level)
                 const userLevel = level.getLevelingLevel(sender.id, _level)
                 const userXp = level.getLevelingXp(sender.id, _level)
                 if (userLevel === undefined && userXp === undefined) return await bocchi.reply(from, ind.levelNull(), id)
@@ -294,7 +306,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const rank = new canvas.Rank()
                     .setAvatar(pepe)
                     .setLevel(userLevel)
-                    .setRank(1, `${getUserRole}`, false) // Set value to true if you want to display user's roles
+                    .setRank(1, `${role}`, false) // Set value to true if you want to display user's roles
                     .setCurrentXP(userXp)
                     .setRequiredXP(requiredXp)
                     .setProgressBar([randomHexs, randomHex], 'GRADIENT')
