@@ -186,7 +186,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (requiredXp <= level.getLevelingXp(sender.id, _level)) {
                     level.addLevelingLevel(sender.id, 1, _level)
                     const fetchXp = 200 * (Math.pow(2, level.getLevelingLevel(sender.id, _level)) - 1)
-                    await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)}\n➸ *Role*: ${role} 🆙\n\nCongrats!! 🎉🎉`, id)
+                    await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n➸ *New Role*: ${role}\n\nCongrats!! 🎉🎉`, id)
                 }
             } catch (err) {
                 console.error(err)
