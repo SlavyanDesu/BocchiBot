@@ -139,6 +139,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (requiredXp <= level.getLevelingXp(sender.id, _level)) {
                     level.addLevelingLevel(sender.id, 1, _level)
                     const fetchXp = 200 * (Math.pow(2, level.getLevelingLevel(sender.id, _level)) - 1)
+                    // HERE WE GO A FUKIN MESSY CODE REEEEE
                     if (5 <= level.getLevelingLevel(sender.id, _level)) {
                         level.addLevelingRole(sender.id, 'Copper IV', _level)
                         await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙\n➸ *Role*: ${getRole} -> ${level.getLevelingRole(sender.id, _level)} 🆙\nCongrats!! 🎉🎉`, id)
@@ -443,7 +444,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 try {
-                    console.log(`Getting profile pic for ${q}`)
+                    console.log(`Get profile pic for ${q}`)
                     const tkt = await axios.get(`https://docs-jojo.herokuapp.com/api/tiktokpp?user=${q}`)
                     if (tkt.data.error) return bocchi.reply(from, tkt.data.error, id)
                     await bocchi.sendFileFromUrl(from, tkt.data.result, 'tiktokpic.jpg', 'Ini :D', id)
@@ -453,24 +454,23 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, 'Error!', id)
                 }
             break
-            case 'tiktoknowm'://By: VideFrelan
-                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(pushname), id)
-                if (!q) return bocchi.reply(from, `Utuk mendownload tiktok no watermark\ngunakan ${prefix}tiktonowm link\n\nContoh: ${prefix}tiktoknowm https://vt.tiktok.com/ZS3AjTVV/`, id)
-                const tktknowm = await axios.get(`http://videfikri.com/api/tiktok/?url=${q}`)
-                const responsess = await fetch(tktknowm.data.result.link);
-                const bufferss = await responsess.buffer(); 
+            case 'tiktoknowm': // by: VideFrelan
+            case 'tktnowm':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isUrl(url) && !url.includes('tiktok.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
-	            await fs.writeFile(`./media/tiktoknowm.mp4`, bufferss)
-                await bocchi.sendFile(from,'./media/tiktoknowm.mp4', `BOCCHIBOTTIKTOKNOWM.mp4`, '', id)
-                .then(async () => {
-                    console.log('Sukses mengirimkan Tiktok nowm!')
-                    limitAdd(serial)
-                })
-                .catch(async (err) => {
-                    console.error(err)
-                    await bocchi.reply(from, 'Ada yang Error!', id)
-                })
-        break
+                downloader.tikNoWm(url)
+                    .then(async (res) => {
+                        fs.writeFileSync(`./temp/${sender.id}.mp4`, res)
+                        await bocchi.sendFile(from, `./temp/${sender.id}.mp4`, 'nowm.mp4', '', id)
+                        console.log('Success sending TikTok video with no WM!')
+                        fs.unlinkSync(`./temp/${sender.id}.mp4`)
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
+            break
             case 'tiktok': 
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('tiktok.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -478,6 +478,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 downloader.tik(url)
                     .then(async ({ result })=> {
                         await bocchi.sendFileFromUrl(from, result.video, 'tiktok.mp4', '', id)
+                        console.log('Success sending TikTok video!')
                     })
                     .catch(async (err) => {
                         console.log(err)
@@ -633,7 +634,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 misc.jadwalSholat(q)
                     .then((data) => {
                         data.map(async ({isya, subuh, dzuhur, ashar, maghrib, terbit}) => {
-                            const x  = subuh.split(':')
+                            const x = subuh.split(':')
                             const y = terbit.split(':')
                             const xy = x[0] - y[0]
                             const yx = x[1] - y[1]
@@ -956,7 +957,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .then(async ({ result }) => {
                         if (Number(result.size.split(' MB')[0]) >= 10.00) return bocchi.sendFileFromUrl(from, result.image, `${result.title}.jpg`, `Judul: ${result.title}\nSize: *${result.size}*\n\nGagal, Maksimal video size adalah *10MB*!`, id)
                         await bocchi.sendFileFromUrl(from, result.image, `${result.title}.jpg`, ind.ytPlay(result), id)
-                        await bocchi.sendFileFromUrl(from, result.mp3, `${result.title}.mp3`, '', id)
+                        await bocchi.sendFileFromUrl(from, result.mp3, `${result.title}.mp3`, '', id, null, true, true)
                     })
                     .catch(async (err) => {
                         console.error(err)
@@ -1766,13 +1767,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 fun.simi(q)
-                  .then(async ({ success }) => {
-                      await bocchi.reply(from, success, id)
-                  })
-                  .catch(async (err) => {
-                      console.error(err)
-                      await bocchi.reply(from, `Error!\n\n${err}`, id)
-                  })
+                    .then(async ({ jawaban }) => {
+                        await bocchi.reply(from, jawaban, id)
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, `Error!\n\n${err}`, id)
+                    })
             break
             case 'glitchtext':
             case 'glitext':

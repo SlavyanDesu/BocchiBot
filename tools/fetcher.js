@@ -34,6 +34,21 @@ const fetchText = (url, options) => {
 }
 
 /**
+ * Convert media to buffer.
+ * @param {String} url 
+ * @param {Object} options
+ * @returns {Buffer}
+ */
+const toBuffer = (url, options) => {
+    return new Promise((resolve, reject) => {
+        return fetch(url, options)
+            .then((response) => response.buffer())
+            .then((buffer) => resolve(buffer))
+            .catch((err) => reject(err))
+    })
+}
+
+/**
  * Upload images to telegra.ph server.
  * @param {Buffer} buffData 
  * @param {String} fileName
@@ -67,5 +82,6 @@ const uploadImages = (buffData, fileName) => {
 module.exports = {
     fetchJson,
     fetchText,
-    uploadImages
+    uploadImages,
+    toBuffer
 }

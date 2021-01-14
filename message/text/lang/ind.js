@@ -92,7 +92,7 @@ exports.botNotAdmin = () => {
 }
 
 exports.ytFound = (res) => {
-    return `*Video ditemukan!*\n\n➸ *Judul*:${res.title}\n➸ *Deskripsi*:${res.desc}\n➸ *Durasi*: ${res.duration} menit\n\nMedia sedang dikirim, mohon tunggu...`
+    return `*Video ditemukan!*\n\n➸ *Judul*: ${res.title}\n➸ *Deskripsi*:\n${res.desc}\n➸ *Durasi*: ${res.duration} menit\n\nMedia sedang dikirim, mohon tunggu...`
 }
 
 exports.notRegistered = () => {
@@ -136,7 +136,7 @@ exports.ytResult = (urlyt, title, channel, duration, views) => {
 }
 
 exports.profile = (username, status, premi, benet, adm, level, requiredXp, xp, role) => {
-    return `-----[ *USER INFO* ]-----\n\n➸ *Username*: ${username}\n➸ *Status*: ${status}\n➸ *Premium*: ${premi}\n➸ *Banned*: ${benet}\n➸ *Admin*: ${adm}\n\nProgress\n=_=_=_=_=_=_=_=_=_=_=_=_=\n\n➸ *Level*: ${level}\n➸ *XP*: ${xp} / ${requiredXp}\n➸ *Role*: ${role}`
+    return `-----[ *USER INFO* ]-----\n\n➸ *Username*: ${username}\n➸ *Status*: ${status}\n➸ *Premium*: ${premi}\n➸ *Banned*: ${benet}\n➸ *Admin*: ${adm}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=\n\nYour progress:\n➸ *Level*: ${level}\n➸ *XP*: ${xp} / ${requiredXp}\n➸ *Role*: ${role}`
 }
 
 exports.detectorOn = (name, formattedTitle) => {
