@@ -345,6 +345,11 @@ Download profile pic user
 Aliases: -
 Usage: *${prefix}tiktokpic* username
 
+8. *${prefix}tiktoknowm*
+Download video TikTok tanpa WM.
+Aliases: *tktnowm*
+Usage: *${prefix}tiktoknowm* link_video
+
 _Index of [1]_
     `
 }
