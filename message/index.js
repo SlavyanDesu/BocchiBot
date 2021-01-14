@@ -1139,6 +1139,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             // Bot
             case 'menu':
             case 'help':
+                const jumlahUser = _registered.length
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (args[0] === '1') {
                     await bocchi.sendText(from, ind.menuDownloader())
@@ -1164,7 +1165,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                     await bocchi.sendText(from, ind.menuLeveling())
                 } else {
-                    await bocchi.sendText(from, ind.menu())
+                    await bocchi.sendText(from, ind.menu(jumlahUser))
                 }
             break
             case 'rules':

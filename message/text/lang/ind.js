@@ -278,9 +278,11 @@ exports.linkNsfw = () => {
     return `Kamu telah mengirim link NSFW! Maaf, tapi aku harus mengeluarkan mu...`
 }
 
-exports.menu = () => {
+exports.menu = (jumlahUser) => {
     return `
 ------[ WELCOME ]-----
+
+Nomor terdaftar: *${jumlahUser}*
 
 Berikut adalah menu yang tersedia:
 
