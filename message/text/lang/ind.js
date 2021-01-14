@@ -679,6 +679,11 @@ Konversi emoji ke stiker.
 Aliases: *emojistiker*
 Usage: *${prefix}emojisticker* emoji
 
+8. *${prefix}stickerwm*
+Buat stiker dengan WM.
+Aliases: *stcwm*
+Usage: Kirim gambar dengan caption *${prefix}stickerwm* pack_name | author_name atau reply gambar dengan caption *${prefix}stickerwm* pack_name | author_name.
+
 _Index of [4]_
     `
 }

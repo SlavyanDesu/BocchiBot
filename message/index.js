@@ -26,6 +26,9 @@ const sagiri = require('sagiri')
 const NanaAPI = require('nana-api')
 const nana = new NanaAPI()
 const isPorn = require('is-porn')
+const exec = require('await-exec')
+const webp = require('webp-converter')
+const sharp = require('sharp')
 const saus = sagiri(config.nao, { results: 5 })
 const axios = require('axios')
 const tts = require('node-gtts')
@@ -46,6 +49,8 @@ const { nsfw, weeaboo, downloader, sticker, fun, misc, toxic } = require('../lib
 const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
 const { limit, level, card, register, afk, reminder, premium } = require('../function')
+const Exif = require('../tools/exif')
+const exif = new Exif()
 const cd = 4.32e+7
 const errorImg = 'https://i.ibb.co/jRCpLfn/user.png'
 const tanggal = moment.tz('Asia/Jakarta').format('DD-MM-YYYY')
@@ -63,6 +68,7 @@ const _premium = JSON.parse(fs.readFileSync('./database/bot/premium.json'))
 const _registered = JSON.parse(fs.readFileSync('./database/bot/registered.json'))
 const _level = JSON.parse(fs.readFileSync('./database/user/level.json'))
 const _limit = JSON.parse(fs.readFileSync('./database/user/limit.json'))
+const _jodoh = JSON.parse(fs.readFileSync('./database/user/jodoh/jodoh.json'))
 const _afk = JSON.parse(fs.readFileSync('./database/user/afk.json'))
 const _reminder = JSON.parse(fs.readFileSync('./database/user/reminder.json'))
 const _bg = JSON.parse(fs.readFileSync('./database/user/card/background.json'))
@@ -2023,6 +2029,43 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Sticker
+            case 'stickerwm': // By Slavyan
+            case 'stcwm':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
+                if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (isMedia && isImage || isQuotedImage) {
+                    await bocchi.reply(from, ind.wait(), id)
+                    const packname = q.substring(0, q.indexOf('|') - 1)
+                    const author = q.substring(q.lastIndexOf('|') + 2)
+                    exif.create(packname, author)
+                    const encryptMedia = isQuotedImage ? quotedMsg : message
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    webp.buffer2webpbuffer(mediaData, 'jpg', '-q 100')
+                        .then(async (res) => {
+                            sharp(res)
+                                .resize(256, 256)
+                                .toFile(`./temp/stage_${sender.id}.webp`, async (err) => {
+                                    if (err) return console.error(err)
+                                    await exec(`webpmux -set exif ./temp/data.exif ./temp/stage_${sender.id}.webp -o ./temp/${sender.id}.webp`, { log: true })
+                                    if (fs.existsSync(`./temp/${sender.id}.webp`)) {
+                                        const data = fs.readFileSync(`./temp/${sender.id}.webp`)
+                                        const base64 = `data:image/webp;base64,${data.toString('base64')}`
+                                        await bocchi.sendRawWebpAsSticker(from, base64)
+                                        fs.unlinkSync(`./temp/${sender.id}.webp`)
+                                        fs.unlinkSync(`./temp/stage_${sender.id}.webp`)
+                                        fs.unlinkSync('./temp/data.exif')
+                                    }
+                                })
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, 'Error!', id)
+                        })
+                    } else {
+                        await bocchi.reply(from, ind.wrongFormat(), id)
+                    }
+            break
             case 'sticker':
             case 'stiker':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
