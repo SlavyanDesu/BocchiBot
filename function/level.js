@@ -60,7 +60,7 @@ const getLevelingXp = (userId, _dir) => {
  * @param {Object} _dir 
  */
 const addLevelingId = (userId, _dir) => {
-    const obj = { id: userId, xp: 0, level: 1, role: 'Copper V' }
+    const obj = { id: userId, xp: 0, level: 1 }
     _dir.push(obj)
     fs.writeFileSync('./database/user/level.json', JSON.stringify(_dir))
 }
@@ -103,73 +103,11 @@ const addLevelingXp = (userId, amount, _dir) => {
     }
 }
 
-/**
- * Add user role to db.
- * @param {String} userId 
- * @param {String} role 
- * @param {Object} _dir 
- */
-const addLevelingRole = (userId, role, _dir) => {
-    let position = null
-    Object.keys(_dir).forEach((i) => {
-        if (_dir[i].id === userId) {
-            position = i
-        }
-    })
-    if (position !== null) {
-        _dir[position].role = role
-        fs.writeFileSync('./database/user/level.json', JSON.stringify(_dir))
-    }
-}
-
-/**
- * Get user role from db.
- * @param {String} userId 
- * @param {Object} _dir 
- * @returns {String}
- */
-const getLevelingRole = (userId, _dir) => {
-    let position = null
-    Object.keys(_dir).forEach((i) => {
-        if (_dir[i].id === userId) {
-            position = i
-        }
-    })
-    if (position !== null) {
-        return _dir[position].role
-    }
-}
-
-/**
- * Push a new data.
- * @param {String} userId 
- * @param {String} role 
- * @param {Number} xp 
- * @param {Number} level 
- * @param {Object} _dir 
- */
-const pushLevelingRole = (userId, role, xp, level, _dir) => {
-    let position = null
-    Object.keys(_dir).forEach((i) => {
-        if (_dir[i].id === userId) {
-            position = i
-        }
-    })
-    if (position !== null) {
-        const obj = { id: userId, xp: xp, level: level, role: role }
-        _dir.push(obj)
-        fs.writeFileSync('./database/user/level.json', JSON.stringify(obj))
-    }
-}
-
 module.exports = {
     getLevelingId,
     getLevelingLevel,
     getLevelingXp,
     addLevelingId,
     addLevelingLevel,
-    addLevelingXp,
-    addLevelingRole,
-    getLevelingRole,
-    pushLevelingRole
+    addLevelingXp
 }

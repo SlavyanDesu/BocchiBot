@@ -135,8 +135,8 @@ exports.ytResult = (urlyt, title, channel, duration, views) => {
     return `➸ *Judul*: ${title}\n➸ *Channel*: ${channel}\n➸ *Durasi*: ${duration}\n➸ *Views*: ${views}\n➸ *Link*: ${urlyt}`
 }
 
-exports.profile = (username, status, premi, benet, adm, level, requiredXp, xp, role) => {
-    return `-----[ *USER INFO* ]-----\n\n➸ *Username*: ${username}\n➸ *Status*: ${status}\n➸ *Premium*: ${premi}\n➸ *Banned*: ${benet}\n➸ *Admin*: ${adm}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=\n\nYour progress:\n➸ *Level*: ${level}\n➸ *XP*: ${xp} / ${requiredXp}\n➸ *Role*: ${role}`
+exports.profile = (username, status, premi, benet, adm, level, requiredXp, xp) => {
+    return `-----[ *USER INFO* ]-----\n\n➸ *Username*: ${username}\n➸ *Status*: ${status}\n➸ *Premium*: ${premi}\n➸ *Banned*: ${benet}\n➸ *Admin*: ${adm}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=\n\nYour progress:\n➸ *Level*: ${level}\n➸ *XP*: ${xp} / ${requiredXp}`
 }
 
 exports.detectorOn = (name, formattedTitle) => {
@@ -278,11 +278,31 @@ exports.linkNsfw = () => {
     return `Kamu telah mengirim link NSFW! Maaf, tapi aku harus mengeluarkan mu...`
 }
 
-exports.menu = (jumlahUser) => {
+exports.jodohRegister = (id, nama, umur, gender) => {
+    return `*「 CARI JODOH 」*\n\nAKUN TELAH TERDAFTAR\n=========================\n\n➸ *Nama*: ${nama}\n➸ *Nomor*: wa.me/${id.replace('@c.us', '')}\n➸ *Umur*: ${umur} tahun\n➸ *Gender*: ${gender.includes('l') ? 'Laki-laki' : 'Perempuan'}\n\n=========================\n\nGunakan command *${prefix}cj* opsi_gender untuk memulai mencari!`
+}
+
+exports.jodohNotRegister = () => {
+    return `Akun kamu belum terdaftar di cari jodoh!\n\nSilakan daftar dengan *${prefix}regjodoh* nama | umur | P/L\n\nKeterangan:\n*P*: perempuan\n*L*: laki-laki`
+}
+
+exports.jodohFound = (id, nama, umur, gender) => {
+    return `-----[ *JODOH DITEMUKAN!* ]-----\n\n➸ *Nama*: ${nama}\n➸ *Nomor*: wa.me/${id.replace('@c.us', '')}\n➸ *Umur*: ${umur} tahun\n➸ *Gender*: ${gender.includes('l') ? 'Laki-laki' : 'Perempuan'}`
+}
+
+exports.menu = (jumlahUser, level, xp, role, pushname, requiredXp, premium) => {
     return `
 ------[ WELCOME ]-----
 
-Nomor terdaftar: *${jumlahUser}*
+======================
+➸ *Nama*: ${pushname}
+➸ *Level*: ${level}
+➸ *XP*: ${xp} / ${requiredXp}
+➸ *Role*: ${role}
+➸ *Premium*: ${premium}
+======================
+
+Total pendaftar: *${jumlahUser}*
 
 Berikut adalah menu yang tersedia:
 
@@ -839,6 +859,25 @@ Usage: *${prefix}fflogo* teks1 | teks2
 Generate text baca selengkapnya.
 Aliases: -
 Usage: *${prefix}readmore* teks1 | teks2
+
+21. *${prefix}regjodoh*
+Daftar cari jodoh.
+*P* - perempuan
+*L* - laki-laki
+Aliases: *regcj*
+Usage: *${prefix}regjodoh* nama | umur | P/L
+
+22. *${prefix}carijodoh*
+Cari jodoh.
+*P* - perempuan
+*L* - laki-laki
+Aliases: *cj*
+Usage: *${prefix}carijodoh* P/L
+
+23. *${prefix}unregjodoh*
+Unreg cari jodoh.
+Aliases: *unregcj*
+Usage: *${prefix}unregjodoh*
 
 _Index of [6]_
     `

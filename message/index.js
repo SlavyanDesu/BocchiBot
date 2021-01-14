@@ -121,72 +121,67 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         // Automate
         premium.expiredCheck(_premium)
 
-        //ROLE (Change to what you want, or add) and You can change the role sort based on XP
-        const levelrole = getLevelingLevel(sender.id)
-                    if (levelrole < 1) {
-                        var role = 'Newbie'
-                    } else if (levelrole < 2) {
-                        var role = 'Master'
-                    } else if (levelrole < 3) {
-                        var role = 'Ravoler'
-                    } else if (levelrole < 4) {
-                        var role = 'Netic'
-                    } else if (levelrole < 5) {
-                        var role = 'Platinum'
-                    } else if (levelrole < 6) {
-                        var role = 'Diamond'
-                    } else if (levelrole < 7) {
-                        var role = 'Sanguine'
-                    } else if (levelrole < 8) {
-                        var role = 'Senior'
-                    } else if (levelrole < 9) {
-                        var role = 'Vanguinsher'
-                    } else if (levelrole < 10) {
-                        var role = 'Level Master'
-                    } else if (levelrole < 11) {
-                        var role = 'Sg. Grade I'
-                    } else if (levelrole < 12) {
-                        var role = 'Sg. Grade II'
-                    } else if (levelrole < 13) {
-                        var role = 'Sg. Grade III'
-                    } else if (levelrole < 14) {
-                        var role = 'Letcol'
-                    } else if (levelrole < 15) {
-                        var role = 'Colonel I'
-                    } else if (levelrole < 16) {
-                        var role = 'Colonel II'
-                    } else if (levelrole < 17) {
-                        var role = 'Colonel III'
-                    } else if (levelrole < 18) {
-                        var role = 'Colonel IV'
-                    } else if (levelrole < 19) {
-                        var role = 'Colonel V'
-                    } else if (levelrole < 20) {
-                        var role = 'Brigadier'
-                    } else if (levelrole < 21) {
-                        var role = 'Commander'
-                    }
+        // ROLE (Change to what you want, or add) and You can change the role sort based on XP
+        const levelRole = level.getLevelingLevel(sender.id, _level)
+        var role = 'Copper V'
+        if (levelRole <= 5) {
+            var role = 'Copper IV'
+        } else if (levelRole <= 10) {
+            var role = 'Copper III'
+        } else if (levelRole <= 15) {
+            var role = 'Copper II'
+        } else if (levelRole <= 20) {
+            var role = 'Copper I'
+        } else if (levelRole <= 25) {
+            var role = 'Silver V'
+        } else if (levelRole <= 30) {
+            var role = 'Silver IV'
+        } else if (levelRole <= 35) {
+            var role = 'Silver III'
+        } else if (levelRole <= 40) {
+            var role = 'Silver II'
+        } else if (levelRole <= 45) {
+            var role = 'Silver I'
+        } else if (levelRole <= 50) {
+            var role = 'Gold V'
+        } else if (levelRole <= 55) {
+            var role = 'Gold IV'
+        } else if (levelRole <= 60) {
+            var role = 'Gold III'
+        } else if (levelRole <= 65) {
+            var role = 'Gold II'
+        } else if (levelRole <= 70) {
+            var role = 'Gold I'
+        } else if (levelRole <= 75) {
+            var role = 'Platinum V'
+        } else if (levelRole <= 80) {
+            var role = 'Platinum IV'
+        } else if (levelRole <= 85) {
+            var role = 'Platinum III'
+        } else if (levelRole <= 90) {
+            var role = 'Platinum II'
+        } else if (levelRole <= 95) {
+            var role = 'Platinum I'
+        } else if (levelRole <= 100) {
+            var role = 'Exterminator'
+        }
 
         // Leveling [BETA] by Slavyan
         if (isGroupMsg && isRegistered && !isBanned && isLevelingOn) {
             const currentLevel = level.getLevelingLevel(sender.id, _level)
-            const currentXp = level.getLevelingXp(sender.id, _level)
             const checkId = level.getLevelingId(sender.id, _level)
-            const checkRole = level.getLevelingRole(sender.id, _level)
             const checkBg = card.getBg(sender.id, _bg)
             try {
                 if (currentLevel === undefined && checkId === undefined) level.addLevelingId(sender.id, _level)
                 if (checkBg === undefined) card.addBg(sender.id, _bg)
-                if (checkRole === undefined) level.pushLevelingRole(sender.id, 'Copper V', currentXp, currentLevel, _level)
                 const amountXp = Math.floor(Math.random() * 10) + 150
                 const requiredXp = 200 * (Math.pow(2, currentLevel) - 1)
                 const getLevel = level.getLevelingLevel(sender.id, _level)
-                const getRole = level.getLevelingRole(sender.id, _level)
                 level.addLevelingXp(sender.id, amountXp, _level)
                 if (requiredXp <= level.getLevelingXp(sender.id, _level)) {
                     level.addLevelingLevel(sender.id, 1, _level)
                     const fetchXp = 200 * (Math.pow(2, level.getLevelingLevel(sender.id, _level)) - 1)
-                    await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)}\n➸ *Role*: ${role} 🆙\n\nCongrats!! 🎉🎉`, id)
+                    await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${getLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙 \n➸ *Role*: *${role}*\n\nCongrats!! 🎉🎉`, id)
                 }
             } catch (err) {
                 console.error(err)
@@ -1153,6 +1148,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'menu':
             case 'help':
                 const jumlahUser = _registered.length
+                const levelMenu = level.getLevelingLevel(sender.id, _level)
+                const xpMenu = level.getLevelingXp(sender.id, _level)
+                const reqXpMenu = 200 * (Math.pow(2, levelMenu) - 1)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (args[0] === '1') {
                     await bocchi.sendText(from, ind.menuDownloader())
@@ -1178,7 +1176,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                     await bocchi.sendText(from, ind.menuLeveling())
                 } else {
-                    await bocchi.sendText(from, ind.menu(jumlahUser))
+                    await bocchi.sendText(from, ind.menu(jumlahUser, levelMenu, xpMenu, role, pushname, reqXpMenu, isPremium ? 'YES' : 'NO'))
                 }
             break
             case 'rules':
@@ -1586,7 +1584,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const premi = premium.checkPremiumUser(getQuoted, _premium) ? 'Yes' : 'No'
                     const levelMe = level.getLevelingLevel(getQuoted, _level)
                     const xpMe = level.getLevelingXp(getQuoted, _level)
-                    const roleMe = level.getLevelingRole(getQuoted, _level)
                     const req = 200 * (Math.pow(2, levelMe) - 1)
                     const { status } = statuses
                     if (profilePic === undefined) {
@@ -1594,7 +1591,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     } else {
                         var pfp = profilePic
                     }
-                    await bocchi.sendFileFromUrl(from, pfp, `${username}.jpg`, ind.profile(username, status, premi, benet, adm, levelMe, req, xpMe, roleMe), id)
+                    await bocchi.sendFileFromUrl(from, pfp, `${username}.jpg`, ind.profile(username, status, premi, benet, adm, levelMe, req, xpMe), id)
                 } else {
                     const profilePic = await bocchi.getProfilePicFromServer(sender.id)
                     const username = pushname
@@ -1604,7 +1601,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const premi = isPremium ? 'Yes' : 'No'
                     const levelMe = level.getLevelingLevel(sender.id, _level)
                     const xpMe = level.getLevelingXp(sender.id, _level)
-                    const roleMe = level.getLevelingRole(sender.id, _level)
                     const req = 200 * (Math.pow(2, levelMe) - 1)
                     const { status } = statuses
                     if (profilePic === undefined) {
@@ -1612,7 +1608,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     } else {
                         var pfp = profilePic
                     }
-                    await bocchi.sendFileFromUrl(from, pfp, `${username}.jpg`, ind.profile(username, status, premi, benet, adm, levelMe, req, xpMe, roleMe), id)
+                    await bocchi.sendFileFromUrl(from, pfp, `${username}.jpg`, ind.profile(username, status, premi, benet, adm, levelMe, req, xpMe), id)
                 }
             break
             case 'hartatahta':
@@ -1984,14 +1980,46 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'readmore':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
-                const rawReadMore = `x
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
-y`
+                const rawReadMore = `a
+
+
+​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​b`
                 const pertama = q.substring(0, q.indexOf('|') - 1)
                 const kedua = q.substring(q.lastIndexOf('|') + 2)
-                const formatted1 = rawReadMore.replace('x', pertama)
-                const formatted2 = formatted1.replace('y', kedua)
+                const formatted1 = rawReadMore.replace('a', pertama)
+                const formatted2 = formatted1.replace('b', kedua)
                 await bocchi.sendText(from, formatted2)
+            break
+            case 'regjodoh':
+            case 'regcj':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (isJodoh) return await bocchi.reply(from, ind.registeredAlready(), id)
+                if (isGroupMsg) return await bocchi.reply(from, ind.pcOnly(), id)
+                if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
+                const namaPar = q.substring(0, q.indexOf('|') - 1)
+                const umurPar = q.substring(q.indexOf('|') + 2, q.lastIndexOf('|') - 1)
+                const genderPar = q.substring(q.lastIndexOf('|') + 2)
+                jodoh.addJodoh(sender.id, namaPar, umurPar, genderPar.toLowerCase(), _jodoh)
+                await bocchi.reply(from, ind.jodohRegister(sender.id, namaPar, umurPar, genderPar), id)
+            break
+            case 'carijodoh':
+            case 'cj':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isJodoh) return await bocchi.reply(from, ind.jodohNotRegister(), id)
+                if (isGroupMsg) return await bocchi.reply(from, ind.pcOnly(), id)
+                if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                const daftarJodoh = jodoh.getJodoh(args[0], _jodoh)
+                const acakJodoh = daftarJodoh[Math.floor(Math.random() * daftarJodoh.length)]
+                await bocchi.sendContact(from, acakJodoh.id)
+                await bocchi.reply(from, ind.jodohFound(acakJodoh.id, acakJodoh.name, acakJodoh.age, acakJodoh.gender), id)
+            break
+            case 'unregjodoh':
+            case 'unregcj':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegisterd(), id)
+                if (!isJodoh) return await bocchi.reply(from, ind.notRegistered(), id)
+                jodoh.delJodoh(sender.id, _jodoh)
+                await bocchi.reply(from, ind.ok(), id)
             break
 
             // Sticker
