@@ -287,7 +287,7 @@ exports.jodohNotRegister = () => {
 }
 
 exports.jodohFound = (id, nama, umur, gender) => {
-    return `-----[ *JODOH DITEMUKAN!* ]-----\n\n➸ *Nama*: ${nama}\n➸ *Nomor*: wa.me/${id.replace('@c.us', '')}\n➸ *Umur*: ${umur} tahun\n➸ *Gender*: ${gender.includes('l') ? 'Laki-laki' : 'Perempuan'}`
+    return `-----[ *JODOH DITEMUKAN!* ]-----\n\n➸ *Nama*: ${nama}\n➸ *Nomor*: wa.me/${id.replace('@c.us', '')}\n➸ *Umur*: ${umur} tahun\n➸ *Gender*: ${(gender.includes('l') || gender.includes('L')) ? 'Laki-laki' : 'Perempuan'}`
 }
 
 exports.menu = (jumlahUser, level, xp, role, pushname, requiredXp, premium) => {

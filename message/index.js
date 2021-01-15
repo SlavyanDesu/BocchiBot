@@ -117,6 +117,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isAutoStickerOn = isGroupMsg ? _autosticker.includes(groupId) : false
         const isAntiNsfw = isGroupMsg ? _antinsfw.includes(groupId) : false
         const isAfkOn = afk.checkAfkUser(sender.id, _afk)
+        const isJodoh = jodoh.checkJodoh(sender.id, _jodoh)
         const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
         const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
         const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
