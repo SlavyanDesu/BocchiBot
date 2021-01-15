@@ -207,7 +207,6 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 | 3D Text               |      ✔️      |
 | Freefire logo         |      ✔️      |
 | Freefire banner       |      ✔️      |
-| Cari jodoh            |      ✔️      |
 
 |      Weeb Zone     | Availability |
 | :----------------: | :----------: |
