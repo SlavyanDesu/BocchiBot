@@ -2985,7 +2985,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'exif':
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
-                if (!q.includes('|')) return await boccchi.reply(from, ind.wrongFormat(), id)
+                if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const namaPack = q.substring(0, q.indexOf('|') - 1)
                 const authorPack = q.substring(q.lastIndexOf('|') + 2)
                 exif.create(namaPack, authorPack)
