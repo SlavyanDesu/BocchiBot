@@ -48,7 +48,7 @@ const { msgFilter, color, processTime, isUrl, createSerial } = require('../tools
 const { nsfw, weeaboo, downloader, sticker, fun, misc, toxic } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
-const { limit, level, card, register, afk, reminder, premium, jodoh } = require('../function')
+const { limit, level, card, register, afk, reminder, premium } = require('../function')
 const Exif = require('../tools/exif')
 const exif = new Exif()
 const cd = 4.32e+7
@@ -68,7 +68,6 @@ const _premium = JSON.parse(fs.readFileSync('./database/bot/premium.json'))
 const _registered = JSON.parse(fs.readFileSync('./database/bot/registered.json'))
 const _level = JSON.parse(fs.readFileSync('./database/user/level.json'))
 const _limit = JSON.parse(fs.readFileSync('./database/user/limit.json'))
-const _jodoh = JSON.parse(fs.readFileSync('./database/user/jodoh/jodoh.json'))
 const _afk = JSON.parse(fs.readFileSync('./database/user/afk.json'))
 const _reminder = JSON.parse(fs.readFileSync('./database/user/reminder.json'))
 const _bg = JSON.parse(fs.readFileSync('./database/user/card/background.json'))
@@ -117,7 +116,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isAutoStickerOn = isGroupMsg ? _autosticker.includes(groupId) : false
         const isAntiNsfw = isGroupMsg ? _antinsfw.includes(groupId) : false
         const isAfkOn = afk.checkAfkUser(sender.id, _afk)
-        const isJodoh = jodoh.checkJodoh(sender.id, _jodoh)
         const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
         const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
         const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
@@ -1993,37 +1991,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const formatted1 = rawReadMore.replace('a', pertama)
                 const formatted2 = formatted1.replace('b', kedua)
                 await bocchi.sendText(from, formatted2)
-            break
-            case 'regjodoh':
-            case 'regcj':
-                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (isJodoh) return await bocchi.reply(from, ind.registeredAlready(), id)
-                if (isGroupMsg) return await bocchi.reply(from, ind.pcOnly(), id)
-                if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
-                const namaPar = q.substring(0, q.indexOf('|') - 1)
-                const umurPar = q.substring(q.indexOf('|') + 2, q.lastIndexOf('|') - 1)
-                const genderPar = q.substring(q.lastIndexOf('|') + 2)
-                jodoh.addJodoh(sender.id, namaPar, umurPar, genderPar.toLowerCase(), _jodoh)
-                await bocchi.reply(from, ind.jodohRegister(sender.id, namaPar, umurPar, genderPar), id)
-            break
-            case 'carijodoh':
-            case 'cj':
-                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (!isJodoh) return await bocchi.reply(from, ind.jodohNotRegister(), id)
-                if (isGroupMsg) return await bocchi.reply(from, ind.pcOnly(), id)
-                if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
-                await bocchi.reply(from, ind.wait(), id)
-                const daftarJodoh = jodoh.getJodoh(args[0], _jodoh)
-                const acakJodoh = daftarJodoh[Math.floor(Math.random() * daftarJodoh.length)]
-                await bocchi.sendContact(from, acakJodoh.id)
-                await bocchi.reply(from, ind.jodohFound(acakJodoh.id, acakJodoh.name, acakJodoh.age, acakJodoh.gender), id)
-            break
-            case 'unregjodoh':
-            case 'unregcj':
-                if (!isRegistered) return await bocchi.reply(from, ind.notRegisterd(), id)
-                if (!isJodoh) return await bocchi.reply(from, ind.notRegistered(), id)
-                jodoh.delJodoh(sender.id, _jodoh)
-                await bocchi.reply(from, ind.ok(), id)
             break
 
             // Sticker
