@@ -2020,7 +2020,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                         console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                                         fs.unlinkSync(`./temp/${sender.id}.webp`)
                                         fs.unlinkSync(`./temp/stage_${sender.id}.webp`)
-                                        fs.unlinkSync('./temp/data.exif')
                                     }
                                 })
                         })
