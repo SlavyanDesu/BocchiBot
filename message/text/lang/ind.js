@@ -1062,6 +1062,11 @@ Cek pendaftaran akun via serial.
 Aliases: -
 Usage: *${prefix}serial* serial_user
 
+11. *${prefix}exif*
+Atur WM stiker bot.
+Aliases: -
+Usage: *${prefix}exif* pack_name | author_name
+
 _Index of [9]_
     `
 }

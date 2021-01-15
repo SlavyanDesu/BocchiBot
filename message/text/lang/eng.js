@@ -1046,6 +1046,11 @@ Check user's serial.
 Aliases: -
 Usage: *${prefix}serial* user_serial
 
+11. *${prefix}exif*
+Adjust your sticker WM.
+Aliases: -
+Usage: *${prefix}exif* pack_name | author_name
+
 _Index of [9]_
     `
 }

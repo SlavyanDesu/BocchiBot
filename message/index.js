@@ -2007,7 +2007,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
                     webp.buffer2webpbuffer(mediaData, 'jpg', '-q 100')
-                        .then(async (res) => {
+                        .then((res) => {
                             sharp(res)
                                 .resize(256, 256)
                                 .toFile(`./temp/stage_${sender.id}.webp`, async (err) => {
@@ -2017,6 +2017,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                         const data = fs.readFileSync(`./temp/${sender.id}.webp`)
                                         const base64 = `data:image/webp;base64,${data.toString('base64')}`
                                         await bocchi.sendRawWebpAsSticker(from, base64)
+                                        console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                                         fs.unlinkSync(`./temp/${sender.id}.webp`)
                                         fs.unlinkSync(`./temp/stage_${sender.id}.webp`)
                                         fs.unlinkSync('./temp/data.exif')
@@ -2037,17 +2038,24 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (isMedia && isImage || isQuotedImage) {
                     await bocchi.reply(from, ind.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
-                    const _mimetype = isQuotedImage ? quotedMsg.mimetype : mimetype
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
-                    const imageBase64 = `data:${_mimetype};base64,${mediaData.toString('base64')}`
-                    await bocchi.sendImageAsSticker(from, imageBase64)
-                        .then(async () => {
-                            await bocchi.sendText(from, ind.ok())
-                            console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
-                        })
-                        .catch(async (err) => {
-                            console.error(err)
-                            await bocchi.reply(from, 'Error!', id)
+                    webp.buffer2webpbuffer(mediaData, 'jpg', '-q 100')
+                        .then((res) => {
+                            sharp(res)
+                                .resize(256, 256)
+                                .toFile(`./temp/stage_${sender.id}.webp`, async (err) => {
+                                    if (err) return console.error(err)
+                                    await exec(`webpmux -set exif ./temp/data.exif ./temp/stage_${sender.id}.webp -o ./temp/${sender.id}.webp`, { log: true })
+                                    if (fs.existsSync(`./temp/${sender.id}.webp`)) {
+                                        const data = fs.readFileSync(`./temp/${sender.id}.webp`)
+                                        const base64 = `data:image/webp;base64,${data.toString('base64')}`
+                                        await bocchi.sendRawWebpAsSticker(from, base64)
+                                        await bocchi.reply(from, ind.ok(), id)
+                                        console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
+                                        fs.unlinkSync(`./temp/${sender.id}.webp`)
+                                        fs.unlinkSync(`./temp/stage_${sender.id}.webp`)
+                                    }
+                                })
                         })
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
@@ -2974,6 +2982,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!q) return await bocchi.reply(from, ind.emptyMess(), id)
                 await bocchi.setMyStatus(q)
                 await bocchi.sendText(from, ind.doneOwner())
+            break
+            case 'exif':
+                if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
+                if (!q.includes('|')) return await boccchi.reply(from, ind.wrongFormat(), id)
+                const namaPack = q.substring(0, q.indexOf('|') - 1)
+                const authorPack = q.substring(q.lastIndexOf('|') + 2)
+                exif.create(namaPack, authorPack)
+                await bocchi.reply(from, ind.doneOwner(), id)
             break
             default:
                 if (isCmd) {
