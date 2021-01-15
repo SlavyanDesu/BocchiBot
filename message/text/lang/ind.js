@@ -275,7 +275,7 @@ exports.pcOnly = () => {
 }
 
 exports.linkNsfw = () => {
-    return `Kamu telah mengirim link NSFW! Maaf, tapi aku harus mengeluarkan mu...`
+    return `*「 ANTI NSFW LINK 」*\n\nKamu telah mengirim link NSFW!\nMaaf, tapi aku harus mengeluarkan mu...`
 }
 
 exports.menu = (jumlahUser, level, xp, role, pushname, requiredXp, premium) => {

@@ -261,9 +261,23 @@ exports.pcOnly = () => {
     return `This command can only be used in private chat!`
 }
 
-exports.menu = () => {
+exports.linkNsfw = () => {
+    return `*「 ANTI NSFW LINK 」*\n\nYou've sent a group link!\nSorry, but you have to leave...`
+}
+
+exports.menu = (jumlahUser, level, xp, role, pushname, requiredXp, premium) => {
     return `
 ------[ WELCOME ]-----
+
+======================
+➸ *Name*: ${pushname}
+➸ *Level*: ${level}
+➸ *XP*: ${xp} / ${requiredXp}
+➸ *Role*: ${role}
+➸ *Premium*: ${premium}
+======================
+
+Total registered: *${jumlahUser}*
 
 The following menus are available:
 
@@ -327,6 +341,11 @@ Usage: *${prefix}twiter* link
 Download TikTok profile pic.
 Aliases: -
 Usage: *${prefix}tiktokpic* username
+
+8. *${prefix}tiktoknowm*
+Download TikTok video with no WM.
+Aliases: *tktnowm*
+Usage: *${prefix}tiktoknowm* link
 
 _Index of [1]_
     `
@@ -395,6 +414,11 @@ Usage: *${prefix}getpic* @user/62812xxxxxxxx
 Premium active time check.
 Aliases: *cekpremium*
 Usage: *${prefix}premiumcheck*
+
+13. *${prefix}premiumlist*
+Premium users list.
+Aliases: *listpremium*
+Usage: *${prefix}premiumlist*
 
 _Index of [2]_
     `
@@ -562,6 +586,31 @@ Image uploader.
 Aliases: *imgtourl*
 Usage: Send images with caption *${prefix}imagetourl* or reply to the image with a caption *${prefix}imagetourl*.
 
+30. *${prefix}infohoax*
+Hoax info update.
+Aliases: -
+Usage: *${prefix}infohoax*
+
+31. *${prefix}trending*
+Twitter trendings.
+Aliases: -
+Usage: *${prefix}trending*
+
+32. *${prefix}jobseek*
+Job seeker in Indonesia only.
+Aliases: -
+Usage: *${prefix}jobseek*
+
+33. *${prefix}spamcall*
+Spam call.
+Aliases: -
+Usage: *${prefix}spamcall* 812xxxxxxxx
+
+34. *${prefix}spamsms*
+Spam SMS.
+Aliases: -
+Usage: *${prefix}spamsms* 0812xxxxxxxx amount
+
 _Index of [3]_
     `
 }
@@ -604,6 +653,12 @@ Usage: Reply to the stickers with a caption *${prefix}stickertoimg*.
 Convert emoji to sticker.
 Aliases: *emojistiker*
 Usage: *${prefix}emojisticker* emoji
+
+8. *${prefix}stickerwm*
+Create a sticker with metadata/WM.
+Aliases: *stcwm*
+Usage: Kirim gambar dengan caption *${prefix}stickerwm* pack_name | author_name atau reply gambar dengan caption *${prefix}stickerwm* pack_name | author_name.
+
 
 _Index of [4]_
     `
@@ -781,6 +836,11 @@ Create a Free Fire characters logo.
 Aliases: -
 Usage: *${prefix}fflogo* text1 | text2
 
+20. *${prefix}readmore*
+Generate a spoiler text.
+Aliases: -
+Usage: *${prefix}readmore* text1 | text2
+
 _Index of [6]_
     `
 }
@@ -843,6 +903,11 @@ Usage: *${prefix}welcome* enable/disable
 Toogle auto-sticker feature. Every sended image will made into a sticker.
 Aliases: *autostiker autostik*
 Usage: *${prefix}autostiker* enable/disable
+
+12. *${prefix}antinsfw*
+Toogle anti-NSFW link.
+Aliases: -
+Usage: *${prefix}antinsfw* enable/disable
 
 _Index of [7]_
     `
@@ -916,6 +981,11 @@ Usage: *${prefix}femdom*
 nHentai search.
 Aliases: -
 Usage: *${prefix}nhsearch* query
+
+14. *${prefix}nekosearch*
+Nekopoi search.
+Aliases: -
+Usage: *${prefix}nekosearch* query
 
 _Index of [8]_
     `
@@ -1017,6 +1087,9 @@ Penalty: *SOFT BLOCK*
 Penalty: *PERMANENT BLOCK*
 
 If you've understand these rules, please type *${prefix}menu* to get started.
+
+Owner:
+wa.me/${ownerNumber.replace('@c.us', '')}
 
 Source code by:
 wa.me/6281294958473 (Slavyan)
