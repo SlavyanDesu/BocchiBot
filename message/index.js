@@ -48,7 +48,7 @@ const { msgFilter, color, processTime, isUrl, createSerial } = require('../tools
 const { nsfw, weeaboo, downloader, sticker, fun, misc, toxic } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
-const { limit, level, card, register, afk, reminder, premium } = require('../function')
+const { limit, level, card, register, afk, reminder, premium, jodoh } = require('../function')
 const Exif = require('../tools/exif')
 const exif = new Exif()
 const cd = 4.32e+7
@@ -333,14 +333,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 _level.sort((a, b) => (a.xp < b.xp) ? 1 : -1)
                 let leaderboard = '-----[ *LEADERBOARD* ]----\n\n'
                 let nom = 0
-                const arrayLeader = []
                 try {
                     for (let i = 0; i < 10; i++) {
-                        arrayLeader.push(await bocchi.getContact(_level[i].id))
                         nom++
-                        leaderboard += `${nom}. ${arrayLeader[i].pushname}\nwa.me/${_level[i].id.replace('@c.us', '')}\n➸ *XP*: ${_level[i].xp} *Level*: ${_level[i].level}\n\n`
+                        leaderboard += `${nom}. wa.me/${_level[i].id.replace('@c.us', '')}\n➸ *XP*: ${_level[i].xp} *Level*: ${_level[i].level}\n\n`
                     }
-                    leaderboard += `\n\n_=_=_=_=_=_=_=_=_=_=_=_=\n\nYour progress:\n➸ *XP*: ${level.getLevelingXp(sender.id)} *Level*: ${level.getLevelingLevel(sender.id)}`
                     await bocchi.reply(from, leaderboard, id)
                 } catch (err) {
                     console.error(err)

@@ -15,7 +15,7 @@ const start = async (bocchi = new Client()) => {
     console.log('[BOCCHI]', color('BocchiBot is now online!'))
     console.log(color('[DEV]', 'cyan'), color('Welcome back, Owner! Hope you are doing well~', 'magenta'))
     
-    // loader.nocache('../message/index.js', m => console.log(color('[WATCH]', 'orange'), color(`=> '${m}'`, 'yellow'), 'file is updated!'))
+    loader.nocache('../message/index.js', m => console.log(color('[WATCH]', 'orange'), color(`=> '${m}'`, 'yellow'), 'file is updated!'))
     // loader.nocache('../message/text/lang/ind.js', m => console.log(color('[WATCH]', 'orange'), color(`=> '${m}'`, 'yellow'), 'file is updated!'))
     // loader.nocache('../message/text/lang/eng.js', m => console.log(color('[WATCH]', 'orange'), color(`=> '${m}'`, 'yellow'), 'file is updated!'))
 
@@ -62,8 +62,8 @@ const start = async (bocchi = new Client()) => {
                 }
             })
         // Below is an watched version but it will affect the performance
-        // require('./message/index.js')(bocchi, message)
-        msgHandler(bocchi, message)
+        require('./message/index.js')(bocchi, message)
+        // msgHandler(bocchi, message)
     })
 
     // Block person who called bot
