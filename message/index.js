@@ -1702,30 +1702,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-            case 'missing':
-                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
-                const atas = q.substring(0, q.indexOf('|') - 1)
-                const tengah = q.substring(q.indexOf('|') + 2, q.lastIndexOf('|') - 1)
-                const bawah = q.substring(q.lastIndexOf('|') + 2)
-                if (isMedia && isImage || isQuotedImage) {
-                    await bocchi.reply(from, ind.wait(), id)
-                    const encryptMedia = isQuotedImage ? quotedMsg : message
-                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
-                    const imageLink = await uploadImages(mediaData, `missing.${sender.id}`)
-                    fun.missing(atas, tengah, bawah, imageLink)
-                        .then(async ({ result }) => {
-                            await bocchi.sendFileFromUrl(from, result.imgUrl, 'missing.jpg', '', id)
-                            console.log('Success sending image!')
-                        })
-                        .catch(async (err) => {
-                            console.error(err)
-                            await bocchi.reply(from, 'Error!', id)
-                        })
-                } else {
-                    await bocchi.reply(from, ind.wrongFormat(), id)
-                }
-            break
             case 'ffbanner': // By: VideFrelan
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return bocchi.reply(from, ind.wrongFormat(), id)
@@ -1754,32 +1730,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 console.log('Creating 3D text...')
                 await bocchi.sendFileFromUrl(from, `https://docs-jojo.herokuapp.com/api/text3d?text=${q}`,`${q}.jpg`, '', id)
                 console.log('Success creating 3D text!')
-            break
-            case 'valentine':
-                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
-                if (isMedia && isImage || isQuotedImage) {
-                    await bocchi.reply(from, ind.wait(), id)
-                    const nama = q.substring(0, q.indexOf('|') - 1)
-                    const pasangan = q.substring(q.lastIndexOf('|') + 2)
-                    const encryptMedia = isQuotedImage ? quotedMsg : message
-                    const dataPasangan = await decryptMedia(encryptMedia, uaOverride)
-                    const foto = await bocchi.getProfilePicFromServer(sender.id)
-                    const dataMu = await bent('buffer')(foto)
-                    const fotoMu = await uploadImages(dataMu, `fotoMu.${sender.id}`)
-                    const fotoPasangan = await uploadImages(dataPasangan, `fotoPasangan.${sender.id}`)
-                    fun.valentine(nama, pasangan, fotoMu, fotoPasangan)
-                        .then(async ({ result }) => {
-                            await bocchi.sendFileFromUrl(from, result.imgUrl, `${nama}_${pasangan}.jpg`, '', id)
-                                .then(() => console.log('Success creating image!'))
-                        })
-                        .catch(async (err) => {
-                            console.error(err)
-                            await bocchi.reply(from, 'Error!', id)
-                        })
-                } else {
-                    await bocchi.reply(from, ind.wrongFormat(), id)
-                }
             break
             case 'simi'://By: VideFrelan
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
