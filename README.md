@@ -138,6 +138,7 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 | Text to sticker GIF   |      ✔️      |
 | Sticker to image      |      ✔️      |
 | Sticker WM            |      ✔️      |
+| Take sticker          |      ✔️      |
 
 |      Downloader     | Availability |
 | :-----------------: | :----------: |
@@ -204,6 +205,10 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 | 3D Text               |      ✔️      |
 | Freefire logo         |      ✔️      |
 | Freefire banner       |      ✔️      |
+| Sliding text          |      ✔️      |
+| Hero ML maker         |      ✔️      |
+| Fire maker            |      ✔️      |
+| Couple balloon maker  |      ✔️      |
 
 |      Weeb Zone     | Availability |
 | :----------------: | :----------: |
