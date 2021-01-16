@@ -265,6 +265,10 @@ exports.linkNsfw = () => {
     return `*「 ANTI NSFW LINK 」*\n\nYou've sent a group link!\nSorry, but you have to leave...`
 }
 
+exports.ageOld = () => {
+    return `You're too old for using this feature! Please go back to your youth to be able to using this feature.`
+}
+
 exports.menu = (jumlahUser, level, xp, role, pushname, requiredXp, premium) => {
     return `
 ------[ WELCOME ]-----
@@ -629,36 +633,25 @@ Create stickers from videos/GIFs.
 Aliases: *stikergif*
 Usage: Send videos/GIFs with caption *${prefix}stickergif* or reply to the videos/GIFs with a caption *${prefix}stickergif*.
 
-3. *${prefix}stickerlightning*
-Create lightning sticker from images.
-Aliases: *slightning*
-Usage: Send images with caption *${prefix}stickerlightning* or reply to the images with a caption *${prefix}stickerlightning*.
-
-4. *${prefix}stickerfire*
-Create fire stickers from images that are sent or replied to.
-Aliases: *sfire*
-Usage: Send images with caption *${prefix}stickerfire* or reply to the images with a caption *${prefix}stickerfire*.
-
-5. *${prefix}ttg*
+3. *${prefix}ttg*
 Create text to GIF stickers.
 Aliases: -
 Usage: *${prefix}ttg* text
 
-6. *${prefix}stickertoimg*
+4. *${prefix}stickertoimg*
 Convert sticker to image.
 Aliases: *stikertoimg*
 Usage: Reply to the stickers with a caption *${prefix}stickertoimg*.
 
-7. *${prefix}emojisticker*
+5. *${prefix}emojisticker*
 Convert emoji to sticker.
 Aliases: *emojistiker*
 Usage: *${prefix}emojisticker* emoji
 
-8. *${prefix}stickerwm*
+6. *${prefix}stickerwm*
 Create a sticker with metadata/WM.
 Aliases: *stcwm*
-Usage: Kirim gambar dengan caption *${prefix}stickerwm* pack_name | author_name atau reply gambar dengan caption *${prefix}stickerwm* pack_name | author_name.
-
+Usage: Send images with caption *${prefix}stickerwm* pack_name | author_name or reply to the image with a caption *${prefix}stickerwm* pack_name | author_name.
 
 _Index of [4]_
     `
@@ -736,110 +729,120 @@ Make a picture of the "Harta Tahta Nama".
 Aliases: -
 Usage: *${prefix}hartatahta* name
 
-2. *${prefix}calendar*
-Create a calendar from sent photos.
-Aliases: -
-Usage: Send images with caption *${prefix}calendar* or reply to the images with a caption *${prefix}calendar*.
-
-3. *${prefix}partner*
+2. *${prefix}partner*
 Weton match. (Indonesian)
 Aliases: *pasangan*
 Usage: *${prefix}partner* name | partner
 
-4. *${prefix}zodiac*
+3. *${prefix}zodiac*
 Weekly zodiac fortune. (Indonesian)
 Aliases: *zodiak*
 Usage: *${prefix}zodiac* zodiac
 
-5. *${prefix}write*
+4. *${prefix}write*
 Make notes written in a book.
 Aliases: *nulis*
 Usage: *${prefix}write* text
 
-6. *${prefix}missing*
-Create a missing person images.
-Aliases: -
-Usage: Send images with caption *${prefix}missing* upper_text | center_text | bottom_text or reply to the images with a caption *${prefix}missing* upper_text | center_text| bottom_text.
-
-7. *${prefix}valentine*
-Create a valentine images.
-Aliases: -
-Usage: Send your couple's images with caption *${prefix}valentine* your_name | couple's_name or reply to the couple's images with a caption *${prefix}valentine* your_name | couple's_name.
-
-8. *${prefix}glitchtext*
+5. *${prefix}glitchtext*
 Create a glitch styled text.
 Aliases: *glitext*
 Usage: *${prefix}glitchtext* text1 | text2
 
-9. *${prefix}simi*
+6. *${prefix}simi*
 SimiSimi chat. (Indonesian)
 Aliases: -
 Usage: *${prefix}simi* text
 
-10. *${prefix}blackpink*
+7. *${prefix}blackpink*
 Create a Blackpink logo styled text.
 Aliases: -
 Usage: *${prefix}blackpink* text
 
-11. *${prefix}phmaker*
+8. *${prefix}phmaker*
 Create a Pornhub logo styled text.
 Aliases: -
 Usage: *${prefix}phmaker* left_text | right_text
 
-12. *${prefix}galaxy*
+9. *${prefix}galaxy*
 Create a galaxy styled text.
 Aliases: -
 Usage: *${prefix}galaxy* text
 
-13. *${prefix}tod*
+10. *${prefix}tod*
 Play truth or dare. (Indonesian)
 Aliases: -
 Usage: *${prefix}tod*
 
-14. *${prefix}weton*
+11. *${prefix}weton*
 Weton fortune. (Indonesian)
 Aliases: -
 Usage: *${prefix}weton* date | month | year
 
-15. *${prefix}triggered*
+12. *${prefix}triggered*
 Apply a triggered effect to image.
 Aliases: -
 Usage: Send image with caption *${prefix}triggered* or reply to someone message with caption *${prefix}triggered* or you can directly use *${prefix}triggered*.
 
-16. *${prefix}kiss*
+13. *${prefix}kiss*
 Kiss someone ( ͡° ͜ʖ ͡°).
 Aliases: -
 Usage: Send image with caption *${prefix}kiss* or reply image with caption *${prefix}kiss*.
 
-17. *${prefix}asupan*
+14. *${prefix}asupan*
 Daily dose of TikTok.
 Aliases: -
 Usage: *${prefix}asupan*
 
-17. *${prefix}citacita*
+15. *${prefix}citacita*
 Cita-cita meme. (Indonesian)
 Aliases: -
 Usage: *${prefix}citacita*
 
-17. *${prefix}phcomment*
+16. *${prefix}phcomment*
 Create a Pornhub comment section styled image.
 Aliases: -
 Usage: *${prefix}phcomment* username | text
 
-18. *${prefix}ffbanner*
+17. *${prefix}ffbanner*
 Create a Free Fire banner.
 Aliases: -
 Usage: *${prefix}ffbanner* text1 | text2
 
-19. *${prefix}fflogo*
+18. *${prefix}fflogo*
 Create a Free Fire characters logo.
 Aliases: -
 Usage: *${prefix}fflogo* text1 | text2
 
-20. *${prefix}readmore*
+19. *${prefix}readmore*
 Generate a spoiler text.
 Aliases: -
 Usage: *${prefix}readmore* text1 | text2
+
+20. *${prefix}neontext*
+Create a neon text image
+Aliases: *neon*
+Usage: *${prefix}neontext* up | center | bottom
+
+21. *${prefix}firemaker*
+Create a fire text.
+Aliases: -
+Usage: *${prefix}firemaker* text
+
+22. *${prefix}mlmaker*
+Create ML hero image with text.
+Aliases: -
+Usage: *${prefix}mlmaker* hero_name | text
+
+23. *${prefix}balloonmaker*
+Create a couple balloon image.
+Aliases: *blmaker*
+Usage: *${prefix}balloonmaker* name1 | name2
+
+24. *${prefix}sliding*
+Create a sliding text.
+Aliases: -
+Usage: *${prefix}sliding* text
 
 _Index of [6]_
     `

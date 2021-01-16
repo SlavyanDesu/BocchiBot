@@ -278,6 +278,10 @@ exports.linkNsfw = () => {
     return `*「 ANTI NSFW LINK 」*\n\nKamu telah mengirim link NSFW!\nMaaf, tapi aku harus mengeluarkan mu...`
 }
 
+exports.ageOld = () => {
+    return `Kamu terlalu tua untuk menggunakan fitur ini! Mohon kembali ke masa muda anda agar bisa menggunakannya.`
+}
+
 exports.menu = (jumlahUser, level, xp, role, pushname, requiredXp, premium) => {
     return `
 ------[ WELCOME ]-----
@@ -642,37 +646,27 @@ Membuat stiker dari video MP4 atau GIF yang dikirim atau di-reply.
 Aliases: *stikergif*
 Usage: Kirim video/GIF dengan caption *${prefix}stickergif* atau reply video/GIF dengan caption *${prefix}stickergif*.
 
-3. *${prefix}stickerlightning*
-Membuat stiker lightning dari gambar yang dikirim atau di-reply.
-Aliases: *slightning*
-Usage: Kirim gambar dengan caption *${prefix}stickerlightning* atau reply gambar dengan caption *${prefix}stickerlightning*.
-
-4. *${prefix}stickerfire*
-Membuat stiker fire dari gambar yang dikirim atau di-reply.
-Aliases: *sfire*
-Usage: Kirim gambar dengan caption *${prefix}stickerfire* atau reply gambar dengan caption *${prefix}stickerfire*.
-
-5. *${prefix}ttg*
+3. *${prefix}ttg*
 Membuat stiker text to GIF.
 Aliases: -
 Usage: *${prefix}ttg* teks
 
-6. *${prefix}stickertoimg*
+4. *${prefix}stickertoimg*
 Konversi stiker ke foto.
 Aliases: *stikertoimg toimg*
 Usage: Reply sticker dengan caption *${prefix}stickertoimg*.
 
-7. *${prefix}emojisticker*
+5. *${prefix}emojisticker*
 Konversi emoji ke stiker.
 Aliases: *emojistiker*
 Usage: *${prefix}emojisticker* emoji
 
-8. *${prefix}stickerwm*
+6. *${prefix}stickerwm*
 Buat stiker dengan WM.
 Aliases: *stcwm*
 Usage: Kirim gambar dengan caption *${prefix}stickerwm* pack_name | author_name atau reply gambar dengan caption *${prefix}stickerwm* pack_name | author_name.
 
-9. *${prefix}stickermeme*
+7. *${prefix}stickermeme*
 Buat sticker meme.
 Aliases: *stcmeme*
 Usage: Kirim gambar dengan caption *${prefix}stickermeme* teks_atas | teks_bawah atau reply gambar dengan caption *${prefix}stickermeme* teks_atas | teks_bawah.
@@ -753,115 +747,120 @@ Membuat gambar Harta Tahta Nama.
 Aliases: -
 Usage: *${prefix}hartatahta* nama
 
-2. *${prefix}calendar*
-Membuat kalender dari foto yang dikirim.
-Aliases: -
-Usage: Kirim gambar dengan caption *${prefix}calendar* atau reply gambar dengan caption *${prefix}calendar*.
-
-3. *${prefix}partner*
+2. *${prefix}partner*
 Weton jodoh.
 Aliases: *pasangan*
 Usage: *${prefix}partner* nama | pasangan
 
-4. *${prefix}zodiac*
+3. *${prefix}zodiac*
 Ramalan zodiak Mingguan.
 Aliases: *zodiak*
 Usage: *${prefix}zodiac* zodiak
 
-5. *${prefix}write*
+4. *${prefix}write*
 Membuat catatan tulisan di buku.
 Aliases: *nulis*
 Usage: *${prefix}write* teks
 
-6. *${prefix}missing*
-Membuat gambar missing person.
-Aliases: -
-Usage: Kirim gambar dengan caption *${prefix}missing* teks_atas | teks_tengah | teks_bawah atau reply gambar dengan caption *${prefix}missing* teks_atas | teks_tengah | teks_bawah.
-
-7. *${prefix}valentine*
-Membuat gambar valentine.
-Aliases: -
-Usage: Kirim gambar pasangan dengan caption *${prefix}valentine* nama | pasangan atau reply gambar pasangan dengan caption *${prefix}valentine* nama | pasangan.
-
-8. *${prefix}glitchtext*
+5. *${prefix}glitchtext*
 Membuat gambar teks glitch.
 Aliases: *glitext*
 Usage: *${prefix}glitchtext* teks1 | teks2
 
-9. *${prefix}simi*
+6. *${prefix}simi*
 Chat SimiSimi.
 Aliases: -
 Usage: *${prefix}simi* teks
 
-10. *${prefix}blackpink*
+7. *${prefix}blackpink*
 Membuat teks dengan style logo Blackpink.
 Aliases: -
 Usage: *${prefix}blackpink* teks
 
-11. *${prefix}phmaker*
+8. *${prefix}phmaker*
 Membuat teks dengan style logo Pornhub.
 Aliases: -
 Usage: *${prefix}phmaker* teks_kiri | teks_kanan
 
-12. *${prefix}galaxy*
+9. *${prefix}galaxy*
 Membuat gambar teks galaxy.
 Aliases: -
 Usage: *${prefix}galaxy* teks
 
-13. *${prefix}tod*
+10. *${prefix}tod*
 Bermain truth or dare.
 Aliases: -
 Usage: *${prefix}tod*
 
-14. *${prefix}weton*
+11. *${prefix}weton*
 Kirim ramalan weton.
 Aliases: -
 Usage: *${prefix}weton* tanggal | bulan | tahun
 
-15. *${prefix}triggered*
+12. *${prefix}triggered*
 Membuat efek triggered.
 Aliases: -
 Usage: Kirim gambar dengan caption *${prefix}triggered* atau reply pesan orang dengan *${prefix}triggered* atau bisa gunakan command *${prefix}triggered* langsung.
 
-16. *${prefix}kiss*
+13. *${prefix}kiss*
 Kiss someone ( ͡° ͜ʖ ͡°).
 Aliases: -
 Usage: Kirim gambar dengan caption *${prefix}kiss* atau reply gambar dengan *${prefix}kiss*.
 
-17. *${prefix}asupan*
+14. *${prefix}asupan*
 Asupan video cewek-cewek.
 Aliases: -
 Usage: *${prefix}asupan*
 
-17. *${prefix}citacita*
+15. *${prefix}citacita*
 Meme cita-cita.
 Aliases: -
 Usage: *${prefix}citacita*
 
-17. *${prefix}phcomment*
+16. *${prefix}phcomment*
 Membuat capton ala PH comment.
 Aliases: -
 Usage: *${prefix}phcomment* username | teks
 
-18. *${prefix}ffbanner*
+17. *${prefix}ffbanner*
 Membuat banner Free Fire.
 Aliases: -
 Usage: *${prefix}ffbanner* teks1 | teks2
 
-19. *${prefix}fflogo*
+18. *${prefix}fflogo*
 Membuat logo karakter Free Fire.
 Aliases: -
 Usage: *${prefix}fflogo* teks1 | teks2
 
-20. *${prefix}readmore*
+19. *${prefix}readmore*
 Generate teks baca selengkapnya.
 Aliases: -
 Usage: *${prefix}readmore* teks1 | teks2
 
-21. *${prefix}neontext*
+20. *${prefix}neontext*
 Membuat gambar neon teks.
 Aliases: *neon*
 Usage: *${prefix}neontext* teks_atas | teks_tengah | teks_bawah
+
+21. *${prefix}firemaker*
+Membuat gambar teks fire.
+Aliases: -
+Usage: *${prefix}firemaker* teks
+
+22. *${prefix}mlmaker*
+Membuat gambar karakter hero ML dengan teks.
+Aliases: -
+Usage: *${prefix}mlmaker* nama_hero | teks
+
+23. *${prefix}balloonmaker*
+Membuat gambar couple balloon.
+Aliases: *blmaker*
+Usage: *${prefix}balloonmaker* nama1 | nama2
+
+24. *${prefix}sliding*
+Membuat GIF sliding text.
+Aliases: -
+Usage: *${prefix}sliding* teks
 
 _Index of [6]_
     `
