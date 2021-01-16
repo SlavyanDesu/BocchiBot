@@ -1992,6 +1992,17 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const formatted2 = formatted1.replace('b', kedua)
                 await bocchi.sendText(from, formatted2)
             break
+            case 'neontext':
+            case 'neon':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
+                const atasnya = q.substring(0, q.indexOf('|') - 1)
+                const tengahnya = q.substring(q.indexOf('|') + 2, q.lastIndexOf('|') - 1)
+                const bawahnya = q.substring(q.lastIndexOf('|') + 2)
+                await bocchi.reply(from, ind.wait(), id)
+                await bocchi.sendFileFromUrl(from, `http://docs-jojo.herokuapp.com/api/neon?text1=${atasnya}&text2=${tengahnya}&text3=${bawahnya}`, 'neon.jpg', '', id)
+                console.log('Success creating image!')
+            break
 
             // Sticker
             case 'stickerwm': // By Slavyan
@@ -2009,7 +2020,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     webp.buffer2webpbuffer(mediaData, 'jpg', '-q 100')
                         .then((res) => {
                             sharp(res)
-                                .resize(256, 256)
+                                .resize(512, 512)
                                 .toFile(`./temp/stage_${sender.id}.webp`, async (err) => {
                                     if (err) return console.error(err)
                                     await exec(`webpmux -set exif ./temp/data.exif ./temp/stage_${sender.id}.webp -o ./temp/${sender.id}.webp`, { log: true })
@@ -2031,6 +2042,40 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, ind.wrongFormat(), id)
                     }
             break
+            case 'stickermeme':
+            case 'stcmeme':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (isMedia && isImage || isQuotedImage) {
+                    await bocchi.reply(from, ind.wait(), id)
+                    const top = q.substring(0, q.indexOf('|') - 1)
+                    const bottom = q.substring(q.lastIndexOf('|') + 2)
+                    const encryptMedia = isQuotedImage ? quotedMsg : message
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const getUrl = await uploadImages(mediaData, `meme.${sender.id}`)
+                    const create = `https://api.memegen.link/images/custom/${top}/${bottom}.png?background=${getUrl}`
+                    const meme = await bent('buffer')(create)
+                    webp.buffer2webpbuffer(meme, 'png', '-q 100')
+                        .then((res) => {
+                            sharp(res)
+                                .resize(512, 512)
+                                .toFile(`./temp/stage_${sender.id}.webp`, async (err) => {
+                                    if (err) return console.error(err)
+                                    await exec(`webpmux -set exif ./temp/data.exif ./temp/stage_${sender.id}.webp -o ./temp/${sender.id}.webp`, { log: true })
+                                    if (fs.existsSync(`./temp/${sender.id}.webp`)) {
+                                        const data = fs.readFileSync(`./temp/${sender.id}.webp`)
+                                        const base64 = `data:image/webp;base64,${data.toString('base64')}`
+                                        await bocchi.sendRawWebpAsSticker(from, base64)
+                                        console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
+                                        fs.unlinkSync(`./temp/${sender.id}.webp`)
+                                        fs.unlinkSync(`./temp/stage_${sender.id}.webp`)
+                                    }
+                                })
+                        })
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
+            break
             case 'sticker':
             case 'stiker':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -2041,7 +2086,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     webp.buffer2webpbuffer(mediaData, 'jpg', '-q 100')
                         .then((res) => {
                             sharp(res)
-                                .resize(256, 256)
+                                .resize(512, 512)
                                 .toFile(`./temp/stage_${sender.id}.webp`, async (err) => {
                                     if (err) return console.error(err)
                                     await exec(`webpmux -set exif ./temp/data.exif ./temp/stage_${sender.id}.webp -o ./temp/${sender.id}.webp`, { log: true })

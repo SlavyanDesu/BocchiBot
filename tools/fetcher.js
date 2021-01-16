@@ -34,16 +34,15 @@ const fetchText = (url, options) => {
 }
 
 /**
- * Convert media to buffer.
+ * Get buffer from direct media.
  * @param {String} url 
- * @param {Object} options
  * @returns {Buffer}
  */
-const toBuffer = (url, options) => {
+const toBuffer = (url) => {
     return new Promise((resolve, reject) => {
-        return fetch(url, options)
+        return fetch(url)
             .then((response) => response.buffer())
-            .then((buffer) => resolve(buffer))
+            .then((result) => resolve(result))
             .catch((err) => reject(err))
     })
 }
@@ -82,6 +81,6 @@ const uploadImages = (buffData, fileName) => {
 module.exports = {
     fetchJson,
     fetchText,
-    uploadImages,
-    toBuffer
+    toBuffer,
+    uploadImages
 }

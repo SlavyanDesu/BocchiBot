@@ -672,6 +672,11 @@ Buat stiker dengan WM.
 Aliases: *stcwm*
 Usage: Kirim gambar dengan caption *${prefix}stickerwm* pack_name | author_name atau reply gambar dengan caption *${prefix}stickerwm* pack_name | author_name.
 
+9. *${prefix}stickermeme*
+Buat sticker meme.
+Aliases: *stcmeme*
+Usage: Kirim gambar dengan caption *${prefix}stickermeme* teks_atas | teks_bawah atau reply gambar dengan caption *${prefix}stickermeme* teks_atas | teks_bawah.
+
 _Index of [4]_
     `
 }
@@ -849,9 +854,14 @@ Aliases: -
 Usage: *${prefix}fflogo* teks1 | teks2
 
 20. *${prefix}readmore*
-Generate text baca selengkapnya.
+Generate teks baca selengkapnya.
 Aliases: -
 Usage: *${prefix}readmore* teks1 | teks2
+
+21. *${prefix}neontext*
+Membuat gambar neon teks.
+Aliases: *neon*
+Usage: *${prefix}neontext* teks_atas | teks_tengah | teks_bawah
 
 _Index of [6]_
     `
