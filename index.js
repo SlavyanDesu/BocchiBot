@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const { create, Client } = require('@open-wa/wa-automate')
 const { color, options } = require('./tools')
 const { ind, eng } = require('./message/text/lang/')
@@ -22,9 +23,7 @@ const start = async (bocchi = new Client()) => {
     // Force it to keep the current session
     bocchi.onStateChanged((state) => {
         console.log('[BOCCHI STATE]', state)
-        if (state === 'UNPAIRED') bocchi.forceRefocus()
-        if (state === 'CONFLICT') bocchi.forceRefocus()
-        if (state === 'UNLAUNCHED') bocchi.forceRefocus()
+        if (state === 'UNPAIRED' || state === 'CONFLICT' || state === 'UNLAUNCHED') bocchi.forceRefocus()
     })
 
     // Set all received message to seen

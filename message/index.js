@@ -1,3 +1,7 @@
+/* eslint-disable no-case-declarations */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-irregular-whitespace */
+
 /**
  * This source code below is free, please DO NOT sell this in any form!
  * Source code ini gratis, jadi tolong JANGAN jual dalam bentuk apapun!
@@ -76,6 +80,7 @@ let { memberLimit, groupLimit } = _setting
 /********** END OF DATABASES **********/
 
 /********** MESSAGE HANDLER **********/
+// eslint-disable-next-line no-undef
 module.exports = msgHandler = async (bocchi = new Client(), message) => {
     try {
         const { type, id, from, t, sender, isGroupMsg, chat, caption, isMedia, mimetype, quotedMsg, quotedMsgObj, mentionedJidList } = message
@@ -130,45 +135,45 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const levelRole = level.getLevelingLevel(sender.id, _level)
         var role = 'Copper V'
         if (levelRole <= 5) {
-            var role = 'Copper IV'
+            role = 'Copper IV'
         } else if (levelRole <= 10) {
-            var role = 'Copper III'
+            role = 'Copper III'
         } else if (levelRole <= 15) {
-            var role = 'Copper II'
+            role = 'Copper II'
         } else if (levelRole <= 20) {
-            var role = 'Copper I'
+            role = 'Copper I'
         } else if (levelRole <= 25) {
-            var role = 'Silver V'
+            role = 'Silver V'
         } else if (levelRole <= 30) {
-            var role = 'Silver IV'
+            role = 'Silver IV'
         } else if (levelRole <= 35) {
-            var role = 'Silver III'
+            role = 'Silver III'
         } else if (levelRole <= 40) {
-            var role = 'Silver II'
+            role = 'Silver II'
         } else if (levelRole <= 45) {
-            var role = 'Silver I'
+            role = 'Silver I'
         } else if (levelRole <= 50) {
-            var role = 'Gold V'
+            role = 'Gold V'
         } else if (levelRole <= 55) {
-            var role = 'Gold IV'
+            role = 'Gold IV'
         } else if (levelRole <= 60) {
-            var role = 'Gold III'
+            role = 'Gold III'
         } else if (levelRole <= 65) {
-            var role = 'Gold II'
+            role = 'Gold II'
         } else if (levelRole <= 70) {
-            var role = 'Gold I'
+            role = 'Gold I'
         } else if (levelRole <= 75) {
-            var role = 'Platinum V'
+            role = 'Platinum V'
         } else if (levelRole <= 80) {
-            var role = 'Platinum IV'
+            role = 'Platinum IV'
         } else if (levelRole <= 85) {
-            var role = 'Platinum III'
+            role = 'Platinum III'
         } else if (levelRole <= 90) {
-            var role = 'Platinum II'
+            role = 'Platinum II'
         } else if (levelRole <= 95) {
-            var role = 'Platinum I'
+            role = 'Platinum I'
         } else if (levelRole <= 100) {
-            var role = 'Exterminator'
+            role = 'Exterminator'
         }
 
         // Leveling [BETA] by Slavyan
@@ -297,7 +302,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (ppLink === undefined) {
                     var pepe = errorImg
                 } else {
-                    var pepe = ppLink
+                    pepe = ppLink
                 }
                 const bege = card.getBg(sender.id, _bg)
                 const requiredXp = 200 * (Math.pow(2, userLevel) - 1)
@@ -1299,7 +1304,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (mentionedJidList.length !== 0) {
                     const userPic = await bocchi.getProfilePicFromServer(mentionedJidList[0])
                     if (userPic === undefined) {
-                        pek = errorImg
+                        var pek = errorImg
                     } else {
                         pek = userPic
                     }
@@ -1307,7 +1312,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else if (args.length !== 0) {
                     const userPic = await bocchi.getProfilePicFromServer(args[0] + '@c.us')
                     if (userPic === undefined) {
-                        peks = errorImg
+                        var peks = errorImg
                     } else {
                         peks = userPic
                     }
@@ -1591,7 +1596,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     if (profilePic === undefined) {
                         var pfp = errorImg
                     } else {
-                        var pfp = profilePic
+                        pfp = profilePic
                     }
                     await bocchi.sendFileFromUrl(from, pfp, `${username}.jpg`, ind.profile(username, status, premi, benet, adm, levelMe, req, xpMe), id)
                 } else {
@@ -1606,11 +1611,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const req = 200 * (Math.pow(2, levelMe) - 1)
                     const { status } = statuses
                     if (profilePic === undefined) {
-                        var pfp = errorImg
+                        var pfps = errorImg
                     } else {
-                        var pfp = profilePic
+                        pfps = profilePic
                     }
-                    await bocchi.sendFileFromUrl(from, pfp, `${username}.jpg`, ind.profile(username, status, premi, benet, adm, levelMe, req, xpMe), id)
+                    await bocchi.sendFileFromUrl(from, pfps, `${username}.jpg`, ind.profile(username, status, premi, benet, adm, levelMe, req, xpMe), id)
                 }
             break
             case 'hartatahta':
@@ -1931,7 +1936,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         if (ppRaw === undefined) {
                             var ppFirst = errorImg
                         } else {
-                            var ppFirst = ppRaw
+                            ppFirst = ppRaw
                         }
                         canvas.Canvas.kiss(ppFirst, ppSecond)
                             .then(async (buffer) => {
@@ -1943,11 +1948,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         const ppRaw = await bocchi.getProfilePicFromServer(sender.id)
                         const ppSecond = await bocchi.getProfilePicFromServer(quotedMsgObj.sender.id)
                         if (ppRaw === undefined) {
-                            var ppFirst = errorImg
+                            var ppFirsts = errorImg
                         } else {
-                            var ppFirst = ppRaw
+                            ppFirsts = ppRaw
                         }
-                        canvas.Canvas.kiss(ppFirst, ppSecond)
+                        canvas.Canvas.kiss(ppFirsts, ppSecond)
                             .then(async (buffer) => {
                                 canvas.write(buffer, `${sender.id}_kiss.png`)
                                 await bocchi.sendFile(from, `${sender.id}_kiss.png`, `${sender.id}_kiss.png`, '', id)
@@ -1970,7 +1975,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (ppPhRaw === undefined) {
                     var ppPh = errorImg
                 } else {
-                    var ppPh = ppPhRaw
+                    ppPh = ppPhRaw
                 }
                 const dataPpPh = await bent('buffer')(ppPh)
                 const linkPpPh = await uploadImages(dataPpPh, `${sender.id}_ph`)
@@ -2186,7 +2191,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                             await bocchi.reply(from, 'Error!', id)
                         })
                 } else {
-                    await bocchi.reply(from, ind.wrongFormat(), err)
+                    await bocchi.reply(from, ind.wrongFormat())
                 }
             break
             case 'ttg':
