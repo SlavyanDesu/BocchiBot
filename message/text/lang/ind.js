@@ -678,6 +678,13 @@ Aliases: *stcmeme*
 Usage: Kirim gambar dengan caption *${prefix}stickermeme* teks_atas | teks_bawah atau reply gambar dengan caption *${prefix}stickermeme* teks_atas | teks_bawah.
 
 _Index of [4]_
+
+10. *${prefix}takestick*
+Merubah watermark sticker.
+Aliases: -
+Usage: Reply stiker dengan perintah *${prefix}takestick* pack_name | author
+
+_Index of [4]_
     `
 }
 
