@@ -10,10 +10,20 @@ const packID = "com.snowcorp.stickerly.android.stickercontentprovider b5e7275f-f
 const playstore = "https://play.google.com/store/apps/details?id=com.marsconstd.stickermakerforwhatsapp"
 const itunes = "https://itunes.apple.com/app/sticker-maker-studio/id1443326857"
 
+/**
+ * @class Exif
+ */
 module.exports = class Exif {
     constructor() {}
 
-    create(packname, authorname) {
+    /**
+     * Create an EXIF file.
+     * @param {String} packname 
+     * @param {String} authorname 
+     * @param {String} filename 
+     */
+    create(packname, authorname, filename) {
+        if (!filename) filename = 'data'
         const json = {
             "sticker-pack-id": packID,
             "sticker-pack-name": packname,
@@ -40,7 +50,7 @@ module.exports = class Exif {
         }
         const ff = Buffer.from(len, 'hex')
         const buffer = Buffer.concat([f, ff, fff, ffff])
-        fs.writeFile('./temp/data.exif', buffer, (err) => {
+        fs.writeFile(`./temp/${filename}.exif`, buffer, (err) => {
             if (err) return console.error(err)
             console.log('Success!')
         })
