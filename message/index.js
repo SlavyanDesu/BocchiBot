@@ -1954,7 +1954,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 console.log('Success creating GIF!')
             break
 
-
             // Sticker
             case 'stickerwm': // By Slavyan
             case 'stcwm':
