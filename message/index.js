@@ -48,7 +48,7 @@ moment.tz.setDefault('Asia/Jakarta').locale('id')
 /********** END OF MODULES **********/
 
 /********** UTILS **********/
-const { msgFilter, color, processTime, isUrl, createSerial, fetcher } = require('../tools')
+const { msgFilter, color, processTime, isUrl, createSerial } = require('../tools')
 const { nsfw, weeaboo, downloader, sticker, fun, misc, toxic } = require('../lib')
 const { uploadImages, toBuffer } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
