@@ -187,12 +187,9 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 |          Fun          | Availability |
 | :-------------------: | :----------: |
 | Harta tahta maker     |      ✔️      |
-| Calender image maker  |      ✔️      |
 | Weton jodoh           |      ✔️      |
 | Zodiac                |      ✔️      |
 | Write on paper        |      ✔️      |
-| Missing person maker  |      ✔️      |
-| Valentine frame maker |      ✔️      |
 | Glitch text maker     |      ✔️      |
 | SimSimi               |      ✔️      |
 | Blackpink logo maker  |      ✔️      |
