@@ -2083,6 +2083,41 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
+            case 'takestick': // By: VideFrelan
+                    if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                    if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
+                    if (quotedMsg && quotedMsg.type == 'sticker') {
+                        const mediaDataTake = await decryptMedia(quotedMsg)
+                        bocchi.reply(from, `Sedang di proses, silahkan tunggu sebentar...`, id)
+                        const packnames = q.substring(0, q.indexOf('|') - 1)
+                        const authors = q.substring(q.lastIndexOf('|') + 2)
+                        exif.create(packnames, authors)
+                        webp.buffer2webpbuffer(mediaDataTake, 'jpg', '-q 100')
+                        .then((res) => {
+                            sharp(res)
+                                .resize(512, 512)
+                                .toFile(`./temp/stage_${sender.id}.webp`, async (err) => {
+                                    if (err) return console.error(err)
+                                    await exec(`webpmux -set exif ./temp/data.exif ./temp/stage_${sender.id}.webp -o ./temp/${sender.id}.webp`, { log: true })
+                                    if (fs.existsSync(`./temp${sender.id}.webp`)) {
+                                        const data = fs.readFileSync(`./temp/${sender.id}.webp`)
+                                        const base64 = `data:image/webp;base64,${data.toString('base64')}`
+                                        await bocchi.sendRawWebpAsSticker(from, base64)
+                                        console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
+                                        fs.unlinkSync(`./temp/${sender.id}.webp`)
+                                        fs.unlinkSync(`./temp/stage_${sender.id}.webp`)
+                                        fs.unlinkSync('./temp/data.exif')
+                                    }
+                                })
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, 'Error!', id)
+                        })
+                    } else {
+                        await bocchi.reply(from, ind.wrongFormat(), id)
+                    }
+                break
             case 'sticker':
             case 'stiker':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
