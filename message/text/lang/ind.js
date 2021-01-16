@@ -307,7 +307,7 @@ Berikut adalah menu yang tersedia:
 *[7]* Moderation
 *[8]* NSFW
 *[9]* Owner
-*[10]* Leveling [ALPHA]
+*[10]* Leveling
 
 Ketik *${prefix}menu* angka_index untuk membuka menu page yang dipilih.
 
