@@ -671,10 +671,10 @@ Buat sticker meme.
 Aliases: *stcmeme*
 Usage: Kirim gambar dengan caption *${prefix}stickermeme* teks_atas | teks_bawah atau reply gambar dengan caption *${prefix}stickermeme* teks_atas | teks_bawah.
 
-10. *${prefix}takestick*
+8. *${prefix}takestick*
 Merubah watermark sticker.
 Aliases: -
-Usage: Reply stiker dengan perintah *${prefix}takestick* pack_name | author
+Usage: Reply stiker dengan caption *${prefix}takestick* pack_name | author_name
 
 _Index of [4]_
     `
