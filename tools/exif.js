@@ -1,4 +1,9 @@
-// Originally created by cwke and recoded by SlavyanDesu
+/* Originally created by cwke
+ * Reuploaded by Waxaranai
+ * Recoded by SlavyanDesu
+ *
+ * GitHub is an open-source community, so why are you so triggered when someone shared some simple code?
+ */
 
 const fs = require('fs-extra')
 const packID = "com.snowcorp.stickerly.android.stickercontentprovider b5e7275f-f1de-4137-961f-57becfad34f2"
