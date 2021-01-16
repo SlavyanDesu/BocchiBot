@@ -48,9 +48,9 @@ moment.tz.setDefault('Asia/Jakarta').locale('id')
 /********** END OF MODULES **********/
 
 /********** UTILS **********/
-const { msgFilter, color, processTime, isUrl, createSerial } = require('../tools')
+const { msgFilter, color, processTime, isUrl, createSerial, fetcher } = require('../tools')
 const { nsfw, weeaboo, downloader, sticker, fun, misc, toxic } = require('../lib')
-const { uploadImages } = require('../tools/fetcher')
+const { uploadImages, toBuffer } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
 const { limit, level, card, register, afk, reminder, premium } = require('../function')
 const Exif = require('../tools/exif')
@@ -970,9 +970,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
                 misc.ytPlay(q)
                     .then(async ({ result }) => {
-                        if (Number(result.size.split(' MB')[0]) >= 10.00) return bocchi.sendFileFromUrl(from, result.image, `${result.title}.jpg`, `Judul: ${result.title}\nSize: *${result.size}*\n\nGagal, Maksimal video size adalah *10MB*!`, id)
+                        if (Number(result.size.split(' MB')[0]) >= 10.0) return bocchi.sendFileFromUrl(from, result.image, `${result.title}.jpg`, `Judul: ${result.title}\nSize: *${result.size}*\n\nGagal, Maksimal video size adalah *10MB*!`, id)
                         await bocchi.sendFileFromUrl(from, result.image, `${result.title}.jpg`, ind.ytPlay(result), id)
-                        await bocchi.sendFileFromUrl(from, result.mp3, `${result.title}.mp3`, '', id, null, true, true)
+                        const staging = await toBuffer(result.mp3)
+                        const buffer = `data:audio/mp3;base64,${staging.toString('base64')}`
+                        await bocchi.sendPtt(from, buffer, id)
                     })
                     .catch(async (err) => {
                         console.error(err)
