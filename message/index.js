@@ -1632,26 +1632,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-            case 'calendar':
-                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (isMedia && isImage || isQuotedImage) {
-                    await bocchi.reply(from, ind.wait(), id)
-                    const encryptMedia = isQuotedImage ? quotedMsg : message
-                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
-                    const imageLink = await uploadImages(mediaData, `calendar.${sender.id}`)
-                    fun.calendar(imageLink)
-                        .then(async ({ result }) => {
-                            await bocchi.sendFileFromUrl(from, result.imgUrl, 'calendar.jpg', '', id)
-                                .then(() => console.log('Success creating image!'))
-                        })
-                        .catch(async (err) => {
-                            console.error(err)
-                            await bocchi.reply(from, 'Error!', id)
-                        })
-                } else {
-                    await bocchi.reply(from, ind.wrongFormat(), id)
-                }
-            break
             case 'partner':
             case 'pasangan':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
