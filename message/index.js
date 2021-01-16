@@ -1691,7 +1691,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.sendFileFromUrl(from, `https://docs-jojo.herokuapp.com/api/text3d?text=${q}`,`${q}.jpg`, '', id)
                 console.log('Success creating 3D text!')
             break
-            case 'simi': //By: VideFrelan
+            case 'simi': // by: VideFrelan
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -1920,6 +1920,40 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.sendFileFromUrl(from, `http://docs-jojo.herokuapp.com/api/neon?text1=${atasnya}&text2=${tengahnya}&text3=${bawahnya}`, 'neon.jpg', '', id)
                 console.log('Success creating image!')
             break
+            case 'firemaker':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/fire_maker?text=${q}&apikey=${config.vhtear}`)
+                console.log('Success creating image!')
+            break
+            case 'mlmaker':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
+                const namaHero = q.substring(0, q.indexOf('|') - 1)
+                const teksMl = q.substring(q.lastIndexOf('|') + 2)
+                await bocchi.reply(from, ind.wait(), id)
+                await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/logoml?hero=${namaHero}&text=${teksMl}&apikey=${config.vhtear}`)
+                console.log('Success creating image!')
+            break
+            case 'balloonmaker':
+            case 'blmaker':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
+                const namaKiri = q.substring(0, q.indexOf('|') - 1)
+                const namaKanan = q.substring(q.lastIndexOf('|') + 2)
+                await bocchi.reply(from, ind.wait(), id)
+                await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/balloonmaker?text1=${namaKiri}&text2=${namaKanan}&apikey=${config.vhtear}`)
+                console.log('Success creating image!')
+            break
+            case 'sliding':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                await bocchi.sendVideoAsGif(from, `https://api.vhtear.com/slidingtext?text=${q}&apikey=${config.vhtear}`, 'sliding.gif', '', id)
+                console.log('Success creating GIF!')
+            break
+
 
             // Sticker
             case 'stickerwm': // By Slavyan
