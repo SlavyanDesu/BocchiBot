@@ -1839,19 +1839,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, 'Error!', id)
                 }
             break
-            case 'sldgif':
-                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
-                await bocchi.reply(from, ind.wait(), id)
-                await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/slidingtext?text=${q}&apikey=${config.vhtear}`)
-                    .then(async () => {
-                        console.log('Success sending Slide gif!')
-                    })
-                    .catch(async (err) => {
-                        console.error(err)
-                        await bocchi.reply(from, `Error!`, id)
-                    })
-            break
             case 'wasted':
             if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isMedia && type === 'image' || isQuotedImage) {
