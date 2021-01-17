@@ -2051,7 +2051,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
                     if (quotedMsg && quotedMsg.type == 'sticker') {
                         const mediaDataTake = await decryptMedia(quotedMsg)
-                        bocchi.reply(from, `Sedang di proses, silahkan tunggu sebentar...`, id)
+                        await bocchi.reply(from, ind.wait(), id)
                         const packnames = q.substring(0, q.indexOf('|') - 1)
                         const authors = q.substring(q.lastIndexOf('|') + 2)
                         takestick.create(packnames, authors)
@@ -2079,7 +2079,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     } else {
                         await bocchi.reply(from, ind.wrongFormat(), id)
                     }
-                break
+            break
             case 'sticker':
             case 'stiker':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
