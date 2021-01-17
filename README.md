@@ -209,6 +209,7 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 | Hero ML maker         |      ✔️      |
 | Fire maker            |      ✔️      |
 | Couple balloon maker  |      ✔️      |
+| Wasted image          |      ✔️      |
 
 |      Weeb Zone     | Availability |
 | :----------------: | :----------: |
