@@ -867,6 +867,11 @@ Membuat GIF sliding text.
 Aliases: -
 Usage: *${prefix}sliding* teks
 
+25. *${prefix}wasted*
+Membuat gambar Wasted GTA V.
+Aliases: -
+Usage: Upload foto dengan caption *${prefix}wasted*
+
 _Index of [6]_
     `
 }
