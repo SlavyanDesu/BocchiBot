@@ -55,6 +55,8 @@ const { ind, eng } = require('./text/lang/')
 const { limit, level, card, register, afk, reminder, premium } = require('../function')
 const Exif = require('../tools/exif')
 const exif = new Exif()
+const Takestick = require('../tools/takestick')
+const takestick = new Takestick()
 const cd = 4.32e+7
 const errorImg = 'https://i.ibb.co/jRCpLfn/user.png'
 const tanggal = moment.tz('Asia/Jakarta').format('DD-MM-YYYY')
@@ -2045,41 +2047,40 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'takestick': // By: VideFrelan
-                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (!isPremium) return await bocchi.reply(from, ind.notPremium(), id)
-                if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
-                if (quotedMsg && quotedMsg.type == 'sticker') {
-                    const mediaDataTake = await decryptMedia(quotedMsg, uaOverride)
-                    await bocchi.reply(from, ind.wait(), id)
-                    const packnames = q.substring(0, q.indexOf('|') - 1)
-                    const authors = q.substring(q.lastIndexOf('|') + 2)
-                    exif.create(packnames, authors, `take_${sender.id}`)
-                    webp.buffer2webpbuffer(mediaDataTake, 'jpg', '-q 100')
+                    if (!isRegistered) return await vf.reply(from, ind.notRegistered(), id)
+                    if (!q.includes('|')) return await vf.reply(from, ind.wrongFormat(), id)
+                    if (quotedMsg && quotedMsg.type == 'sticker') {
+                        const mediaDataTake = await decryptMedia(quotedMsg)
+                        vf.reply(from, `Sedang di proses, silahkan tunggu sebentar...`, id)
+                        const packnames = q.substring(0, q.indexOf('|') - 1)
+                        const authors = q.substring(q.lastIndexOf('|') + 2)
+                        takestick.create(packnames, authors)
+                        webp.buffer2webpbuffer(mediaDataTake, 'jpg', '-q 100')
                         .then((res) => {
                             sharp(res)
                                 .resize(512, 512)
-                                .toFile(`./temp/stage_${sender.id}.webp`, async (err) => {
+                                .toFile(`./temp/takestickstage_${sender.id}.webp`, async (err) => {
                                     if (err) return console.error(err)
-                                    await exec(`webpmux -set exif ./temp/take_${sender.id}.exif ./temp/stage_${sender.id}.webp -o ./temp/${sender.id}.webp`, { log: true })
-                                    if (fs.existsSync(`./temp${sender.id}.webp`)) {
-                                        const data = fs.readFileSync(`./temp/${sender.id}.webp`)
+                                    await exec(`webpmux -set exif ./temp/takestick_data.exif ./temp/takestickstage_${sender.id}.webp -o ./temp/takestick_${sender.id}.webp`, { log: true })
+                                    if (fs.existsSync(`./temp/takestick_${sender.id}.webp`)) {
+                                        const data = fs.readFileSync(`./temp/takestick_${sender.id}.webp`)
                                         const base64 = `data:image/webp;base64,${data.toString('base64')}`
-                                        await bocchi.sendRawWebpAsSticker(from, base64)
+                                        await vf.sendRawWebpAsSticker(from, base64)
                                         console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
-                                        fs.unlinkSync(`./temp/${sender.id}.webp`)
-                                        fs.unlinkSync(`./temp/stage_${sender.id}.webp`)
-                                        fs.unlinkSync(`./temp/take_${sender.id}.exif`)
+                                        fs.unlinkSync(`./temp/takestick_${sender.id}.webp`)
+                                        fs.unlinkSync(`./temp/takestickstage_${sender.id}.webp`)
+                                        limitAdd(serial)
                                     }
                                 })
                         })
                         .catch(async (err) => {
                             console.error(err)
-                            await bocchi.reply(from, 'Error!', id)
+                            await vf.reply(from, 'Error!', id)
                         })
                     } else {
-                        await bocchi.reply(from, ind.wrongFormat(), id)
+                        await vf.reply(from, ind.wrongFormat(), id)
                     }
-            break
+                break
             case 'sticker':
             case 'stiker':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
