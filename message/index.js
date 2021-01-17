@@ -2047,11 +2047,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'takestick': // By: VideFrelan
-                    if (!isRegistered) return await vf.reply(from, ind.notRegistered(), id)
-                    if (!q.includes('|')) return await vf.reply(from, ind.wrongFormat(), id)
+                    if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                    if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
                     if (quotedMsg && quotedMsg.type == 'sticker') {
                         const mediaDataTake = await decryptMedia(quotedMsg)
-                        vf.reply(from, `Sedang di proses, silahkan tunggu sebentar...`, id)
+                        bocchi.reply(from, `Sedang di proses, silahkan tunggu sebentar...`, id)
                         const packnames = q.substring(0, q.indexOf('|') - 1)
                         const authors = q.substring(q.lastIndexOf('|') + 2)
                         takestick.create(packnames, authors)
@@ -2065,20 +2065,19 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                     if (fs.existsSync(`./temp/takestick_${sender.id}.webp`)) {
                                         const data = fs.readFileSync(`./temp/takestick_${sender.id}.webp`)
                                         const base64 = `data:image/webp;base64,${data.toString('base64')}`
-                                        await vf.sendRawWebpAsSticker(from, base64)
+                                        await bocchi.sendRawWebpAsSticker(from, base64)
                                         console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                                         fs.unlinkSync(`./temp/takestick_${sender.id}.webp`)
                                         fs.unlinkSync(`./temp/takestickstage_${sender.id}.webp`)
-                                        limitAdd(serial)
                                     }
                                 })
                         })
                         .catch(async (err) => {
                             console.error(err)
-                            await vf.reply(from, 'Error!', id)
+                            await bocchi.reply(from, 'Error!', id)
                         })
                     } else {
-                        await vf.reply(from, ind.wrongFormat(), id)
+                        await bocchi.reply(from, ind.wrongFormat(), id)
                     }
                 break
             case 'sticker':
