@@ -256,7 +256,38 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.sendText(from, ind.afkDone(pushname))
             }
         }
-
+        
+        // AUTO REPLY by Piyo >_<
+        if (chats == 'p'){
+        if (!isGroupMsg) 
+        bocchi.reply(from, `Halo Kak, Untuk Memulai bot silahkan ketik ${prefix}menu`, id)
+        }  
+        
+        if (chats == 'P'){
+        if (!isGroupMsg) 
+        bocchi.reply(from, `Halo Kak, Untuk Memulai bot silahkan ketik ${prefix}menu`, id)
+        }
+        
+        if (chats == 'bot'){
+        if (!isGroupMsg) 
+        bocchi.reply(from, `Halo Kak, Untuk Memulai bot silahkan ketik ${prefix}menu`, id)
+        }
+        
+        if (chats == 'Bot'){
+        if (!isGroupMsg) 
+        bocchi.reply(from, `Halo Kak, Untuk Memulai bot silahkan ketik ${prefix}menu`, id)
+        }
+        
+       if (chats == 'assalamualaikum'){
+       if (!isGroupMsg) 
+       bocchi.reply(from, `Waalaikumsalam , Halo Kak, Untuk Memulai bot silahkan ketik ${prefix}menu`, id)
+       }
+        
+       if (chats == 'Assalamualaikum'){
+       if (!isGroupMsg) 
+       bocchi.reply(from, `Waalaikumsalam , Halo Kak, Untuk Memulai bot silahkan ketik ${prefix}menu`, id)
+       }
+        
         // Ignore banned and blocked users
         if (isCmd && (isBanned || isBlocked) && !isGroupMsg) return console.log(color('[BAN]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
         if (isCmd && (isBanned || isBlocked) && isGroupMsg) return console.log(color('[BAN]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
