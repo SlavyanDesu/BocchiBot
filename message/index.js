@@ -37,6 +37,7 @@ const saus = sagiri(config.nao, { results: 5 })
 const axios = require('axios')
 const tts = require('node-gtts')
 const nekobocc = require('nekobocc')
+const ffmpeg = require('fluent-ffmpeg')
 const bent = require('bent')
 const ms = require('parse-ms')
 const toMs = require('ms')
@@ -834,6 +835,44 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     console.error(err)
                     await bocchi.reply(from, 'Error!', id)
                 }
+            break
+            case 'tomp3'://by Piyobot >_<
+            if ((isMedia || isQuotedVideo || isQuotedFile)) {
+            bocchi.reply(from, ind.wait(), id)
+            const encryptMedia = isQuotedVideo || isQuotedFile ? quotedMsg : message
+            const _mimetype = isQuotedVideo || isQuotedFile ? quotedMsg.mimetype : mimetype
+            console.log(color('[WAPI]', 'green'), 'Downloading and decrypt media...')
+            const mediaData = await decryptMedia(encryptMedia)
+            let temp = './temp'
+            let name = new Date() * 1
+            let fileInputPath = path.join(temp, 'video', `${name}.${_mimetype.replace(/.+\//, '')}`)
+            let fileOutputPath = path.join(temp, 'audio', `${name}.mp3`)
+            console.log(color('[fs]', 'green'), `Downloading media into '${fileInputPath}'`)
+            fs.writeFile(fileInputPath, mediaData, err => {
+                if (err) return bocchi.sendText(from, 'Ada yang error saat menulis file\n\n' + err) && _err(err)
+                ffmpeg(fileInputPath)
+                    .format('mp3')
+                    .on('start', function (commandLine) {
+                        console.log(color('[FFmpeg]', 'green'), commandLine)
+                    })
+                    .on('progress', function (progress) {
+                        console.log(color('[FFmpeg]', 'green'), progress)
+                    })
+                    .on('end', function () {
+                        console.log(color('[FFmpeg]', 'green'), 'Processing finished!')
+                        bocchi.sendFile(from, fileOutputPath, 'audio.mp3', '', id)
+                        setTimeout(() => {
+                            try {
+                                fs.unlinkSync(fileInputPath)
+                                fs.unlinkSync(fileOutputPath)
+                            } catch (e) {
+                                console.log(color('[ERROR]', 'red'), e)
+                            }
+                        }, 30000)
+                       })
+                    .save(fileOutputPath)
+                      })
+                         }
             break
             case 'playstore':
             case 'ps':
