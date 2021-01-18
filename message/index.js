@@ -214,7 +214,16 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             }
         }
-
+		
+        // Anti-fake-group link detector
+	if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner) {
+            if (chats.match(new RegExp(/(https:\/\/chat.(?!whatsapp.com))/gi))) {
+                console.log(color('[KICK]', 'red'), color('Received a fake group link.', 'yellow'))
+                await bocchi.reply(from, 'Fake group link detected!', id)
+                await bocchi.removeParticipant(groupId, sender.id)	
+            } 
+        }	
+	
         // Anti NSFW links but kinda uneffective
         if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isAntiNsfw && !isOwner) {
             if (isUrl(chats)) {
@@ -2767,8 +2776,36 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
                 await bocchi.sendText(from, 'Sayounara~ 👋')
                 await bocchi.leaveGroup(groupId)
+            break	
+            case 'admins':
+            case 'admin':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                const groupAdm = await bocchi.getGroupAdmins(groupId)
+                const lastAdmin = limit.getLimit(sender.id, _limit)
+                if (lastAdmin !== undefined && cd - (Date.now() - lastAdmin) > 0) {
+                    const time = ms(cd - (Date.now() - lastEveryone))
+                    await bocchi.reply(from, ind.limit(time), id)
+                } else if (isOwner) {
+                    let txt = '╔══✪〘 *ADMINS* 〙✪══\n'
+                    for (let i = 0; i < groupAdm.length; i++) {
+                        txt += '╠➥'
+                        txt += ` @${groupAdm[i].replace(/@c.us/g, '')}\n`
+                    }
+                    txt += '╚═〘 *B O C C H I  B O T* 〙'
+                    await bocchi.sendTextWithMentions(from, txt)
+                } else {
+                    let txt = '╔══✪〘 *ADMINS* 〙✪══\n'
+                    for (let i = 0; i < groupAdm.length; i++) {
+                        txt += '╠➥'
+                        txt += ` @${groupAdm[i].replace(/@c.us/g, '')}\n`
+                    }
+                    txt += '╚═〘 *B O C C H I  B O T* 〙'
+                    await bocchi.sendTextWithMentions(from, txt)
+                    limit.addLimit(sender.id, _limit)
+                }
             break
-            case 'everyone': // Thanks to ArugaZ
+            case 'everyone':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
@@ -2778,7 +2815,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const time = ms(cd - (Date.now() - lastEveryone))
                     await bocchi.reply(from, ind.limit(time), id)
                 } else if (isOwner) {
-                    let txt = '╔══✪〘 Mention All 〙✪══\n'
+                    let txt = '╔══✪〘 *EVERYONE* 〙✪══\n'
                         for (let i = 0; i < groupMem.length; i++) {
                             txt += '╠➥'
                             txt += ` @${groupMem[i].id.replace(/@c.us/g, '')}\n`

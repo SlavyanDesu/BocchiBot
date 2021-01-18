@@ -269,6 +269,10 @@ exports.ageOld = () => {
     return `You're too old for using this feature! Please go back to your youth to be able to using this feature.`
 }
 
+exports.fakeLink = () => {
+    return `Ow, this link looks kinda suspicious, for the security of the members of this group I'm gonna kick you./nBye~.`
+}
+
 exports.menu = (jumlahUser, level, xp, role, pushname, requiredXp, premium) => {
     return `
 ------[ WELCOME ]-----
