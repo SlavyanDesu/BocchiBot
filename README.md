@@ -241,6 +241,7 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 | Fire maker            |      ✔️      |
 | Couple balloon maker  |      ✔️      |
 | Wasted image          |      ✔️      |
+| Caklontong quiz       |      ✔️      |
 
 |      Weeb Zone     | Availability |
 | :----------------: | :----------: |
