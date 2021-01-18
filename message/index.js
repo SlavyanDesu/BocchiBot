@@ -1755,6 +1755,32 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/bannerff?title=${teks1ffanjg}&text=${teks2ffanjg}&apikey=${config.vhtear}`, id)
                 console.log('Success!')
             break
+	    case 'caklontong': //By: VideFrelan
+                if (!isGroupMsg) return bocchi.reply(from, ind.groupOnly(), id)
+                if (!isRegistered) return  bocchi.reply(from, ind.notRegistered(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                const sleep = async (ms) => {
+                    return new Promise(resolve => setTimeout(resolve, ms));
+                }
+                fun.caklontong()
+                .then(async ( { result }) => {
+                    await bocchi.reply(from, `➸ *Soal*: ${result.soal}`, id)
+                    bocchi.sendText(from, `30 Detik Tersisa...`, id)
+                    await sleep(10000)
+                    bocchi.sendText(from, `20 Detik Tersisa...`, id)
+                    await sleep(10000)
+                    bocchi.sendText(from, `10 Detik Tersisa...`, id)
+                    await sleep(10000)
+                    await bocchi.reply(from, `➸ *Jawaban*: ${result.jawaban}\n${result.desk}`, id)
+                })
+                .then(async () => {
+                    console.log('Sukses mengirim jawaban caklontong!')
+                })
+                .catch(async (err) => {
+                    console.error(err)
+                    await bocchi.reply(from, `Ada yang Error!`)
+                })
+            break
             case 'fflogo': // By: VideFrelan
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return bocchi.reply(from, `Untuk membuat Logo Karakter Freefire\ngunakan ${prefix}fflogo karakter | teks\n\nContoh: ${prefix}fflogo alok | Fikri gans`, id)
