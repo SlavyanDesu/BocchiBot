@@ -20,7 +20,7 @@ module.exports = class takestick {
      * Create an takestick file.
      * @param {String} packname 
      * @param {String} authorname 
-     * @param {String} filename 
+     * @param {String} [filename=data]
      */
     create(packname, authorname, filename) {
         if (!filename) filename = 'data'
