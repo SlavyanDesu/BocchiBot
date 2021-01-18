@@ -97,6 +97,23 @@ eng.wrongFormat()
 > npm install
 ```
 
+## 🛠️ Installing the FFmpeg
+* Download one of the available versions of FFmpeg by clicking [this link](https://www.gyan.dev/ffmpeg/builds/).
+* Extract the file to `C:\` path.
+* Rename the extracted folder to `ffmpeg`.
+* Run Command Prompt as Administrator.
+* Run this command: `setx /m PATH "C:\ffmpeg\bin;%PATH%"` and it will give us a callback like `SUCCESS: specified value was saved`.
+* Now that you've FFmpeg installed, verify that it's working by running this command to see version number: `ffmpeg -version`.
+
+## 📷 Installing the libwebp
+The installation is same as you install FFmpeg but whatever. I will make it clear.
+* Download the file according to the OS you are using by clicking [this link](https://developers.google.com/speed/webp/download).
+* Extract the file to `C:\` path.
+* Rename the extracted file to `libwebp`.
+* Run Command Prompt as Administrator.
+* Run this command: `setx /m PATH "C:\libwebp\bin;%PATH%"` and it will give us a callback like `SUCCESS: specified value was saved`.
+* Now that you've libwebp installed, verify that it's installed by running this command to see version number : `webpmux -version`.
+
 ## 🆗 Running the bot
 Regular node:
 ```bash
