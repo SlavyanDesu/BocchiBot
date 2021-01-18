@@ -1,6 +1,6 @@
 /* Originally created by cwke
  * Reuploaded by Waxaranai
- * Recoded by SlavyanDesu
+ * Recoded by SlavyanDesu & VideFrelan
  *
  * GitHub is an open-source community, so why are you so triggered when someone shared some simple code?
  */
@@ -50,7 +50,7 @@ module.exports = class takestick {
         }
         const ff = Buffer.from(len, 'hex')
         const buffer = Buffer.concat([f, ff, fff, ffff])
-        fs.writeFile(`./temp/takestick_data.exif`, buffer, (err) => {
+        fs.writeFile(`./temp/${filename}.exif`, buffer, (err) => {
             if (err) return console.error(err)
             console.log('Success!')
         })
