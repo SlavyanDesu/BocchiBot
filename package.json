@@ -4,7 +4,7 @@
   "description": "BocchiBot is a multipurpose WhatsApp bot.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node ./test/test.js",
     "start": "node index.js"
   },
   "author": "SlavyanDesu",
