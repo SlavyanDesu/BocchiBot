@@ -2093,14 +2093,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, ind.wait(), id)
                         const packnames = q.substring(0, q.indexOf('|') - 1)
                         const authors = q.substring(q.lastIndexOf('|') + 2)
-                        takestick.create(packnames, authors)
+                        takestick.create(packnames, authors, `takestick_${sender.id}`)
                         webp.buffer2webpbuffer(mediaDataTake, 'jpg', '-q 100')
                         .then((res) => {
                             sharp(res)
                                 .resize(512, 512)
                                 .toFile(`./temp/takestickstage_${sender.id}.webp`, async (err) => {
                                     if (err) return console.error(err)
-                                    await exec(`webpmux -set exif ./temp/takestick_data.exif ./temp/takestickstage_${sender.id}.webp -o ./temp/takestick_${sender.id}.webp`, { log: true })
+                                    await exec(`webpmux -set exif ./temp/takestick_${sender.id}.exif ./temp/takestickstage_${sender.id}.webp -o ./temp/takestick_${sender.id}.webp`, { log: true })
                                     if (fs.existsSync(`./temp/takestick_${sender.id}.webp`)) {
                                         const data = fs.readFileSync(`./temp/takestick_${sender.id}.webp`)
                                         const base64 = `data:image/webp;base64,${data.toString('base64')}`
@@ -2108,6 +2108,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                         console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                                         fs.unlinkSync(`./temp/takestick_${sender.id}.webp`)
                                         fs.unlinkSync(`./temp/takestickstage_${sender.id}.webp`)
+                                        fs.unlinkSync(`./temp/takestick_${sender.id}.exif`)
                                     }
                                 })
                         })
