@@ -54,8 +54,8 @@
 
 # Installation
 ## 📝 Cloning this repo
-```bash
-> git clone https://github.com/SlavyanDesu/BocchiBot
+```cmd
+> git clone https://github.com/SlavyanDesu/BocchiBot.git
 > cd BocchiBot
 ```
 
@@ -92,11 +92,6 @@ To:
 eng.wrongFormat()
 ```
 
-## 🔍 Installing the dependencies
-```bash
-> npm install
-```
-
 ## 🛠️ Installing the FFmpeg
 * Download one of the available versions of FFmpeg by clicking [this link](https://www.gyan.dev/ffmpeg/builds/).
 * Extract the file to `C:\` path.
@@ -114,20 +109,25 @@ The installation is same as you install FFmpeg but whatever. I will make it clea
 * Run this command: `setx /m PATH "C:\libwebp\bin;%PATH%"` and it will give us a callback like `SUCCESS: specified value was saved`.
 * Now that you've libwebp installed, verify that it's installed by running this command to see version number : `webpmux -version`.
 
+## 🔍 Installing the dependencies
+```cmd
+> npm install
+```
+
 ## 🆗 Running the bot
 Regular node:
-```bash
+```cmd
 > npm start
 ```
 
 PM2:
-```bash
+```cmd
 > pm2 start index.js
 > pm2 monit
 ```
 
 PM2 with cron job (restart after 5 hours):
-```bash
+```cmd
 > pm2 start index.js --cron "* */5 * * *"
 > pm2 monit
 ```
