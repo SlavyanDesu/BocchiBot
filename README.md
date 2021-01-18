@@ -308,6 +308,7 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 * [`VideFrelan`](https://github.com/VideFrelan)
 * [`VirusLauncher`](https://github.com/VirusLauncher)
 * [`shansekai`](https://github.com/shansekai)
+* [`Baguettou`](https://github.com/Baguettou)
 
 # License
 **BocchiBot** © [SlavyanDesu](https://github.com/SlavyanDesu), released under the MIT License.
