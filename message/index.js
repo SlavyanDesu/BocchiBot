@@ -135,7 +135,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         premium.expiredCheck(_premium)
 
         // ROLE (Change to what you want, or add) and you can change the role sort based on XP.
-        const levelRole = level.getLevelingLevel(sender.id, _level)
+        const levelRole = level.getLevelingXp(sender.id, _level)
         var role = 'Copper V'
         if (levelRole <= 5) {
             role = 'Copper IV'
