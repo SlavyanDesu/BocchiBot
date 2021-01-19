@@ -2160,10 +2160,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'stickerp':
             case 'stikerp':
-                if (!isRegistered) return await bocchi.reply(from, es.notRegistered(), id)
-				if (!isPremium) return await bocchi.reply(from, es.notPremium(), id)
+                if (!isRegistered) return await bocchi.reply(from, en.notRegistered(), id)
+				if (!isPremium) return await bocchi.reply(from, en.notPremium(), id)
                 if (isMedia && isImage || isQuotedImage) {
-                    await bocchi.reply(from, es.wait(), id)
+                    await bocchi.reply(from, en.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
                     webp.buffer2webpbuffer(mediaData, 'jpg', '-q 100')
@@ -2186,7 +2186,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                         const data = fs.readFileSync(`./temp/${sender.id}.webp`)
                                         const base64 = `data:image/webp;base64,${data.toString('base64')}`
                                         await bocchi.sendRawWebpAsSticker(from, base64)
-                                        await bocchi.reply(from, es.ok(), id)
+                                        await bocchi.reply(from, en.ok(), id)
                                         console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                                         fs.unlinkSync(`./temp/${sender.id}.webp`)
                                         fs.unlinkSync(`./temp/stage_${sender.id}.webp`)
@@ -2194,7 +2194,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                 })
                         })
                 } else {
-                    await bocchi.reply(from, es.wrongFormat(), id)
+                    await bocchi.reply(from, en.wrongFormat(), id)
                 }
             break
             case 'stickergif':
