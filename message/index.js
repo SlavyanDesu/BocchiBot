@@ -2219,8 +2219,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'stickerp':
             case 'stikerp':
-                if (!isRegistered) return await bocchi.reply(from, es.notRegistered(), id)
-		if (!isPremium) return await bocchi.reply(from, es.notPremium(), id)
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+		if (!isPremium) return await bocchi.reply(from, ind.notPremium(), id)
                 if (isMedia && isImage || isQuotedImage) {
                     await bocchi.reply(from, ind.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
@@ -2237,7 +2237,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                         g: 255,
                                         b: 255,
                                         alpha: 0							
-                                }})
+                                    }
+                                })
                                 .toFile(`./temp/stage_${sender.id}.webp`, async (err) => {
                                     if (err) return console.error(err)
                                     await exec(`webpmux -set exif ./temp/data.exif ./temp/stage_${sender.id}.webp -o ./temp/${sender.id}.webp`, { log: true })
@@ -2245,7 +2246,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                         const data = fs.readFileSync(`./temp/${sender.id}.webp`)
                                         const base64 = `data:image/webp;base64,${data.toString('base64')}`
                                         await bocchi.sendRawWebpAsSticker(from, base64)
-                                        await bocchi.reply(from, ind.ok(), id)
                                         console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                                         fs.unlinkSync(`./temp/${sender.id}.webp`)
                                         fs.unlinkSync(`./temp/stage_${sender.id}.webp`)
