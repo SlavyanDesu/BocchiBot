@@ -2217,6 +2217,45 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
+            case 'stickerp':
+            case 'stikerp':
+                if (!isRegistered) return await bocchi.reply(from, es.notRegistered(), id)
+				if (!isPremium) return await bocchi.reply(from, es.notPremium(), id)
+                if (isMedia && isImage || isQuotedImage) {
+                    await bocchi.reply(from, es.wait(), id)
+                    const encryptMedia = isQuotedImage ? quotedMsg : message
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    webp.buffer2webpbuffer(mediaData, 'jpg', '-q 100')
+                        .then((res) => {
+                            sharp(res)
+                                .resize({
+									width: 512,
+									height: 512,
+									fit: 'contain',
+									background: {
+									r: 255,
+									g: 255,
+									b: 255,
+									alpha: 0							
+									}})
+                                .toFile(`./temp/stage_${sender.id}.webp`, async (err) => {
+                                    if (err) return console.error(err)
+                                    await exec(`webpmux -set exif ./temp/data.exif ./temp/stage_${sender.id}.webp -o ./temp/${sender.id}.webp`, { log: true })
+                                    if (fs.existsSync(`./temp/${sender.id}.webp`)) {
+                                        const data = fs.readFileSync(`./temp/${sender.id}.webp`)
+                                        const base64 = `data:image/webp;base64,${data.toString('base64')}`
+                                        await bocchi.sendRawWebpAsSticker(from, base64)
+                                        await bocchi.reply(from, es.ok(), id)
+                                        console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
+                                        fs.unlinkSync(`./temp/${sender.id}.webp`)
+                                        fs.unlinkSync(`./temp/stage_${sender.id}.webp`)
+                                    }
+                                })
+                        })
+                } else {
+                    await bocchi.reply(from, es.wrongFormat(), id)
+                }
+            break
             case 'stickergif':
             case 'stikergif':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
