@@ -1,4 +1,5 @@
-/* Originally created by cwke
+/** 
+ * Originally created by cwke
  * Reuploaded by Waxaranai
  * Recoded by SlavyanDesu
  *
@@ -7,7 +8,7 @@
 
 const fs = require('fs-extra')
 const packID = "com.snowcorp.stickerly.android.stickercontentprovider b5e7275f-f1de-4137-961f-57becfad34f2"
-const playstore = "https://play.google.com/store/apps/details?id=com.marsconstd.stickermakerforwhatsapp"
+const playstore = "https://play.google.com/store/apps/details?id=com.stickify.stickermaker"
 const itunes = "https://itunes.apple.com/app/sticker-maker-studio/id1443326857"
 
 /**
