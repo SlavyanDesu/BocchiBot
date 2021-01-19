@@ -6,7 +6,7 @@
  * This source code below is free, please DO NOT sell this in any form!
  * Source code ini gratis, jadi tolong JANGAN jual dalam bentuk apapun!
  *
- * If you copying one of our source code, please give us CREDITS. Because this is one of our hardwork.
+ * If you copying one of our 3source code, please give us CREDITS. Because this is one of our hardwork.
  * Apabila kamu menjiplak salah satu source code ini, tolong berikan kami CREDIT. Karena ini adalah salah satu kerja keras kami.
  *
  * If you want to contributing to this source code, pull requests are always open.
@@ -880,7 +880,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 	    case 'tomp3': //by: Piyobot
                     if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                     if ((isMedia || isQuotedVideo)) {
-                        bocchi.reply(from, ind.wait(), id)
+                        await bocchi.reply(from, ind.wait(), id)
                         const encryptMedia = isQuotedVideo ? quotedMsg : message
                         const _mimetype = isQuotedVideo ? quotedMsg.mimetype : mimetype
                         console.log(color('[WAPI]', 'green'), 'Downloading and decrypt media...')
@@ -916,7 +916,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                 .save(fileOutputPath)
                         })
                     } else {
-                        await bocchi.reply(from, `Untuk mengconvert Video to MP3\nsilahkan upload video dengan caption ${prefix}tomp3\natau\nReply video dengan perintah ${prefix}tomp3`, id)
+                        await bocchi.reply(from, ind.wrongFormat(), id)
                     }
             break
             case 'playstore':
