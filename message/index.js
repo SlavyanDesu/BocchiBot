@@ -1878,7 +1878,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
                 fun.weton(tgl, bln, thn)
                     .then(async ({ result }) => {
-                        if (result.response !== 200) return await bocchi.reply(from, 'Invalid!', id)
                         await bocchi.reply(from, result.hasil, id)
                         console.log('Success sending weton info!')
                     })
