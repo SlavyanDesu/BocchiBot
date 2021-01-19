@@ -266,7 +266,40 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.sendText(from, ind.afkDone(pushname))
             }
         }
-
+        
+        // AUTO REPLY by Piyo >_<
+        /*
+        if (chats == 'p'){
+        if (!isGroupMsg) 
+        bocchi.reply(from, `Halo Kak, Untuk Memulai bot silahkan ketik ${prefix}menu`, id)
+        }  
+        
+        if (chats == 'P'){
+        if (!isGroupMsg) 
+        bocchi.reply(from, `Halo Kak, Untuk Memulai bot silahkan ketik ${prefix}menu`, id)
+        }
+        
+        if (chats == 'bot'){
+        if (!isGroupMsg) 
+        bocchi.reply(from, `Halo Kak, Untuk Memulai bot silahkan ketik ${prefix}menu`, id)
+        }
+        
+        if (chats == 'Bot'){
+        if (!isGroupMsg) 
+        bocchi.reply(from, `Halo Kak, Untuk Memulai bot silahkan ketik ${prefix}menu`, id)
+        }
+        
+       if (chats == 'assalamualaikum'){
+       if (!isGroupMsg) 
+       bocchi.reply(from, `Waalaikumsalam , Halo Kak, Untuk Memulai bot silahkan ketik ${prefix}menu`, id)
+       }
+        
+       if (chats == 'Assalamualaikum'){
+       if (!isGroupMsg) 
+       bocchi.reply(from, `Waalaikumsalam , Halo Kak, Untuk Memulai bot silahkan ketik ${prefix}menu`, id)
+       }
+       */
+        
         // Ignore banned and blocked users
         if (isCmd && (isBanned || isBlocked) && !isGroupMsg) return console.log(color('[BAN]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
         if (isCmd && (isBanned || isBlocked) && isGroupMsg) return console.log(color('[BAN]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
@@ -1722,6 +1755,32 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.sendFileFromUrl(from, `https://api.vhtear.com/bannerff?title=${teks1ffanjg}&text=${teks2ffanjg}&apikey=${config.vhtear}`, id)
                 console.log('Success!')
             break
+	    case 'caklontong': //By: VideFrelan
+                if (!isGroupMsg) return bocchi.reply(from, ind.groupOnly(), id)
+                if (!isRegistered) return  bocchi.reply(from, ind.notRegistered(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                const sleep = async (ms) => {
+                    return new Promise(resolve => setTimeout(resolve, ms));
+                }
+                fun.caklontong()
+                .then(async ( { result }) => {
+                    await bocchi.reply(from, `➸ *Soal*: ${result.soal}`, id)
+                    bocchi.sendText(from, `30 Detik Tersisa...`, id)
+                    await sleep(10000)
+                    bocchi.sendText(from, `20 Detik Tersisa...`, id)
+                    await sleep(10000)
+                    bocchi.sendText(from, `10 Detik Tersisa...`, id)
+                    await sleep(10000)
+                    await bocchi.reply(from, `➸ *Jawaban*: ${result.jawaban}\n${result.desk}`, id)
+                })
+                .then(async () => {
+                    console.log('Sukses mengirim jawaban caklontong!')
+                })
+                .catch(async (err) => {
+                    console.error(err)
+                    await bocchi.reply(from, `Ada yang Error!`)
+                })
+            break
             case 'fflogo': // By: VideFrelan
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return bocchi.reply(from, `Untuk membuat Logo Karakter Freefire\ngunakan ${prefix}fflogo karakter | teks\n\nContoh: ${prefix}fflogo alok | Fikri gans`, id)
@@ -2160,25 +2219,25 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'stickerp':
             case 'stikerp':
-                if (!isRegistered) return await bocchi.reply(from, en.notRegistered(), id)
-				if (!isPremium) return await bocchi.reply(from, en.notPremium(), id)
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+				        if (!isPremium) return await bocchi.reply(from, ind.notPremium(), id)
                 if (isMedia && isImage || isQuotedImage) {
-                    await bocchi.reply(from, en.wait(), id)
+                    await bocchi.reply(from, ind.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
                     webp.buffer2webpbuffer(mediaData, 'jpg', '-q 100')
                         .then((res) => {
                             sharp(res)
                                 .resize({
-									width: 512,
-									height: 512,
-									fit: 'contain',
-									background: {
-									r: 255,
-									g: 255,
-									b: 255,
-									alpha: 0							
-									}})
+                                    width: 512,
+                                    height: 512,
+                                    fit: 'contain',
+                                    background: {
+                                        r: 255,
+                                        g: 255,
+                                        b: 255,
+                                        alpha: 0							
+                                }})
                                 .toFile(`./temp/stage_${sender.id}.webp`, async (err) => {
                                     if (err) return console.error(err)
                                     await exec(`webpmux -set exif ./temp/data.exif ./temp/stage_${sender.id}.webp -o ./temp/${sender.id}.webp`, { log: true })
@@ -2186,7 +2245,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                         const data = fs.readFileSync(`./temp/${sender.id}.webp`)
                                         const base64 = `data:image/webp;base64,${data.toString('base64')}`
                                         await bocchi.sendRawWebpAsSticker(from, base64)
-                                        await bocchi.reply(from, en.ok(), id)
+
+                                        await bocchi.reply(from, ind.ok(), id)
                                         console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                                         fs.unlinkSync(`./temp/${sender.id}.webp`)
                                         fs.unlinkSync(`./temp/stage_${sender.id}.webp`)
@@ -2194,7 +2254,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                 })
                         })
                 } else {
-                    await bocchi.reply(from, en.wrongFormat(), id)
+
+
+                   await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
             case 'stickergif':
@@ -2202,7 +2264,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isMedia && type === 'video' || mimetype === 'image/gif') {
                     await bocchi.reply(from, ind.wait(), id)
-                    try {
+                    try {mm
                         const mediaData = await decryptMedia(message, uaOverride)
                         const videoBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
                         await bocchi.sendMp4AsSticker(from, videoBase64, { fps: 24, startTime: `00:00:00.0`, endTime : `00:00:05.0`, loop: 0 })

@@ -97,8 +97,15 @@ eng.wrongFormat()
 * Extract the file to `C:\` path.
 * Rename the extracted folder to `ffmpeg`.
 * Run Command Prompt as Administrator.
-* Run this command: `setx /m PATH "C:\ffmpeg\bin;%PATH%"` and it will give us a callback like `SUCCESS: specified value was saved`.
-* Now that you've FFmpeg installed, verify that it's working by running this command to see version number: `ffmpeg -version`.
+* Run this command:
+```cmd
+> setx /m PATH "C:\ffmpeg\bin;%PATH%"
+```
+It will give us a callback like `SUCCESS: specified value was saved`.
+* Now that you've FFmpeg installed, verify that it's working by running this command to see version number:
+```cmd
+> ffmpeg -version
+```
 
 ## 📷 Installing the libwebp
 The installation is same as you install FFmpeg but whatever. I will make it clear.
@@ -106,8 +113,15 @@ The installation is same as you install FFmpeg but whatever. I will make it clea
 * Extract the file to `C:\` path.
 * Rename the extracted file to `libwebp`.
 * Run Command Prompt as Administrator.
-* Run this command: `setx /m PATH "C:\libwebp\bin;%PATH%"` and it will give us a callback like `SUCCESS: specified value was saved`.
-* Now that you've libwebp installed, verify that it's installed by running this command to see version number : `webpmux -version`.
+* Run this command:
+```cmd
+> setx /m PATH "C:\libwebp\bin;%PATH%"
+```
+It will give us a callback like `SUCCESS: specified value was saved`.
+* Now that you've libwebp installed, verify that it's installed by running this command to see version number:
+```cmd
+> webpmux -version
+```
 
 ## 🔍 Installing the dependencies
 ```cmd
@@ -227,6 +241,7 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 | Fire maker            |      ✔️      |
 | Couple balloon maker  |      ✔️      |
 | Wasted image          |      ✔️      |
+| Caklontong quiz       |      ✔️      |
 
 |      Weeb Zone     | Availability |
 | :----------------: | :----------: |
@@ -308,6 +323,7 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 * [`VideFrelan`](https://github.com/VideFrelan)
 * [`VirusLauncher`](https://github.com/VirusLauncher)
 * [`shansekai`](https://github.com/shansekai)
+* [`Baguettou`](https://github.com/Baguettou)
 
 # License
 **BocchiBot** © [SlavyanDesu](https://github.com/SlavyanDesu), released under the MIT License.
