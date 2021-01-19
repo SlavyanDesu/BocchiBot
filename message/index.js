@@ -56,8 +56,6 @@ const { ind, eng } = require('./text/lang/')
 const { limit, level, card, register, afk, reminder, premium } = require('../function')
 const Exif = require('../tools/exif')
 const exif = new Exif()
-const Takestick = require('../tools/takestick')
-const takestick = new Takestick()
 const cd = 4.32e+7
 const errorImg = 'https://i.ibb.co/jRCpLfn/user.png'
 const tanggal = moment.tz('Asia/Jakarta').format('DD-MM-YYYY')
@@ -2154,15 +2152,16 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'takestick': // By: VideFrelan
-                    if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                    if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
-                    if (quotedMsg && quotedMsg.type == 'sticker') {
-                        const mediaDataTake = await decryptMedia(quotedMsg)
-                        await bocchi.reply(from, ind.wait(), id)
-                        const packnames = q.substring(0, q.indexOf('|') - 1)
-                        const authors = q.substring(q.lastIndexOf('|') + 2)
-                        takestick.create(packnames, authors, `takestick_${sender.id}`)
-                        webp.buffer2webpbuffer(mediaDataTake, 'jpg', '-q 100')
+            case 'take':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (quotedMsg && quotedMsg.type == 'sticker') {
+                    const mediaDataTake = await decryptMedia(quotedMsg, uaOverride)
+                    await bocchi.reply(from, ind.wait(), id)
+                    const packname = q.substring(0, q.indexOf('|') - 1)
+                    const author = q.substring(q.lastIndexOf('|') + 2)
+                    exif.create(packname, author, `takestick_${sender.id}`)
+                    webp.buffer2webpbuffer(mediaDataTake, 'jpg', '-q 100')
                         .then((res) => {
                             sharp(res)
                                 .resize(512, 512)
@@ -2180,13 +2179,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                     }
                                 })
                         })
-                        .catch(async (err) => {
-                            console.error(err)
-                            await bocchi.reply(from, 'Error!', id)
-                        })
-                    } else {
-                        await bocchi.reply(from, ind.wrongFormat(), id)
-                    }
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
             break
             case 'sticker':
             case 'stiker':
