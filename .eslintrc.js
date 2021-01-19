@@ -19,6 +19,7 @@ module.exports = {
         "no-invalid-this": "warn",
         "no-useless-catch": "warn",
         "require-await": "error",
-        "quotes": ["warn", "single"]
+        "quotes": ["warn", "single"],
+        "no-async-promise-executor": "off"
     }
 };
