@@ -2220,7 +2220,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'stickerp':
             case 'stikerp':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-		if (!isPremium) return await bocchi.reply(from, ind.notPremium(), id)
+				        if (!isPremium) return await bocchi.reply(from, ind.notPremium(), id)
+
                 if (isMedia && isImage || isQuotedImage) {
                     await bocchi.reply(from, ind.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
@@ -2246,6 +2247,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                         const data = fs.readFileSync(`./temp/${sender.id}.webp`)
                                         const base64 = `data:image/webp;base64,${data.toString('base64')}`
                                         await bocchi.sendRawWebpAsSticker(from, base64)
+
+
                                         console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                                         fs.unlinkSync(`./temp/${sender.id}.webp`)
                                         fs.unlinkSync(`./temp/stage_${sender.id}.webp`)
@@ -2253,7 +2256,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                 })
                         })
                 } else {
-                    await bocchi.reply(from, ind.wrongFormat(), id)
+
+
+                   await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
             case 'stickergif':
@@ -2261,7 +2266,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isMedia && type === 'video' || mimetype === 'image/gif') {
                     await bocchi.reply(from, ind.wait(), id)
-                    try {
+                    try {mm
                         const mediaData = await decryptMedia(message, uaOverride)
                         const videoBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
                         await bocchi.sendMp4AsSticker(from, videoBase64, { fps: 24, startTime: `00:00:00.0`, endTime : `00:00:05.0`, loop: 0 })
