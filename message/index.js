@@ -6,7 +6,7 @@
  * This source code below is free, please DO NOT sell this in any form!
  * Source code ini gratis, jadi tolong JANGAN jual dalam bentuk apapun!
  *
- * If you copying one of our 3source code, please give us CREDITS. Because this is one of our hardwork.
+ * If you copying one of our source code, please give us CREDITS. Because this is one of our hardwork.
  * Apabila kamu menjiplak salah satu source code ini, tolong berikan kami CREDIT. Karena ini adalah salah satu kerja keras kami.
  *
  * If you want to contributing to this source code, pull requests are always open.
