@@ -649,13 +649,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 misc.kbbi(q)
-                    .then(async ({ status, result, pesan }) => {
-                        if (status === 'error') {
-                            await bocchi.reply(from, pesan, id)
-                        } else {
-                            await bocchi.reply(from, result, id)
-                            console.log('Success sending definition!')
-                        }
+                    .then(async ({ result }) => {
+                        await bocchi.reply(from, result.hasil, id)
                     })
                     .catch(async (err) => {
                         console.error(err)
