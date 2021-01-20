@@ -1053,7 +1053,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         const responses = await fetch(result.mp3);
                         const buffer = await responses.buffer(); 
                         await fs.writeFile(`./temp/${result.title}.mp3`, buffer)
-                        await vf.sendFile(from, `./temp/${result.title}.mp3`, `${result.title}`, id)
+                        await bocchi.sendFile(from, `./temp/${result.title}.mp3`, `${result.title}`, id)
                         console.log('Success sending Play MP3!')
                         fs.unlinkSync(`./temp/${result.title}.mp3`)
                     })
