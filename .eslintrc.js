@@ -22,4 +22,4 @@ module.exports = {
         'quotes': ['warn', 'single'],
         'no-async-promise-executor': 'off'
     }
-};
+}
