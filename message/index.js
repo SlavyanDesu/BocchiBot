@@ -129,6 +129,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
         const isQuotedGif = quotedMsg && quotedMsg.mimetype === 'image/gif'
         const isImage = type === 'image'
+        const isVideo = type === 'video'
         /********** END OF VALIDATOR **********/
 
         // Automate
@@ -873,48 +874,41 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, 'Error!', id)
                 }
             break
-            case 'tomp3': //by: Piyobot
-                    if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                    if ((isMedia || isQuotedVideo)) {
-                        await bocchi.reply(from, ind.wait(), id)
-                        const encryptMedia = isQuotedVideo ? quotedMsg : message
-                        const _mimetype = isQuotedVideo ? quotedMsg.mimetype : mimetype
-                        console.log(color('[WAPI]', 'green'), 'Downloading and decrypt media...')
-                        const mediaData = await decryptMedia(encryptMedia)
-                        let temp = './temp'
-                        let name = new Date() * 1
-                        let fileInputPath = path.join(temp, 'video', `${name}.${_mimetype.replace(/.+\//, '')}`)
-                        let fileOutputPath = path.join(temp, 'audio', `${name}.mp3`)
-                        fs.writeFile(fileInputPath, mediaData, err => {
-                            // ffmpeg -y -t 5 -i <input_file> -vf "scale=512:512:flags=lanczos:force_original_aspect_ratio=decrease" -qscale 100 <output_file>.webp
-                            ffmpeg(fileInputPath)
-                                .format('mp3')
-                                .on('start', function (commandLine) {
-                                    console.log(color('[FFmpeg]', 'green'), commandLine)
-                                })
-                                .on('progress', function (progress) {
-                                    console.log(color('[FFmpeg]', 'green'), progress)
-                                })
-                                .on('end', function () {
-                                    console.log(color('[FFmpeg]', 'green'), 'Processing finished!')
-                                    // fs.readFile(fileOutputPath, { encoding: 'base64' }, (err, base64) => {
-                                    // if (err) return bocchi.sendText(from, 'Ada yang error saat membaca file .mp3') && console.log(color('[ERROR]', 'red'), err)
-                                    bocchi.sendFile(from, fileOutputPath, 'audio.mp3', '', id)
-                                    // })
-                                    setTimeout(() => {
-                                        try {
-                                            fs.unlinkSync(fileInputPath)
-                                            fs.unlinkSync(fileOutputPath)
-                                        } catch (err) {
-                                            console.error(err)
-                                        }
-                                    }, 30000)
-                                })
-                                .save(fileOutputPath)
-                        })
-                    } else {
-                        await bocchi.reply(from, ind.wrongFormat(), id)
-                    }
+            case 'tomp3': // by: Piyobot
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if ((isMedia && isVideo || isQuotedVideo)) {
+                    await bocchi.reply(from, ind.wait(), id)
+                    const encryptMedia = isQuotedVideo ? quotedMsg : message
+                    const _mimetype = isQuotedVideo ? quotedMsg.mimetype : mimetype
+                    console.log(color('[WAPI]', 'green'), 'Downloading and decrypt media...')
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const temp = './temp'
+                    const name = new Date() * 1
+                    const fileInputPath = path.join(temp, 'video', `${name}.${_mimetype.replace(/.+\//, '')}`)
+                    const fileOutputPath = path.join(temp, 'audio', `${name}.mp3`)
+                    fs.writeFile(fileInputPath, mediaData, (err) => {
+                        if (err) return console.error(err)
+                        ffmpeg(fileInputPath)
+                            .format('mp3')
+                            .on('start', (commandLine) => {
+                                console.log(color('[FFmpeg]', 'green'), commandLine)
+                            })
+                            .on('progress', (progress) => {
+                                console.log(color('[FFmpeg]', 'green'), progress)
+                            })
+                            .on('end', async () => {
+                                console.log(color('[FFmpeg]', 'green'), 'Processing finished!')
+                                await bocchi.sendFile(from, fileOutputPath, 'audio.mp3', '', id)
+                                setTimeout(() => {
+                                    fs.unlinkSync(fileInputPath)
+                                    fs.unlinkSync(fileOutputPath)
+                                }, 30000)
+                            })
+                            .save(fileOutputPath)
+                    })
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
             break
             case 'playstore':
             case 'ps':
