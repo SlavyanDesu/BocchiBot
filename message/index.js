@@ -1049,9 +1049,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .then(async ({ result }) => {
                         if (Number(result.size.split(' MB')[0]) >= 10.0) return bocchi.sendFileFromUrl(from, result.image, `${result.title}.jpg`, `Judul: ${result.title}\nSize: *${result.size}*\n\nGagal, Maksimal video size adalah *10MB*!`, id)
                         await bocchi.sendFileFromUrl(from, result.image, `${result.title}.jpg`, ind.ytPlay(result), id)
-                        const staging = await toBuffer(result.mp3)
-                        const buffer = `data:audio/mp3;base64,${staging.toString('base64')}`
-                        await bocchi.sendPtt(from, buffer, id)
+                        const responses = await fetch(result.mp3);
+                        const buffer = await responses.buffer(); 
+                        await fs.writeFile(`./temp/${result.title}.mp3`, buffer)
+                        await vf.sendFile(from, `./temp/${result.title}.mp3`, `${result.title}`, id)
+                        console.log('Success sending Play MP3!')
+                        fs.unlinkSync(`./temp/${result.title}.mp3`)
                     })
                     .catch(async (err) => {
                         console.error(err)
