@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 const fs = require('fs-extra')
 const { prefix, ownerNumber } = JSON.parse(fs.readFileSync('config.json'))
 
