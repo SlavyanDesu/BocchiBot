@@ -10,7 +10,7 @@ const ownerNumber = config.ownerBot
 const fs = require('fs-extra')
 const { groupLimit, memberLimit } = require('./database/bot/setting.json')
 
-const start = async (bocchi = new Client()) => {
+const start = (bocchi = new Client()) => {
     console.log(color(figlet.textSync('BocchiBot', 'Larry 3D'), 'cyan'))
     console.log(color('=> Bot successfully loaded! Database:', 'yellow'), color(loader.getAllDirFiles('./database').length), color('Library:', 'yellow'), color(loader.getAllDirFiles('./lib').length), color('Function:', 'yellow'), color(loader.getAllDirFiles('./function').length))
     console.log('[BOCCHI]', color('BocchiBot is now online!'))
