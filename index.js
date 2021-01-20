@@ -5,6 +5,7 @@ const { ind, eng } = require('./message/text/lang/')
 const { loader } = require('./function')
 const figlet = require('figlet')
 const msgHandler = require('./message')
+const canvas = require('discord-canvas')
 const config = require('./config.json')
 const ownerNumber = config.ownerBot
 const fs = require('fs-extra')
@@ -76,16 +77,57 @@ const start = (bocchi = new Client()) => {
     bocchi.onGlobalParicipantsChanged(async (event) => {
         const _welcome = JSON.parse(fs.readFileSync('./database/group/welcome.json'))
         const isWelcome = _welcome.includes(event.chat)
+        const gcChat = await bocchi.getChatById(event.chat)
+        const pcChat = await bocchi.getContact(event.who)
+        let { pushname, verifiedName, formattedName } = pcChat
+        pushname = pushname || verifiedName || formattedName
+        const { name, groupMetadata } = gcChat
         const botNumbers = await bocchi.getHostNumber() + '@c.us'
         try {
             if (event.action === 'add' && event.who !== botNumbers && isWelcome) {
                 const pic = await bocchi.getProfilePicFromServer(event.who)
                 if (pic === undefined) {
-                    await bocchi.sendFileFromUrl(event.chat, 'https://i.imgur.com/UxvMPUz.png', 'profile.png')
+                    var picx = 'https://i.ibb.co/Tq7d7TZ/age-hananta-495-photo.png'
                 } else {
-                    await bocchi.sendFileFromUrl(event.chat, pic, 'profile.jpg')
+                    picx = pic
                 }
-                await bocchi.sendTextWithMentions(event.chat, ind.welcome(event))
+                const welcomer = await new canvas.Welcome()
+                    .setUsername(pushname)
+                    .setDiscriminator(event.who.substring(6, 10))
+                    .setMemberCount(groupMetadata.participants.length)
+                    .setGuildName(name)
+                    .setAvatar(picx)
+                    .setColor('border', '#00100C')
+                    .setColor('username-box', '#00100C')
+                    .setColor('discriminator-box', '#00100C')
+                    .setColor('message-box', '#00100C')
+                    .setColor('title', '#00FFFF')
+                    .setBackground('https://www.photohdx.com/images/2016/05/red-blurry-background.jpg')
+                    .toAttachment()
+                const base64 = `data:image/png;base64,${welcomer.toBuffer().toString('base64')}`
+                await bocchi.sendFile(event.chat, base64, 'welcome.png', `Welcome ${pushname}!`)
+            } else if (event.action === 'remove' && event.who !== botNumbers && isWelcome) {
+                const pic = await bocchi.getProfilePicFromServer(event.who)
+                if (pic === undefined) {
+                    var picxs = 'https://i.ibb.co/Tq7d7TZ/age-hananta-495-photo.png'
+                } else {
+                    picxs = pic
+                }
+                const bye = await new canvas.Goodbye()
+                    .setUsername(pushname)
+                    .setDiscriminator(event.who.substring(6, 10))
+                    .setMemberCount(groupMetadata.participants.length)
+                    .setGuildName(name)
+                    .setAvatar(picxs)
+                    .setColor('border', '#00100C')
+                    .setColor('username-box', '#00100C')
+                    .setColor('discriminator-box', '#00100C')
+                    .setColor('message-box', '#00100C')
+                    .setColor('title', '#00FFFF')
+                    .setBackground('https://www.photohdx.com/images/2016/05/red-blurry-background.jpg')
+                    .toAttachment()
+                const base64 = `data:image/png;base64,${bye.toBuffer().toString('base64')}`
+                await bocchi.sendFile(event.chat, base64, 'welcome.png', `Bye ${pushname}, we will miss you~`)
             }
         } catch (err) {
             console.error(err)
