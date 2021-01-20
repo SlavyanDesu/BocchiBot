@@ -7,16 +7,14 @@
  */
 
 const fs = require('fs-extra')
-const packID = "com.snowcorp.stickerly.android.stickercontentprovider b5e7275f-f1de-4137-961f-57becfad34f2"
-const playstore = "https://play.google.com/store/apps/details?id=com.stickify.stickermaker"
-const itunes = "https://itunes.apple.com/app/sticker-maker-studio/id1443326857"
+const packID = 'com.snowcorp.stickerly.android.stickercontentprovider b5e7275f-f1de-4137-961f-57becfad34f2'
+const playstore = 'https://play.google.com/store/apps/details?id=com.stickify.stickermaker'
+const itunes = 'https://itunes.apple.com/app/sticker-maker-studio/id1443326857'
 
 /**
  * @class Exif
  */
 module.exports = class Exif {
-    constructor() {}
-
     /**
      * Create an EXIF file.
      * @param {String} packname 
@@ -26,11 +24,11 @@ module.exports = class Exif {
     create(packname, authorname, filename) {
         if (!filename) filename = 'data'
         const json = {
-            "sticker-pack-id": packID,
-            "sticker-pack-name": packname,
-            "sticker-pack-publisher": authorname,
-            "android-app-store-link": playstore,
-            "ios-app-store-link": itunes
+            'sticker-pack-id': packID,
+            'sticker-pack-name': packname,
+            'sticker-pack-publisher': authorname,
+            'android-app-store-link': playstore,
+            'ios-app-store-link': itunes
         }
         let len = JSON.stringify(json).length
         const f = Buffer.from([0x49, 0x49, 0x2A, 0x00, 0x08, 0x00, 0x00, 0x00, 0x01, 0x00, 0x41, 0x57, 0x07, 0x00])
@@ -45,7 +43,7 @@ module.exports = class Exif {
         const ffff = Buffer.from(JSON.stringify(json))
         if (len < 16) {
             len = len.toString(16)
-            len = "0" + len
+            len = '0' + len
         } else {
             len = len.toString(16)
         }
