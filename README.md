@@ -332,7 +332,3 @@ Authored and maintained by SlavyanDesu.
 <p align="center">
   <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FSlavyanDesu%2FBocchiBot?ref=badge_large"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FSlavyanDesu%2FBocchiBot.svg?type=large" />
 </p>
-
-<p align="center">
-  <a href="https://info.flagcounter.com/G3OD"><img src="https://s05.flagcounter.com/count2/G3OD/bg_000000/txt_17FFD8/border_000000/columns_3/maxflags_12/viewers_0/labels_1/pageviews_1/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
-</p>
