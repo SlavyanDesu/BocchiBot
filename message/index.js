@@ -1067,12 +1067,16 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const emailTarget = q.substring(0, q.indexOf('|') - 1)
-                const subjekEmail = q.substring(q.indexOf('|') + 2, q.lastIndexOf('|') - 1)
-                const pesanEmail = q.substring(q.lastIndexOf('|') + 2)
+                const subjectEmail = q.substring(q.indexOf('|') + 2, q.lastIndexOf('|') - 1)
+                const messageEmail = q.substring(q.lastIndexOf('|') + 2)
                 await bocchi.reply(from, ind.wait(), id)
-                misc.email(emailTarget, subjekEmail, pesanEmail)
+                misc.email(emailTarget, subjectEmail, messageEmail)
                 .then(async ( { result }) => {
+                    if (result.status === '204') {
+                        await vf.reply(from, `Server busy!`, id)
+                    } else {
                     await bocchi.reply(from, `*Berhasil mengirim Email*!\n➸ *Target*: ${emailTarget}\n➸ *Subjek*: ${result.subjek}\n➸ *Pesan*: ${result.pesan}`, id)
+                    }
                 })
                 .then(async () => {
                     console.log('Success sending Email!')
