@@ -242,6 +242,7 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 | Couple balloon maker  |      ✔️      |
 | Wasted image          |      ✔️      |
 | Caklontong quiz       |      ✔️      |
+| Hilih text            |      ✔️      |
 
 |      Weeb Zone     | Availability |
 | :----------------: | :----------: |
