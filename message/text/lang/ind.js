@@ -629,6 +629,11 @@ Spam SMS.
 Aliases: -
 Usage: *${prefix}spamsms* 0812xxxxxxxx jumlah_pesan
 
+35. *${prefix}email*
+Mengirim email secara anonymous.
+Aliases: -
+Usage: *${prefix}email* email_target | subjek | pesan_email
+
 _Index of [3]_
     `
 }
@@ -872,6 +877,16 @@ Usage: *${prefix}sliding* teks
 Membuat gambar Wasted GTA V.
 Aliases: -
 Usage: Upload foto dengan caption *${prefix}wasted*
+
+26. *${prefix}caklontong*
+Bermain kuis caklontong.
+Aliases: -
+Usage: *${prefix}caklontong*
+
+27. *${prefix}hilih*
+Replace beberapa huruf menjadi i.
+Aliases: -
+Usage: *${prefix}hilih* teks
 
 _Index of [6]_
     `
