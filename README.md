@@ -215,6 +215,7 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 | Line sticker latest |      ✔️      |
 | Cek ongkir          |      ✔️      |
 | Read more           |      ✔️      |
+| Sending email       |      ✔️      |
 
 |          Fun          | Availability |
 | :-------------------: | :----------: |
