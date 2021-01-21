@@ -1063,7 +1063,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-            case 'email': //By: VideFrelan
+            case 'email': // By: VideFrelan
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const emailTarget = q.substring(0, q.indexOf('|') - 1)
@@ -1073,17 +1073,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 misc.email(emailTarget, subjectEmail, messageEmail)
                 .then(async ( { result }) => {
                     if (result.status === '204') {
-                        await vf.reply(from, `Server busy!`, id)
+                        await bocchi.reply(from, 'Server busy!', id)
                     } else {
-                    await bocchi.reply(from, `*Berhasil mengirim Email*!\n➸ *Target*: ${emailTarget}\n➸ *Subjek*: ${result.subjek}\n➸ *Pesan*: ${result.pesan}`, id)
+                    await bocchi.reply(from, `*Success sending email*!\n➸ *Target*: ${emailTarget}\n➸ *Subject*: ${result.subjek}\n➸ *Message*: ${result.pesan}`, id)
+                    console.log('Success sending email!')
                     }
-                })
-                .then(async () => {
-                    console.log('Success sending Email!')
-                })
-                .catch(async (err) => {
-                    console.error(err)
-                    await bocchi.reply(from, `Error!`, id)
                 })
             break
             case 'sms':
@@ -1916,20 +1910,17 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'hilih':
-                if (isLimit(serial)) return bocchi.reply(from, ind.limitEnd(), id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 fun.hilihteks(q)
                 .then(async ( { result }) => {
                     await bocchi.reply(from, result.kata, id)
-                })
-                .then(async () => {
                     console.log('Success sending hilih text!')
                 })
                 .catch(async (err) => {
                     console.error(err)
-                    await bocchi.reply(from, `Error!`, id)
+                    await bocchi.reply(from, 'Error!', id)
                 })
             break
             case 'dare':
@@ -1979,21 +1970,17 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'wasted':
-            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isMedia && type === 'image' || isQuotedImage) {
-                const encryptMediaWt = isQuotedImage ? quotedMsg : message
-                const dataPotoWt = await decryptMedia(encryptMediaWt, uaOverride)
-                const fotoWtNya = await uploadImages(dataPotoWt, `fotoProfilWt.${sender.id}`)
-                await bocchi.reply(from, ind.wait(), id)
-                await bocchi.sendFileFromUrl(from, `https://some-random-api.ml/canvas/wasted?avatar=${fotoWtNya}`, 'Wasted.jpg', 'Ini..., sticker nya lagi di kirim', id).then(() => bocchi.sendStickerfromUrl(from, `https://some-random-api.ml/canvas/wasted?avatar=${fotoWtNya}`))
-                console.log('Success sending Wasted image!')
-                .catch(async (err) => {
-                    console.error(err)
-                    await bocchi.reply(from, 'Error!', id)
-                })
-            } else {
-                await bocchi.reply(from, ind.wrongFormat(), id)
-            }
+                    const encryptMediaWt = isQuotedImage ? quotedMsg : message
+                    const dataPotoWt = await decryptMedia(encryptMediaWt, uaOverride)
+                    const fotoWtNya = await uploadImages(dataPotoWt, `fotoProfilWt.${sender.id}`)
+                    await bocchi.reply(from, ind.wait(), id)
+                    await bocchi.sendFileFromUrl(from, `https://some-random-api.ml/canvas/wasted?avatar=${fotoWtNya}`, 'Wasted.jpg', 'Ini..., sticker nya lagi di kirim', id).then(() => bocchi.sendStickerfromUrl(from, `https://some-random-api.ml/canvas/wasted?avatar=${fotoWtNya}`))
+                    console.log('Success sending Wasted image!')
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
             break
             case 'kiss':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
