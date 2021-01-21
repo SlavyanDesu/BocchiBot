@@ -1063,6 +1063,25 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
+            case 'email': //By: VideFrelan
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
+                const emailTarget = q.substring(0, q.indexOf('|') - 1)
+                const subjekEmail = q.substring(q.indexOf('|') + 2, q.lastIndexOf('|') - 1)
+                const pesanEmail = q.substring(q.lastIndexOf('|') + 2)
+                await bocchi.reply(from, ind.wait(), id)
+                misc.email(emailTarget, subjekEmail, pesanEmail)
+                .then(async ( { result }) => {
+                    await bocchi.reply(from, `*Berhasil mengirim Email*!\n➸ *Target*: ${emailTarget}\n➸ *Subjek*: ${result.subjek}\n➸ *Pesan*: ${result.pesan}`, id)
+                })
+                .then(async () => {
+                    console.log('Success sending Email!')
+                })
+                .catch(async (err) => {
+                    console.error(err)
+                    await bocchi.reply(from, `Error!`, id)
+                })
+            break
             case 'sms':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
