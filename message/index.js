@@ -1915,6 +1915,23 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
+            case 'hilih':
+                if (isLimit(serial)) return bocchi.reply(from, ind.limitEnd(), id)
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                fun.hilihteks(q)
+                .then(async ( { result }) => {
+                    await bocchi.reply(from, result.kata, id)
+                })
+                .then(async () => {
+                    console.log('Success sending hilih text!')
+                })
+                .catch(async (err) => {
+                    console.error(err)
+                    await bocchi.reply(from, `Error!`, id)
+                })
+            break
             case 'dare':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 fun.dare()
