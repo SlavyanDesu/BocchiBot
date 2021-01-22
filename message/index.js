@@ -2016,7 +2016,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'trash':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 try {
+                    await bocchi.reply(from, ind.wait(), id)
                      for (let i = 0; i < mentionedJidList.length; i++) {
                       var ypics = await bocchi.getProfilePicFromServer(mentionedJidList[i])
                         if (ypics === undefined) {
@@ -2028,9 +2031,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const ppRaw = ypics
                         canvas.Canvas.trash(ppRaw)
                             .then(async (buffer) => {
-                                canvas.write(buffer, `${sender.id}_trash.png`)
-                               await bocchi.sendFile(from, `${sender.id}_trash.png`, `${sender.id}_trash.png`, '', id)
-                                fs.unlinkSync(`${sender.id}_trash.png`)
+                                canvas.write(buffer, `./temp/${sender.id}_trash.png`)
+                               await bocchi.sendFile(from, `./temp/${sender.id}_trash.png`, `${sender.id}_trash.png`, '', id)
+                                fs.unlinkSync(`./temp/${sender.id}_trash.png`)
                            })         
                 } catch (err) {
                     console.error(err)
@@ -2038,7 +2041,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
            case 'hitler':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 try {
+                    await bocchi.reply(from, ind.wait(), id)
                      for (let i = 0; i < mentionedJidList.length; i++) {
                       var ypics = await bocchi.getProfilePicFromServer(mentionedJidList[i])
                         if (ypics === undefined) {
@@ -2050,9 +2056,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const ppRaw = ypics
                         canvas.Canvas.hitler(ppRaw)
                             .then(async (buffer) => {
-                                canvas.write(buffer, `${sender.id}_hitler.png`)
-                               await bocchi.sendFile(from, `${sender.id}_hitler.png`, `${sender.id}_hitler.png`, '', id)
-                                fs.unlinkSync(`${sender.id}_hitler.png`)
+                                canvas.write(buffer, `./temp/${sender.id}_hitler.png`)
+                               await bocchi.sendFile(from, `./temp/${sender.id}_hitler.png`, `${sender.id}_hitler.png`, '', id)
+                                fs.unlinkSync(`./temp/${sender.id}_hitler.png`)
                            })         
                 } catch (err) {
                     console.error(err)
