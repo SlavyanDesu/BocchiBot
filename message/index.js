@@ -3197,6 +3197,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, 'Success mute!', id)
                 }
             break
+            case 'setname':
+                if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
+                if (!q || q.length < 25) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.setMyName(q)
+                await bocchi.reply(from, `Done!\n\nUsername changed to: ${q}`, id)
+            break
             default:
                 if (isCmd) {
                     await bocchi.reply(from, ind.cmdNotFound(command), id)

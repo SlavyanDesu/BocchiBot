@@ -1112,6 +1112,11 @@ Mute semua user.
 Aliases: -
 Usage: Gunakan *${prefix}mute* untuk mute dan gunakan *${prefix}mute* kembali untuk unmute.
 
+13. *${prefix}setname*
+Mengganti username bot. Maksimal 25 huruf.
+Aliases: -
+Usage: *${prefix}name* username_baru
+
 _Index of [9]_
     `
 }
