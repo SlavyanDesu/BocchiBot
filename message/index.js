@@ -29,6 +29,7 @@ const api = new API()
 const sagiri = require('sagiri')
 const NanaAPI = require('nana-api')
 const nana = new NanaAPI()
+const bdr = require("rumus-bdr")
 const fetch = require('node-fetch')
 const isPorn = require('is-porn')
 const exec = require('await-exec')
@@ -1431,7 +1432,45 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.sendText(from, ind.registeredNotFound(serials))
                 }
             break
-
+            //EDUCATION
+                  case 'kelpersegi':
+        				 if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
+                                        gh = body.slice(12)
+                                        const persegi = bdr.datar.keliling.persegi(gh,false)
+                                        const caraPersegi = bdr.datar.keliling.persegi(gh,true)
+                                        teks = `*Hasil*: ${persegi}\n*Rumus*: ${caraPersegi}`
+                                        bocchi.reply(from, `${teks}`, id)
+                                        break
+        		case 'luaspersegi':
+        				 if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
+                                        gh = body.slice(13)
+                                        const luaspersegi = bdr.datar.luas.persegi(gh,false)
+                                         const luaspersegis = bdr.datar.luas.persegi(gh,true)
+                                        teks = `*Hasil*: ${luaspersegi}\n*Rumus*: ${luaspersegis}`
+                                        bocchi.reply(from, `${teks}`, id)
+                                        break
+                      case 'kuadrat':
+                      			 if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
+                                        gh = body.slice(9)
+                                         const kuadrat = bdr.rdb.kuadrat(gh)
+                                        teks = `*Hasil*: ${kuadrat}`
+                                        bocchi.reply(from, `${teks}`, id)
+                                        break
+                     case 'kali':
+                     			 if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
+                                        gh = body.slice(6)
+                                        ph1 = gh.split("|")[0];
+                                        ph2 = gh.split("|")[1]
+                                        const perkalian = bdr.rdb.perkalian(ph1,ph2)
+                                        bocchi.reply(from, `${perkalian}`, id)
+                                        break
+                     case 'kubik':
+                     			 if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
+                                        gh = body.slice(7)
+                                         const kubik = bdr.rdb.kubik(gh)
+                                        teks = `*Hasil*: ${kubik}`
+                                        bocchi.reply(from, `${teks}`, id)
+                                        break  
             // Weeb zone
             case 'neko':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
