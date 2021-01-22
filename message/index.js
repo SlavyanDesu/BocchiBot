@@ -3214,7 +3214,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
                 if (!q) return await bocchi.reply(from, ind.emptyMess(), id)
                 await bocchi.setMyStatus(q)
-                await bocchi.sendText(from, ind.doneOwner())
+                await bocchi.sendText(from, ind.doneOwner(), id)
             break
             case 'exif':
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
@@ -3238,7 +3238,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'setname':
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
-                if (!q || q.length < 25) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (!q || q.length > 25) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.setMyName(q)
                 await bocchi.reply(from, `Done!\n\nUsername changed to: ${q}`, id)
             break
