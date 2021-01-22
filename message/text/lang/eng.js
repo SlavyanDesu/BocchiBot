@@ -917,6 +917,11 @@ Toogle anti-NSFW link.
 Aliases: -
 Usage: *${prefix}antinsfw* enable/disable
 
+13. *${prefix}mutegc*
+Set group to admin only who can send a message.
+Aliases: -
+Usage: *${prefix}mutegc* enable/disable
+
 _Index of [7]_
     `
 }
@@ -1058,6 +1063,11 @@ Usage: *${prefix}serial* user_serial
 Adjust your sticker WM.
 Aliases: -
 Usage: *${prefix}exif* pack_name | author_name
+
+12. *${prefix}mute*
+Mute all users.
+Aliases: -
+Usage: Use *${prefix}mute* to mute and use *${prefix}mute* once again to unmute.
 
 _Index of [9]_
     `

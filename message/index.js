@@ -2257,7 +2257,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                         r: 255,
                                         g: 255,
                                         b: 255,
-                                        alpha: 0							
+                                        alpha: 0
                                     }
                                 })
                                 .toFile(`./temp/stage_${sender.id}.webp`, async (err) => {
@@ -2274,7 +2274,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                 })
                         })
                 } else {
-                   await bocchi.reply(from, ind.wrongFormat(), id)
+                    await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
             case 'stickergif':
