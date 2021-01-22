@@ -29,7 +29,7 @@ const api = new API()
 const sagiri = require('sagiri')
 const NanaAPI = require('nana-api')
 const nana = new NanaAPI()
-const bdr = require("rumus-bdr")
+const bdr = require('rumus-bdr')
 const fetch = require('node-fetch')
 const isPorn = require('is-porn')
 const exec = require('await-exec')
@@ -1432,45 +1432,31 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.sendText(from, ind.registeredNotFound(serials))
                 }
             break
+
             //EDUCATION
-                  case 'kelpersegi':
-        				 if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
-                                        gh = body.slice(12)
-                                        const persegi = bdr.datar.keliling.persegi(gh,false)
-                                        const caraPersegi = bdr.datar.keliling.persegi(gh,true)
-                                        teks = `*Hasil*: ${persegi}\n*Rumus*: ${caraPersegi}`
-                                        bocchi.reply(from, `${teks}`, id)
-                                        break
-        		case 'luaspersegi':
-        				 if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
-                                        gh = body.slice(13)
-                                        const luaspersegi = bdr.datar.luas.persegi(gh,false)
-                                         const luaspersegis = bdr.datar.luas.persegi(gh,true)
-                                        teks = `*Hasil*: ${luaspersegi}\n*Rumus*: ${luaspersegis}`
-                                        bocchi.reply(from, `${teks}`, id)
-                                        break
-                      case 'kuadrat':
-                      			 if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
-                                        gh = body.slice(9)
-                                         const kuadrat = bdr.rdb.kuadrat(gh)
-                                        teks = `*Hasil*: ${kuadrat}`
-                                        bocchi.reply(from, `${teks}`, id)
-                                        break
-                     case 'kali':
-                     			 if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
-                                        gh = body.slice(6)
-                                        ph1 = gh.split("|")[0];
-                                        ph2 = gh.split("|")[1]
-                                        const perkalian = bdr.rdb.perkalian(ph1,ph2)
-                                        bocchi.reply(from, `${perkalian}`, id)
-                                        break
-                     case 'kubik':
-                     			 if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
-                                        gh = body.slice(7)
-                                         const kubik = bdr.rdb.kubik(gh)
-                                        teks = `*Hasil*: ${kubik}`
-                                        bocchi.reply(from, `${teks}`, id)
-                                        break  
+            case 'kelpersegi':
+                if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
+                const persegi = bdr.datar.keliling.persegi(q, false)
+                const caraPersegi = bdr.datar.keliling.persegi(q, true)
+                await bocchi.reply(from, `*Hasil*: ${persegi}\n*Rumus*: ${caraPersegi}`, id)
+            break
+            case 'luaspersegi':
+                if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
+                const luaspersegi = bdr.datar.luas.persegi(q, false)
+                const luaspersegis = bdr.datar.luas.persegi(q, true)
+                await bocchi.reply(from, `*Hasil*: ${luaspersegi}\n*Rumus*: ${luaspersegis}`, id)
+            break
+            case 'kuadrat':
+                if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
+                const kuadrat = bdr.rdb.kuadrat(q)
+                await bocchi.reply(from, `*Hasil*: ${kuadrat}`, id)
+            break
+            case 'kubik':
+                if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
+                const kubik = bdr.rdb.kubik(q)
+                await bocchi.reply(from, `*Hasil*: ${kubik}`, id)
+            break
+
             // Weeb zone
             case 'neko':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -2020,46 +2006,44 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 try {
                     await bocchi.reply(from, ind.wait(), id)
-                     for (let i = 0; i < mentionedJidList.length; i++) {
-                      var ypics = await bocchi.getProfilePicFromServer(mentionedJidList[i])
+                    for (let i = 0; i < mentionedJidList.length; i++) {
+                        const ypics = await bocchi.getProfilePicFromServer(mentionedJidList[i])
                         if (ypics === undefined) {
                             var ypfps = errorImg
                         } else {
-                            var ypfps = ypics
+                            ypfps = ypics
                         }
                     }
-                    const ppRaw = ypics
-                        canvas.Canvas.trash(ppRaw)
-                            .then(async (buffer) => {
-                                canvas.write(buffer, `./temp/${sender.id}_trash.png`)
-                               await bocchi.sendFile(from, `./temp/${sender.id}_trash.png`, `${sender.id}_trash.png`, '', id)
-                                fs.unlinkSync(`./temp/${sender.id}_trash.png`)
-                           })         
+                    canvas.Canvas.trash(ypfps)
+                        .then(async (buffer) => {
+                            canvas.write(buffer, `./temp/${sender.id}_trash.png`)
+                            await bocchi.sendFile(from, `./temp/${sender.id}_trash.png`, `${sender.id}_trash.png`, '', id)
+                            fs.unlinkSync(`./temp/${sender.id}_trash.png`)
+                        })
                 } catch (err) {
                     console.error(err)
                     await bocchi.reply(from, 'Error!', id)
                 }
             break
-           case 'hitler':
+            case 'hitler':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 try {
                     await bocchi.reply(from, ind.wait(), id)
-                     for (let i = 0; i < mentionedJidList.length; i++) {
-                      var ypics = await bocchi.getProfilePicFromServer(mentionedJidList[i])
+                    for (let i = 0; i < mentionedJidList.length; i++) {
+                        const ypics = await bocchi.getProfilePicFromServer(mentionedJidList[i])
                         if (ypics === undefined) {
-                            var ypfps = errorImg
+                            var ypf = errorImg
                         } else {
-                            var ypfps = ypics
+                            ypf = ypics
                         }
                     }
-                    const ppRaw = ypics
-                        canvas.Canvas.hitler(ppRaw)
-                            .then(async (buffer) => {
-                                canvas.write(buffer, `./temp/${sender.id}_hitler.png`)
-                               await bocchi.sendFile(from, `./temp/${sender.id}_hitler.png`, `${sender.id}_hitler.png`, '', id)
-                                fs.unlinkSync(`./temp/${sender.id}_hitler.png`)
-                           })         
+                    canvas.Canvas.hitler(ypf)
+                        .then(async (buffer) => {
+                            canvas.write(buffer, `./temp/${sender.id}_hitler.png`)
+                            await bocchi.sendFile(from, `./temp/${sender.id}_hitler.png`, `${sender.id}_hitler.png`, '', id)
+                            fs.unlinkSync(`./temp/${sender.id}_hitler.png`)
+                        })
                 } catch (err) {
                     console.error(err)
                     await bocchi.reply(from, 'Error!', id)
@@ -2983,7 +2967,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
                 await bocchi.sendText(from, 'Sayounara~ 👋')
                 await bocchi.leaveGroup(groupId)
-            break	
+            break
             case 'admins':
             case 'admin':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -3291,6 +3275,19 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!q || q.length > 25) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.setMyName(q)
                 await bocchi.reply(from, `Done!\n\nUsername changed to: ${q}`, id)
+            break
+            case 'give':
+                if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
+                if (args.length !== 2) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (mentionedJidList.length !== 0) {
+                    for (let give of mentionedJidList) {
+                        level.addLevelingXp(give, Number(args[1]), _level)
+                        await bocchi.reply(from, `Sukses menambah XP kepada: ${give}\nJumlah ditambahkan: ${args[1]}`, id)
+                    }
+                } else {
+                    level.addLevelingXp(args[0] + '@c.us', Number(args[1]), _level)
+                    await bocchi.reply(from, `Sukses menambah XP kepada: ${args[0]}\nJumlah ditambahkan: ${args[1]}`, id)
+                }
             break
             default:
                 if (isCmd) {
