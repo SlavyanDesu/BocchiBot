@@ -53,7 +53,7 @@ moment.tz.setDefault('Asia/Jakarta').locale('id')
 /********** UTILS **********/
 const { msgFilter, color, processTime, isUrl, createSerial } = require('../tools')
 const { nsfw, weeaboo, downloader, fun, misc, toxic } = require('../lib')
-const { uploadImages, toBuffer } = require('../tools/fetcher')
+const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
 const { limit, level, card, register, afk, reminder, premium } = require('../function')
 const Exif = require('../tools/exif')
@@ -72,6 +72,7 @@ const _welcome = JSON.parse(fs.readFileSync('./database/group/welcome.json'))
 const _autosticker = JSON.parse(fs.readFileSync('./database/group/autosticker.json'))
 const _ban = JSON.parse(fs.readFileSync('./database/bot/banned.json'))
 const _premium = JSON.parse(fs.readFileSync('./database/bot/premium.json'))
+const _mute = JSON.parse(fs.readFileSync('./database/bot/mute.json'))
 const _registered = JSON.parse(fs.readFileSync('./database/bot/registered.json'))
 const _level = JSON.parse(fs.readFileSync('./database/user/level.json'))
 const _limit = JSON.parse(fs.readFileSync('./database/user/limit.json'))
@@ -123,6 +124,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isLevelingOn = isGroupMsg ? _leveling.includes(groupId) : false
         const isAutoStickerOn = isGroupMsg ? _autosticker.includes(groupId) : false
         const isAntiNsfw = isGroupMsg ? _antinsfw.includes(groupId) : false
+        const isMute = _mute.includes(ownerNumber)
         const isAfkOn = afk.checkAfkUser(sender.id, _afk)
         const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
         const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
@@ -294,6 +296,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             if (!isGroupMsg) await bocchi.reply(from, `Waalaikumsalam , Halo Kak, Untuk Memulai bot silahkan ketik ${prefix}menu`, id)
         }
         */
+
+        // Mute
+        if (isCmd && isMute && !isOwner) return
         
         // Ignore banned and blocked users
         if (isCmd && (isBanned || isBlocked) && !isGroupMsg) return console.log(color('[BAN]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
@@ -1075,8 +1080,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     if (result.status === '204') {
                         await bocchi.reply(from, 'Server busy!', id)
                     } else {
-                    await bocchi.reply(from, `*Success sending email*!\n➸ *Target*: ${emailTarget}\n➸ *Subject*: ${result.subjek}\n➸ *Message*: ${result.pesan}`, id)
-                    console.log('Success sending email!')
+                        await bocchi.reply(from, `*Success sending email*!\n➸ *Target*: ${emailTarget}\n➸ *Subject*: ${result.subjek}\n➸ *Message*: ${result.pesan}`, id)
+                        console.log('Success sending email!')
                     }
                 })
             break
@@ -1379,11 +1384,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 let listPremi = '「 *PREMIUM USER LIST* 」\n\n'
                 let nomorList = 0
+                const deret = premium.getAllPremiumUser(_premium)
                 const arrayPremi = []
-                for (let i = 0; i < premium.getAllPremiumUser(_premium).length; i++) {
+                for (let i = 0; i < deret.length; i++) {
+                    const checkExp = ms(premium.getPremiumExpired(deret[i], _premium) - Date.now())
                     arrayPremi.push(await bocchi.getContact(premium.getAllPremiumUser(_premium)[i]))
                     nomorList++
-                    listPremi += `${nomorList}. ${premium.getAllPremiumUser(_premium)[i]}\n➸ *Name*: ${arrayPremi[i].pushname}\n\n`
+                    listPremi += `${nomorList}. wa.me/${premium.getAllPremiumUser(_premium)[i].replace('@c.us', '')}\n➸ *Name*: ${arrayPremi[i].pushname}\n➸ *Expired*: ${checkExp.days} day(s) ${checkExp.hours} hour(s) ${checkExp.minutes} minute(s)\n\n`
                 }
                 await bocchi.reply(from, listPremi, id)
             break
@@ -2818,7 +2825,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
             // Moderation command
             case 'mutegc':
-            case 'mute': 
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return bocchi.reply(from, ind.adminOnly(), id)
@@ -3178,6 +3184,18 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const authorPack = q.substring(q.lastIndexOf('|') + 2)
                 exif.create(namaPack, authorPack)
                 await bocchi.reply(from, ind.doneOwner(), id)
+            break
+            case 'mute':
+                if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
+                if (isMute) {
+                    _mute.splice(sender.id, 1)
+                    fs.writeFileSync('./database/bot/mute.json', JSON.stringify(_mute))
+                    await bocchi.reply(from, 'Success unmute!', id)
+                } else {
+                    _mute.push(sender.id)
+                    fs.writeFileSync('./database/bot/mute.json', JSON.stringify(_mute))
+                    await bocchi.reply(from, 'Success mute!', id)
+                }
             break
             default:
                 if (isCmd) {

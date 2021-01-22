@@ -956,6 +956,11 @@ Mematikan/menyalakan fitur anti-NSFW link.
 Aliases: -
 Usage: *${prefix}antinsfw* enable/disable
 
+13. *${prefix}mutegc*
+Set group hanya admin yang bisa mengirim pesan.
+Aliases: -
+Usage: *${prefix}mutegc* enabled/disable
+
 _Index of [7]_
     `
 }
@@ -1101,6 +1106,11 @@ Usage: *${prefix}serial* serial_user
 Atur WM stiker bot.
 Aliases: -
 Usage: *${prefix}exif* pack_name | author_name
+
+12. *${prefix}mute*
+Mute semua user.
+Aliases: -
+Usage: Gunakan *${prefix}mute* untuk mute dan gunakan *${prefix}mute* kembali untuk unmute.
 
 _Index of [9]_
     `
