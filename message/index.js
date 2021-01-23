@@ -1321,6 +1321,21 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.sendContact(from, ownerNumber)
             break
+           case 'runtime':  //BY HAFIZH
+	             if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                function format(seconds){
+                function pad(s){
+                return (s < 10 ? '0' : '') + s;
+                }
+                var hours = Math.floor(seconds / (60*60));
+                var minutes = Math.floor(seconds % (60*60) / 60);
+                var seconds = Math.floor(seconds % 60);
+
+                return ' ' + pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
+                 }
+                var uptime = process.uptime();
+                bocchi.reply(from, `*Bot telah berjalan*\n ❏${format(uptime)}`, id)
+               break
             case 'ping':
             case 'p':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
