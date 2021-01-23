@@ -886,7 +886,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wait(), id)
                     const encryptMedia = isQuotedVideo ? quotedMsg : message
                     const _mimetype = isQuotedVideo ? quotedMsg.mimetype : mimetype
-                    console.log(color('[WAPI]', 'green'), 'Downloading and decrypt media...')
+                    console.log(color('[WAPI]', 'green'), 'Downloading and decrypting media...')
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
                     const temp = './temp'
                     const name = new Date() * 1
@@ -896,15 +896,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         if (err) return console.error(err)
                         ffmpeg(fileInputPath)
                             .format('mp3')
-                            .on('start', (commandLine) => {
-                                console.log(color('[FFmpeg]', 'green'), commandLine)
-                            })
-                            .on('progress', (progress) => {
-                                console.log(color('[FFmpeg]', 'green'), progress)
-                            })
+                            .on('start', (commandLine) => console.log(color('[FFmpeg]', 'green'), commandLine))
+                            .on('progress', (progress) => console.log(color('[FFmpeg]', 'green'), progress))
                             .on('end', async () => {
                                 console.log(color('[FFmpeg]', 'green'), 'Processing finished!')
                                 await bocchi.sendFile(from, fileOutputPath, 'audio.mp3', '', id)
+                                console.log(color('[WAPI]', 'green'), 'Success sending mp3!')
                                 setTimeout(() => {
                                     fs.unlinkSync(fileInputPath)
                                     fs.unlinkSync(fileOutputPath)
@@ -1976,35 +1973,70 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'triggered':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                try {
-                    if (isMedia && isImage) {
-                        const ppRaw = await decryptMedia(message, uaOverride)
-                        canvas.Canvas.trigger(ppRaw)
-                            .then(async (buffer) => {
-                                canvas.write(buffer, `${sender.id}_triggered.png`)
-                                await bocchi.sendFile(from, `${sender.id}_triggered.png`, `${sender.id}_triggered.png`, '', id)
-                                fs.unlinkSync(`${sender.id}_triggered.png`)
-                            })
-                    } else if (quotedMsg) {
-                        const ppRaw = await bocchi.getProfilePicFromServer(quotedMsgObj.sender.id)
-                        canvas.Canvas.trigger(ppRaw)
-                            .then(async (buffer) => {
-                                canvas.write(buffer, `${sender.id}_triggered.png`)
-                                await bocchi.sendFile(from, `${sender.id}_triggered.png`, `${sender.id}_triggered.png`, '', id)
-                                fs.unlinkSync(`${sender.id}_triggered.png`)
-                            })
-                    } else {
-                        const ppRaw = await bocchi.getProfilePicFromServer(sender.id)
-                        canvas.Canvas.trigger(ppRaw)
-                            .then(async (buffer) => {
-                                canvas.write(buffer, `${sender.id}_triggered.png`)
-                                await bocchi.sendFile(from, `${sender.id}_triggered.png`, `${sender.id}_triggered.png`, '', id)
-                                fs.unlinkSync(`${sender.id}_triggered.png`)
-                            })
-                    }
-                } catch (err) {
-                    console.error(err)
-                    await bocchi.reply(from, 'Error!', id)
+                if (isMedia && isImage || isQuotedImage) {
+                    await bocchi.reply(from, ind.wait(), id)
+                    const encryptMedia = isQuotedImage ? quotedMsg : message
+                    console.log(color('[WAPI]', 'green'), 'Downloading and decrypting media...')
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const temp = './temp'
+                    const name = new Date() * 1
+                    const fileInputPath = path.join(temp, `${name}.gif`)
+                    const fileOutputPath = path.join(temp, 'video', `${name}.mp4`)
+                    canvas.Canvas.trigger(mediaData)
+                        .then((buffer) => {
+                            canvas.write(buffer, fileInputPath)
+                            ffmpeg(fileInputPath)
+                                .outputOptions([
+                                    '-movflags faststart',
+                                    '-pix_fmt yuv420p',
+                                    '-vf scale=trunc(iw/2)*2:trunc(ih/2)*2'
+                                ])
+                                .inputFormat('gif')
+                                .on('start', (commandLine) => console.log(color('[FFmpeg]', 'green'), commandLine))
+                                .on('progress', (progress) => console.log(color('[FFmpeg]', 'green'), progress))
+                                .on('end', async () => {
+                                    console.log(color('[FFmpeg]', 'green'), 'Processing finished!')
+                                    await bocchi.sendVideoAsGif(from, fileOutputPath, 'triggered.gif', '', id)
+                                    console.log(color('[WAPI]', 'green'), 'Success sending GIF!')
+                                    setTimeout(() => {
+                                        fs.unlinkSync(fileInputPath)
+                                        fs.unlinkSync(fileOutputPath)
+                                    }, 30000)
+                                })
+                                .save(fileOutputPath)
+                        })
+                } else {
+                    await bocchi.reply(from, ind.wait(), id)
+                    const ppRaw = await bocchi.getProfilePicFromServer(sender.id)
+                    console.log(color('[WAPI]', 'green'), 'Downloading and decrypting media...')
+                    const mediaData = await decryptMedia(ppRaw, uaOverride)
+                    const temp = './temp'
+                    const name = new Date() * 1
+                    const fileInputPath = path.join(temp, `${name}.gif`)
+                    const fileOutputPath = path.join(temp, 'video', `${name}.mp4`)
+                    canvas.Canvas.trigger(mediaData)
+                        .then((buffer) => {
+                            canvas.write(buffer, fileInputPath)
+                            ffmpeg(fileInputPath)
+                                .outputOptions([
+                                    '-movflags faststart',
+                                    '-pix_fmt yuv420p',
+                                    '-vf scale=trunc(iw/2)*2:trunc(ih/2)*2'
+                                ])
+                                .inputFormat('gif')
+                                .on('start', (commandLine) => console.log(color('[FFmpeg]', 'green'), commandLine))
+                                .on('progress', (progress) => console.log(color('[FFmpeg]', 'green'), progress))
+                                .on('end', async () => {
+                                    console.log(color('[FFmpeg]', 'green'), 'Processing finished!')
+                                    await bocchi.sendVideoAsGif(from, fileOutputPath, 'triggered.gif', '', id)
+                                    console.log(color('[WAPI]', 'green'), 'Success sending GIF!')
+                                    setTimeout(() => {
+                                        fs.unlinkSync(fileInputPath)
+                                        fs.unlinkSync(fileOutputPath)
+                                    }, 30000)
+                                })
+                                .save(fileOutputPath)
+                        })
                 }
             break
             case 'trash':
