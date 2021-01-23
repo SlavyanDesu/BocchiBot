@@ -443,7 +443,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         console.error(err)
                         await bocchi.reply(from, 'Error!', id)
                     })
-            break
+            break 
             case 'facebook':
             case 'fb':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(pushname), id)
@@ -1658,6 +1658,53 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Fun
+            case 'bapak': // By Kris
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                axios.get(`https://api.terhambar.com/bpk?kata=${q}`)
+                    .then(async (res) => await bocchi.reply(from, res.data.text, id))
+                    .catch(async (err) => {
+                        consol.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
+            break
+            case 'puisi': // By Kris
+	            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                await bocchi.reply(from, ind.wait(), id)
+		        axios.get('https://masgi.herokuapp.com/api/puisi2')
+                    .then(async (res) => await bocchi.reply(from, res.data.data, id))
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
+		    break
+            case 'cerpen': // By Kris
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                axios.get('https://masgi.herokuapp.com/api/cerpen')
+                    .then(async (res) => await bocchi.reply(from, res.data.data, id))
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
+		    break
+            case 'creepyfact': // By Kris
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return bocchi.reply(from, ind.groupOnly(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                fetch('https://raw.githubusercontent.com/TheSploit/CreepyFact/main/creepy.txt')
+                    .then((res) => res.text())
+                    .then(async (body) => {
+                        let creepyx = body.split('\n')
+                        let creepyz = creepyx[Math.floor(Math.random() * creepyx.length)]
+                        await bocchi.reply(from, creepyz, id)
+                    })
+                    .catch(async () => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
+            break
             case 'asupan': // shansekai
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
