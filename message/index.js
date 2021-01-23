@@ -1665,20 +1665,20 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 axios.get(`https://api.terhambar.com/bpk?kata=${q}`)
                     .then(async (res) => await bocchi.reply(from, res.data.text, id))
                     .catch(async (err) => {
-                        consol.error(err)
+                        console.error(err)
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'puisi': // By Kris
-	            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
-		        axios.get('https://masgi.herokuapp.com/api/puisi2')
+                axios.get('https://masgi.herokuapp.com/api/puisi2')
                     .then(async (res) => await bocchi.reply(from, res.data.data, id))
                     .catch(async (err) => {
                         console.error(err)
                         await bocchi.reply(from, 'Error!', id)
                     })
-		    break
+            break
             case 'cerpen': // By Kris
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -1688,7 +1688,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         console.error(err)
                         await bocchi.reply(from, 'Error!', id)
                     })
-		    break
+            break
             case 'creepyfact': // By Kris
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return bocchi.reply(from, ind.groupOnly(), id)
@@ -1700,7 +1700,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         let creepyz = creepyx[Math.floor(Math.random() * creepyx.length)]
                         await bocchi.reply(from, creepyz, id)
                     })
-                    .catch(async () => {
+                    .catch(async (err) => {
                         console.error(err)
                         await bocchi.reply(from, 'Error!', id)
                     })
