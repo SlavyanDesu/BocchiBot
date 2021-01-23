@@ -2731,7 +2731,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                             const { tags, artists, languages, categories } = details
                             let teks = `*Title*: ${title}\n\n*Tags*: ${tags.join(', ')}\n\n*Artists*: ${artists}\n\n*Languages*: ${languages.join(', ')}\n\n*Categories*: ${categories}\n\n*Link*: ${link}`
                             await bocchi.sendFileFromUrl(from, pic, 'nhentai.jpg', teks, id)
-                                .then(() => console.log('Success sending nHentai info!'))
+                            console.log('Success sending nHentai info!')
                         } catch (err) {
                             console.error(err)
                             await bocchi.reply(from, 'Error!', id)
@@ -2754,7 +2754,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                             const { tags, artists, languages, categories } = details
                             let teks = `*Title*: ${title}\n\n*Tags*: ${tags.join(', ')}\n\n*Artists*: ${artists}\n\n*Languages*: ${languages.join(', ')}\n\n*Categories*: ${categories}\n\n*Link*: ${link}`
                             await bocchi.sendFileFromUrl(from, pic, 'nhentai.jpg', teks, id)
-                                .then(() => console.log('Success sending nHentai info!'))
+                            console.log('Success sending nHentai info!')
                         } catch (err) {
                             console.error(err)
                             await bocchi.reply(from, 'Error!', id)
