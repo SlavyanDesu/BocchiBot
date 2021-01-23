@@ -1321,21 +1321,20 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.sendContact(from, ownerNumber)
             break
-           case 'runtime':  //BY HAFIZH
-	             if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                function format(seconds){
-                function pad(s){
-                return (s < 10 ? '0' : '') + s;
+            case 'runtime': // BY HAFIZH
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                const formater = (seconds) => {
+                    const pad = (s) => {
+                        return (s < 10 ? '0' : '') + s
+                    }
+                    const hrs = Math.floor(seconds / (60 * 60))
+                    const mins = Math.floor(seconds % (60 * 60) / 60)
+                    const secs = Math.floor(seconds % 60)
+                    return ' ' + pad(hrs) + ':' + pad(mins) + ':' + pad(secs)
                 }
-                var hours = Math.floor(seconds / (60*60));
-                var minutes = Math.floor(seconds % (60*60) / 60);
-                var seconds = Math.floor(seconds % 60);
-
-                return ' ' + pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
-                 }
-                var uptime = process.uptime();
-                bocchi.reply(from, `*Bot telah berjalan*\n ❏${format(uptime)}`, id)
-               break
+                const uptime = process.uptime()
+                await bocchi.reply(from, `── *「 BOT UPTIME 」* ──\n\n ❏${formater(uptime)}`, id)
+            break
             case 'ping':
             case 'p':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -3002,7 +3001,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wait(), id)
                     nsfw.cersex()
                         .then(async ({ result }) => {
-                            await bocchi.sendFileFromUrl(from, result.image, 'cersex.jpg', `──*「 ${result.judul} 」*──\n\n${result.cerita}`, id)
+                            await bocchi.sendFileFromUrl(from, result.image, 'cersex.jpg', `── *「 ${result.judul} 」* ──\n\n${result.cerita}`, id)
                             console.log('Success sending cersex!')
                         })
                         .catch(async (err) => {
@@ -3013,7 +3012,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wait(), id)
                     nsfw.cersex()
                         .then(async ({ result }) => {
-                            await bocchi.sendFileFromUrl(from, result.image, 'cersex.jpg', `──*「 ${result.judul} 」*──\n\n${result.cerita}`, id)
+                            await bocchi.sendFileFromUrl(from, result.image, 'cersex.jpg', `── *「 ${result.judul} 」* ──\n\n${result.cerita}`, id)
                             console.log('Success sending cersex!')
                         })
                         .catch(async (err) => {
