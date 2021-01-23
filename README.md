@@ -327,6 +327,7 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 * [`shansekai`](https://github.com/shansekai)
 * [`Baguettou`](https://github.com/Baguettou)
 * [`HAFizh-15`](https://github.com/HAFizh-15)
+* [`TheSploit`](https://github.com/TheSploit)
 
 # License
 **BocchiBot** © [SlavyanDesu](https://github.com/SlavyanDesu), released under the MIT License.
