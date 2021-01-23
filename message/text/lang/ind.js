@@ -1039,6 +1039,11 @@ Nekopoi search.
 Aliases: -
 Usage: *${prefix}nekosearch* query
 
+15. *${prefix}cersex*
+Random cerita sex.
+Aliases: -
+Usage: *${prefix}cersex*
+
 _Index of [8]_
     `
 }

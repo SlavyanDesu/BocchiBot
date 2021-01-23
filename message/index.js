@@ -449,8 +449,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(pushname), id)
                 if (!isUrl(url) && !url.includes('facebook.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
-                downloader.fb(q)
-                .then(async ({ result }) => {
+                downloader.fb(url)
+                    .then(async ({ result }) => {
                             await bocchi.sendFileFromUrl(from, result.VideoUrl, 'videofb.mp4', '', id)
                             console.log(from, 'Success sending Facebook video!')
                     })
@@ -2899,6 +2899,33 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, ind.wait(), id)
                     await bocchi.sendFileFromUrl(from, (await neko.nsfw.femdom()).url, 'femdom.jpg', '', id)
+                }
+            break
+            case 'cersex':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (isGroupMsg) {
+                    if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
+                    await bocchi.reply(from, ind.wait(), id)
+                    nsfw.cersex()
+                        .then(async ({ result }) => {
+                            await bocchi.sendFileFromUrl(from, result.image, 'cersex.jpg', `──*「 ${result.judul} 」*──\n\n${result.cerita}`, id)
+                            console.log('Success sending cersex!')
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, 'Error!', id)
+                        })
+                } else {
+                    await bocchi.reply(from, ind.wait(), id)
+                    nsfw.cersex()
+                        .then(async ({ result }) => {
+                            await bocchi.sendFileFromUrl(from, result.image, 'cersex.jpg', `──*「 ${result.judul} 」*──\n\n${result.cerita}`, id)
+                            console.log('Success sending cersex!')
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, 'Error!', id)
+                        })
                 }
             break
 
