@@ -2057,7 +2057,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                 .on('progress', (progress) => console.log(color('[FFmpeg]', 'green'), progress))
                                 .on('end', async () => {
                                     console.log(color('[FFmpeg]', 'green'), 'Processing finished!')
-                                    await bocchi.sendVideoAsGif(from, fileOutputPath, 'triggered.gif', '', id)
+                                    await bocchi.sendMp4AsSticker(from, fileOutputPath, { fps: 30, startTime: `00:00:00.0`, endTime : `00:00:05.0`, loop: 0 })
                                     console.log(color('[WAPI]', 'green'), 'Success sending GIF!')
                                     setTimeout(() => {
                                         fs.unlinkSync(fileInputPath)
