@@ -1090,7 +1090,7 @@ Usage: *${prefix}leaderboard*
 3. *${prefix}setbackground*
 Set background level card.
 Aliases: *setbg*
-Usage: *${prefix}setbackground* image_link
+Usage: Send images with caption *${prefix}setbackground* or reply to the images with a caption *${prefix}setbackground*.
 
 _Index of [10]_
     `

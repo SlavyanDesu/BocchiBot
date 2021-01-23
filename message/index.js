@@ -11,7 +11,7 @@
  *
  * If you want to contributing to this source code, pull requests are always open.
  * Apabila kamu ingin berkontribusi ke source code ini, pull request selalu kami buka.
- * 
+ *
  * Thanks for the contributions.
  * Terima kasih atas kontribusinya.
  */
@@ -101,7 +101,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const time = moment(t * 1000).format('DD/MM/YY HH:mm:ss')
 
         const chats = (type === 'chat') ? body : ((type === 'image' || type === 'video')) ? caption : ''
-        const prefix  = config.prefix
+        const prefix = config.prefix
         body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video') && caption) && caption.startsWith(prefix)) ? caption : ''
         const command = body.slice(1).trim().split(/ +/).shift().toLowerCase()
         const args = body.trim().split(/ +/).slice(1)
@@ -393,12 +393,18 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
-                if (!isUrl(url)) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const levels = level.getLevelingLevel(sender.id, _level)
                 const xps = level.getLevelingXp(sender.id, _level)
                 if (levels === undefined && xps === undefined) return await bocchi.reply(from, ind.levelNull(), id)
-                card.replaceBg(sender.id, url, _bg)
-                await bocchi.reply(from, 'Success set new background!', id)
+                if (isMedia && isImage || isQuotedImage) {
+                    const encryptMedia = isQuotedImage ? quotedMsg : message
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const link = await uploadImages(mediaData, `${sender.id}_bg`)
+                    card.replaceBg(sender.id, link, _bg)
+                    await bocchi.reply(from, 'Success set new background!', id)
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
             break
 
             // Downloader
