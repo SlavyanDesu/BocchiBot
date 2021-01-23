@@ -444,6 +444,54 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
+             case 'igdl1':  //By Kris
+                        case 'igdownload':
+                           //if (!isPremium) return bocchi.reply(from, 'Command ini hanya dapat digunakan oleh User Premium', id)
+						   if (args.length == 0) return bocchi.reply(from, `Kirim perintah *${prefix}ig [linkIg]*`, id)
+                            const igUrl = body.split(' ')[1]
+                            if (!igUrl.startsWith('https://www.instagram.com')) return bocchi.reply(from, 'Maaf, ini bukan link instagram!')
+                            bocchi.reply(from, mess.wait, id)
+                             {
+                                request.get({
+                                    url: `http://keepsaveit.com/api?api_key=Fj4OgInAUVRvNK16phVoT9KzNg6D4vigTZQZlVLchaClRr&url=${igUrl}`,
+                                    json: true,
+                                    headers: {
+                                        'User-Agent': 'request'
+                                    }
+                                }, (err, res, data) => {
+                                    if (err) {
+                                        console.log('Error : ', err);
+                                    } else if (res.statusCode !== 200) {
+                                        console.log('Status:', res.statusCode);
+                                        bocchi.reply(from, data.msg, id)
+                                    } else {
+                                        const { title, links } = data.response
+                                        const { ext, url, size, resolution } = links
+                                        const regexIg = /\\\//gi;
+                                        const thisUrlIg = url.replace(regexIg, '/')
+                                        if (ext === 'mp4') {
+                                            bocchi.sendFileFromUrl(from, thisUrlIg, 'KZ0-IGDL.mp4', `*From :* ${title.split(' on')[0]}\n*Size :* ${size}\n*Resolusi :* ${resolution}\n\n--------「 SPL BOT 」-------`, id)
+                                        } else {
+                                            bocchi.sendFileFromUrl(from, thisUrlIg, 'KZ0-IGDL.mp3', `*From:* ${title.split(' on')[0]}\n*Size:* ${size}`, id)
+                                        }
+                                    }
+                            })
+                        }
+                                break
+	case 'creepyfact': //By Kris
+    if (!isGroupMsg) return bocchi.reply(from, 'Perintah ini hanya bisa digunakan didalam grup!', id)
+            fetch('https://raw.githubusercontent.com/TheSploit/CreepyFact/main/creepy.txt')
+            .then(res => res.text())
+            .then(body => {
+                let creepyx = body.split('\n')
+                let creepyz = creepyx[Math.floor(Math.random() * creepyx.length)]
+                bocchi.reply(from, creepyz, id)
+            })
+            .catch(() => {
+                bocchi.reply(from, 'Bjir, ada yang error cuk', id)
+            })
+            break   
+                
             case 'facebook':
             case 'fb':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(pushname), id)
@@ -1042,6 +1090,26 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
+            case 'bapak': //By Kris
+            if(args.length === 0) return bocchi.reply(from, 'gunakan format !bapak kata kata \nContoh *!bapak Hai Sayang*', id)
+            const bapak = body.slice(7) 
+            const bapakapi = await get.get(`https://api.terhambar.com/bpk?kata=${bapak}`).json()
+            await bocchi.reply(from, bapakapi.text, id)
+            break
+	
+	case 'puisi':  //By Kris
+	     bocchi.reply(from, mess.wait, id)
+		 const puisi = await fetch(`https://masgi.herokuapp.com/api/puisi2`)
+		 const pumisi = await puisi.json()
+		 bocchi.reply(from, pumisi.data, id)
+		 break		
+	case 'cerpen': //By Kris
+	     bocchi.reply(from, mess.wait, id)
+		 const cerpen = await fetch(`https://masgi.herokuapp.com/api/cerpen`)
+		 const cherpem = await cerpen.json()
+		 bocchi.reply(from, cherpem.data, id)
+		 break	    
+                
             case 'play':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
