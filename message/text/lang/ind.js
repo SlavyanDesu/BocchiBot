@@ -634,6 +634,11 @@ Mengirim email secara anonymous.
 Aliases: -
 Usage: *${prefix}email* email_target | subjek | pesan_email
 
+36. *${prefix}quotes*
+Random quotes bahasa indonesia.
+Aliases: -
+Usage: *${prefix}quotes*
+
 _Index of [3]_
     `
 }
