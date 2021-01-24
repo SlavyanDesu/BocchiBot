@@ -15,7 +15,7 @@
  * Thanks for the contributions.
  * Terima kasih atas kontribusinya.
  */
-// 
+
 /********** MODULES **********/
 const { decryptMedia, Client } = require('@open-wa/wa-automate')
 const fs = require('fs-extra')
