@@ -15,7 +15,7 @@
  * Thanks for the contributions.
  * Terima kasih atas kontribusinya.
  */
-
+// 
 /********** MODULES **********/
 const { decryptMedia, Client } = require('@open-wa/wa-automate')
 const fs = require('fs-extra')
@@ -1714,6 +1714,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         console.error(err)
                         await bocchi.reply(from, 'Error!', id)
                     })
+            break
+            case 'quotes':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                misc.quotes()
+                .then(async ({ result }) => {
+                    await bocchi.reply(from, `➸ *Quotes*: ${result.quotes}\n➸ *Author*: ${result.author}`, id)
+                })
             break
             case 'asupan': // shansekai
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
