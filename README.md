@@ -216,6 +216,7 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 | Cek ongkir          |      ✔️      |
 | Read more           |      ✔️      |
 | Sending email       |      ✔️      |
+| Random quotes       |      ✔️      |
 
 |          Fun          | Availability |
 | :-------------------: | :----------: |
