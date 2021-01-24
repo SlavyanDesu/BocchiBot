@@ -1208,24 +1208,20 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
+            case 'call':
             case 'spamcall':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
-                if (isNaN(Number(args[0]))) return await bocchi.reply(from, ind.wrongFormat())
+                if (!q) return bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
-                misc.spamcall(args[0])
-                    .then(async ({ status, logs, msg }) => {
-                        if (status !== 200) {
-                            await bocchi.reply(from, msg, id)
-                        } else {
-                            await bocchi.reply(from, logs, id)
-                            console.log('Success sending spam!')
-                        }
-                    })
-                    .catch(async (err) => {
-                        console.error(err)
-                        await bocchi.reply(from, 'Error!', id)
-                    })
+                misc.call(q)
+                .then(async ({ result }) => {
+                    await bocchi.reply(from, result.logs, id)
+                    console.log(`Success calling number: ${q}`)
+                })
+                .catch(async (err) => {
+                    console.error(err)
+                    await bocchi.reply(from, `Error!`, id)  
+                })
             break
             case 'spamsms':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
