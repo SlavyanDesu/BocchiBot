@@ -893,6 +893,11 @@ Replace beberapa huruf menjadi i.
 Aliases: -
 Usage: *${prefix}hilih* teks
 
+28. *${prefix}tebakgambar*
+Bermain kuis tebak gambar.
+Aliases: -
+Usage: *${prefix}tebakgambar*
+
 _Index of [6]_
     `
 }
