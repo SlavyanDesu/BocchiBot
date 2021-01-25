@@ -1889,6 +1889,33 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, 'Error!')
                 })
             break
+            case 'tebakgambar':
+                if (!isGroupMsg) return bocchi.reply(from, ind.groupOnly(), id)
+                if (!isRegistered) return  bocchi.reply(from, ind.notRegistered(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                fun.tbkgmbr()
+                .then(async ( { result }) => {
+                    await bocchi.sendFileFromUrl(from, result.soal_gbr, `TebakGambar.jpg`, ``, id)
+                    bocchi.sendText(from, `50 Detik Tersisa...`, id)
+                    await sleep(10000)
+                    bocchi.sendText(from, `40 Detik Tersisa...`, id)
+                    await sleep(10000)
+                    bocchi.sendText(from, `30 Detik Tersisa...`, id)
+                    await sleep(10000)
+                    bocchi.sendText(from, `20 Detik Tersisa...`, id)
+                    await sleep(10000)
+                    bocchi.sendText(from, `10 Detik Tersisa...`, id)
+                    await sleep(10000)
+                    await bocchi.reply(from, `➸ *Jawaban*: ${result.jawaban}`, id)
+                })
+                .then(async () => {
+                    console.log('Success sending tebakgambar result!')
+                })
+                .catch(async (err) => {
+                    console.error(err)
+                    await bocchi.reply(from, 'Error!')
+                }) 
+            break    
             case 'fflogo': // By: VideFrelan
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return bocchi.reply(from, `Untuk membuat Logo Karakter Freefire\ngunakan ${prefix}fflogo karakter | teks\n\nContoh: ${prefix}fflogo alok | Fikri gans`, id)
