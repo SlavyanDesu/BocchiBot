@@ -245,6 +245,7 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 | Wasted image          |      ✔️      |
 | Caklontong quiz       |      ✔️      |
 | Hilih text            |      ✔️      |
+| Tebakgambar quiz      |      ✔️      |
 
 |      Weeb Zone     | Availability |
 | :----------------: | :----------: |
