@@ -48,6 +48,7 @@ const canvas = require('canvacord')
 const mathjs = require('mathjs')
 const emojiUnicode = require('emoji-unicode')
 const moment = require('moment-timezone')
+const translate = require('@vitalets/google-translate-api')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 /********** END OF MODULES **********/
 
@@ -1243,7 +1244,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-
+			case 'translate':
+			case 'trans':
+			    if (!q.includes('|')) return await bocchi.reply(from, en.wrongFormat(), id)
+                const texto = q.substring(0, q.indexOf('|') - 1)
+                const languaget = q.substring(q.lastIndexOf('|') + 2)
+					translate(texto, {to: languaget}).then(res => {bocchi.reply(from, res.text, id)})
+			break
             // Bot
             case 'menu':
             case 'help':
