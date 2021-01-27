@@ -318,6 +318,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         if (isCmd && !isOwner) msgFilter.addFilter(from)
 
         switch (command) {
+	    case 'antiporn': //PREMIUM
+		bocchi.reply(from, 'Premium Feature!\n\nContact: wa.me/6285692655520?text=Buy%20Anti%20Porn', id)
+	    break
             // Register by Slavyan
             case 'register':
                 if (isRegistered) return await bocchi.reply(from, ind.registeredAlready(), id)
