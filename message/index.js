@@ -1246,7 +1246,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 	    case 'translate':
 	    case 'trans':
-    		if (!isRegistered) return await vf.reply(from, ind.notRegistered(), id)
+    		if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
     		if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
     		const texto = q.substring(0, q.indexOf('|') - 1)
     		const languaget = q.substring(q.lastIndexOf('|') + 2)
