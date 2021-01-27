@@ -452,10 +452,10 @@ Create a shortlink.
 Aliases: -
 Usage: *${prefix}shortlink* link
 
-4. *${prefix}wikipedia*
+4. *${prefix}wikien*
 Send Wikipedia from the given text.
-Aliases: *wiki*
-Usage: *${prefix}wikipedia* text
+Aliases: -
+Usage: *${prefix}wikien* query
 
 5. *${prefix}kbbi*
 Send word definitions from KBBI.
