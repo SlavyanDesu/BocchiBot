@@ -298,6 +298,7 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 | Auto-sticker     |      ✔️      |
 | Mute group       |      ✔️      |
 | Anti-NSFW link   |      ✔️      |
+| Anti-Porn        |    Premium   |
 
 |        NSFW        | Availability |
 | :----------------: | :----------: |
