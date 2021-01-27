@@ -1244,13 +1244,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-			case 'translate':
-			case 'trans':
-			    if (!q.includes('|')) return await bocchi.reply(from, en.wrongFormat(), id)
-                const texto = q.substring(0, q.indexOf('|') - 1)
-                const languaget = q.substring(q.lastIndexOf('|') + 2)
-					translate(texto, {to: languaget}).then(res => {bocchi.reply(from, res.text, id)})
-			break
+	    case 'translate':
+	    case 'trans':
+    		if (!isRegistered) return await vf.reply(from, ind.notRegistered(), id)
+    		if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
+    		const texto = q.substring(0, q.indexOf('|') - 1)
+    		const languaget = q.substring(q.lastIndexOf('|') + 2)
+    		translate(texto, {to: languaget}).then(res => {bocchi.reply(from, res.text, id)})
+	    break
             // Bot
             case 'menu':
             case 'help':
