@@ -189,7 +189,8 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 | Say                 |      ✔️      |
 | Lyric finder        |      ✔️      |
 | Shortlink maker     |      ✔️      |
-| Wikipedia           |      ✔️      |
+| Wikipedia (EN)      |      ✔️      |
+| Wikipedia (ID)      |      ✔️      |
 | KBBI search         |      ✔️      |
 | IG stalk            |      ✔️      |
 | GSMArena            |      ✔️      |
