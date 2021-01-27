@@ -639,6 +639,23 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
+	    case 'wikien': //By: VideFrelan
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                misc.wikien(q)
+                .then(async ( { result }) => {
+                    if (result.status !== '200') {
+                        await bocchi.reply(from, 'Not Found!', id)
+                    } else {
+                        await bocchi.reply(from, `➸ *PageId*: ${result.pageid}\n➸ *Title*: ${result.title}\n➸ *Result*: ${result.desc}`, id)
+                    }
+                })
+		.catch(async (err) => {
+                    console.error(err)
+                    await bocchi.reply(from, 'Error!', id)
+		})
+            break
             case 'instastory': //By: VideFrelan
             case 'igstory':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
