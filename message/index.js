@@ -2378,6 +2378,23 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Sticker
+	    case 'stikernobg':
+	    case 'stickernobg': //by: VideFrelan
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (isMedia && type === 'image' || isQuotedImage) {
+                    await bocchi.reply(from, ind.wait(), id)
+                    const encryptMedia = isQuotedImage ? quotedMsg : message
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const q = await uploadImages(mediaData, `stickernobg.${sender.id}`)
+                    misc.stickernobg(q)
+                    .then(async ({ result }) => {
+                        await bocchi.sendStickerfromUrl(from, result.image)
+                        console.log('Success sending Sticker no background!')
+                    })
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
+            break
             case 'stickerwm': // By Slavyan
             case 'stcwm':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
