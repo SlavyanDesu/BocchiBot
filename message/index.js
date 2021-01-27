@@ -378,13 +378,55 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
                 if (!isGroupMsg) return await bocchi.reply(from. ind.groupOnly(), id)
+		const resp = _level
                 _level.sort((a, b) => (a.xp < b.xp) ? 1 : -1)
                 let leaderboard = '-----[ *LEADERBOARD* ]----\n\n'
                 let nom = 0
                 try {
                     for (let i = 0; i < 10; i++) {
+			if (resp[i].level <= 5) {
+            		   var role = 'Copper IV'
+        		} else if (resp[i].level <= 10) {
+            		   var role = 'Copper III'
+        		} else if (resp[i].level <= 15) {
+            		   var role = 'Copper II'
+        		} else if (resp[i].level <= 20) {
+            		   var role = 'Copper I'
+        		} else if (resp[i].level <= 25) {
+            		   var role = 'Silver V'
+        		} else if (resp[i].level <= 30) {
+            	  	   var role = 'Silver IV'
+        		} else if (resp[i].level <= 35) {
+            		   var role = 'Silver III'
+        		} else if (resp[i].level <= 40) {
+            		  var role = 'Silver II'
+        		} else if (resp[i].level <= 45) {
+            		  var role = 'Silver I'
+        		} else if (resp[i].level <= 50) {
+            		  var role = 'Gold V'
+        		} else if (resp[i].level <= 55) {
+            		  var role = 'Gold IV'
+        		} else if (resp[i].level <= 60) {
+            		  var role = 'Gold III'
+        		} else if (resp[i].level <= 65) {
+            		  var role = 'Gold II'
+        		} else if (resp[i].level <= 70) {
+            		  var role = 'Gold I'
+        		} else if (resp[i].level <= 75) {
+            		  var role = 'Platinum V'
+        		} else if (resp[i].level <= 80) {
+            		  var role = 'Platinum IV'
+        		} else if (resp[i].level <= 85) {
+            		  var role = 'Platinum III'
+        		} else if (resp[i].level <= 90) {
+            		  var role = 'Platinum II'
+        		} else if (resp[i].level <= 95) {
+            		  var role = 'Platinum I'
+        		} else if (resp[i].level <= 100) {
+            		  var role = 'Exterminator'
+        		}
                         nom++
-                        leaderboard += `${nom}. wa.me/${_level[i].id.replace('@c.us', '')}\n➸ *XP*: ${_level[i].xp} *Level*: ${_level[i].level}\n\n`
+                        leaderboard += `${nom}. wa.me/${_level[i].id.replace('@c.us', '')}\n➸ *XP*: ${_level[i].xp} *Level*: ${_level[i].level}\n➸ *Role*: ${role}\n\n`
                     }
                     await bocchi.reply(from, leaderboard, id)
                 } catch (err) {
