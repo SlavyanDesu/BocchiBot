@@ -1780,7 +1780,21 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-
+            case 'nimesticker': // by CHIKAA CHANTEKKXXZZ
+            case 'animesticker': 
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                weeaboo.snime()
+                    .then(async (body) => {
+                        const wifegerak = body.split('\n')
+                        const wifegerakx = wifegerak[Math.floor(Math.random() * wifegerak.length)]
+                        await bocchi.sendStickerfromUrl(from, wifegerakx)
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
+            break
             // Fun
             case 'bapak': // By Kris
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -1859,6 +1873,20 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         const cita = body.split('\n')
                         const randomCita = cita[Math.floor(Math.random() * cita.length)]
                         await bocchi.sendFileFromUrl(from, randomCita, 'cita.mp3', '', id)
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
+            break
+            case 'dadu': // by CHIKAA CHANTEKKXXZZ
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                fun.dadu()
+                    .then(async (body) => {
+                        const dadugerak = body.split('\n')
+                        const dadugerakx = dadugerak[Math.floor(Math.random() * dadugerak.length)]
+                        await bocchi.sendStickerfromUrl(from, dadugerakx)
                     })
                     .catch(async (err) => {
                         console.error(err)
