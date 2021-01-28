@@ -639,6 +639,16 @@ Random quotes bahasa indonesia.
 Aliases: -
 Usage: *${prefix}quotes*
 
+37. *${prefix}genshininfo*
+Kirim info karakter Genshin Impact.
+Aliases: *genshin*
+Usage: *${prefix}genshininfo* nama_karakter
+
+38. *${prefix}translate*
+Terjemahkan text.
+Aliases: *trans*
+Usage: *${prefix}translate* teks | kode_bahasa
+
 _Index of [3]_
     `
 }
