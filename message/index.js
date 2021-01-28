@@ -701,6 +701,36 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, 'Error!', id)
 		})
             break
+            case 'corona': //by CHIKAA CHANTEKKXXZZ
+            case 'coronavirus':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                misc.corona(q)
+                    .then(async (res) => {
+                        await tobz.sendText(from, '🌎️ Covid Info - ' + q + ' 🌍️\n\n✨️ Total Cases: ' + `${res.cases}` + '\n📆️ Today\'s Cases: ' + `${res.todayCases}` + '\n☣️ Total Deaths: ' + `${res.deaths}` + '\n☢️ Today\'s Deaths: ' + `${res.todayDeaths}` + '\n⛩️ Active Cases: ' + `${res.active}` + '.')
+                        console.log('Success sending Result!')
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
+            break
+            case 'ttp': //CHIKAA CHANTEKKXXZZ
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                console.log('Creating ttp..!')
+                misc.ttp(q)
+                    .then(async (res) => {
+                        await bocchi.reply(from, ind.wait(), id)
+                        await bocchi.sendImageAsSticker(from, res.base64)
+                        console.log('Success creating ttp!')
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, 'Error!', id)
+                        })
+            break
             case 'instastory': //By: VideFrelan
             case 'igstory':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
