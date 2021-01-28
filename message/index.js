@@ -319,9 +319,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         if (isCmd && !isOwner) msgFilter.addFilter(from)
 
         switch (command) {
-	    case 'antiporn': //PREMIUM
-		bocchi.reply(from, 'Premium Feature!\n\nContact: wa.me/6285692655520?text=Buy%20Anti%20Porn', id)
-	    break
+            case 'antiporn': //PREMIUM
+                await bocchi.reply(from, 'Premium Feature!\n\nContact: wa.me/6285692655520?text=Buy%20Anti%20Porn', id)
+            break
+
             // Register by Slavyan
             case 'register':
                 if (isRegistered) return await bocchi.reply(from, ind.registeredAlready(), id)
@@ -379,55 +380,56 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
                 if (!isGroupMsg) return await bocchi.reply(from. ind.groupOnly(), id)
-		const resp = _level
+                const resp = _level
                 _level.sort((a, b) => (a.xp < b.xp) ? 1 : -1)
                 let leaderboard = '-----[ *LEADERBOARD* ]----\n\n'
                 let nom = 0
                 try {
                     for (let i = 0; i < 10; i++) {
-			if (resp[i].level <= 5) {
-            		   var role = 'Copper IV'
-        		} else if (resp[i].level <= 10) {
-            		   var role = 'Copper III'
-        		} else if (resp[i].level <= 15) {
-            		   var role = 'Copper II'
-        		} else if (resp[i].level <= 20) {
-            		   var role = 'Copper I'
-        		} else if (resp[i].level <= 25) {
-            		   var role = 'Silver V'
-        		} else if (resp[i].level <= 30) {
-            	  	   var role = 'Silver IV'
-        		} else if (resp[i].level <= 35) {
-            		   var role = 'Silver III'
-        		} else if (resp[i].level <= 40) {
-            		  var role = 'Silver II'
-        		} else if (resp[i].level <= 45) {
-            		  var role = 'Silver I'
-        		} else if (resp[i].level <= 50) {
-            		  var role = 'Gold V'
-        		} else if (resp[i].level <= 55) {
-            		  var role = 'Gold IV'
-        		} else if (resp[i].level <= 60) {
-            		  var role = 'Gold III'
-        		} else if (resp[i].level <= 65) {
-            		  var role = 'Gold II'
-        		} else if (resp[i].level <= 70) {
-            		  var role = 'Gold I'
-        		} else if (resp[i].level <= 75) {
-            		  var role = 'Platinum V'
-        		} else if (resp[i].level <= 80) {
-            		  var role = 'Platinum IV'
-        		} else if (resp[i].level <= 85) {
-            		  var role = 'Platinum III'
-        		} else if (resp[i].level <= 90) {
-            		  var role = 'Platinum II'
-        		} else if (resp[i].level <= 95) {
-            		  var role = 'Platinum I'
-        		} else if (resp[i].level <= 100) {
-            		  var role = 'Exterminator'
-        		}
+                        var roles = 'Copper V'
+                        if (resp[i].level <= 5) {
+                            roles = 'Copper IV'
+                        } else if (resp[i].level <= 10) {
+                            roles = 'Copper III'
+                        } else if (resp[i].level <= 15) {
+                            roles = 'Copper II'
+                        } else if (resp[i].level <= 20) {
+                            roles = 'Copper I'
+                        } else if (resp[i].level <= 25) {
+                            roles = 'Silver V'
+                        } else if (resp[i].level <= 30) {
+                            roles = 'Silver IV'
+                        } else if (resp[i].level <= 35) {
+                            roles = 'Silver III'
+                        } else if (resp[i].level <= 40) {
+                            roles = 'Silver II'
+                        } else if (resp[i].level <= 45) {
+                            roles = 'Silver I'
+                        } else if (resp[i].level <= 50) {
+                            roles = 'Gold V'
+                        } else if (resp[i].level <= 55) {
+                            roles = 'Gold IV'
+                        } else if (resp[i].level <= 60) {
+                            roles = 'Gold III'
+                        } else if (resp[i].level <= 65) {
+                            roles = 'Gold II'
+                        } else if (resp[i].level <= 70) {
+                            roles = 'Gold I'
+                        } else if (resp[i].level <= 75) {
+                            roles = 'Platinum V'
+                        } else if (resp[i].level <= 80) {
+                            roles = 'Platinum IV'
+                        } else if (resp[i].level <= 85) {
+                            roles = 'Platinum III'
+                        } else if (resp[i].level <= 90) {
+                            roles = 'Platinum II'
+                        } else if (resp[i].level <= 95) {
+                            roles = 'Platinum I'
+                        } else if (resp[i].level <= 100) {
+                            roles = 'Exterminator'
+                        }
                         nom++
-                        leaderboard += `${nom}. wa.me/${_level[i].id.replace('@c.us', '')}\n➸ *XP*: ${_level[i].xp} *Level*: ${_level[i].level}\n➸ *Role*: ${role}\n\n`
+                        leaderboard += `${nom}. wa.me/${_level[i].id.replace('@c.us', '')}\n➸ *XP*: ${_level[i].xp} *Level*: ${_level[i].level}\n➸ *Role*: ${roles}\n\n`
                     }
                     await bocchi.reply(from, leaderboard, id)
                 } catch (err) {
@@ -685,22 +687,22 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-	    case 'wikien': //By: VideFrelan
+            case 'wikien': //By: VideFrelan
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 misc.wikien(q)
-                .then(async ( { result }) => {
-                    if (result.status !== '200') {
-                        await bocchi.reply(from, 'Not Found!', id)
-                    } else {
-                        await bocchi.reply(from, `➸ *PageId*: ${result.pageid}\n➸ *Title*: ${result.title}\n➸ *Result*: ${result.desc}`, id)
-                    }
-                })
-		.catch(async (err) => {
-                    console.error(err)
-                    await bocchi.reply(from, 'Error!', id)
-		})
+                    .then(async ( { result }) => {
+                        if (result.status !== '200') {
+                            await bocchi.reply(from, 'Not Found!', id)
+                        } else {
+                            await bocchi.reply(from, `➸ *PageId*: ${result.pageid}\n➸ *Title*: ${result.title}\n➸ *Result*: ${result.desc}`, id)
+                        }
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
             break
             case 'corona': //by CHIKAA CHANTEKKXXZZ
             case 'coronavirus':
@@ -1327,7 +1329,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 })
                 .catch(async (err) => {
                     console.error(err)
-                    await bocchi.reply(from, `Error!`, id)  
+                    await bocchi.reply(from, 'Error!', id)
                 })
             break
             case 'spamsms':
@@ -1350,14 +1352,15 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-	    case 'translate':
-	    case 'trans':
-    		if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-    		if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
-    		const texto = q.substring(0, q.indexOf('|') - 1)
-    		const languaget = q.substring(q.lastIndexOf('|') + 2)
-    		translate(texto, {to: languaget}).then(res => {bocchi.reply(from, res.text, id)})
-	    break
+            case 'translate':
+            case 'trans':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
+                const texto = q.substring(0, q.indexOf('|') - 1)
+                const languaget = q.substring(q.lastIndexOf('|') + 2)
+                translate(texto, {to: languaget}).then(res => {bocchi.reply(from, res.text, id)})
+            break
+
             // Bot
             case 'menu':
             case 'help':
@@ -2004,25 +2007,25 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 })
             break
             case 'tebakgambar':
-                if (!isGroupMsg) return bocchi.reply(from, ind.groupOnly(), id)
-                if (!isRegistered) return  bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 fun.tbkgmbr()
-                .then(async ( { result }) => {
-                    await bocchi.sendFileFromUrl(from, result.soal_gbr, `TebakGambar.jpg`, ``, id)
-                    bocchi.sendText(from, `50 Detik Tersisa...`, id)
+                .then(async ({ result }) => {
+                    await bocchi.sendFileFromUrl(from, result.soal_gbr, 'TebakGambar.jpg', '', id)
+                    await bocchi.sendText(from, '50 Detik Tersisa...', id)
                     await sleep(10000)
-                    bocchi.sendText(from, `40 Detik Tersisa...`, id)
+                    await bocchi.sendText(from, '40 Detik Tersisa...', id)
                     await sleep(10000)
-                    bocchi.sendText(from, `30 Detik Tersisa...`, id)
+                    await bocchi.sendText(from, '30 Detik Tersisa...', id)
                     await sleep(10000)
-                    bocchi.sendText(from, `20 Detik Tersisa...`, id)
+                    await bocchi.sendText(from, '20 Detik Tersisa...', id)
                     await sleep(10000)
-                    bocchi.sendText(from, `10 Detik Tersisa...`, id)
+                    await bocchi.sendText(from, '10 Detik Tersisa...', id)
                     await sleep(10000)
                     await bocchi.reply(from, `➸ *Jawaban*: ${result.jawaban}`, id)
                 })
-                .then(async () => {
+                .then(() => {
                     console.log('Success sending tebakgambar result!')
                 })
                 .catch(async (err) => {
@@ -2202,7 +2205,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                 .on('progress', (progress) => console.log(color('[FFmpeg]', 'green'), progress))
                                 .on('end', async () => {
                                     console.log(color('[FFmpeg]', 'green'), 'Processing finished!')
-                                    await bocchi.sendMp4AsSticker(from, fileOutputPath, { fps: 30, startTime: `00:00:00.0`, endTime : `00:00:05.0`, loop: 0 })
+                                    await bocchi.sendMp4AsSticker(from, fileOutputPath, { fps: 30, startTime: '00:00:00.0', endTime : '00:00:05.0', loop: 0 })
                                     console.log(color('[WAPI]', 'green'), 'Success sending GIF!')
                                     setTimeout(() => {
                                         fs.unlinkSync(fileInputPath)
@@ -2234,7 +2237,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                 .on('progress', (progress) => console.log(color('[FFmpeg]', 'green'), progress))
                                 .on('end', async () => {
                                     console.log(color('[FFmpeg]', 'green'), 'Processing finished!')
-                                    await bocchi.sendVideoAsGif(from, fileOutputPath, 'triggered.gif', '', id)
+                                    await bocchi.sendMp4AsSticker(from, fileOutputPath, { fps: 30, startTime: '00:00:00.0', endTime : '00:00:05.0', loop: 0 })
                                     console.log(color('[WAPI]', 'green'), 'Success sending GIF!')
                                     setTimeout(() => {
                                         fs.unlinkSync(fileInputPath)
@@ -2422,8 +2425,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Sticker
-	    case 'stikernobg':
-	    case 'stickernobg': //by: VideFrelan
+            case 'stikernobg':
+            case 'stickernobg': //by: VideFrelan
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isMedia && type === 'image' || isQuotedImage) {
                     await bocchi.reply(from, ind.wait(), id)
@@ -2619,7 +2622,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     try {
                         const mediaData = await decryptMedia(message, uaOverride)
                         const videoBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
-                        await bocchi.sendMp4AsSticker(from, videoBase64, { fps: 24, startTime: '00:00:00.0', endTime : '00:00:05.0', loop: 0 })
+                        await bocchi.sendMp4AsSticker(from, videoBase64, { fps: 30, startTime: '00:00:00.0', endTime : '00:00:05.0', loop: 0 })
                             .then(async () => {
                                 console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                                 await bocchi.sendText(from, ind.ok())
@@ -2633,7 +2636,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     try {
                         const mediaData = await decryptMedia(quotedMsg, uaOverride)
                         const videoBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
-                        await bocchi.sendMp4AsSticker(from, videoBase64, { fps: 24, startTime: '00:00:00.0', endTime : '00:00:05.0', loop: 0 })
+                        await bocchi.sendMp4AsSticker(from, videoBase64, { fps: 30, startTime: '00:00:00.0', endTime : '00:00:05.0', loop: 0 })
                             .then(async () => {
                                 console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                                 await bocchi.sendText(from, ind.ok())
