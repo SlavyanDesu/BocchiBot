@@ -50,6 +50,7 @@ const emojiUnicode = require('emoji-unicode')
 const moment = require('moment-timezone')
 const translate = require('@vitalets/google-translate-api')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
+const genshin = require('genshin-impact-api')
 /********** END OF MODULES **********/
 
 /********** UTILS **********/
@@ -708,7 +709,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
                 misc.corona(q)
                     .then(async (res) => {
-                        await tobz.sendText(from, '🌎️ Covid Info - ' + q + ' 🌍️\n\n✨️ Total Cases: ' + `${res.cases}` + '\n📆️ Today\'s Cases: ' + `${res.todayCases}` + '\n☣️ Total Deaths: ' + `${res.deaths}` + '\n☢️ Today\'s Deaths: ' + `${res.todayDeaths}` + '\n⛩️ Active Cases: ' + `${res.active}` + '.')
+                        await bocchi.sendText(from, '🌎️ Covid Info - ' + q + ' 🌍️\n\n✨️ Total Cases: ' + `${res.cases}` + '\n📆️ Today\'s Cases: ' + `${res.todayCases}` + '\n☣️ Total Deaths: ' + `${res.deaths}` + '\n☢️ Today\'s Deaths: ' + `${res.todayDeaths}` + '\n⛩️ Active Cases: ' + `${res.active}` + '.')
                         console.log('Success sending Result!')
                     })
                     .catch(async (err) => {
@@ -730,6 +731,19 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                             console.error(err)
                             await bocchi.reply(from, 'Error!', id)
                         })
+            break
+            case 'genshininfo': //chika chantexxzz
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                try {
+                        const character = genshin.characters(q)
+                        console.log('Searching for character...')
+                        await bocchi.sendFileFromUrl(from, character.image, 'wangi.jpg', `*「 CHARACTER 」*\n\n*${character.title}*\n*${character.description}*\n➸ *Name : ${character.name}*\n➸ *Nation : ${character.nation}*\n➸ *Gender : ${character.gender}*\n➸ *Birthday : ${character.birthday}*\n➸ *Constellation : ${character.constellation}*\n➸ *Rarity : ${character.rarity}*\n➸ *Vision : ${character.vision}*\n➸ *Weapon : ${character.weapon}*\n\n*${character.url}*`)
+                    } catch (err) {
+                        console.error(err)
+                        await bocchi.reply(from, 'Character salah atau tidak terdaftar', id)
+                    }
             break
             case 'instastory': //By: VideFrelan
             case 'igstory':
