@@ -218,6 +218,7 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 | Read more           |      ✔️      |
 | Sending email       |      ✔️      |
 | Random quotes       |      ✔️      |
+| Genshin character   |      ✔️      |
 
 |          Fun          | Availability |
 | :-------------------: | :----------: |
