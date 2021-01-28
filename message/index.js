@@ -1893,6 +1893,21 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
+            case 'dogesticker': // by CHIKAA CHANTEKKXXZZ
+            case 'doge':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                fun.doge()
+                    .then(async (body) => {
+                        const dogeg = body.split('\n')
+                        const dogegx = dogeg[Math.floor(Math.random() * dogeg.length)]
+                        await bocchi.sendStickerfromUrl(from, dogegx)
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
+            break
             case 'profile':
             case 'me':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
