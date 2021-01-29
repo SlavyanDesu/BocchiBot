@@ -565,7 +565,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, 'Error!', id)
                 }
             break
-            case 'tiktoknowm': // By:XBot Ini WM Bang
+            case 'tiktoknowm': // by: VideFrelan
             case 'tktnowm':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('tiktok.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
