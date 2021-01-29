@@ -247,19 +247,22 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 | Wasted image          |      ✔️      |
 | Caklontong quiz       |      ✔️      |
 | Hilih text            |      ✔️      |
-| Tebakgambar quiz      |      ✔️      |
+| Tebak gambar quiz     |      ✔️      |
+| Doge                  |      ✔️      |
+| Dice                  |      ✔️      |
 
-|      Weeb Zone     | Availability |
-| :----------------: | :----------: |
-| Random neko girl   |      ✔️      |
-| Random wallpaper   |      ✔️      |
-| Random kemonomimi  |      ✔️      |
-| Kusonime scrapper  |      ✔️      |
-| Komiku scrapper    |      ✔️      |
-| Anime tracer       |      ✔️      |
-| Source finder      |      ✔️      |
-| Random waifu       |      ✔️      |
-| Anitoki latest     |      ✔️      |
+|       Weeb Zone      | Availability |
+| :------------------: | :----------: |
+| Random neko girl     |      ✔️      |
+| Random wallpaper     |      ✔️      |
+| Random kemonomimi    |      ✔️      |
+| Kusonime scrapper    |      ✔️      |
+| Komiku scrapper      |      ✔️      |
+| Anime tracer         |      ✔️      |
+| Source finder        |      ✔️      |
+| Random waifu         |      ✔️      |
+| Anitoki latest       |      ✔️      |
+| Random anime sticker |      ✔️      |
 
 |        Bot       | Availability |
 | :--------------: | :----------: |
