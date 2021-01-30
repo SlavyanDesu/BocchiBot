@@ -637,13 +637,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         if (status !== 200) {
                             await bocchi.reply(from, 'Not found.', id)
                         } else {
-                        await bocchi.sendFileFromUrl(from, result[0].image, 'ksk.jpg', `*「 APK DITEMUKAN 」*\n\n➸ *Nama File* : ${result[0].title}\n\n➸ *Ukuran* : ${result[0].size}\n➸ *Publisher* : ${result[0].publisher}\n➸ *Version* : ${result[0].latest_version}\n➸ *Genre* : ${result[0].genre}\n\n*Link Download*\n${result[0].download}`, id)
-                        console.log('Success sending info apk mod!')
+                            await bocchi.sendFileFromUrl(from, result[0].image, 'ksk.jpg', `*「 MOD FOUND 」*\n\n➸ *APK*: ${result[0].title}\n\n➸ *Size*: ${result[0].size}\n➸ *Publisher*: ${result[0].publisher}\n➸ *Version*: ${result[0].latest_version}\n➸ *Genre*: ${result[0].genre}\n\n*Download link*\n${result[0].download}`, id)
+                            console.log('Success sending APK mod!')
                         }
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, 'error', id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'happymod': //chikaa chantexxzz
@@ -655,13 +655,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         if (status !== 200) {
                             await bocchi.reply(from, 'Not found.', id)
                         } else {
-                        await bocchi.sendFileFromUrl(from, result[0].image, 'ksk.jpg', `*「 APK DITEMUKAN 」*\n\n➸ *Nama File* : ${result[0].title}\n\n➸ *Ukuran* : ${result[0].size}\n➸ *Root* : ${result[0].root}\n➸ *Version* : ${result[0].version}\n➸ *Harga Apk* : ${result[0].price}\n\n*Link Download*\n${result[0].download}`, id)
-                        console.log('Success sending mod apk info!')
+                            await bocchi.sendFileFromUrl(from, result[0].image, 'ksk.jpg', `*「 MOD FOUND 」*\n\n➸ *APK*: ${result[0].title}\n\n➸ *Size*: ${result[0].size}\n➸ *Root*: ${result[0].root}\n➸ *Version*: ${result[0].version}\n➸ *Price*: ${result[0].price}\n\n*Download link*\n${result[0].download}`, id)
+                            console.log('Success sending APK mod!')
                         }
                     })
                     .catch(async (err) => {
                         console.error(err)
-                        await bocchi.reply(from, 'Error!!', id)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'linedl': //chikaa chantexxzz
@@ -670,10 +670,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isUrl(url) && !url.includes('store.line.me')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 downloader.line(url)
                     .then(async (res) => {
-                        await bocchi.sendFileFromUrl(from, res.thumb, 'line.png', `*「 LINE STICKER DOWNLOADER 」*\n\n➸ *Title* : ${res.title}\n➸ *Type Sticker* : ${res.type}\n\n_Mohon tunggu,sticker akan segera dikirim_`, id)
+                        await bocchi.sendFileFromUrl(from, res.thumb, 'line.png', `*「 LINE STICKER DOWNLOADER 」*\n\n➸ *Title*: ${res.title}\n➸ *Sticker type*: ${res.type}\n\n_Media sedang dikirim, mohon tunggu sebentar..._`, id)
                         for (let i = 0; i < res.sticker.length; i++) {
-				        await bocchi.sendStickerfromUrl(from, `${res.sticker[i]}`)
-                            .then(() => console.log('Success sending line sticker..'))
+                            await bocchi.sendStickerfromUrl(from, `${res.sticker[i]}`)
+                            console.log('Success sending Line sticker!')
                         }
                     })
                     .catch(async (err) => {
@@ -689,16 +689,16 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 google({ 'query': q })
-                    .then(results => {
-                    let vars = `-----[ *GOOGLE SEARCH* ]-----\n\n*by : rashidsiregar28*\n\n_*Search Result from : ${q}*_`
-                    for (let i = 0; i < results.length; i++) {
-                        vars +=  `\n\n• *Judul* : ${results[i].title}\n• *Deskripsi* : ${results[i].snippet}\n• *Link : ${results[i].link}*\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                    .then(async (results) => {
+                        let txt = `-----[ *GOOGLE SEARCH* ]-----\n\n*by: rashidsiregar28*\n\n_*Search results for: ${q}*_`
+                        for (let i = 0; i < results.length; i++) {
+                            txt += `\n\n➸ *Title*: ${results[i].title}\n➸ *Desc*: ${results[i].snippet}\n➸ *Link*: ${results[i].link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
                         }
-                        bocchi.reply(from, vars, id)
+                        await bocchi.reply(from, txt, id)
                     })
-                    .catch(e => {
-                    console.log(e)
-                        bocchi.reply(from, 'Error!', id)
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case 'say':
@@ -706,7 +706,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.sendText(from, q)
             break
-            case 'afk':
+            case 'afk': // by Slavyan
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (isAfkOn) return await bocchi.reply(from, ind.afkOnAlready(), id)
