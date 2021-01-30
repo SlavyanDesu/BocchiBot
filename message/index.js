@@ -1139,6 +1139,74 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
+            case 'hadis':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                if (args[0] === 'darimi') {
+                    const hdara = body.slice(14)
+                    const hdar = await axios.get(`https://api.hadith.sutanlab.id/books/darimi/${hdara}`)
+                    await bocchi.sendText(from, `${hdar.data.data.contents.arab}\n${hdar.data.data.contents.id}\n*H.R. Darimi*`, id)
+                } else if (args[0] === 'ahmad') {
+                    const hmada = body.slice(13)
+                    const hmad = await axios.get(`https://api.hadith.sutanlab.id/books/ahmad/${hmada}`)
+                    await bocchi.sendText(from, `${hmad.data.data.contents.arab}\n${hmad.data.data.contents.id}\n*H.R. Ahmad*`, id)
+                } else if (args[0] === 'bukhari') {
+                    const hbukha = body.slice(15)
+                    const hbukh = await axios.get(`https://api.hadith.sutanlab.id/books/bukhari/${hbukha}`)
+                    await bocchi.sendText(from, `${hbukh.data.data.contents.arab}\n${hbukh.data.data.contents.id}\n*H.R. Bukhori*`, id)
+                } else if (args[0] === 'muslim') {
+                    const hmusa = body.slice(14)
+                    const hmus = await axios.get(`https://api.hadith.sutanlab.id/books/muslim/${hmusa}`)
+                    await bocchi.sendText(from, `${hmus.data.data.contents.arab}\n${hmus.data.data.contents.id}\n*H.R. Muslim*`, id)
+                } else if (args[0] === 'malik') {
+                    const hmala = body.slice(13)
+                    const hmal = await axios.get(`https://api.hadith.sutanlab.id/books/malik/${hmala}`)
+                    await bocchi.sendText(from, `${hmal.data.data.contents.arab}\n${hmal.data.data.contents.id}\n*H.R. Malik*`, id)
+                } else if (args[0] === 'nasai') {
+                    const hnasa = body.slice(13)
+                    const hnas = await axios.get(`https://api.hadith.sutanlab.id/books/nasai/${hnasa}`)
+                    await bocchi.sendText(from, `${hnas.data.data.contents.arab}\n${hnas.data.data.contents.id}\n*H.R. Nasa'i*`, id)
+                } else if (args[0] === 'tirmidzi') {
+                    const htirm = body.slice(16)
+                    const htir = await axios.get(`https://api.hadith.sutanlab.id/books/tirmidzi/${htirm}`)
+                    await bocchi.sendText(from, `${htir.data.data.contents.arab}\n${htir.data.data.contents.id}\n*H.R. Tirmidzi*`, id)
+                } else if (args[0] === 'ibnumajah') {
+                    const hibnu = body.slice(17)
+                    const hibn = await axios.get(`https://api.hadith.sutanlab.id/books/ibnu-majah/${hibnu}`)
+                    await bocchi.sendText(from, `${hibn.data.data.contents.arab}\n${hibn.data.data.contents.id}\n*H.R. Ibnu Majah*`, id)
+                } else if (args[0] === 'abudaud') {
+                    const habuda = body.slice(15)
+                    const habud = await axios.get(`https://api.hadith.sutanlab.id/books/abu-daud/${habuda}`)
+                    await bocchi.sendText(from, `${habud.data.data.contents.arab}\n${habud.data.data.contents.id}\n*H.R. Abu Daud*`, id)
+                } else {
+                    await bocchi.sendText(from, `
+        _*Assalamu'alaikum wr. wb.*_
+        
+*Daftar bot hadis :*\n
+1. Hadis Bukhari ada 6638 Hadis
+	_keybot_ : ${prefix}hadis bukhari 1\n
+2. Hadis Muslim ada 4930 Hadis
+	_keybot_ : ${prefix}hadis muslim 25\n
+3. Hadis Tirmidzi ada 3625 Hadis
+	_keybot_ : ${prefix}hadis tirmidzi 10\n
+4. Hadis nasai ada 5364 Hadis
+	_keybot_ : ${prefix}hadis nasai 6\n
+5. Hadis Ahmad ada 4305 Hadis
+	_keybot_ : ${prefix}hadis ahmad 5\n
+6. Hadis Abu Daud ada 4419 Hadis
+	_keybot_ : ${prefix}hadis abudaud 45\n
+7. Hadis Malik ada 1587 Hadis
+	_keybot_ : ${prefix}hadis malik 45\n
+8. Hadis Ibnu Majah ada 4285 Hadis
+	_keybot_ : ${prefix}hadis ibnumajah 8\n
+9. Hadis Darimi ada 2949 Hadis
+    _keybot_ : ${prefix}hadis darimi 3
+    
+		*Semoga Bermanfaat*
+        _*Wassalam*_`, id)
+                }
+            break
             case 'motivasi':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 misc.motivasi()
