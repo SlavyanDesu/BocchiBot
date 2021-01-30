@@ -628,7 +628,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-            case 'moddroid':
+            case 'moddroid': //Chikaa Chantekkzz
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -646,7 +646,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'error', id)
                     })
             break
-            case 'happymod':
+            case 'happymod': //chikaa chantexxzz
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -664,7 +664,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!!', id)
                     })
             break
-            case 'linedl':
+            case 'linedl': //chikaa chantexxzz
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) return await bocchi.reply(from, ind.pcOnly(), id)
                 if (!isUrl(url) && !url.includes('store.line.me')) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -683,14 +683,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Misc
-            case 'google':
+            case 'google': //chika-chantekkzz
             case 'googlesearch':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 google({ 'query': q })
                     .then(results => {
-                    let vars = `-----[ *GOOGLE SEARCH* ]-----\n\n_*Search Result from : ${q}*_`
+                    let vars = `-----[ *GOOGLE SEARCH* ]-----\n\n*by : rashidsiregar28*\n\n_*Search Result from : ${q}*_`
                     for (let i = 0; i < results.length; i++) {
                         vars +=  `\n\n• *Judul* : ${results[i].title}\n• *Deskripsi* : ${results[i].snippet}\n• *Link : ${results[i].link}*\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
                         }
