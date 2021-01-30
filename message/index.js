@@ -1216,6 +1216,19 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const gmbere = `https://i2.wp.com/seruni.id/wp-content/uploads/2016/09/Allah.png?resize=696%2C696&ssl=1`
                 bocchi.sendFileFromUrl(from, gmbere, 'gambar.jpg', `───❉ 𝐀𝐬𝐦𝐚𝐮𝐥 𝐇𝐮𝐬𝐧𝐚 ❉──\n\n❏ ${assna.name}\n❏ *Nomor :* ${assna.number}\n❏ *Di baca :* ${assna.transliteration}\n❏ *Inggeris :* ${assna.en.meaning}`, id)
             break
+            case 'randomquran': //semogaBermanfaat
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly, id)
+                const ranquran = await axios.get(`https://api.zeks.xyz/api/randomquran`)
+                const auquran = ranquran.data.result.audio
+                await bocchi.reply(from, ` بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
+*Nama Surat* : ${ranquran.data.result.nama} / ${ranquran.data.result.asma}
+*Arti* : ${ranquran.data.result.arti}
+*Surat Ke-* : ${ranquran.data.result.nomor}
+*Keterangan* : ${ranquran.data.result.keterangan}
+*Link Audio* : ${ranquran.data.result.audio}`, id)
+                await bocchi.sendFileFromUrl(from, auquran, 'rquran.mp3', '', id)
+            break
             case 'motivasi':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 misc.motivasi()
