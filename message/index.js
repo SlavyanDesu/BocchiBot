@@ -51,6 +51,7 @@ const moment = require('moment-timezone')
 const translate = require('@vitalets/google-translate-api')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 const genshin = require('genshin-impact-api')
+const google = require('google-it')
 /********** END OF MODULES **********/
 
 /********** UTILS **********/
@@ -627,8 +628,79 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
+            case 'moddroid':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                downloader.modroid(q)
+                    .then(async ({ status, result }) => {
+                        if (status !== 200) {
+                            await bocchi.reply(from, 'Not found.', id)
+                        } else {
+                        await bocchi.sendFileFromUrl(from, result[0].image, 'ksk.jpg', `*「 APK DITEMUKAN 」*\n\n➸ *Nama File* : ${result[0].title}\n\n➸ *Ukuran* : ${result[0].size}\n➸ *Publisher* : ${result[0].publisher}\n➸ *Version* : ${result[0].latest_version}\n➸ *Genre* : ${result[0].genre}\n\n*Link Download*\n${result[0].download}`, id)
+                        console.log('Success sending info apk mod!')
+                        }
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'error', id)
+                    })
+            break
+            case 'happymod':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                downloader.happymod(q)
+                    .then(async ({ status, result }) => {
+                        if (status !== 200) {
+                            await bocchi.reply(from, 'Not found.', id)
+                        } else {
+                        await bocchi.sendFileFromUrl(from, result[0].image, 'ksk.jpg', `*「 APK DITEMUKAN 」*\n\n➸ *Nama File* : ${result[0].title}\n\n➸ *Ukuran* : ${result[0].size}\n➸ *Root* : ${result[0].root}\n➸ *Version* : ${result[0].version}\n➸ *Harga Apk* : ${result[0].price}\n\n*Link Download*\n${result[0].download}`, id)
+                        console.log('Success sending mod apk info!')
+                        }
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!!', id)
+                    })
+            break
+            case 'linedl':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (isGroupMsg) return await bocchi.reply(from, ind.pcOnly(), id)
+                if (!isUrl(url) && !url.includes('store.line.me')) return await bocchi.reply(from, ind.wrongFormat(), id)
+                downloader.line(url)
+                    .then(async (res) => {
+                        await bocchi.sendFileFromUrl(from, res.thumb, 'line.png', `*「 LINE STICKER DOWNLOADER 」*\n\n➸ *Title* : ${res.title}\n➸ *Type Sticker* : ${res.type}\n\n_Mohon tunggu,sticker akan segera dikirim_`, id)
+                        for (let i = 0; i < res.sticker.length; i++) {
+				        await bocchi.sendStickerfromUrl(from, `${res.sticker[i]}`)
+                            .then(() => console.log('Success sending line sticker..'))
+                        }
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
+            break
 
             // Misc
+            case 'google':
+            case 'googlesearch':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                google({ 'query': q })
+                    .then(results => {
+                    let vars = `-----[ *GOOGLE SEARCH* ]-----\n\n_*Search Result from : ${q}*_`
+                    for (let i = 0; i < results.length; i++) {
+                        vars +=  `\n\n• *Judul* : ${results[i].title}\n• *Deskripsi* : ${results[i].snippet}\n• *Link : ${results[i].link}*\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                        }
+                        bocchi.reply(from, vars, id)
+                    })
+                    .catch(e => {
+                    console.log(e)
+                        bocchi.reply(from, 'Error!', id)
+                    })
+            break
             case 'say':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
