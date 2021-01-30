@@ -1213,7 +1213,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'hadis':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (args.length !== 2) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 try {
                     if (ar[0] === 'darimi') {
