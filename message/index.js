@@ -231,7 +231,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
 
-        // Anti NSFW links but kinda uneffective
+        // Anti NSFW link
         if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isAntiNsfw && !isOwner) {
             if (isUrl(chats)) {
                 const classify = new URL(isUrl(chats))
