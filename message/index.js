@@ -1207,6 +1207,15 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         _*Wassalam*_`, id)
                 }
             break
+            case 'asmaulhusna': //semogaBermanfaat
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly, id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat, id)
+                const asmaulhusna1 = await axios.get (`https://api-melodicxt-2.herokuapp.com/api/asmaallHusna?number=${nomoa}&apiKey=${config.melodic}`)
+                const assna = asmaulhusna1.data.result
+                const gmbere = `https://i2.wp.com/seruni.id/wp-content/uploads/2016/09/Allah.png?resize=696%2C696&ssl=1`
+                bocchi.sendFileFromUrl(from, gmbere, 'gambar.jpg', `───❉ 𝐀𝐬𝐦𝐚𝐮𝐥 𝐇𝐮𝐬𝐧𝐚 ❉──\n\n❏ ${assna.name}\n❏ *Nomor :* ${assna.number}\n❏ *Di baca :* ${assna.transliteration}\n❏ *Inggeris :* ${assna.en.meaning}`, id)
+            break
             case 'motivasi':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 misc.motivasi()
