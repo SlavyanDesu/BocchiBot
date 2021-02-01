@@ -1938,6 +1938,19 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
+            case 'quotenime':
+            case 'quotesnime':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                console.log('Sending random quote...')
+                const quoteznime = await axios.get('https://mhankbarbar.tech/api/quotesnime/random')
+                await bocchi.sendText(from, `➸ *Quotes* : ${quoteznime.data.data.quote}\n➸ *Character* : ${quoteznime.data.data.chara} from Anime ${quoteznime.data.data.anime}`, id)
+                    .then(() => console.log('Success sending quotes..'))
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
+            break
             // Fun
             case 'bapak': // By Kris
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -3371,6 +3384,29 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Moderation command
+            case 'revoke':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                if (!isGroupAdmins) return bocchi.reply(from, ind.adminOnly(), id)
+                if (!isBotGroupAdmins) return bocchi.reply(from, ind.botNotAdmin(), id)
+                await bocchi.revokeGroupInviteLink(groupId);
+                bocchi.sendTextWithMentions(from, `Link group telah direset oleh admin @${sender.id.replace('@c.us', '')}`)
+            break
+            case 'linkgroup':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
+                if (!isBotGroupAdmins) return await bocchi.reply(from, ind.botNotAdmin(), id)
+                var gclink = await bocchi.getGroupInviteLink(groupId)
+                var linkgc  = `Link group : *${formattedTitle}*\n\n ${gclink}`
+                bocchi.reply(from, linkgc, id)
+            break
+            case 'ownergroup':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                const Owner_ = chat.groupMetadata.owner
+                await bocchi.sendTextWithMentions(from, `Owner Group : @${Owner_}`)
+            break
             case 'mutegc':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return bocchi.reply(from, ind.groupOnly(), id)
@@ -3763,6 +3799,18 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, `Sukses menambah XP kepada: ${args[0]}\nJumlah ditambahkan: ${args[1]}`, id)
                 }
             break
+            case 'listgroup':
+                if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
+                    bocchi.getAllGroups().then((res) => {
+                    let berhitung1 = 1
+                    let gc = `*This is list of group* :\n`
+                    for (let i = 0; i < res.length; i++) {
+                        gc += `\n\n*No : ${i+1}*\n*Nama* : ${res[i].name}\n*Pesan Belum Dibaca* : ${res[i].unreadCount} chat\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                    }
+                    bocchi.reply(from, gc, id)
+                })
+            break
+            
             default:
                 if (isCmd) {
                     await bocchi.reply(from, ind.cmdNotFound(command), id)
