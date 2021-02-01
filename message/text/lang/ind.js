@@ -283,6 +283,57 @@ exports.ageOld = () => {
     return `Kamu terlalu tua untuk menggunakan fitur ini! Mohon kembali ke masa muda anda agar bisa menggunakannya.`
 }
 
+exports.randomQuran = (ranquran) => {
+    return `
+    بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
+*Nama surah*: ${ranquran.data.result.nama} / ${ranquran.data.result.asma}
+*Arti*: ${ranquran.data.result.arti}
+*Surat ke*: ${ranquran.data.result.nomor}
+*Keterangan*: ${ranquran.data.result.keterangan}
+*Link audio*: ${ranquran.data.result.audio}
+    `
+}
+
+exports.hadis = () => {
+    return `
+_*Assalamu'alaikum wr. wb.*_
+
+*Daftar hadis*:
+1. Hadis Bukhari ada 6638 hadis
+    _usage_: ${prefix}hadis bukhari 1
+2. Hadis Muslim ada 4930 hadis
+    _usage_: ${prefix}hadis muslim 25
+3. Hadis Tirmidzi ada 3625 hadis
+    _usage_: ${prefix}hadis tirmidzi 10
+4. Hadis nasai ada 5364 hadis
+    _usage_: ${prefix}hadis nasai 6
+5. Hadis Ahmad ada 4305 hadis
+    _usage_: ${prefix}hadis ahmad 5
+6. Hadis Abu Daud ada 4419 hadis
+    _usage_: ${prefix}hadis abudaud 45
+7. Hadis Malik ada 1587 hadis
+    _usage_: ${prefix}hadis malik 45
+8. Hadis Ibnu Majah ada 4285 hadis
+    _usage_: ${prefix}hadis ibnumajah 8
+9. Hadis Darimi ada 2949 hadis
+    _usage_: ${prefix}hadis darimi 3
+
+*Semoga bermanfaat*
+_*Wassalam*_
+    `
+}
+
+exports.asmaulHusna = (assna) => {
+    return `
+───❉ 𝐀𝐬𝐦𝐚𝐮𝐥 𝐇𝐮𝐬𝐧𝐚 ❉──
+
+*${assna.name}*
+❏ *Asmaul husna ke*: ${assna.number}
+❏ *Pelafalan*: ${assna.transliteration}
+❏ *Inggris*: ${assna.en.meaning}
+    `
+}
+
 exports.menu = (jumlahUser, level, xp, role, pushname, requiredXp, premium) => {
     return `
 ------[ WELCOME ]-----
@@ -364,6 +415,21 @@ Usage: *${prefix}tiktokpic* username
 Download video TikTok tanpa WM.
 Aliases: *tktnowm*
 Usage: *${prefix}tiktoknowm* link_video
+
+9. *${prefix}moddroid*
+Cari APK mod dari moddroid.
+Aliases: -
+Usage: *${prefix}moddroid* nama_APK
+
+10. *${prefix}happymod*
+Cari APK mod dari happymod.
+Aliases: -
+Usage: *${prefix}happymod* nama_APK
+
+11. *${prefix}linedl*
+Stike Line downloader.
+Aliases: -
+Usage: *${prefix}linedl* link_stiker
 
 _Index of [1]_
     `
@@ -648,6 +714,36 @@ Usage: *${prefix}genshininfo* nama_karakter
 Terjemahkan text.
 Aliases: *trans*
 Usage: *${prefix}translate* teks | kode_bahasa
+
+39. *${prefix}hadis*
+Info hadis.
+Aliases: -
+Usage: *${prefix}hadis* kitab_hadis | nomor_hadis
+
+40. *${prefix}asmaulhusna*
+Asmaul husna.
+Aliases: -
+Usage: *${prefix}asmaulhusna* nomor_asmaulhusna
+
+41. *${prefix}randomquran*
+Kirim surah Al-Qur'an secara random.
+Aliases: -
+Usage: *${prefix}randomquran*
+
+42. *${prefix}coronavirus*
+Cek kasus COVID-19.
+Aliases: *corona*
+Usage: *${prefix}coronavirus* negara
+
+43. *${prefix}tomp3*
+Format video ke MP3.
+Aliases: -
+Usage: Kirim video dengan caption *${prefix}tomp3* atau reply video dengan caption *${prefix}tomp3*.
+
+44. *${prefix}ttp*
+Buat teks menjadi stiker.
+Aliases: -
+UsageL *${prefix}ttp* teks
 
 _Index of [3]_
     `

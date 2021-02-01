@@ -313,8 +313,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         if (isCmd && msgFilter.isFiltered(from) && isGroupMsg) return console.log(color('[SPAM]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
 
         // Log
-        if (isCmd && !isGroupMsg) console.log(color('[CMD]'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
-        if (isCmd && isGroupMsg) console.log(color('[CMD]'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
+        if (isCmd && !isGroupMsg) {
+            console.log(color('[CMD]'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
+            await bocchi.sendSeen(from)
+        }
+        if (isCmd && isGroupMsg) {
+            console.log(color('[CMD]'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
+            await bocchi.sendSeen(from)
+        }
 
         // Anti-spam
         if (isCmd && !isOwner) msgFilter.addFilter(from)
@@ -384,7 +390,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const resp = _level
                 _level.sort((a, b) => (a.xp < b.xp) ? 1 : -1)
                 let leaderboard = '-----[ *LEADERBOARD* ]----\n\n'
-                let nom = 0
                 try {
                     for (let i = 0; i < 10; i++) {
                         var roles = 'Copper V'
@@ -429,8 +434,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         } else if (resp[i].level <= 100) {
                             roles = 'Exterminator'
                         }
-                        nom++
-                        leaderboard += `${nom}. wa.me/${_level[i].id.replace('@c.us', '')}\n➸ *XP*: ${_level[i].xp} *Level*: ${_level[i].level}\n➸ *Role*: ${roles}\n\n`
+                        leaderboard += `${i + 1}. wa.me/${_level[i].id.replace('@c.us', '')}\n➸ *XP*: ${_level[i].xp} *Level*: ${_level[i].level}\n➸ *Role*: ${roles}\n\n`
                     }
                     await bocchi.reply(from, leaderboard, id)
                 } catch (err) {
@@ -586,7 +590,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-            case 'tiktok': 
+            case 'tiktok':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('tiktok.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -633,7 +637,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-            case 'moddroid': //Chikaa Chantekkzz
+            case 'moddroid': // Chikaa Chantekkzz
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -651,7 +655,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-            case 'happymod': //chikaa chantexxzz
+            case 'happymod': // chikaa chantexxzz
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -669,7 +673,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-            case 'linedl': //chikaa chantexxzz
+            case 'linedl': // chikaa chantexxzz
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) return await bocchi.reply(from, ind.pcOnly(), id)
                 if (!isUrl(url) && !url.includes('store.line.me')) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -688,12 +692,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Misc
-            case 'google': //chika-chantekkzz
+            case 'google': // chika-chantekkzz
             case 'googlesearch':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
-                google({ 'query': q })
+                google({ 'query': q, 'no-display': true })
                     .then(async (results) => {
                         let txt = `-----[ *GOOGLE SEARCH* ]-----\n\n*by: rashidsiregar28*\n\n_*Search results for: ${q}*_`
                         for (let i = 0; i < results.length; i++) {
@@ -762,7 +766,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-            case 'wikien': //By: VideFrelan
+            case 'wikien': // By: VideFrelan
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -779,14 +783,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-            case 'corona': //by CHIKAA CHANTEKKXXZZ
+            case 'corona': // by CHIKAA CHANTEKKXXZZ
             case 'coronavirus':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 misc.corona(q)
                     .then(async (res) => {
-                        await bocchi.sendText(from, '🌎️ Covid Info - ' + q + ' 🌍️\n\n✨️ Total Cases: ' + `${res.cases}` + '\n📆️ Today\'s Cases: ' + `${res.todayCases}` + '\n☣️ Total Deaths: ' + `${res.deaths}` + '\n☢️ Today\'s Deaths: ' + `${res.todayDeaths}` + '\n⛩️ Active Cases: ' + `${res.active}` + '.')
+                        await bocchi.sendText(from, '🌎️ Covid Info - ' + q.charAt(0).toUpperCase() + q.slice(1) + ' 🌍️\n\n✨️ Total Cases: ' + `${res.cases}` + '\n📆️ Today\'s Cases: ' + `${res.todayCases}` + '\n☣️ Total Deaths: ' + `${res.deaths}` + '\n☢️ Today\'s Deaths: ' + `${res.todayDeaths}` + '\n⛩️ Active Cases: ' + `${res.active}` + '.')
                         console.log('Success sending Result!')
                     })
                     .catch(async (err) => {
@@ -794,7 +798,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-            case 'ttp': //CHIKAA CHANTEKKXXZZ
+            case 'ttp': // CHIKAA CHANTEKKXXZZ
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -808,7 +812,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-            case 'genshininfo': //chika chantexxzz
+            case 'genshininfo': // chika chantexxzz
             case 'genshin':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -823,7 +827,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, 'Error or character not found!', id)
                 }
             break
-            case 'instastory': //By: VideFrelan
+            case 'instastory': // By: VideFrelan
             case 'igstory':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return bocchi.reply(from, ind.wrongFormat(), id)
@@ -1211,90 +1215,58 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-            case 'hadis':
+            case 'hadis': // irham01
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (args.length !== 2) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (args.length !== 2) return await bocchi.reply(from, ind.hadis(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 try {
                     if (ar[0] === 'darimi') {
                         const hdar = await axios.get(`https://api.hadith.sutanlab.id/books/darimi/${args[1]}`)
-                        await bocchi.sendText(from, `${hdar.data.data.contents.arab}\n${hdar.data.data.contents.id}\n*H.R. Darimi*`, id)
+                        await bocchi.sendText(from, `${hdar.data.data.contents.arab}\n${hdar.data.data.contents.id}\n\n*H.R. Darimi*`, id)
                     } else if (ar[0] === 'ahmad') {
                         const hmad = await axios.get(`https://api.hadith.sutanlab.id/books/ahmad/${args[1]}`)
-                        await bocchi.sendText(from, `${hmad.data.data.contents.arab}\n${hmad.data.data.contents.id}\n*H.R. Ahmad*`, id)
+                        await bocchi.sendText(from, `${hmad.data.data.contents.arab}\n${hmad.data.data.contents.id}\n\n*H.R. Ahmad*`, id)
                     } else if (ar[0] === 'bukhari') {
                         const hbukh = await axios.get(`https://api.hadith.sutanlab.id/books/bukhari/${args[1]}`)
-                        await bocchi.sendText(from, `${hbukh.data.data.contents.arab}\n${hbukh.data.data.contents.id}\n*H.R. Bukhori*`, id)
+                        await bocchi.sendText(from, `${hbukh.data.data.contents.arab}\n${hbukh.data.data.contents.id}\n\n*H.R. Bukhori*`, id)
                     } else if (ar[0] === 'muslim') {
                         const hmus = await axios.get(`https://api.hadith.sutanlab.id/books/muslim/${args[1]}`)
-                        await bocchi.sendText(from, `${hmus.data.data.contents.arab}\n${hmus.data.data.contents.id}\n*H.R. Muslim*`, id)
+                        await bocchi.sendText(from, `${hmus.data.data.contents.arab}\n${hmus.data.data.contents.id}\n\n*H.R. Muslim*`, id)
                     } else if (ar[0] === 'malik') {
                         const hmal = await axios.get(`https://api.hadith.sutanlab.id/books/malik/${args[1]}`)
-                        await bocchi.sendText(from, `${hmal.data.data.contents.arab}\n${hmal.data.data.contents.id}\n*H.R. Malik*`, id)
+                        await bocchi.sendText(from, `${hmal.data.data.contents.arab}\n${hmal.data.data.contents.id}\n\n*H.R. Malik*`, id)
                     } else if (ar[0] === 'nasai') {
                         const hnas = await axios.get(`https://api.hadith.sutanlab.id/books/nasai/${args[1]}`)
-                        await bocchi.sendText(from, `${hnas.data.data.contents.arab}\n${hnas.data.data.contents.id}\n*H.R. Nasa'i*`, id)
+                        await bocchi.sendText(from, `${hnas.data.data.contents.arab}\n${hnas.data.data.contents.id}\n\n*H.R. Nasa'i*`, id)
                     } else if (ar[0] === 'tirmidzi') {
                         const htir = await axios.get(`https://api.hadith.sutanlab.id/books/tirmidzi/${args[1]}`)
-                        await bocchi.sendText(from, `${htir.data.data.contents.arab}\n${htir.data.data.contents.id}\n*H.R. Tirmidzi*`, id)
+                        await bocchi.sendText(from, `${htir.data.data.contents.arab}\n${htir.data.data.contents.id}\n\n*H.R. Tirmidzi*`, id)
                     } else if (ar[0] === 'ibnumajah') {
                         const hibn = await axios.get(`https://api.hadith.sutanlab.id/books/ibnu-majah/${args[1]}`)
-                        await bocchi.sendText(from, `${hibn.data.data.contents.arab}\n${hibn.data.data.contents.id}\n*H.R. Ibnu Majah*`, id)
+                        await bocchi.sendText(from, `${hibn.data.data.contents.arab}\n${hibn.data.data.contents.id}\n\n*H.R. Ibnu Majah*`, id)
                     } else if (ar[0] === 'abudaud') {
                         const habud = await axios.get(`https://api.hadith.sutanlab.id/books/abu-daud/${args[1]}`)
-                        await bocchi.sendText(from, `${habud.data.data.contents.arab}\n${habud.data.data.contents.id}\n*H.R. Abu Daud*`, id)
+                        await bocchi.sendText(from, `${habud.data.data.contents.arab}\n${habud.data.data.contents.id}\n\n*H.R. Abu Daud*`, id)
                     } else {
-                        await bocchi.sendText(from, `
-        _*Assalamu'alaikum wr. wb.*_
-        
-*Daftar bot hadis :*\n
-1. Hadis Bukhari ada 6638 Hadis
-	_keybot_ : ${prefix}hadis bukhari 1\n
-2. Hadis Muslim ada 4930 Hadis
-	_keybot_ : ${prefix}hadis muslim 25\n
-3. Hadis Tirmidzi ada 3625 Hadis
-	_keybot_ : ${prefix}hadis tirmidzi 10\n
-4. Hadis nasai ada 5364 Hadis
-	_keybot_ : ${prefix}hadis nasai 6\n
-5. Hadis Ahmad ada 4305 Hadis
-	_keybot_ : ${prefix}hadis ahmad 5\n
-6. Hadis Abu Daud ada 4419 Hadis
-	_keybot_ : ${prefix}hadis abudaud 45\n
-7. Hadis Malik ada 1587 Hadis
-	_keybot_ : ${prefix}hadis malik 45\n
-8. Hadis Ibnu Majah ada 4285 Hadis
-	_keybot_ : ${prefix}hadis ibnumajah 8\n
-9. Hadis Darimi ada 2949 Hadis
-    _keybot_ : ${prefix}hadis darimi 3
-    
-		*Semoga Bermanfaat*
-        _*Wassalam*_`, id)
+                        await bocchi.sendText(from, ind.hadis(), id)
                     }
                 } catch (err) {
                     console.error(err)
                     await bocchi.reply(from, 'Error!', id)
                 }
             break
-            case 'asmaulhusna': //semogaBermanfaat
+            case 'asmaulhusna': // irham01
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly, id)
-                if (!q) return await bocchi.reply(from, ind.wrongFormat, id)
-                const asmaulhusna1 = await axios.get (`https://api-melodicxt-2.herokuapp.com/api/asmaallHusna?number=${nomoa}&apiKey=${config.melodic}`)
-                const assna = asmaulhusna1.data.result
-                const gmbere = `https://i2.wp.com/seruni.id/wp-content/uploads/2016/09/Allah.png?resize=696%2C696&ssl=1`
-                bocchi.sendFileFromUrl(from, gmbere, 'gambar.jpg', `───❉ 𝐀𝐬𝐦𝐚𝐮𝐥 𝐇𝐮𝐬𝐧𝐚 ❉──\n\n❏ ${assna.name}\n❏ *Nomor :* ${assna.number}\n❏ *Di baca :* ${assna.transliteration}\n❏ *Inggeris :* ${assna.en.meaning}`, id)
+                if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
+                const asmaulHusna = await axios.get (`https://api-melodicxt-2.herokuapp.com/api/asmaallHusna?number=${args[0]}&apiKey=${config.melodic}`)
+                const assna = asmaulHusna.data.result
+                bocchi.sendFileFromUrl(from, 'https://i2.wp.com/seruni.id/wp-content/uploads/2016/09/Allah.png?resize=696%2C696&ssl=1', 'gambar.jpg', ind.asmaulHusna(assna), id)
             break
-            case 'randomquran': //semogaBermanfaat
+            case 'randomquran': // irham01
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly, id)
-                const ranquran = await axios.get(`https://api.zeks.xyz/api/randomquran`)
+                const ranquran = await axios.get('https://api.zeks.xyz/api/randomquran')
                 const auquran = ranquran.data.result.audio
-                await bocchi.reply(from, ` بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
-*Nama Surat* : ${ranquran.data.result.nama} / ${ranquran.data.result.asma}
-*Arti* : ${ranquran.data.result.arti}
-*Surat Ke-* : ${ranquran.data.result.nomor}
-*Keterangan* : ${ranquran.data.result.keterangan}
-*Link Audio* : ${ranquran.data.result.audio}`, id)
+                await bocchi.reply(from, ind.randomQuran(ranquran), id)
                 await bocchi.sendFileFromUrl(from, auquran, 'rquran.mp3', '', id)
             break
             case 'motivasi':
@@ -1676,14 +1648,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'listpremium':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 let listPremi = '「 *PREMIUM USER LIST* 」\n\n'
-                let nomorList = 0
                 const deret = premium.getAllPremiumUser(_premium)
                 const arrayPremi = []
                 for (let i = 0; i < deret.length; i++) {
                     const checkExp = ms(premium.getPremiumExpired(deret[i], _premium) - Date.now())
                     arrayPremi.push(await bocchi.getContact(premium.getAllPremiumUser(_premium)[i]))
-                    nomorList++
-                    listPremi += `${nomorList}. wa.me/${premium.getAllPremiumUser(_premium)[i].replace('@c.us', '')}\n➸ *Name*: ${arrayPremi[i].pushname}\n➸ *Expired*: ${checkExp.days} day(s) ${checkExp.hours} hour(s) ${checkExp.minutes} minute(s)\n\n`
+                    listPremi += `${i + 1}. wa.me/${premium.getAllPremiumUser(_premium)[i].replace('@c.us', '')}\n➸ *Name*: ${arrayPremi[i].pushname}\n➸ *Expired*: ${checkExp.days} day(s) ${checkExp.hours} hour(s) ${checkExp.minutes} minute(s)\n\n`
                 }
                 await bocchi.reply(from, listPremi, id)
             break
@@ -3824,10 +3794,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'listgroup':
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
                     bocchi.getAllGroups().then((res) => {
-                    let berhitung1 = 1
-                    let gc = `*This is list of group* :\n`
+                    let gc = '*Group list*:\n'
                     for (let i = 0; i < res.length; i++) {
-                        gc += `\n\n*No : ${i+1}*\n*Nama* : ${res[i].name}\n*Pesan Belum Dibaca* : ${res[i].unreadCount} chat\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
+                        gc += `\n\n*No*: ${i+1}\n*Nama*: ${res[i].name}\n*Unread messages*: ${res[i].unreadCount} messages\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
                     }
                     bocchi.reply(from, gc, id)
                 })
