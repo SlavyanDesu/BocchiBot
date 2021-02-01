@@ -136,6 +136,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isQuotedGif = quotedMsg && quotedMsg.mimetype === 'image/gif'
         const isImage = type === 'image'
         const isVideo = type === 'video'
+	const serial = sender.id
         /********** END OF VALIDATOR **********/
 
         // Automate
@@ -221,7 +222,45 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             }
         }
-
+	//LIMIT BY HAFIZH
+                function isLimit(id){
+                if (isPremium) {return false;}
+                    let found = false;
+                    for (let i of _limit){
+                        if(i.id === id){
+                            let limits = i._limit;
+                            if (limits >= limitCount) {
+                                found = true;
+                                bocchi.reply(from, 'Perintah BOT anda sudah mencapai batas, coba esok hari :)', id)
+                                return true;
+                            }else{
+                                _limit
+                                found = true;
+                                return false;
+                            }
+                        }
+                    }
+                    if (found === false){
+                        let obj = {id: `${id}`, limit:1};
+                        _limit.push(obj);
+                        fs.writeFileSync('./database/user/limit.json',JSON.stringify(_limit));
+                        return false;
+                    }  
+                }
+                //FUNCTION LIMIT
+                        function limitAdd (id) {
+                    var found = false;
+                    Object.keys(_limit).forEach((i) => {
+                        if(_limit[i].id == id){
+                            found = i
+                        }
+                    })
+                    if (found !== false) {
+                        _limit[found]._limit += 1;
+                        fs.writeFileSync('./database/user/limit.json',JSON.stringify(_limit));
+                    }
+                }
+                
         // Anti-fake-group link detector
         if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner) {
             if (chats.match(new RegExp(/(https:\/\/chat.(?!whatsapp.com))/gi))) {
@@ -340,6 +379,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
             // Level [BETA] by Slavyan
             case 'level':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
@@ -378,6 +419,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'leaderboard':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
                 if (!isGroupMsg) return await bocchi.reply(from. ind.groupOnly(), id)
@@ -440,6 +483,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'setbackground':
             case 'setbg':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
@@ -459,6 +504,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
             // Downloader
             case 'joox':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -475,6 +522,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'igdl': // by: VideFrelan
             case 'instadl':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('instagram.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -496,6 +545,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break 
             case 'facebook':
             case 'fb':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(pushname), id)
                 if (!isUrl(url) && !url.includes('facebook.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -510,6 +561,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'ytmp3':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('youtu.be')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -531,6 +584,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'ytmp4':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('youtu.be')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -552,6 +607,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'tiktokpic':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -568,6 +625,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'tiktoknowm': // by: VideFrelan
             case 'tktnowm':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('tiktok.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -587,6 +646,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'tiktok': 
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('tiktok.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -602,6 +663,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'twitter':
             case 'twt':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('twitter.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -634,6 +697,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'moddroid': //Chikaa Chantekkzz
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -652,6 +717,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'happymod': //chikaa chantexxzz
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -670,6 +737,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'linedl': //chikaa chantexxzz
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) return await bocchi.reply(from, ind.pcOnly(), id)
                 if (!isUrl(url) && !url.includes('store.line.me')) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -690,6 +759,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             // Misc
             case 'google': //chika-chantekkzz
             case 'googlesearch':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -707,11 +778,15 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'say':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.sendText(from, q)
             break
             case 'afk': // by Slavyan
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (isAfkOn) return await bocchi.reply(from, ind.afkOnAlready(), id)
@@ -721,6 +796,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'lyric':
             case 'lirik':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -736,6 +813,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'shortlink':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url)) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const urlShort = await misc.shortener(url)
@@ -745,6 +824,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'wikipedia':
             case 'wiki':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -763,6 +844,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'wikien': //By: VideFrelan
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -781,6 +866,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'corona': //by CHIKAA CHANTEKKXXZZ
             case 'coronavirus':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -795,6 +882,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'ttp': //CHIKAA CHANTEKKXXZZ
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -810,6 +899,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'genshininfo': //chika chantexxzz
             case 'genshin':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -825,6 +916,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'instastory': //By: VideFrelan
             case 'igstory':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -838,6 +931,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'kbbi':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -852,6 +947,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'linesticker':
             case 'linestiker':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 misc.linesticker()
@@ -870,6 +967,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'jadwalsholat':
             case 'jadwalsolat':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -892,6 +991,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'gempa':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 misc.bmkg()
@@ -906,6 +1007,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'igstalk':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -926,6 +1029,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'gsmarena':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -942,6 +1047,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'receipt':
             case 'resep':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -958,6 +1065,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'findsticker':
             case 'findstiker':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -976,6 +1085,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'movie':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -995,6 +1106,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'cekongkir': // By: VideFrelan
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -1017,6 +1130,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'distance':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const kotaAsal = q.substring(0, q.indexOf('|') - 1)
@@ -1033,6 +1148,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'ytsearch':
             case 'yts':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -1051,6 +1168,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'tts':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const speech = q.substring(q.indexOf('|') + 2)
@@ -1066,6 +1185,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'tomp3': // by: Piyobot
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if ((isMedia && isVideo || isQuotedVideo)) {
                     await bocchi.reply(from, ind.wait(), id)
@@ -1100,6 +1221,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'playstore':
             case 'ps':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -1118,6 +1241,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'math':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (typeof mathjs.evaluate(q) !== 'number') {
@@ -1127,6 +1252,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'shopee':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const namaBarang = q.substring(0, q.indexOf('|') - 1)
@@ -1147,6 +1274,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'mutual':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
                 await bocchi.reply(from, 'Looking for a partner...', id)
@@ -1154,6 +1283,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`)
             break
             case 'next':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) return await bocchi.reply(from, 'Command ini tidak bisa digunakan di dalam grup!', id)
                 await bocchi.reply(from, 'Looking for a partner...', id)
@@ -1161,6 +1292,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.sendText(from, `Partner found: 🙉\n*${prefix}next* — find a new partner`)
             break
             case 'tafsir':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (args.length === 0) return bocchi.reply(from, `Untuk menampilkan ayat Al-Qur'an tertentu beserta tafsir dan terjemahannya\ngunakan ${prefix}tafsir surah ayat\n\nContoh: ${prefix}tafsir Al-Mulk 10`, id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -1181,6 +1314,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'listsurah':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 misc.listSurah()
@@ -1198,6 +1333,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'surah':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -1212,6 +1349,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'hadis':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (args.length !== 2) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -1276,6 +1415,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'asmaulhusna': //semogaBermanfaat
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly, id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat, id)
@@ -1285,6 +1426,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 bocchi.sendFileFromUrl(from, gmbere, 'gambar.jpg', `───❉ 𝐀𝐬𝐦𝐚𝐮𝐥 𝐇𝐮𝐬𝐧𝐚 ❉──\n\n❏ ${assna.name}\n❏ *Nomor :* ${assna.number}\n❏ *Di baca :* ${assna.transliteration}\n❏ *Inggeris :* ${assna.en.meaning}`, id)
             break
             case 'randomquran': //semogaBermanfaat
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly, id)
                 const ranquran = await axios.get(`https://api.zeks.xyz/api/randomquran`)
@@ -1311,6 +1454,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'play':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -1331,6 +1476,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'whois':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -1344,6 +1491,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'email': // By: VideFrelan
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const emailTarget = q.substring(0, q.indexOf('|') - 1)
@@ -1361,6 +1510,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 })
             break
             case 'sms':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const pesanPengirim = q.substring(0, q.indexOf('|') - 1)
@@ -1378,10 +1529,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'toxic':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from , ind.notRegistered(), id)
                 await bocchi.reply(from, toxic(), id)
             break
             case 'alkitab':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -1396,6 +1551,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'reminder': // by Slavyan
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const timeRemind = q.substring(0, q.indexOf('|') - 1)
@@ -1414,6 +1571,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'imagetourl':
             case 'imgtourl':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isMedia && isImage || isQuotedImage) {
                     await bocchi.reply(from, ind.wait(), id)
@@ -1426,6 +1585,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'infohoax':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 misc.infoHoax()
@@ -1444,6 +1605,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'trending':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 misc.trendingTwt()
@@ -1462,6 +1625,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'jobseek':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 misc.jobSeek()
@@ -1481,6 +1646,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'call':
             case 'spamcall':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -1495,6 +1662,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 })
             break
             case 'spamsms':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (args.length !== 2) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (isNaN(Number(args[0])) && isNaN(Number(args[1]))) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -1516,6 +1685,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'translate':
             case 'trans':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const texto = q.substring(0, q.indexOf('|') - 1)
@@ -1526,6 +1697,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             // Bot
             case 'menu':
             case 'help':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 const jumlahUser = _registered.length
                 const levelMenu = level.getLevelingLevel(sender.id, _level)
                 const xpMenu = level.getLevelingXp(sender.id, _level)
@@ -1560,10 +1733,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'rules':
             case 'rule':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.sendText(from, ind.rules())
             break
             case 'nsfw':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
@@ -1581,10 +1758,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'status':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.sendText(from, `*RAM*: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB / ${Math.round(os.totalmem / 1024 / 1024)} MB\n*CPU*: ${os.cpus()[0].model}`)
             break
             case 'listblock':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 let block = ind.listBlock(blockNumber)
                 for (let i of blockNumber) {
@@ -1593,10 +1774,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.sendTextWithMentions(from, block)
             break
             case 'ownerbot':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.sendContact(from, ownerNumber)
             break
             case 'runtime': // BY HAFIZH
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 const formater = (seconds) => {
                     const pad = (s) => {
@@ -1612,17 +1797,23 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'ping':
             case 'p':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.sendText(from, `Pong!\nSpeed: ${processTime(t, moment())} secs`)
             break
             case 'delete':
             case 'del':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!quotedMsg) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (!quotedMsgObj.fromMe) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.deleteMessage(quotedMsgObj.chatId, quotedMsgObj.id, false)
             break
             case 'report':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.emptyMess(), id)
                 const lastReport = limit.getLimit(sender.id, _limit)
@@ -1641,10 +1832,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'tos':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.sendLinkWithAutoPreview(from, 'https://github.com/SlavyanDesu/BocchiBot', ind.tos(ownerNumber))
             break
             case 'join':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('chat.whatsapp.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const checkInvite = await bocchi.inviteInfo(url)
@@ -1667,6 +1862,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'premiumcheck':
             case 'cekpremium':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isPremium) return await bocchi.reply(from, ind.notPremium(), id)
                 const cekExp = ms(premium.getPremiumExpired(sender.id, _premium) - Date.now())
@@ -1674,6 +1871,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'premiumlist':
             case 'listpremium':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 let listPremi = '「 *PREMIUM USER LIST* 」\n\n'
                 let nomorList = 0
@@ -1688,6 +1887,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, listPremi, id)
             break
             case 'getpic':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (mentionedJidList.length !== 0) {
                     const userPic = await bocchi.getProfilePicFromServer(mentionedJidList[0])
@@ -1710,6 +1911,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'serial':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
                 if (isGroupMsg) return await bocchi.reply(from, ind.pcOnly(), id)
                 if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -1727,23 +1930,31 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
             //EDUCATION
             case 'kelpersegi':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
                 const persegi = bdr.datar.keliling.persegi(q, false)
                 const caraPersegi = bdr.datar.keliling.persegi(q, true)
                 await bocchi.reply(from, `*Hasil*: ${persegi}\n*Rumus*: ${caraPersegi}`, id)
             break
             case 'luaspersegi':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
                 const luaspersegi = bdr.datar.luas.persegi(q, false)
                 const luaspersegis = bdr.datar.luas.persegi(q, true)
                 await bocchi.reply(from, `*Hasil*: ${luaspersegi}\n*Rumus*: ${luaspersegis}`, id)
             break
             case 'kuadrat':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
                 const kuadrat = bdr.rdb.kuadrat(q)
                 await bocchi.reply(from, `*Hasil*: ${kuadrat}`, id)
             break
             case 'kubik':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
                 const kubik = bdr.rdb.kubik(q)
                 await bocchi.reply(from, `*Hasil*: ${kubik}`, id)
@@ -1751,6 +1962,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
             // Weeb zone
             case 'neko':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 console.log('Getting neko image...')
@@ -1763,6 +1976,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break 
             case 'wallpaper':
             case 'wp':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 console.log('Getting wallpaper image...')
@@ -1774,6 +1989,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'kemono':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 console.log('Getting kemonomimi image...')
@@ -1785,6 +2002,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'kusonime':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -1804,6 +2023,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'komiku':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -1819,6 +2040,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'wait':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isMedia && isImage || isQuotedImage) {
                     await bocchi.reply(from, ind.wait(), id)
@@ -1853,6 +2076,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'source':
             case 'sauce':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isMedia && isImage || isQuotedImage) {
                     await bocchi.reply(from, ind.wait(), id)
@@ -1881,6 +2106,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'waifu':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 weeaboo.waifu(false)
@@ -1894,6 +2121,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'anitoki':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 weeaboo.anitoki()
@@ -1910,6 +2139,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'neonime':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 weeaboo.neonime()
@@ -1929,6 +2160,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'anoboy':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 weeaboo.anoboy()
@@ -1947,6 +2180,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'nimesticker': // by CHIKAA CHANTEKKXXZZ
             case 'animesticker': 
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 weeaboo.snime()
@@ -1962,6 +2197,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             // Fun
             case 'bapak': // By Kris
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -1973,6 +2210,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'puisi': // By Kris
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 axios.get('https://masgi.herokuapp.com/api/puisi2')
@@ -1983,6 +2222,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'cerpen': // By Kris
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 axios.get('https://masgi.herokuapp.com/api/cerpen')
@@ -1993,6 +2234,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'creepyfact': // By Kris
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return bocchi.reply(from, ind.groupOnly(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -2009,6 +2252,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'quotes':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 misc.quotes()
@@ -2017,6 +2262,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 })
             break
             case 'asupan': // shansekai
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 fun.asupan()
@@ -2032,6 +2279,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'citacita': // Piyobot
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 fun.cita()
                     .then(async (body) => {
@@ -2045,6 +2294,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'dadu': // by CHIKAA CHANTEKKXXZZ
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 fun.dadu()
@@ -2060,6 +2311,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'dogesticker': // by CHIKAA CHANTEKKXXZZ
             case 'doge':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 fun.doge()
@@ -2075,6 +2328,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'profile':
             case 'me':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (quotedMsg) {
                     const getQuoted = quotedMsgObj.sender.id
@@ -2114,6 +2369,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'hartatahta':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -2127,6 +2384,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'partner':
             case 'pasangan':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const nama = q.substring(0, q.indexOf('|') - 1)
@@ -2144,6 +2403,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'zodiac':
             case 'zodiak':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -2164,6 +2425,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'write':
             case 'nulis':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -2176,6 +2439,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'ffbanner': // By: VideFrelan
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -2186,6 +2451,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 console.log('Success!')
             break
             case 'caklontong': //By: VideFrelan
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isGroupMsg) return bocchi.reply(from, ind.groupOnly(), id)
                 if (!isRegistered) return  bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -2212,6 +2479,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 })
             break
             case 'tebakgambar':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -2239,6 +2508,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }) 
             break    
             case 'fflogo': // By: VideFrelan
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return bocchi.reply(from, `Untuk membuat Logo Karakter Freefire\ngunakan ${prefix}fflogo karakter | teks\n\nContoh: ${prefix}fflogo alok | Fikri gans`, id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -2250,6 +2521,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'text3d':
             case '3dtext':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -2258,6 +2531,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 console.log('Success creating 3D text!')
             break
             case 'simi': // by: VideFrelan
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -2272,6 +2547,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'glitchtext':
             case 'glitext':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const teks1 = q.substring(0, q.indexOf('|') - 1)
@@ -2286,6 +2563,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'phmaker':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const kiri = q.substring(0, q.indexOf('|') - 1)
@@ -2300,6 +2579,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'blackpink':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -2312,6 +2593,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'galaxy':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -2324,11 +2607,15 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'tod':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.reply(from, 'Sebelum bermain berjanjilah akan melaksanakan apapun perintah yang diberikan.' , id)
                 await bocchi.sendText(from, `Silakan ketik *${prefix}truth* atau *${prefix}dare*`)
             break
             case 'weton':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const tgl = q.substring(0, q.indexOf('|') - 1)
@@ -2346,6 +2633,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'truth':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 fun.truth()
                     .then(async (body) => {
@@ -2359,6 +2648,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'hilih':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -2373,6 +2664,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 })
             break
             case 'dare':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 fun.dare()
                     .then(async (body) => {
@@ -2386,6 +2679,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'triggered':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isMedia && isImage || isQuotedImage) {
                     await bocchi.reply(from, ind.wait(), id)
@@ -2454,6 +2749,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'trash':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 try {
@@ -2478,6 +2775,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'hitler':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 try {
@@ -2502,6 +2801,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'wasted':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isMedia && type === 'image' || isQuotedImage) {
                     const encryptMediaWt = isQuotedImage ? quotedMsg : message
@@ -2515,6 +2816,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'kiss':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 try {
                     if (isMedia && isImage) {
@@ -2554,6 +2857,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'phcomment':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const usernamePh = q.substring(0, q.indexOf('|') - 1)
@@ -2572,12 +2877,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 console.log('Success creating image!')
             break
             case 'readmore':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const rawReadMore = `a
 
 
-​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​��​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​b`
+​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​��​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​b`
                 const pertama = q.substring(0, q.indexOf('|') - 1)
                 const kedua = q.substring(q.lastIndexOf('|') + 2)
                 const formatted1 = rawReadMore.replace('a', pertama)
@@ -2586,6 +2893,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'neontext':
             case 'neon':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const atasnya = q.substring(0, q.indexOf('|') - 1)
@@ -2596,6 +2905,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 console.log('Success creating image!')
             break
             case 'firemaker':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -2603,6 +2914,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 console.log('Success creating image!')
             break
             case 'mlmaker':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const namaHero = q.substring(0, q.indexOf('|') - 1)
@@ -2613,6 +2926,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'balloonmaker':
             case 'blmaker':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 const namaKiri = q.substring(0, q.indexOf('|') - 1)
@@ -2622,6 +2937,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 console.log('Success creating image!')
             break
             case 'sliding':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -2632,6 +2949,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             // Sticker
             case 'stikernobg':
             case 'stickernobg': //by: VideFrelan
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isMedia && type === 'image' || isQuotedImage) {
                     await bocchi.reply(from, ind.wait(), id)
@@ -2649,6 +2968,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'stickerwm': // By Slavyan
             case 'stcwm':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isPremium) return await bocchi.reply(from, ind.notPremium(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -2687,6 +3008,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'stickermeme':
             case 'stcmeme':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (isMedia && isImage || isQuotedImage) {
@@ -2721,6 +3044,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'takestick': // By: VideFrelan
             case 'take':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (quotedMsg && quotedMsg.type == 'sticker') {
@@ -2753,6 +3078,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'sticker':
             case 'stiker':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isMedia && isImage || isQuotedImage) {
                     await bocchi.reply(from, ind.wait(), id)
@@ -2782,6 +3109,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'stickerp':
             case 'stikerp':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isPremium) return await bocchi.reply(from, ind.notPremium(), id)
                 if (isMedia && isImage || isQuotedImage) {
@@ -2821,6 +3150,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'stickergif':
             case 'stikergif':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isMedia && type === 'video' || mimetype === 'image/gif') {
                     await bocchi.reply(from, ind.wait(), id)
@@ -2855,6 +3186,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'ttg':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
@@ -2868,6 +3201,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'stickertoimg':
             case 'stikertoimg':
             case 'toimg':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isQuotedSticker) {
                     await bocchi.reply(from, ind.wait(), id)
@@ -2885,6 +3220,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'emojisticker':
             case 'emojistiker':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (args.length !== 1) return bocchi.reply(from, ind.wrongFormat(), id)
                 const emoji = emojiUnicode(args[0])
@@ -2906,6 +3243,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'multilewd':
             case 'mlewds':
             case 'mlewd':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 // Premium feature, contact the owner.
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) {
@@ -2919,6 +3258,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'multifetish':
             case 'mfetish':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 // Premium feature, contact the owner.
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) {
@@ -2932,6 +3273,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'lewds':
             case 'lewd':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) {
                     if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
@@ -2959,6 +3302,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'fetish':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (ar.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (isGroupMsg) {
@@ -3082,6 +3427,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'nhentai':
             case 'nh':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (isNaN(Number(args[0]))) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -3135,6 +3482,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'nhdl':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 // Premium feature, contact the owner.
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) {
@@ -3147,6 +3496,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'nhsearch':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (isGroupMsg) {
@@ -3187,6 +3538,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'nekopoi':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) {
                     if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
@@ -3220,6 +3573,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'nekosearch':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (isGroupMsg) {
@@ -3254,6 +3609,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'waifu18':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) {
                     if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
@@ -3281,6 +3638,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'phdl':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) {
                     if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
@@ -3332,6 +3691,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'yuri':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) {
                     if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
@@ -3343,6 +3704,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'lewdavatar':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) {
                     if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
@@ -3354,6 +3717,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'femdom':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) {
                     if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
@@ -3365,6 +3730,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'cersex':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) {
                     if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
@@ -3394,6 +3761,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
             // Moderation command
             case 'mutegc':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return bocchi.reply(from, ind.adminOnly(), id)
@@ -3409,6 +3778,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'add':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
@@ -3423,6 +3794,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'kick':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
@@ -3436,6 +3809,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'promote':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
@@ -3447,6 +3822,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.ok(), id)
             break
             case 'demote':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
@@ -3458,6 +3835,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.ok(), id)
             break
             case 'leave':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
@@ -3466,6 +3845,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'admins':
             case 'admin':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 const groupAdm = await bocchi.getGroupAdmins(groupId)
@@ -3493,6 +3874,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'everyone':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
@@ -3521,6 +3904,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'groupicon':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
@@ -3538,6 +3923,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'antilink':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
@@ -3556,6 +3943,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'leveling':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
@@ -3573,6 +3962,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'welcome':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
@@ -3592,6 +3983,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'autosticker':
             case 'autostiker':
             case 'autostik':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
@@ -3609,6 +4002,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'antinsfw':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
@@ -3629,6 +4024,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
             // Owner command
             case 'bc':
+            	await limitAdd(serial)
+            	if (isLimit(serial)) return bocchi.reply(from, `Maaf ${pushname}, Kuota Limit Kamu Sudah Habis, Ketik ${prefix}limit Untuk Mengecek Kuota Limit Kamu`, id)
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
                 if (!q) return await bocchi.reply(from, ind.emptyMess(), id)
                 const chats = await bocchi.getAllChatIds()
