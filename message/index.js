@@ -136,6 +136,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isQuotedGif = quotedMsg && quotedMsg.mimetype === 'image/gif'
         const isImage = type === 'image'
         const isVideo = type === 'video'
+	const limitCount = '25'
         /********** END OF VALIDATOR **********/
 
         // Automate
