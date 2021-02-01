@@ -222,7 +222,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             }
         }
-	//LIMIT BY HAFIZH
+	//LIMIT
                 function isLimit(id){
                 if (isPremium) {return false;}
                     let found = false;
