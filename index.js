@@ -27,12 +27,6 @@ const start = (bocchi = new Client()) => {
         if (state === 'UNPAIRED' || state === 'CONFLICT' || state === 'UNLAUNCHED') bocchi.forceRefocus()
     })
 
-    // Set all received message to seen
-    bocchi.onAck((x) => {
-        const { to } = x
-        if (x !== 3) bocchi.sendSeen(to)
-    })
-
     // Listening added to group
     bocchi.onAddedToGroup(async (chat) => {
         const gc = await bocchi.getAllGroups()
