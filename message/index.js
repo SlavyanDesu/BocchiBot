@@ -3393,6 +3393,26 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Moderation command
+		case 'limit':
+                 if (isPremium) return bocchi.reply(from, 'Sisa limit anda : 99999999\n*USER STATUS: PREMIUM*\n\nNote: Jangan pamer', id)
+              var found = false
+            const limidat = JSON.parse(fs.readFileSync('./database/bot/limit.json'))
+            for(let lmt of limidat){
+                if(lmt.id === serial){
+                    let limitCounts = limitCount-lmt._limit
+                    if(limitCounts <= 0) return bocchi.reply(from, `Limit request anda sudah habis\n\n_Note : Gunakan fitur mancing dan mining!_`, id)
+                    bocchi.reply(from, `Sisa limit request anda tersisa : *${limitCounts}*\n`, id)
+                    found = true
+                }
+            }
+            console.log(limidat)
+            if (found === false){
+                let obj = {id: `${serial}`, _limit:1};
+                _limit.push(obj);
+                fs.writeFileSync('./database/bot/limit.json',JSON.stringify(_limit, 1));
+                bocchi.reply(from, `Sisa limit request anda tersisa : *${limitCount}*\n\n_Note : Masih banyak!_`, id)
+            }
+            break
             case 'mutegc':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return bocchi.reply(from, ind.groupOnly(), id)
