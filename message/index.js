@@ -466,14 +466,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 link = await axios.get(`https://api.vhtear.com/music?query=${body.slice(6)}&apikey=${config.vhtear}`)
                 const image = `${link.data.result[0].linkImg}`
-		        const card = new canvas.Spotify()
+		const card = new canvas.Spotify()
                 .setAuthor(link.data.result[0].penyanyi)
                 .setAlbum(link.data.result[0].album)
                 .setStartTimestamp(link.data.result[0].duration)
                 .setEndTimestamp('10')
                 .setImage(image)
                 .setTitle(link.data.result[0].judul)
-	            .card.build()
+	        .card.build()
                 .then(buffer => {
                 canvas.write(buffer, "spotify.png")
                 bocchi.sendFile(from, `spotify.png`, `spotify.png`, '', id)
