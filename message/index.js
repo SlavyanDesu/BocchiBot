@@ -52,6 +52,7 @@ const translate = require('@vitalets/google-translate-api')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 const genshin = require('genshin-impact-api')
 const google = require('google-it')
+const cron = require('node-cron')
 /********** END OF MODULES **********/
 
 /********** UTILS **********/
@@ -63,6 +64,7 @@ const { limit, level, card, register, afk, reminder, premium } = require('../fun
 const Exif = require('../tools/exif')
 const exif = new Exif()
 const cd = 4.32e+7
+const limitCount = 25
 const errorImg = 'https://i.ibb.co/jRCpLfn/user.png'
 const tanggal = moment.tz('Asia/Jakarta').format('DD-MM-YYYY')
 /********** END OF UTILS **********/
@@ -82,6 +84,7 @@ const _level = JSON.parse(fs.readFileSync('./database/user/level.json'))
 const _limit = JSON.parse(fs.readFileSync('./database/user/limit.json'))
 const _afk = JSON.parse(fs.readFileSync('./database/user/afk.json'))
 const _reminder = JSON.parse(fs.readFileSync('./database/user/reminder.json'))
+const _daily = JSON.parse(fs.readFileSync('./database/user/daily.json'))
 const _bg = JSON.parse(fs.readFileSync('./database/user/card/background.json'))
 const _setting = JSON.parse(fs.readFileSync('./database/bot/setting.json'))
 let { memberLimit, groupLimit } = _setting
@@ -140,6 +143,62 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
         // Automate
         premium.expiredCheck(_premium)
+        cron.schedule('0 0 * * *', () => {
+            const reset = []
+            fs.writeFileSync('./database/user/limit.json', JSON.stringify(reset))
+        }, {
+            scheduled: true,
+            timezone: 'Asia/Jakarta'
+        })
+
+        // Limit by HAFIZH base from ElainaBOT
+        const isLimit = (userId) => {
+            if (isPremium) return false
+            let found = false
+            for (let i of _limit) {
+                if (i.id === userId) {
+                    let limits = i.limit
+                    if (limits >= limitCount) {
+                        found = true
+                        return true
+                    } else {
+                        found = true
+                        return false
+                    }
+                }
+            }
+            if (found === false) {
+                const obj = { id: userId, limit: 1 }
+                _limit.push(obj)
+                fs.writeFileSync('./database/user/limit.json', JSON.stringify(_limit))
+                return false
+            }
+        }
+
+        const limitAdd = (userId) => {
+            let found = false
+            Object.keys(_limit).forEach((i) => {
+                if (_limit[i].id === userId) {
+                    found = i
+                }
+            })
+            if (found !== false) {
+                _limit[found].limit += 1
+                fs.writeFileSync('./database/user/limit.json', JSON.stringify(_limit))
+            }
+        }
+
+        const getLimit = (userId) => {
+            let found = false
+            Object.keys(_limit).forEach((i) => {
+                if (_limit[i].id === userId) {
+                    found = i
+                }
+            })
+            if (found !== false) {
+                return _limit[found].limit
+            }
+        }
 
         // ROLE (Change to what you want, or add) and you can change the role sort based on XP.
         const levelRole = level.getLevelingLevel(sender.id, _level)
@@ -312,6 +371,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         if (isCmd && msgFilter.isFiltered(from) && !isGroupMsg) return console.log(color('[SPAM]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
         if (isCmd && msgFilter.isFiltered(from) && isGroupMsg) return console.log(color('[SPAM]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
 
+        // Limit
+        if (isCmd && isLimit(from)) return await bocchi.reply(from, 'Limit kamu telah habis, limit akan direset pada jam 00:00 WIB!', id)
+
         // Log
         if (isCmd && !isGroupMsg) {
             console.log(color('[CMD]'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
@@ -322,11 +384,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             await bocchi.sendSeen(from)
         }
 
-        // Anti-spam
-        if (isCmd && !isOwner) msgFilter.addFilter(from)
+        // Anti-spam and limit
+        if (isCmd && !isPremium && !isOwner) {
+            msgFilter.addFilter(from)
+            limitAdd(from)
+        }
 
         switch (command) {
-            case 'antiporn': //PREMIUM
+            case 'antiporn': // Premium, chat VideFikri
                 await bocchi.reply(from, 'Premium Feature!\n\nContact: wa.me/6285692655520?text=Buy%20Anti%20Porn', id)
             break
 
@@ -1597,7 +1662,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'report':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.emptyMess(), id)
-                const lastReport = limit.getLimit(sender.id, _limit)
+                const lastReport = limit.getLimit(sender.id, _daily)
                 if (lastReport !== undefined && cd - (Date.now() - lastReport) > 0) {
                     const time = ms(cd - (Date.now() - lastReport))
                     await bocchi.reply(from, ind.limit(time), id)
@@ -1609,7 +1674,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.sendText(ownerNumber, `-----[ REPORT ]-----\n\n*From*: ${pushname}\n*ID*: ${sender.id}\n*Message*: ${q}`)
                         await bocchi.reply(from, ind.received(pushname), id)
                     }
-                    limit.addLimit(sender.id, _limit)
+                    limit.addLimit(sender.id, _daily)
                 }
             break
             case 'tos':
@@ -1693,6 +1758,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.sendText(from, ind.registeredNotFound(serials))
                 }
+            break
+            case 'limit':
+                if (isPremium || isOwner) return await bocchi.reply(from, '⤞ Limit left: ∞ (UNLIMITED)', id)
+                await bocchi.reply(from, `⤞ Limit left: ${limitCount - getLimit(sender.id)} / 25\n\n*_Limit direset pada pukul 00:00 WIB_*`, id)
             break
 
             //EDUCATION
@@ -3475,9 +3544,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 const groupAdm = await bocchi.getGroupAdmins(groupId)
-                const lastAdmin = limit.getLimit(sender.id, _limit)
+                const lastAdmin = limit.getLimit(sender.id, _daily)
                 if (lastAdmin !== undefined && cd - (Date.now() - lastAdmin) > 0) {
-                    const time = ms(cd - (Date.now() - lastEveryone))
+                    const time = ms(cd - (Date.now() - lastAdmin))
                     await bocchi.reply(from, ind.limit(time), id)
                 } else if (isOwner) {
                     let txt = '╔══✪〘 *ADMINS* 〙✪══\n'
@@ -3495,7 +3564,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     }
                     txt += '╚═〘 *B O C C H I  B O T* 〙'
                     await bocchi.sendTextWithMentions(from, txt)
-                    limit.addLimit(sender.id, _limit)
+                    limit.addLimit(sender.id, _daily)
                 }
             break
             case 'everyone':
@@ -3503,7 +3572,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
                 const groupMem = await bocchi.getGroupMembers(groupId)
-                const lastEveryone = limit.getLimit(sender.id, _limit)
+                const lastEveryone = limit.getLimit(sender.id, _daily)
                 if (lastEveryone !== undefined && cd - (Date.now() - lastEveryone) > 0) {
                     const time = ms(cd - (Date.now() - lastEveryone))
                     await bocchi.reply(from, ind.limit(time), id)
@@ -3523,7 +3592,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         }
                     txt += '╚═〘 *B O C C H I  B O T* 〙'
                     await bocchi.sendTextWithMentions(from, txt)
-                    limit.addLimit(sender.id, _limit)
+                    limit.addLimit(sender.id, _daily)
                 }
             break
             case 'groupicon':

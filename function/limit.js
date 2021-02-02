@@ -9,7 +9,7 @@ const fs = require('fs-extra')
 const addLimit = (userId, _dir) => {
     const obj = { id: userId, time: Date.now() }
     _dir.push(obj)
-    fs.writeFileSync('./database/user/limit.json', JSON.stringify(_dir))
+    fs.writeFileSync('./database/user/daily.json', JSON.stringify(_dir))
 }
 
 /**
