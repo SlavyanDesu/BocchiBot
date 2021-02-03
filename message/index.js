@@ -527,15 +527,24 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Downloader
-            case 'joox':
+            case 'joox': //By Hafizh
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
-                downloader.joox(q)
-                    .then(async ({ result }) => {
-                        await bocchi.sendFileFromUrl(from, result[0].linkImg, `${result[0].judul}.jpg`, ind.joox(result), id)
-                        await bocchi.sendFileFromUrl(from, result[0].linkMp3, `${result[0].judul}.mp3`, '', id)
-                        console.log('Success sending music from Joox!')
+                const dataJoox = await axios.get(`https://api.vhtear.com/music?query=${q}&apikey=${config.vhtear}`)
+		        const card = new canvas.Spotify()
+                    .setAuthor(dataJoox.data.result[0].penyanyi)
+                    .setAlbum(dataJoox.data.result[0].album)
+                    .setStartTimestamp(dataJoox.data.result[0].duration)
+                    .setEndTimestamp('10')
+                    .setImage(dataJoox.data.result[0].linkImg)
+                    .setTitle(dataJoox.data.result[0].judul)
+	            card.build()
+                    .then(async (buffer) => {
+                        canvas.write(buffer, "spotify.png")
+                        await bocchi.sendFile(from, `spotify.png`, `spotify.png`, '', id)
+                        fs.unlinkSync(`spotify.png`)
+                        await bocchi.sendFileFromUrl(from, link.data.result[0].linkMp3, 'joox.mp3', '', id)
                     })
                     .catch(async (err) => {
                         console.error(err)
