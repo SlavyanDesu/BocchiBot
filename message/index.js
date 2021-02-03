@@ -536,14 +536,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .setAuthor(dataJoox.data.result[0].penyanyi)
                     .setAlbum(dataJoox.data.result[0].album)
                     .setStartTimestamp(dataJoox.data.result[0].duration)
-                    .setEndTimestamp('10')
+                    .setEndTimestamp(10)
                     .setImage(dataJoox.data.result[0].linkImg)
                     .setTitle(dataJoox.data.result[0].judul)
                 card.build()
                     .then(async (buffer) => {
-                        canvas.write(buffer, 'spotify.png')
-                        await bocchi.sendFile(from, 'spotify.png', 'spotify.png', '', id)
-                        fs.unlinkSync('spotify.png')
+                        canvas.write(buffer, 'joox.png')
+                        await bocchi.sendFile(from, 'joox.png', 'joox.png', '', id)
+                        fs.unlinkSync('joox.png')
                         await bocchi.sendFileFromUrl(from, dataJoox.data.result[0].linkMp3, 'joox.mp3', '', id)
                     })
                     .catch(async (err) => {
@@ -1770,7 +1770,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'limit':
                 if (isPremium || isOwner) return await bocchi.reply(from, '⤞ Limit left: ∞ (UNLIMITED)', id)
-                await bocchi.reply(from, `⤞ Limit left: ${limitCount - getLimit(sender.id)} / 25\n\n*_Limit direset pada pukul 00:00 WIB_*`, id)
+                await bocchi.reply(from, `⤞ Limit left: ${limitCount - getLimit(sender.id) + 1} / 25\n\n*_Limit direset pada pukul 00:00 WIB_*`, id)
             break
 
             //EDUCATION
