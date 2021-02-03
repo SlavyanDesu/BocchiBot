@@ -539,11 +539,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .setEndTimestamp('10')
                     .setImage(dataJoox.data.result[0].linkImg)
                     .setTitle(dataJoox.data.result[0].judul)
-	            card.build()
+	        card.build()
                     .then(async (buffer) => {
-                        canvas.write(buffer, "spotify.png")
-                        await bocchi.sendFile(from, `spotify.png`, `spotify.png`, '', id)
-                        fs.unlinkSync(`spotify.png`)
+                        canvas.write(buffer, 'spotify.png')
+                        await bocchi.sendFile(from, 'spotify.png', 'spotify.png', '', id)
+                        fs.unlinkSync('spotify.png')
                         await bocchi.sendFileFromUrl(from, link.data.result[0].linkMp3, 'joox.mp3', '', id)
                     })
                     .catch(async (err) => {
