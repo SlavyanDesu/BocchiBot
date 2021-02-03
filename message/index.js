@@ -462,26 +462,31 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Downloader
-           case 'joox': //By Hafizh
+            case 'joox': //By Hafizh
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                link = await axios.get(`https://api.vhtear.com/music?query=${body.slice(6)}&apikey=${config.vhtear}`)
-                const image = `${link.data.result[0].linkImg}`
-		const card = new canvas.Spotify()
-                .setAuthor(link.data.result[0].penyanyi)
-                .setAlbum(link.data.result[0].album)
-                .setStartTimestamp(link.data.result[0].duration)
-                .setEndTimestamp('10')
-                .setImage(image)
-                .setTitle(link.data.result[0].judul)
-	        .card.build()
-                .then(buffer => {
-                canvas.write(buffer, "spotify.png")
-                bocchi.sendFile(from, `spotify.png`, `spotify.png`, '', id)
-                fs.unlinkSync(`spotify.png`)
-                bocchi.sendFileFromUrl(from, link.data.result[0].linkMp3, 'joox.mp3', '', id)
-                })
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                const dataJoox = await axios.get(`https://api.vhtear.com/music?query=${q}&apikey=${config.vhtear}`)
+		        const card = new canvas.Spotify()
+                    .setAuthor(dataJoox.data.result[0].penyanyi)
+                    .setAlbum(dataJoox.data.result[0].album)
+                    .setStartTimestamp(dataJoox.data.result[0].duration)
+                    .setEndTimestamp('10')
+                    .setImage(dataJoox.data.result[0].linkImg)
+                    .setTitle(dataJoox.data.result[0].judul)
+	            card.build()
+                    .then(async (buffer) => {
+                        canvas.write(buffer, "spotify.png")
+                        await bocchi.sendFile(from, `spotify.png`, `spotify.png`, '', id)
+                        fs.unlinkSync(`spotify.png`)
+                        await bocchi.sendFileFromUrl(from, link.data.result[0].linkMp3, 'joox.mp3', '', id)
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
             break
-          case 'igdl': // by: VideFrelan
+            case 'igdl': // by: VideFrelan
             case 'instadl':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('instagram.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
