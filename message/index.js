@@ -3456,6 +3456,44 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                 }
             break
+            case 'xvideosdl':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isUrl(url) && !url.includes('xvideos.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (isGroupMsg) {
+                    if (!isNsfw) return await bocchi.reply(from, ind.notNsfw(), id)
+                    await bocchi.reply(from, ind.wait(), id)
+                    nsfw.xvdl(url)
+                        .then(async (res) => {
+                            if (Number(res.size.split(' MB')[0]) >= 30) {
+                                const shortxv = await misc.shortener(res.vid)
+                                await bocchi.reply(from, `*「 XVIDEOS DOWNLOADER 」*\n\n➸ *Title* : ${res.judul}\n➸ *Size* : ${res.size}\n\nUkuran video melebihi batas,file download akan disajikan dalam bentuk link\n*${shortxv}*`, id)
+                            } else {
+                                await bocchi.sendFileFromUrl(from, res.vid, 'xnxx.mp4', `*「 XVIDEOS DOWNLOADER 」*\n\n➸ *Title* : ${res.judul}\n➸ *Size* : ${res.size}`, id)
+                                console.log('Success sending xvideos!')
+                            }
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, 'Error!', id)
+                        })
+                } else {
+                    await bocchi.reply(from, ind.wait(), id)
+                    nsfw.xvdl(url)
+                        .then(async (res) => {
+                            if (Number(res.size.split(' MB')[0]) >= 30) {
+                                const shortxv = await misc.shortener(res.vid)
+                                await bocchi.reply(from, `*「 XVIDEOS DOWNLOADER 」*\n\n➸ *Title* : ${res.judul}\n➸ *Size* : ${res.size}\n\nUkuran video melebihi batas,file download akan disajikan dalam bentuk link\n*${shortxv}*`, id)
+                            } else {
+                                await bocchi.sendFileFromUrl(from, res.vid, 'xnxx.mp4', `*「 XVIDEOS DOWNLOADER 」*\n\n➸ *Title* : ${res.judul}\n➸ *Size* : ${res.size}`, id)
+                                console.log('Success sending xvideos!')
+                            }
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, 'Error!', id)
+                        })
+                }
+            break
 
             // Moderation command
             case 'revoke':
