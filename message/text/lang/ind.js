@@ -283,6 +283,32 @@ exports.ageOld = () => {
     return `Kamu terlalu tua untuk menggunakan fitur ini! Mohon kembali ke masa muda anda agar bisa menggunakannya.`
 }
 
+exports.menuText1 = () => {
+    return `
+╔══❉ *𝐓𝐞𝐱𝐭 𝐌𝐚𝐤𝐞𝐫 1 (VF)* ❉═══
+║
+║ Untuk Spasi Teks menggunakan *+*
+║ contoh : ${prefix}text1 neon kael+bot
+║
+╟⊱ *${prefix}text1 bokeh* _teks_
+╟⊱ *${prefix}text1 lab* _teks_
+╟⊱ *${prefix}text1 eroded* _teks_
+╟⊱ *${prefix}text1 old* _teks_
+╟⊱ *${prefix}text1 bluelight* _teks_
+╟⊱ *${prefix}text1 bulbs* _teks_
+╟⊱ *${prefix}text1 dragonfire* _teks_
+╟⊱ *${prefix}text1 dropwater* _teks_
+╟⊱ *${prefix}text1 dropwater2* _teks_
+╟⊱ *${prefix}text1 galaxy* _teks_
+╟⊱ *${prefix}text1 galaxycrack* _teks_
+╟⊱ *${prefix}text1 guardiangalaxy* _teks_
+╟⊱ *${prefix}text1 metalgray* _teks_
+╟⊱ *${prefix}text1 metalpaper* _teks_
+║
+╚══❉ *𝐊𝐚-𝐄𝐋 𝐁𝐎𝐓* ❉════
+    `
+}
+
 exports.randomQuran = (ranquran) => {
     return `
     بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
