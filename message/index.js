@@ -650,14 +650,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isUrl(url) && !url.includes('tiktok.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 downloader.tikNoWm(url)
-                    .then(async ({result}) => {
+                    .then(async ({ result }) => {
                         await bocchi.sendFileFromUrl(from, result.thumb, 'TiktokNoWM.jpg', `➸ *Username*: ${result.username}\n➸ *Caption*: ${result.caption}\n➸ *Uploaded on*: ${result.uploaded_on}\n\nSedang dikirim, sabar ya...`, id)
                         const responses = await fetch(result.link);
                         const buffer = await responses.buffer();
-                        fs.writeFileSync(`./temp/${sender.id}_TikTok.mp4`, buffer)
-                        await bocchi.sendFile(from, `./temp/${sender.id}_TikTok.mp4`, `${sender.id}_TikTok.mp4`, '', id)
+                        fs.writeFileSync(`./temp/${sender.id}_TikTokNoWm.mp4`, buffer)
+                        await bocchi.sendFile(from, `./temp/${sender.id}_TikTokNoWm.mp4`, `${sender.id}_TikTokNoWm.mp4`, '', id)
                         console.log('Success sending TikTok video with no WM!')
-                        fs.unlinkSync(`./temp/${sender.id}_TikTok.mp4`)
+                        fs.unlinkSync(`./temp/${sender.id}_TikTokNoWm.mp4`)
                     })
                     .catch(async (err) => {
                         console.error(err)
@@ -670,8 +670,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
                 downloader.tik(url)
                     .then(async ({ result })=> {
-                        await bocchi.sendFileFromUrl(from, result.video, 'tiktok.mp4', '', id)
+                        const responses = await fetch(result.video);
+                        const buffer = await responses.buffer();
+                        fs.writeFileSync(`./temp/${sender.id}_TikTok.mp4`, buffer)
+                        await bocchi.sendFile(from, `./temp/${sender.id}_TikTok.mp4`, `${sender.id}_TikTok.mp4`, '', id)
                         console.log('Success sending TikTok video!')
+                        fs.unlinkSync(`./temp/${sender.id}_TikTok.mp4`)
                     })
                     .catch(async (err) => {
                         console.log(err)
