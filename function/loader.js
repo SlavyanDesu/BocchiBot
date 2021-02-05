@@ -1,6 +1,13 @@
+/* eslint-disable no-empty-function */
 const fs = require('fs-extra')
 const { color } = require('../tools')
 
+/**
+ * Returns an array of files.
+ * @param {*} dirPath 
+ * @param {String[]} arrayOfFiles 
+ * @returns {String[]}
+ */
 const getAllDirFiles = (dirPath, arrayOfFiles) => {
     const files = fs.readdirSync(dirPath)
     arrayOfFiles = arrayOfFiles || []
@@ -14,6 +21,10 @@ const getAllDirFiles = (dirPath, arrayOfFiles) => {
     return arrayOfFiles
 } 
 
+/**
+ * Uncache a changes.
+ * @param {*} module 
+ */
 const uncache = (module = '.') => {
     return new Promise((resolve, reject) => {
         try {
@@ -25,7 +36,12 @@ const uncache = (module = '.') => {
     })
 }
 
-const nocache = (module, call = () => { }) => {
+/**
+ * Delete file cache.
+ * @param {*} module 
+ * @param {*} call 
+ */
+const nocache = (module, call = () => {}) => {
     console.log(color('[WATCH]', 'orange'), color(`=> '${module}'`, 'yellow'), 'file is now being watched by me!')
     fs.watchFile(require.resolve(module), async () => {
         await uncache(require.resolve(module))

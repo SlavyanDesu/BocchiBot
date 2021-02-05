@@ -1,4 +1,6 @@
 const fs = require('fs-extra')
+const { getBg } = require('./card')
+const _bg = JSON.parse(fs.readFileSync('./database/user/card/background.json'))
 
 /**
  * Get user ID from db.
@@ -7,14 +9,22 @@ const fs = require('fs-extra')
  * @returns {String}
  */
 const getLevelingId = (userId, _dir) => {
-    let position = null
+    let pos = null
+    let found = false
+    getBg(userId, _bg)
     Object.keys(_dir).forEach((i) => {
         if (_dir[i].id === userId) {
-            position = i
+            pos = i
+            found = true
         }
     })
-    if (position !== null) {
-        return _dir[position].id
+    if (found === false && pos === null) {
+        const obj = { id: userId, xp: 0, level: 1 }
+        _dir.push(obj)
+        fs.writeFileSync('./database/user/level.json', JSON.stringify(_dir))
+        return userId
+    } else {
+        return _dir[pos].id
     }
 } 
 
@@ -25,14 +35,22 @@ const getLevelingId = (userId, _dir) => {
  * @returns {Number}
  */
 const getLevelingLevel = (userId, _dir) => {
-    let position = null
+    let pos = null
+    let found = false
+    getBg(userId, _bg)
     Object.keys(_dir).forEach((i) => {
         if (_dir[i].id === userId) {
-            position = i
+            pos = i
+            found = true
         }
     })
-    if (position !== null) {
-        return _dir[position].level
+    if (found === false && pos === null) {
+        const obj = { id: userId, xp: 0, level: 1 }
+        _dir.push(obj)
+        fs.writeFileSync('./database/user/level.json', JSON.stringify(_dir))
+        return 1
+    } else {
+        return _dir[pos].level
     }
 }
 
@@ -43,26 +61,23 @@ const getLevelingLevel = (userId, _dir) => {
  * @returns {Number}
  */
 const getLevelingXp = (userId, _dir) => {
-    let position = null
+    let pos = null
+    let found = false
+    getBg(userId, _bg)
     Object.keys(_dir).forEach((i) => {
         if (_dir[i].id === userId) {
-            position = i
+            pos = i
+            found = true
         }
     })
-    if (position !== null) {
-        return _dir[position].xp
+    if (found === false && pos === null) {
+        const obj = { id: userId, xp: 0, level: 1 }
+        _dir.push(obj)
+        fs.writeFileSync('./database/user/level.json', JSON.stringify(_dir))
+        return 0
+    } else {
+        return _dir[pos].xp
     }
-}
-
-/**
- * Add user to db.
- * @param {String} userId 
- * @param {Object} _dir 
- */
-const addLevelingId = (userId, _dir) => {
-    const obj = { id: userId, xp: 0, level: 1 }
-    _dir.push(obj)
-    fs.writeFileSync('./database/user/level.json', JSON.stringify(_dir))
 }
 
 /**
@@ -103,11 +118,26 @@ const addLevelingXp = (userId, amount, _dir) => {
     }
 }
 
+// Cooldown XP gains to prevent spam
+const xpGain = new Set()
+
+const isGained = (from) => {
+    return !!xpGain.has(from)
+}
+
+const addCooldown = (from) => {
+    xpGain.add(from)
+    setTimeout(() => {
+        return xpGain.delete(from)
+    }, 60000) // Each minute
+}
+
 module.exports = {
     getLevelingId,
     getLevelingLevel,
     getLevelingXp,
-    addLevelingId,
     addLevelingLevel,
-    addLevelingXp
+    addLevelingXp,
+    isGained,
+    addCooldown
 }

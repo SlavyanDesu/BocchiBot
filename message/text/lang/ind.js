@@ -67,9 +67,7 @@ exports.nhFalse = () => {
 }
 
 exports.listBlock = (blockNumber) => {
-    return `------[ HALL OF SHAME ]------
-    
-Total diblokir: *${blockNumber.length}* user\n`
+    return `------[ HALL OF SHAME ]------\n\nTotal diblokir: *${blockNumber.length}* user\n`
 }
 
 exports.notPremium = () => {
@@ -112,7 +110,7 @@ exports.received = (pushname) => {
     return `Halo ${pushname}!\nTerima kasih telah melapor, laporanmu akan kami segera terima.`
 }
 
-exports.limit = (time) => {
+exports.daily = (time) => {
     return `Maaf, tetapi kamu telah mencapai limit menggunakan command ini.\nSilakan tunggu *${time.hours}* jam *${time.minutes}* menit *${time.seconds}* detik lagi.`
 }
 
@@ -283,6 +281,10 @@ exports.ageOld = () => {
     return `Kamu terlalu tua untuk menggunakan fitur ini! Mohon kembali ke masa muda anda agar bisa menggunakannya.`
 }
 
+exports.fakeLink = () => {
+    return `Ups, link ini terlihat mencurigakan. Demi keamanan grup, aku harus mengeluarkan mu...\n`
+}
+
 exports.randomQuran = (ranquran) => {
     return `
     بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
@@ -320,6 +322,15 @@ _*Assalamu'alaikum wr. wb.*_
 
 *Semoga bermanfaat*
 _*Wassalam*_
+    `
+}
+
+exports.limit = () => {
+    return `
+*── 「 LIMIT 」 ──*
+
+Limit penggunaan kamu telah habis! Silakan lakukan hal berikut:
+❏ *_Tunggu hingga jam 00:00 WIB_*
     `
 }
 
@@ -366,9 +377,6 @@ Ketik *${prefix}menu* angka_index untuk membuka menu page yang dipilih.
 Catatan:
 Perlakukan bot secara baik, dev akan bertindak tegas apabila user melanggar rules.
 Bot ini terdapat anti-spam yang berupa cooldown command selama *5 detik* setiap kali pemakaian.
-
-Sincerely,
-Slavyan
     `
 }
 
@@ -427,7 +435,7 @@ Aliases: -
 Usage: *${prefix}happymod* nama_APK
 
 11. *${prefix}linedl*
-Stike Line downloader.
+Stiker Line downloader.
 Aliases: -
 Usage: *${prefix}linedl* link_stiker
 
@@ -711,7 +719,7 @@ Aliases: *genshin*
 Usage: *${prefix}genshininfo* nama_karakter
 
 38. *${prefix}translate*
-Terjemahkan text.
+Terjemahkan teks.
 Aliases: *trans*
 Usage: *${prefix}translate* teks | kode_bahasa
 
@@ -922,7 +930,7 @@ Usage: *${prefix}weton* tanggal | bulan | tahun
 12. *${prefix}triggered*
 Membuat efek triggered.
 Aliases: -
-Usage: Kirim gambar dengan caption *${prefix}triggered* atau reply pesan orang dengan *${prefix}triggered* atau bisa gunakan command *${prefix}triggered* langsung.
+Usage: Kirim gambar dengan caption *${prefix}triggered* atau reply pesan orang dengan *${prefix}triggered*.
 
 13. *${prefix}kiss*
 Kiss someone ( ͡° ͜ʖ ͡°).
@@ -954,52 +962,47 @@ Membuat logo karakter Free Fire.
 Aliases: -
 Usage: *${prefix}fflogo* teks1 | teks2
 
-19. *${prefix}readmore*
-Generate teks baca selengkapnya.
-Aliases: -
-Usage: *${prefix}readmore* teks1 | teks2
-
-20. *${prefix}neontext*
+19. *${prefix}neontext*
 Membuat gambar neon teks.
 Aliases: *neon*
 Usage: *${prefix}neontext* teks_atas | teks_tengah | teks_bawah
 
-21. *${prefix}firemaker*
+20. *${prefix}firemaker*
 Membuat gambar teks fire.
 Aliases: -
 Usage: *${prefix}firemaker* teks
 
-22. *${prefix}mlmaker*
+21. *${prefix}mlmaker*
 Membuat gambar karakter hero ML dengan teks.
 Aliases: -
 Usage: *${prefix}mlmaker* nama_hero | teks
 
-23. *${prefix}balloonmaker*
+22. *${prefix}balloonmaker*
 Membuat gambar couple balloon.
 Aliases: *blmaker*
 Usage: *${prefix}balloonmaker* nama1 | nama2
 
-24. *${prefix}sliding*
+23. *${prefix}sliding*
 Membuat GIF sliding text.
 Aliases: -
 Usage: *${prefix}sliding* teks
 
-25. *${prefix}wasted*
-Membuat gambar Wasted GTA V.
+24. *${prefix}wasted*
+Membuat gambar wasted.
 Aliases: -
 Usage: Upload foto dengan caption *${prefix}wasted*
 
-26. *${prefix}caklontong*
+25. *${prefix}caklontong*
 Bermain kuis caklontong.
 Aliases: -
 Usage: *${prefix}caklontong*
 
-27. *${prefix}hilih*
+26. *${prefix}hilih*
 Replace beberapa huruf menjadi i.
 Aliases: -
 Usage: *${prefix}hilih* teks
 
-28. *${prefix}tebakgambar*
+27. *${prefix}tebakgambar*
 Bermain kuis tebak gambar.
 Aliases: -
 Usage: *${prefix}tebakgambar*

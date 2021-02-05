@@ -217,7 +217,6 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 | Sholat schedule      |      ✔️      |
 | Latest Line stickers |      ✔️      |
 | Check postage        |      ✔️      |
-| Spoiler text         |      ✔️      |
 | Sending email        |      ✔️      |
 | Random quotes        |      ✔️      |
 | Genshin chara info   |      ✔️      |

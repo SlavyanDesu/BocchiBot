@@ -1,31 +1,27 @@
 const fs = require('fs-extra')
 
 /**
- * Add background card.
- * @param {String} userId 
- * @param {Object} _dir 
- */
-const addBg = (userId, _dir) => {
-    const obj = { id: userId, link: 'https://i.ibb.co/tYf3jmz/amos-yan-no-entry-1.jpg' }
-    _dir.push(obj)
-    fs.writeFileSync('./database/user/card/background.json', JSON.stringify(_dir))
-}
-
-/**
  * Get background.
  * @param {String} userId 
  * @param {Object} _dir 
  * @returns {String}
  */
 const getBg = (userId, _dir) => {
-    let position = null
+    let pos = null
+    let found = false
     Object.keys(_dir).forEach((i) => {
         if (_dir[i].id === userId) {
-            position = i
+            pos = i
+            found = true
         }
     })
-    if (position !== null) {
-        return _dir[position].link
+    if (found === false && pos === null) {
+        const obj = { id: userId, link: 'https://i.ibb.co/tYf3jmz/amos-yan-no-entry-1.jpg' }
+        _dir.push(obj)
+        fs.writeFileSync('./database/user/card/background.json', JSON.stringify(_dir))
+        return 'https://i.ibb.co/tYf3jmz/amos-yan-no-entry-1.jpg'
+    } else {
+        return _dir[pos].link
     }
 }
 
@@ -49,7 +45,6 @@ const replaceBg = (userId, link, _dir) => {
 }
 
 module.exports = {
-    addBg,
     getBg,
     replaceBg
 }
