@@ -60,7 +60,7 @@ const { msgFilter, color, processTime, isUrl, createSerial } = require('../tools
 const { nsfw, weeaboo, downloader, fun, misc, toxic } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
-const { daily, level, card, register, afk, reminder, premium, limit} = require('../function')
+const { daily, level, register, afk, reminder, premium, limit} = require('../function')
 const Exif = require('../tools/exif')
 const exif = new Exif()
 const cd = 4.32e+7
@@ -85,7 +85,6 @@ let _limit = JSON.parse(fs.readFileSync('./database/user/limit.json'))
 const _afk = JSON.parse(fs.readFileSync('./database/user/afk.json'))
 const _reminder = JSON.parse(fs.readFileSync('./database/user/reminder.json'))
 const _daily = JSON.parse(fs.readFileSync('./database/user/daily.json'))
-const _bg = JSON.parse(fs.readFileSync('./database/user/card/background.json'))
 const _setting = JSON.parse(fs.readFileSync('./database/bot/setting.json'))
 let { memberLimit, groupLimit } = _setting
 /********** END OF DATABASES **********/
@@ -367,18 +366,17 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     pepe = ppLink
                 }
-                const bege = card.getBg(sender.id, _bg)
                 const requiredXp = 5 * Math.pow(userLevel, 2) + 50 * userLevel + 100
-                const randomHexs = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`
-                const randomHex = `#${(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')}`
                 const rank = new canvas.Rank()
                     .setAvatar(pepe)
                     .setLevel(userLevel)
-                    .setRank(1, role, false) // Set value to true if you want to display user's roles
+                    .setLevelColor('#ffa200', '#ffa200')
+                    .setRank(Number(level.getUserRank(sender.id, _level)))
                     .setCurrentXP(userXp)
+                    .setOverlay('#000000', 100, false)
                     .setRequiredXP(requiredXp)
-                    .setProgressBar([randomHexs, randomHex], 'GRADIENT')
-                    .setBackground('IMAGE', bege)
+                    .setProgressBar('#ffa200', 'COLOR')
+                    .setBackground('COLOR', '#000000')
                     .setUsername(pushname)
                     .setDiscriminator(sender.id.substring(6, 10))
                 rank.build()
@@ -449,24 +447,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } catch (err) {
                     console.error(err)
                     await bocchi.reply(from, ind.minimalDb(), id)
-                }
-            break
-            case 'setbackground':
-            case 'setbg':
-                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (!isLevelingOn) return await bocchi.reply(from, ind.levelingNotOn(), id)
-                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
-                const levels = level.getLevelingLevel(sender.id, _level)
-                const xps = level.getLevelingXp(sender.id, _level)
-                if (levels === undefined && xps === undefined) return await bocchi.reply(from, ind.levelNull(), id)
-                if (isMedia && isImage || isQuotedImage) {
-                    const encryptMedia = isQuotedImage ? quotedMsg : message
-                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
-                    const link = await uploadImages(mediaData, `${sender.id}_bg`)
-                    card.replaceBg(sender.id, link, _bg)
-                    await bocchi.reply(from, 'Success set new background!', id)
-                } else {
-                    await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
 

@@ -156,10 +156,7 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 |     Leveling     |  Availability  |
 | :--------------: | :------------: |
 | Leveling         |       ✔️       |
-| Set background   |       ✔️       |
-| Set status color |      Soon      |
 | Set level color  |      Soon      |
-| Set XP color     |      Soon      |
 | Set bar color    |      Soon      |
 
 |     Sticker Maker     | Availability |

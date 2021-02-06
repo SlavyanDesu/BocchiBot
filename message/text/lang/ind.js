@@ -1259,11 +1259,6 @@ Untuk melihat leaderboard.
 Aliaases: -
 Usage: *${prefix}leaderboard*
 
-3. *${prefix}setbackground*
-Set background level card.
-Aliases: *setbg*
-Usage: Kirim gambar dengan caption *${prefix}setbackground* atau reply gambar dengan caption *${prefix}setbackground*.
-
 _Index of [10]_
     `
 }

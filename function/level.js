@@ -1,6 +1,4 @@
 const fs = require('fs-extra')
-const { getBg } = require('./card')
-const _bg = JSON.parse(fs.readFileSync('./database/user/card/background.json'))
 
 /**
  * Get user ID from db.
@@ -11,7 +9,6 @@ const _bg = JSON.parse(fs.readFileSync('./database/user/card/background.json'))
 const getLevelingId = (userId, _dir) => {
     let pos = null
     let found = false
-    getBg(userId, _bg)
     Object.keys(_dir).forEach((i) => {
         if (_dir[i].id === userId) {
             pos = i
@@ -37,7 +34,6 @@ const getLevelingId = (userId, _dir) => {
 const getLevelingLevel = (userId, _dir) => {
     let pos = null
     let found = false
-    getBg(userId, _bg)
     Object.keys(_dir).forEach((i) => {
         if (_dir[i].id === userId) {
             pos = i
@@ -63,7 +59,6 @@ const getLevelingLevel = (userId, _dir) => {
 const getLevelingXp = (userId, _dir) => {
     let pos = null
     let found = false
-    getBg(userId, _bg)
     Object.keys(_dir).forEach((i) => {
         if (_dir[i].id === userId) {
             pos = i
@@ -118,6 +113,32 @@ const addLevelingXp = (userId, amount, _dir) => {
     }
 }
 
+/**
+ * Get user rank.
+ * @param {String} userId 
+ * @param {Object} _dir 
+ * @returns {Number}
+ */
+const getUserRank = (userId, _dir) => {
+    let position = null
+    let found = false
+    _dir.sort((a, b) => (a.xp < b.xp) ? 1 : -1)
+    Object.keys(_dir).forEach((i) => {
+        if (_dir[i].id === userId) {
+            position = i
+            found = true
+        }
+    })
+    if (found === false && position === null) {
+        const obj = { id: userId, xp: 0, level: 1 }
+        _dir.push(obj)
+        fs.writeFileSync('./database/user/level.json', JSON.stringify(_dir))
+        return 99
+    } else {
+        return position + 1
+    }
+}
+
 // Cooldown XP gains to prevent spam
 const xpGain = new Set()
 
@@ -138,6 +159,7 @@ module.exports = {
     getLevelingXp,
     addLevelingLevel,
     addLevelingXp,
+    getUserRank,
     isGained,
     addCooldown
 }
