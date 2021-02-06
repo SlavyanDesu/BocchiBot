@@ -2693,50 +2693,41 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.sendVideoAsGif(from, `https://api.vhtear.com/slidingtext?text=${q}&apikey=${config.vhtear}`, 'sliding.gif', '', id)
                 console.log('Success creating GIF!')
             break
-            case 'text1': //Text Maker VideFikri API's 
+            case 'text': //VF
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
+                limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 try {
-                    if (ar[0] === 'bokeh') {
-                        const tbokeh = await axios.get(`https://videfikri.com/api/textmaker/bokeh/?text=${args[1]}`)
-                        await bocchi.sendFileFromUrl(from, tbokeh.data.result.img, `${q}.jpg`, '', id)
-                    } else if (ar[0] === 'lab') {
-                        const tlab = await axios.get(`https://videfikri.com/api/textmaker/labtext/?text=${args[1]}`)
-                        await bocchi.sendFileFromUrl(from, tlab.data.result.img, `${q}.jpg`, '', id)
-                    } else if (ar[0] === 'eroded') {
-                        const teroded = await axios.get(`https://videfikri.com/api/textmaker/eroded/?text=${args[1]}`)
-                        await bocchi.sendFileFromUrl(from, teroded.data.result.img, `${q}.jpg`, '', id)
-                    } else if (ar[0] === 'old') {
-                        const t1917style = await axios.get(`https://videfikri.com/api/textmaker/1917style/?text=${args[1]}`)
-                        await bocchi.sendFileFromUrl(from, t1917style.data.result.img, `${q}.jpg`, '', id)
-                    } else if (ar[0] === 'bluelight') {
-                        const tbluelight = await axios.get(`https://videfikri.com/api/textmaker/bluelight/?text=${args[1]}`)
-                        await bocchi.sendFileFromUrl(from, tbluelight.data.result.img, `${q}.jpg`, '', id)
-                    } else if (ar[0] === 'bulbs') {
-                        const tbulbs = await axios.get(`https://videfikri.com/api/textmaker/bulbs/?text=${args[1]}`)
-                        await bocchi.sendFileFromUrl(from, tbulbs.data.result.img, `${q}.jpg`, '', id)
-                    } else if (ar[0] === 'dragonfire') {
-                        const tdragonfire = await axios.get(`https://videfikri.com/api/textmaker/dragonfire/?text=${args[1]}`)
-                        await bocchi.sendFileFromUrl(from, tdragonfire.data.result.img, `${q}.jpg`, '', id)
-                    } else if (ar[0] === 'dropwater2') {
-                        const tdropwater2 = await axios.get(`https://videfikri.com/api/textmaker/dropwater2/?text=${args[1]}`)
-                        await bocchi.sendFileFromUrl(from, tdropwater2.data.result.img, `${q}.jpg`, '', id)
-                    } else if (ar[0] === 'galaxy') {
-                        const tgalaxy = await axios.get(`https://videfikri.com/api/textmaker/galaxy/?text=${args[1]}`)
-                        await bocchi.sendFileFromUrl(from, tgalaxy.data.result.img, `${q}.jpg`, '', id)
-                    } else if (ar[0] === 'galaxycrack') {
-                        const tgalaxycrack = await axios.get(`https://videfikri.com/api/textmaker/galaxycrack/?text=${args[1]}`)
-                        await bocchi.sendFileFromUrl(from, tgalaxycrack.data.result.img, `${q}.jpg`, '', id)
-                    } else if (ar[0] === 'guardiangalaxy') {
-                        const tguardiangalaxy = await axios.get(`https://videfikri.com/api/textmaker/guardiangalaxy/?text=${args[1]}`)
-                        await bocchi.sendFileFromUrl(from, tguardiangalaxy.data.result.img, `${q}.jpg`, '', id)
-                    } else if (ar[0] === 'metalgray') {
-                        const tmetalgray = await axios.get(`https://videfikri.com/api/textmaker/metalgray/?text=${args[1]}`)
-                        await bocchi.sendFileFromUrl(from, tmetalgray.data.result.img, `${q}.jpg`, '', id)
-                    } else if (ar[0] === 'metalpaper') {
-                        const tmetalpaper = await axios.get(`https://videfikri.com/api/textmaker/metalpaper/?text=${args[1]}`)
-                        await bocchi.sendFileFromUrl(from, tmetalpaper.data.result.img, `${q}.jpg`, '', id)
+                    if (ar[0] === 'burnpaper') {
+                        const vfburn = await axios.get(`https://videfikri.com/api/textmaker/burnpaper/?text=${args[1]}`)
+                        await bocchi.sendFileFromUrl(from, vfburn.data.result.img, `${q}.jpg`, '', id)
+                    } else if (ar[0] === 'candlemug') {
+                        const vfcandlemug = await axios.get(`https://videfikri.com/api/textmaker/candlemug/?text=${args[1]}`)
+                        await bocchi.sendFileFromUrl(from, vfcandlemug.data.result.img, `${q}.jpg`, '', id)
+                    } else if (ar[0] === 'lovemsg') {
+                        const vflovemsg = await axios.get(`https://videfikri.com/api/textmaker/lovemsg/?text=${args[1]}`)
+                        await bocchi.sendFileFromUrl(from, vflovemsg.data.result.img, `${q}.jpg`, '', id)
+                    } else if (ar[0] === 'mugflower') {
+                        const vfmugflower = await axios.get(`https://videfikri.com/api/textmaker/mugflower/?text=${args[1]}`)
+                        await bocchi.sendFileFromUrl(from, vfmugflower.data.result.img, `${q}.jpg`, '', id)
+                    } else if (ar[0] === 'narutobanner') {
+                        const vfnarutobanner = await axios.get(`https://videfikri.com/api/textmaker/narutobanner/?text=${args[1]}`)
+                        await bocchi.sendFileFromUrl(from, vfnarutobanner.data.result.img, `${q}.jpg`, '', id)
+                    } else if (ar[0] === 'paperonglass') {
+                        const vfpaperonglass = await axios.get(`https://videfikri.com/api/textmaker/paperonglass/?text=${args[1]}`)
+                        await bocchi.sendFileFromUrl(from, vfpaperonglass.data.result.img, `${q}.jpg`, '', id)
+                    } else if (ar[0] === 'romancetext') {
+                        const vfromancetext = await axios.get(`https://videfikri.com/api/textmaker/romancetext/?text=${args[1]}`)
+                        await bocchi.sendFileFromUrl(from, vfromancetext.data.result.img, `${q}.jpg`, '', id)
+                    } else if (ar[0] === 'shadowtext') {
+                        const vfshadowtext = await axios.get(`https://videfikri.com/api/textmaker/shadowtext/?text=${args[1]}`)
+                        await bocchi.sendFileFromUrl(from, vfshadowtext.data.result.img, `${q}.jpg`, '', id)
+                    } else if (ar[0] === 'tiktokeffect') {
+                        const vftiktokeffect = await axios.get(`https://videfikri.com/api/textmaker/tiktokeffect/?text=${args[1]}`)
+                        await bocchi.sendFileFromUrl(from, vftiktokeffect.data.result.img, `${q}.jpg`, '', id)
                     } else {
-                        await bocchi.sendText(from, ind.menuText1())
+                        await bocchi.sendText(from, ind.menuText())
                     }
                 } catch (err) {
                     console.error(err)
