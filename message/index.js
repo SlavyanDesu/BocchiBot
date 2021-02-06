@@ -199,9 +199,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         }
 
         // Leveling [BETA] by Slavyan
-        if (isGroupMsg && isRegistered && !level.isGained(from) && !isBanned && isLevelingOn) {
+        if (isGroupMsg && isRegistered && !level.isGained(sender.id) && !isBanned && isLevelingOn) {
             try {
-                level.addCooldown(from)
+                level.addCooldown(sender.id)
                 const currentLevel = level.getLevelingLevel(sender.id, _level)
                 const amountXp = Math.floor(Math.random() * (15 - 25 + 1) + 15)
                 const requiredXp = 5 * Math.pow(currentLevel, 2) + 50 * currentLevel + 100
