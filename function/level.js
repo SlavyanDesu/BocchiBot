@@ -142,14 +142,14 @@ const getUserRank = (userId, _dir) => {
 // Cooldown XP gains to prevent spam
 const xpGain = new Set()
 
-const isGained = (from) => {
-    return !!xpGain.has(from)
+const isGained = (userId) => {
+    return !!xpGain.has(userId)
 }
 
-const addCooldown = (from) => {
-    xpGain.add(from)
+const addCooldown = (userId) => {
+    xpGain.add(userId)
     setTimeout(() => {
-        return xpGain.delete(from)
+        return xpGain.delete(userId)
     }, 60000) // Each minute
 }
 

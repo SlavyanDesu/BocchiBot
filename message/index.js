@@ -145,7 +145,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         cron.schedule('0 0 * * *', () => {
             const reset = []
             _limit = reset
-            console.log('Resetting user\'s limit...')
+            console.log('Resetting user limit...')
             fs.writeFileSync('./database/user/limit.json', JSON.stringify(_limit))
             console.log('Success!')
         }, {
@@ -236,7 +236,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             if (chats.match(new RegExp(/(https:\/\/chat.(?!whatsapp.com))/gi))) {
                 console.log(color('[KICK]', 'red'), color('Received a fake group link.', 'yellow'))
                 await bocchi.reply(from, 'Fake group link detected!', id)
-                await bocchi.removeParticipant(groupId, sender.id)	
+                await bocchi.removeParticipant(groupId, sender.id)
             }
         }
 
