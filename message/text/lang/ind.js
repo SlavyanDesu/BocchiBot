@@ -298,8 +298,9 @@ exports.menuText = () => {
 ╟⊱ *${prefix}text1 shadowtext* _teks_
 ╟⊱ *${prefix}text1 tiktokeffect* _teks_
 ║
-╚══❉ *𝐊𝐚-𝐄𝐋 𝐁𝐎𝐓* ❉════
+╚══❉ *BocchiBot* ❉════
     `
+}
 exports.fakeLink = () => {
     return `Ups, link ini terlihat mencurigakan. Demi keamanan grup, aku harus mengeluarkan mu...\n`
 }
