@@ -281,6 +281,25 @@ exports.ageOld = () => {
     return `Kamu terlalu tua untuk menggunakan fitur ini! Mohon kembali ke masa muda anda agar bisa menggunakannya.`
 }
 
+exports.menuText = () => {
+    return `
+╔══❉ *𝐓𝐞𝐱𝐭 𝐌𝐚𝐤𝐞𝐫 (VF)* ❉═══
+║
+║ Untuk Spasi Teks menggunakan *+*
+║ contoh : ${prefix}text1 neon kael+bot
+║
+╟⊱ *${prefix}text1 burnpaper* _teks_
+╟⊱ *${prefix}text1 candlemug* _teks_
+╟⊱ *${prefix}text1 lovemsg* _teks_
+╟⊱ *${prefix}text1 mugflower* _teks_
+╟⊱ *${prefix}text1 narutobanner* _teks_
+╟⊱ *${prefix}text1 paperonglass* _teks_
+╟⊱ *${prefix}text1 romancetext* _teks_
+╟⊱ *${prefix}text1 shadowtext* _teks_
+╟⊱ *${prefix}text1 tiktokeffect* _teks_
+║
+╚══❉ *𝐊𝐚-𝐄𝐋 𝐁𝐎𝐓* ❉════
+    `
 exports.fakeLink = () => {
     return `Ups, link ini terlihat mencurigakan. Demi keamanan grup, aku harus mengeluarkan mu...\n`
 }
