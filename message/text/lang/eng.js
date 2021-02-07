@@ -271,7 +271,62 @@ exports.ageOld = () => {
 }
 
 exports.fakeLink = () => {
-    return `Ow, this link looks kinda suspicious, for the security of the members of this group I'm gonna kick you./nBye~.`
+    return `Ow, this link looks kinda suspicious, for the security of the members of this group I'm gonna kick you.\nBye~.`
+}
+
+exports.randomQuran = (ranquran) => {
+    return `
+    بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
+*Surah name*: ${ranquran.data.result.nama} / ${ranquran.data.result.asma}
+*Meaning*: ${ranquran.data.result.arti}
+*Number*: ${ranquran.data.result.nomor}
+*Description*: ${ranquran.data.result.keterangan}
+*Audio link*: ${ranquran.data.result.audio}
+    `
+}
+
+exports.hadis = () => {
+    return `
+*List of hadees*:
+1. Bukhari hadees has 6638 hadees
+    _usage_: ${prefix}hadees bukhari 1
+2. Muslim hadees has 4930 hadees
+    _usage_: ${prefix}hadees muslim 25
+3. Tirmidzi hadees has 3625 hadees
+    _usage_: ${prefix}hadees tirmidzi 10
+4. Nasai hadees has 5364 hadees
+    _usage_: ${prefix}hadees nasai 6
+5. Ahmad hadees 4305 hadees
+    _usage_: ${prefix}hadees ahmad 5
+6. Abu Daud hadees 4419 hadees
+    _usage_: ${prefix}hadees abudaud 45
+7. Malik hadees 1587 hadees
+    _usage_: ${prefix}hadees malik 45
+8. Ibnu Majah hadees 4285 hadees
+    _usage_: ${prefix}hadees ibnumajah 8
+9. Darimi hadees 2949 hadees
+    _usage_: ${prefix}hadees darimi 3
+    `
+}
+
+exports.limit = () => {
+    return `
+*── 「 LIMIT 」 ──*
+
+You run out of usage limit! Please do the following:
+❏ *_Wait until 12:00 AM (GMT+7)_*
+    `
+}
+
+exports.asmaulHusna = (assna) => {
+    return `
+───❉ 𝐀𝐬𝐦𝐚𝐮𝐥 𝐇𝐮𝐬𝐧𝐚 ❉──
+
+*${assna.name}*
+❏ *Number*: ${assna.number}
+❏ *Transliteration*: ${assna.transliteration}
+❏ *English*: ${assna.en.meaning}
+    `
 }
 
 exports.menu = (jumlahUser, level, xp, role, pushname, requiredXp, premium) => {
@@ -299,16 +354,13 @@ The following menus are available:
 *[7]* Moderation
 *[8]* NSFW
 *[9]* Owner
-*[10]* Leveling [ALPHA]
+*[10]* Leveling
 
 Type *${prefix}menu* index_number to open the selected page menu.
 
 Note:
 Treat the bot well, dev will act firmly if the user violates the rules.
 This bot has anti-spam in the form of a cooldown command for *5 seconds* every time you use it.
-
-Sincerely,
-Slavyan
     `
 }
 
@@ -355,6 +407,21 @@ Usage: *${prefix}tiktokpic* username
 Download TikTok video with no WM.
 Aliases: *tktnowm*
 Usage: *${prefix}tiktoknowm* link
+
+9. *${prefix}moddroid*
+Search for mod on moddroid.
+Aliases: -
+Usage: *${prefix}moddroid* APK_name
+
+10. *${prefix}happymod*
+Search for mod on happymod.
+Aliases: -
+Usage: *${prefix}happymod* APK_name
+
+11. *${prefix}linedl*
+Line sticker downloader.
+Aliases: -
+Usage: *${prefix}linedl* sticker_link
 
 _Index of [1]_
     `
@@ -428,6 +495,11 @@ Usage: *${prefix}premiumcheck*
 Premium users list.
 Aliases: *listpremium*
 Usage: *${prefix}premiumlist*
+
+14. *${prefix}limit*
+Check your remainings limit.
+Aliases: -
+Usage: *${prefix}limit*
 
 _Index of [2]_
     `
@@ -620,6 +692,56 @@ Spam SMS.
 Aliases: -
 Usage: *${prefix}spamsms* 0812xxxxxxxx amount
 
+35. *${prefix}email*
+Send an email.
+Aliases: -
+Usage: *${prefix}email* email | subject | message
+
+36. *${prefix}quotes*
+Random Indonesian quotes.
+Aliases: -
+Usage: *${prefix}quotes*
+
+37. *${prefix}genshininfo*
+Genshin Impact characters info.
+Aliases: *genshin*
+Usage: *${prefix}genshininfo* chara_name
+
+38. *${prefix}translate*
+Translate a text.
+Aliases: *trans*
+Usage: *${prefix}translate* text | code_lang
+
+39. *${prefix}hadees*
+Hadees info.
+Aliases: *hadis*
+Usage: *${prefix}hadees* hadees_name | hadees_number
+
+40. *${prefix}asmaulhusna*
+Asmaul husna.
+Aliases: -
+Usage: *${prefix}asmaulhusna* asmaulhusna_number
+
+41. *${prefix}randomquran*
+Random Al-Qur'an surah.
+Aliases: -
+Usage: *${prefix}randomquran*
+
+42. *${prefix}coronavirus*
+Check a COVID-19 cases.
+Aliases: *corona*
+Usage: *${prefix}coronavirus* nation_name
+
+43. *${prefix}tomp3*
+Convert a video to audio only (MP3).
+Aliases: -
+Usage: Send a video with caption *${prefix}tomp3* or reply video with a caption *${prefix}tomp3*.
+
+44. *${prefix}ttp*
+Text to sticker.
+Aliases: -
+UsageL *${prefix}ttp* text
+
 _Index of [3]_
     `
 }
@@ -657,6 +779,16 @@ Usage: *${prefix}emojisticker* emoji
 Create a sticker with metadata/WM.
 Aliases: *stcwm*
 Usage: Send images with caption *${prefix}stickerwm* pack_name | author_name or reply to the image with a caption *${prefix}stickerwm* pack_name | author_name.
+
+7. *${prefix}stickermeme*
+Create a sticker meme.
+Aliases: *stcmeme*
+Usage: Send images with caption *${prefix}sticker* upper_text | bottom_text or reply to the images with a caption *${prefix}sticker* upper_text | bottom_text.
+
+8. *${prefix}takestick*
+Edit sticker metadata.
+Aliases: -
+Usage: Reply to the stickers with a caption *${prefix}takestick* pack_name | author_name
 
 _Index of [4]_
     `
@@ -819,35 +951,50 @@ Create a Free Fire characters logo.
 Aliases: -
 Usage: *${prefix}fflogo* text1 | text2
 
-19. *${prefix}readmore*
-Generate a spoiler text.
-Aliases: -
-Usage: *${prefix}readmore* text1 | text2
-
-20. *${prefix}neontext*
+19. *${prefix}neontext*
 Create a neon text image
 Aliases: *neon*
 Usage: *${prefix}neontext* up | center | bottom
 
-21. *${prefix}firemaker*
+20. *${prefix}firemaker*
 Create a fire text.
 Aliases: -
 Usage: *${prefix}firemaker* text
 
-22. *${prefix}mlmaker*
+21. *${prefix}mlmaker*
 Create ML hero image with text.
 Aliases: -
 Usage: *${prefix}mlmaker* hero_name | text
 
-23. *${prefix}balloonmaker*
+22. *${prefix}balloonmaker*
 Create a couple balloon image.
 Aliases: *blmaker*
 Usage: *${prefix}balloonmaker* name1 | name2
 
-24. *${prefix}sliding*
+23. *${prefix}sliding*
 Create a sliding text.
 Aliases: -
 Usage: *${prefix}sliding* text
+
+24. *${prefix}wasted*
+Create a wasted effect.
+Aliases: -
+Usage: Send image with caption *${prefix}wasted* or reply image with caption *${prefix}wasted*.
+
+25. *${prefix}caklontong*
+Cak Lontong quiz.
+Aliases: -
+Usage: *${prefix}caklontong*
+
+26. *${prefix}hilih*
+Hilih-ify your text.
+Aliases: -
+Usage: *${prefix}hilih* text.
+
+27. *${prefix}tebakgambar*
+Tebak Gambar quiz.
+Aliases: -
+Usage: *${prefix}tebakgambar*
 
 _Index of [6]_
     `
@@ -1000,6 +1147,11 @@ Nekopoi search.
 Aliases: -
 Usage: *${prefix}nekosearch* query
 
+15. *${prefix}cersex*
+Random adult stories (Indonesian).
+Aliases: -
+Usage: *${prefix}cersex*
+
 _Index of [8]_
     `
 }
@@ -1069,6 +1221,11 @@ Mute all users.
 Aliases: -
 Usage: Use *${prefix}mute* to mute and use *${prefix}mute* once again to unmute.
 
+13. *${prefix}setname*
+Change bot's name. Maximum 25 characters.
+Aliases: -
+Usage: *${prefix}name* username_baru
+
 _Index of [9]_
     `
 }
@@ -1086,11 +1243,6 @@ Usage: *${prefix}level*
 Check leaderboard.
 Aliaases: -
 Usage: *${prefix}leaderboard*
-
-3. *${prefix}setbackground*
-Set background level card.
-Aliases: *setbg*
-Usage: Send images with caption *${prefix}setbackground* or reply to the images with a caption *${prefix}setbackground*.
 
 _Index of [10]_
     `

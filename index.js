@@ -68,7 +68,7 @@ const start = (bocchi = new Client()) => {
     })
 
     // Listen to group's event
-    bocchi.onGlobalParicipantsChanged(async (event) => {
+    bocchi.onGlobalParticipantsChanged(async (event) => {
         const _welcome = JSON.parse(fs.readFileSync('./database/group/welcome.json'))
         const isWelcome = _welcome.includes(event.chat)
         const gcChat = await bocchi.getChatById(event.chat)
