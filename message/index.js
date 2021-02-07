@@ -2785,7 +2785,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.sendVideoAsGif(from, `https://api.vhtear.com/slidingtext?text=${q}&apikey=${config.vhtear}`, 'sliding.gif', '', id)
                 console.log('Success creating GIF!')
             break
-            case 'text': //VF
+            case 'text': // by: irham01
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
@@ -2819,7 +2819,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         const vftiktokeffect = await axios.get(`https://videfikri.com/api/textmaker/tiktokeffect/?text=${args[1]}`)
                         await bocchi.sendFileFromUrl(from, vftiktokeffect.data.result.img, `${q}.jpg`, '', id)
                     } else {
-                        await bocchi.sendText(from, ind.menuText())
+                        await bocchi.reply(from, ind.menuText(), id)
                     }
                 } catch (err) {
                     console.error(err)
