@@ -93,7 +93,7 @@ let { memberLimit, groupLimit } = _setting
 // eslint-disable-next-line no-undef
 module.exports = msgHandler = async (bocchi = new Client(), message) => {
     try {
-        const { type, id, from, t, sender, isGroupMsg, chat, caption, isMedia, mimetype, quotedMsg, quotedMsgObj, mentionedJidList } = message
+        const { type, id, from, t, sender, isGroupMsg, chat, chatId, caption, isMedia, mimetype, quotedMsg, quotedMsgObj, mentionedJidList } = message
         let { body } = message
         const { name, formattedTitle } = chat
         let { pushname, verifiedName, formattedName } = sender
