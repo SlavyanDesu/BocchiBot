@@ -1,7 +1,7 @@
 <div align="center">
 <img src="https://images5.alphacoders.com/911/911614.png" alt="BocchiBot" width="500" />
 
-# BocchiBot
+# _**BocchiBot**_
 
 > BocchiBot is a multipurpose WhatsApp bot using wa-automate-nodejs library!
 >
