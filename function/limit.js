@@ -2,12 +2,12 @@ const fs = require('fs-extra')
 
 /**
  * Check limit.
- * @param {String} userId 
- * @param {Object} _dir 
- * @param {Number} limitCount 
- * @param {Boolean} isPremium 
- * @param {Boolean} isOwner 
- * @returns {Boolean}
+ * @param {string} userId 
+ * @param {object} _dir 
+ * @param {number} limitCount 
+ * @param {boolean} isPremium 
+ * @param {boolean} isOwner 
+ * @returns {boolean}
  */
 const isLimit = (userId, _dir, limitCount, isPremium, isOwner) => {
     if (isPremium || isOwner) return false
@@ -33,11 +33,10 @@ const isLimit = (userId, _dir, limitCount, isPremium, isOwner) => {
 
 /**
  * Add limit to user.
- * @param {String} userId 
- * @param {Object} _dir 
- * @param {Boolean} isPremium 
- * @param {Boolean} isOwner 
- * @returns {*}
+ * @param {string} userId 
+ * @param {object} _dir 
+ * @param {boolean} isPremium 
+ * @param {boolean} isOwner 
  */
 const addLimit = (userId, _dir, isPremium, isOwner) => {
     if (isPremium || isOwner) return false
@@ -55,10 +54,10 @@ const addLimit = (userId, _dir, isPremium, isOwner) => {
 
 /**
  * Get user's limit.
- * @param {String} userId 
- * @param {Object} _dir 
- * @param {Number} limitCount 
- * @returns {Number}
+ * @param {string} userId 
+ * @param {object} _dir 
+ * @param {number} limitCount 
+ * @returns {number}
  */
 const getLimit = (userId, _dir, limitCount) => {
     let pos = null

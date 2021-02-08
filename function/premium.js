@@ -3,9 +3,9 @@ const toMs = require('ms')
 
 /**
  * Add premium user.
- * @param {String} userId 
- * @param {String} expired 
- * @param {Object} _dir 
+ * @param {string} userId 
+ * @param {string} expired 
+ * @param {object} _dir 
  */
 const addPremiumUser = (userId, expired, _dir) => {
     const obj = { id: userId, expired: Date.now() + toMs(expired) }
@@ -14,9 +14,9 @@ const addPremiumUser = (userId, expired, _dir) => {
 }
 
 /**
- * Get premium user position.
- * @param {String} userId 
- * @param {Object} _dir 
+ * Get premium user index position.
+ * @param {string} userId 
+ * @param {object} _dir 
  * @returns {Number}
  */
 const getPremiumPosition = (userId, _dir) => {
@@ -32,9 +32,9 @@ const getPremiumPosition = (userId, _dir) => {
 }
 
 /**
- * Get premium user expire.
- * @param {String} userId 
- * @param {Object} _dir 
+ * Get premium user expired.
+ * @param {string} userId 
+ * @param {object} _dir 
  * @returns {Number}
  */
 const getPremiumExpired = (userId, _dir) => {
@@ -50,10 +50,10 @@ const getPremiumExpired = (userId, _dir) => {
 }
 
 /**
- * Check user is premium.
- * @param {String} userId 
- * @param {Object} _dir 
- * @returns {Boolean}
+ * Check if is user premium.
+ * @param {string} userId 
+ * @param {object} _dir 
+ * @returns {boolean}
  */
 const checkPremiumUser = (userId, _dir) => {
     let status = false
@@ -67,7 +67,7 @@ const checkPremiumUser = (userId, _dir) => {
 
 /**
  * Constantly checking premium.
- * @param {Object} _dir 
+ * @param {object} _dir 
  */
 const expiredCheck = (_dir) => {
     setInterval(() => {
@@ -78,7 +78,7 @@ const expiredCheck = (_dir) => {
             }
         })
         if (position !== null) {
-            console.log(`Premium expired: ${_dir[position].id}`)
+            console.log(`Premium user expired: ${_dir[position].id}`)
             _dir.splice(position, 1)
             fs.writeFileSync('./database/bot/premium.json', JSON.stringify(_dir))
         }
@@ -87,8 +87,8 @@ const expiredCheck = (_dir) => {
 
 /**
  * Get all premium user ID.
- * @param {Object} _dir 
- * @returns {String[]}
+ * @param {object} _dir 
+ * @returns {string[]}
  */
 const getAllPremiumUser = (_dir) => {
     const array = []

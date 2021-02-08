@@ -2,12 +2,12 @@ const fs = require('fs-extra')
 
 /**
  * Add user to database.
- * @param {String} userId 
- * @param {String} name 
- * @param {String} age 
- * @param {String} time 
- * @param {String} serial 
- * @param {Object} _dir 
+ * @param {string} userId 
+ * @param {string} name 
+ * @param {string|number} age 
+ * @param {string} time 
+ * @param {string} serial 
+ * @param {object} _dir 
  */
 const addRegisteredUser = (userId, name, age, time, serial, _dir) => {
     const obj = { id: userId, name: name, age: age, time: time, serial: serial }
@@ -16,10 +16,10 @@ const addRegisteredUser = (userId, name, age, time, serial, _dir) => {
 }
 
 /**
- * Check user from database.
- * @param {String} userId 
- * @param {Object} _dir 
- * @returns {Boolean}
+ * Check is user registered.
+ * @param {string} userId 
+ * @param {object} _dir 
+ * @returns {boolean}
  */
 const checkRegisteredUser = (userId, _dir) => {
     let status = false
@@ -32,10 +32,10 @@ const checkRegisteredUser = (userId, _dir) => {
 }
 
 /**
- * Check user from serial.
- * @param {String} serial 
- * @param {Object} _dir 
- * @returns {Boolean}
+ * Check is user registered from given serial.
+ * @param {string} serial 
+ * @param {object} _dir 
+ * @returns {boolean}
  */
 const checkRegisteredUserFromSerial = (serial, _dir) => {
     let status = false
@@ -48,10 +48,10 @@ const checkRegisteredUserFromSerial = (serial, _dir) => {
 }
 
 /**
- * Get ID.
- * @param {String} userId
- * @param {Object} _dir
- * @returns {String}
+ * Get registered user ID.
+ * @param {string} userId
+ * @param {object} _dir
+ * @returns {string}
  */
 const getRegisteredUserId = (userId, _dir) => {
     let position = null
@@ -67,9 +67,9 @@ const getRegisteredUserId = (userId, _dir) => {
 
 /**
  * Check user name from serial.
- * @param {String} serial 
- * @param {Object} _dir 
- * @returns {String}
+ * @param {string} serial 
+ * @param {object} _dir 
+ * @returns {string}
  */
 const getRegisteredNameFromSerial = (serial, _dir) => {
     let position = null
@@ -85,9 +85,9 @@ const getRegisteredNameFromSerial = (serial, _dir) => {
 
 /**
  * Check user age from serial.
- * @param {String} serial 
- * @param {Object} _dir 
- * @returns {Number}
+ * @param {string} serial 
+ * @param {object} _dir 
+ * @returns {number}
  */
 const getRegisteredAgeFromSerial = (serial, _dir) => {
     let position = null
@@ -103,9 +103,9 @@ const getRegisteredAgeFromSerial = (serial, _dir) => {
 
 /**
  * Check user time registration from serial.
- * @param {String} serial 
- * @param {Object} _dir 
- * @returns {String}
+ * @param {string} serial 
+ * @param {object} _dir 
+ * @returns {string}
  */
 const getRegisteredTimeFromSerial = (serial, _dir) => {
     let position = null
@@ -121,9 +121,9 @@ const getRegisteredTimeFromSerial = (serial, _dir) => {
 
 /**
  * Check user ID from serial.
- * @param {String} serial 
- * @param {Object} _dir 
- * @returns {String}
+ * @param {string} serial 
+ * @param {object} _dir 
+ * @returns {string}
  */
 const getRegisteredIdFromSerial = (serial, _dir) => {
     let position = null
@@ -138,9 +138,9 @@ const getRegisteredIdFromSerial = (serial, _dir) => {
 }
 
 /**
- * Get random ID.
- * @param {Object} _dir 
- * @returns {String}
+ * Get random user ID.
+ * @param {object} _dir 
+ * @returns {string}
  */
 const getRegisteredRandomId = (_dir) => {
     return _dir[Math.floor(Math.random() * _dir.length)].id

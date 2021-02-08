@@ -5,9 +5,9 @@ const FormData = require('form-data')
 
 /**
  * Fetch JSON from URL.
- * @param {String} url 
- * @param {Object} options
- * @returns {Object} 
+ * @param {string} url 
+ * @param {object} [options]
+ * @returns {Promise<object>} 
  */
 const fetchJson = (url, options) => {
     return new Promise((resolve, reject) => {
@@ -20,9 +20,9 @@ const fetchJson = (url, options) => {
 
 /**
  * Fetch text from URL.
- * @param {String} url 
- * @param {Object} options 
- * @returns {String}
+ * @param {string} url 
+ * @param {object} [options]
+ * @returns {Promise<string>}
  */
 const fetchText = (url, options) => {
     return new Promise((resolve, reject) => {
@@ -35,12 +35,13 @@ const fetchText = (url, options) => {
 
 /**
  * Get buffer from direct media.
- * @param {String} url 
- * @returns {Buffer}
+ * @param {string} url 
+ * @param {object} [options]
+ * @returns {Promise<Buffer>}
  */
-const toBuffer = (url) => {
+const fetchBuffer = (url, options) => {
     return new Promise((resolve, reject) => {
-        return fetch(url)
+        return fetch(url, options)
             .then((response) => response.buffer())
             .then((result) => resolve(result))
             .catch((err) => reject(err))
@@ -50,15 +51,15 @@ const toBuffer = (url) => {
 /**
  * Upload images to telegra.ph server.
  * @param {Buffer} buffData 
- * @param {String} fileName
- * @returns {String}
+ * @param {string} fileName
+ * @returns {Promise<string>}
  */
 const uploadImages = (buffData, fileName) => {
     return new Promise(async (resolve, reject) => {
         const { ext } = await fromBuffer(buffData)
         const filePath = `temp/${fileName}.${ext}`
         fs.writeFile(filePath, buffData, { encoding: 'base64' }, (err) => {
-            if (err) return reject(err)
+            if (err) reject(err)
             console.log('Uploading image to telegra.ph server...')
             const fileData = fs.readFileSync(filePath)
             const form = new FormData()
@@ -69,7 +70,7 @@ const uploadImages = (buffData, fileName) => {
             })
                 .then((response) => response.json())
                 .then((result) => {
-                    if (result.error) return reject(result.error)
+                    if (result.error) reject(result.error)
                     resolve('https://telegra.ph' + result[0].src)
                 })
                 .then(() => fs.unlinkSync(filePath))
@@ -81,6 +82,6 @@ const uploadImages = (buffData, fileName) => {
 module.exports = {
     fetchJson,
     fetchText,
-    toBuffer,
+    fetchBuffer,
     uploadImages
 }

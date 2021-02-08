@@ -1,11 +1,11 @@
 const fs = require('fs-extra')
 
 /**
- * Add AFK.
- * @param {String} userId 
- * @param {String} time 
- * @param {String} reason 
- * @param {Object} _dir 
+ * Add AFK user.
+ * @param {string} userId 
+ * @param {string} time 
+ * @param {string} reason 
+ * @param {object} _dir 
  */
 const addAfkUser = (userId, time, reason, _dir) => {
     const obj = { id: userId, time: time, reason: reason }
@@ -14,10 +14,10 @@ const addAfkUser = (userId, time, reason, _dir) => {
 }
 
 /**
- * Check user AFK.
- * @param {String} userId 
- * @param {Object} _dir 
- * @returns {Boolean}
+ * Check if user is on AFK state.
+ * @param {string} userId 
+ * @param {object} _dir 
+ * @returns {boolean}
  */
 const checkAfkUser = (userId, _dir) => {
     let status = false
@@ -30,10 +30,10 @@ const checkAfkUser = (userId, _dir) => {
 }
 
 /**
- * Get AFK reason.
- * @param {String} userId 
- * @param {Object} _dir 
- * @returns {String}
+ * Get user AFK reason.
+ * @param {string} userId 
+ * @param {object} _dir 
+ * @returns {string}
  */
 const getAfkReason = (userId, _dir) => {
     let position = null
@@ -48,10 +48,10 @@ const getAfkReason = (userId, _dir) => {
 }
 
 /**
- * Get AFK time.
- * @param {String} userId 
- * @param {Object} _dir 
- * @returns {String}
+ * Get user AFK time.
+ * @param {string} userId 
+ * @param {object} _dir 
+ * @returns {string}
  */
 const getAfkTime = (userId, _dir) => {
     let position = null
@@ -66,10 +66,10 @@ const getAfkTime = (userId, _dir) => {
 }
 
 /**
- * Get AFK ID.
- * @param {String} userId 
- * @param {Object} _dir 
- * @returns {String}
+ * Get user AFK ID.
+ * @param {string} userId 
+ * @param {object} _dir 
+ * @returns {string}
  */
 const getAfkId = (userId, _dir) => {
     let position = null
@@ -84,10 +84,10 @@ const getAfkId = (userId, _dir) => {
 }
 
 /**
- * Get AFK position.
- * @param {String} userId 
- * @param {Object} _dir 
- * @returns {Number}
+ * Get user AFK index position.
+ * @param {string} userId 
+ * @param {object} _dir 
+ * @returns {number}
  */
 const getAfkPosition = (userId, _dir) => {
     let position = null

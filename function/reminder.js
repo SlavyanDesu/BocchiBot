@@ -2,11 +2,11 @@ const fs = require('fs-extra')
 const toMs = require('ms')
 
 /**
- * Add reminder for user.
- * @param {String} userId 
- * @param {String} message 
- * @param {Number} time 
- * @param {Object} _dir 
+ * Add reminder to user.
+ * @param {string} userId 
+ * @param {string} message 
+ * @param {number} time 
+ * @param {object} _dir 
  */
 const addReminder = (userId, message, time, _dir) => {
     const obj = { id: userId, msg: message, time: Date.now() + toMs(time) }
@@ -16,9 +16,9 @@ const addReminder = (userId, message, time, _dir) => {
 
 /**
  * Get reminder.
- * @param {String} userId 
- * @param {Object} _dir 
- * @returns {Number}
+ * @param {string} userId 
+ * @param {object} _dir 
+ * @returns {number}
  */
 const getReminderTime = (userId, _dir) => {
     let position = null
@@ -34,9 +34,9 @@ const getReminderTime = (userId, _dir) => {
 
 /**
  * Get reminder message.
- * @param {String} userId 
- * @param {Object} _dir 
- * @returns {String}
+ * @param {string} userId 
+ * @param {object} _dir 
+ * @returns {string}
  */
 const getReminderMsg = (userId, _dir) => {
     let position = null
@@ -52,9 +52,9 @@ const getReminderMsg = (userId, _dir) => {
 
 /**
  * Get position of reminder.
- * @param {String} userId 
- * @param {Object} _dir 
- * @returns {Number}
+ * @param {string} userId 
+ * @param {object} _dir 
+ * @returns {number}
  */
 const getReminderPosition = (userId, _dir) => {
     let position = null

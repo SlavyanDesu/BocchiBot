@@ -2,8 +2,6 @@
  * Originally created by cwke
  * Reuploaded by Waxaranai
  * Recoded by SlavyanDesu
- *
- * GitHub is an open-source community, so why are you so triggered when someone shared some simple code?
  */
 
 const fs = require('fs-extra')
@@ -17,9 +15,9 @@ const itunes = 'https://itunes.apple.com/app/sticker-maker-studio/id1443326857'
 module.exports = class Exif {
     /**
      * Create an EXIF file.
-     * @param {String} packname 
-     * @param {String} authorname 
-     * @param {String} [filename=data]
+     * @param {string} packname 
+     * @param {string} authorname 
+     * @param {string} [filename=data]
      */
     create(packname, authorname, filename) {
         if (!filename) filename = 'data'
@@ -51,7 +49,7 @@ module.exports = class Exif {
         const buffer = Buffer.concat([f, ff, fff, ffff])
         fs.writeFile(`./temp/${filename}.exif`, buffer, (err) => {
             if (err) return console.error(err)
-            console.log('Success!')
+            console.log('Success create EXIF file!')
         })
     }
 }

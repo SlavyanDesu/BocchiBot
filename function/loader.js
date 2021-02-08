@@ -5,8 +5,8 @@ const { color } = require('../tools')
 /**
  * Returns an array of files.
  * @param {*} dirPath 
- * @param {String[]} arrayOfFiles 
- * @returns {String[]}
+ * @param {string[]} [arrayOfFiles]
+ * @returns {string[]}
  */
 const getAllDirFiles = (dirPath, arrayOfFiles) => {
     const files = fs.readdirSync(dirPath)

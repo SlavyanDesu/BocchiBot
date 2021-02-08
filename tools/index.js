@@ -5,8 +5,8 @@ moment.tz.setDefault('Asia/Jakarta').locale('id')
 
 /**
  * Get text with color.
- * @param {String} text 
- * @param {String} color 
+ * @param {string} text 
+ * @param {string} [color] 
  */
 const color = (text, color) => {
     return !color ? chalk.green(text) : chalk.keyword(color)(text)
@@ -14,8 +14,8 @@ const color = (text, color) => {
 
 /**
  * Create serial ID.
- * @param {Number} size 
- * @returns {String}
+ * @param {number} size 
+ * @returns {string}
  */
 const createSerial = (size) => {
     return crypto.randomBytes(size).toString('hex').slice(0, size)
@@ -23,8 +23,8 @@ const createSerial = (size) => {
 
 /**
  * URL validator.
- * @param {String} url 
- * @returns {Boolean}
+ * @param {string} url 
+ * @returns {boolean}
  */
 const isUrl = (url) => {
     return url.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/gi))
@@ -34,7 +34,7 @@ const isUrl = (url) => {
  * Get time duration.
  * @param {Date} timestamp 
  * @param {Date} now 
- * @returns {Number}
+ * @returns {number}
  */
 const processTime = (timestamp, now) => {
     return moment.duration(now - moment(timestamp * 1000)).asSeconds()
@@ -43,7 +43,7 @@ const processTime = (timestamp, now) => {
 /**
  * Client options.
  * @param {Function} start 
- * @returns {Object}
+ * @returns {object}
  */
 const options = (start) => {
     const options = {
@@ -69,27 +69,27 @@ const options = (start) => {
     return options
 }
 
-// Message filter
+// Anti-spam
 const usedCommandRecently = new Set()
 
 /**
  * Check is number filtered.
- * @param {String} from 
- * @returns {Boolean}
+ * @param {string} from 
+ * @returns {boolean}
  */
 const isFiltered = (from) => {
     return !!usedCommandRecently.has(from)
 }
 
 /**
- * Add number to filter.
- * @param {String} from 
+ * Add filter to number.
+ * @param {string} from 
  */
 const addFilter = (from) => {
     usedCommandRecently.add(from)
     setTimeout(() => {
         return usedCommandRecently.delete(from)
-    }, 5000) // 5 seconds delay, I don't recommend below that.
+    }, 5000) // 5 seconds delay.
 }
 
 module.exports = {

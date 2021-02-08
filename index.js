@@ -4,7 +4,6 @@ const { color, options } = require('./tools')
 const { ind, eng } = require('./message/text/lang/')
 const { loader } = require('./function')
 const figlet = require('figlet')
-const msgHandler = require('./message')
 const canvas = require('discord-canvas')
 const config = require('./config.json')
 const ownerNumber = config.ownerBot
@@ -14,23 +13,20 @@ const { groupLimit, memberLimit } = require('./database/bot/setting.json')
 const start = (bocchi = new Client()) => {
     console.log(color(figlet.textSync('BocchiBot', 'Larry 3D'), 'cyan'))
     console.log(color('=> Bot successfully loaded! Database:', 'yellow'), color(loader.getAllDirFiles('./database').length), color('Library:', 'yellow'), color(loader.getAllDirFiles('./lib').length), color('Function:', 'yellow'), color(loader.getAllDirFiles('./function').length))
-    console.log('[BOCCHI]', color('BocchiBot is now online!'))
+    console.log(color('[BOCCHI]'), color('BocchiBot is now online!', 'yellow'))
     console.log(color('[DEV]', 'cyan'), color('Welcome back, Owner! Hope you are doing well~', 'magenta'))
-    
-    loader.nocache('../message/index.js', m => console.log(color('[WATCH]', 'orange'), color(`=> '${m}'`, 'yellow'), 'file is updated!'))
-    // loader.nocache('../message/text/lang/ind.js', m => console.log(color('[WATCH]', 'orange'), color(`=> '${m}'`, 'yellow'), 'file is updated!'))
-    // loader.nocache('../message/text/lang/eng.js', m => console.log(color('[WATCH]', 'orange'), color(`=> '${m}'`, 'yellow'), 'file is updated!'))
 
-    // Force it to keep the current session
+    loader.nocache('../message/index.js', (m) => console.log(color('[WATCH]', 'orange'), color(`=> '${m}'`, 'yellow'), 'file is updated!'))
+
     bocchi.onStateChanged((state) => {
-        console.log('[BOCCHI STATE]', state)
+        console.log(color('[BOCCHI]'), state)
         if (state === 'UNPAIRED' || state === 'CONFLICT' || state === 'UNLAUNCHED') bocchi.forceRefocus()
     })
 
-    // Listening added to group
     bocchi.onAddedToGroup(async (chat) => {
         const gc = await bocchi.getAllGroups()
-        if (ownerNumber.includes(chat.id)) {
+        console.log(color('[BOCCHI]'), 'Added a to new group. Name:', color(chat.contact.name, 'yellow'), 'Total members:', color(chat.groupMetadata.participants.length, 'yellow'))
+        if (chat.groupMetadata.participants.includes(ownerNumber)) {
             await bocchi.sendText(chat.id, ind.addedGroup(chat))
         } else if (gc.length > groupLimit) {
             await bocchi.sendText(chat.id, `Max groups reached!\n\nCurrent status: ${gc.length}/${groupLimit}`)
@@ -45,7 +41,6 @@ const start = (bocchi = new Client()) => {
         }
     })
 
-    // Listening to messages
     bocchi.onMessage((message) => {
         bocchi.getAmountOfLoadedMessages()
             .then((msg) => {
@@ -55,19 +50,15 @@ const start = (bocchi = new Client()) => {
                     console.log('[BOCCHI]', color('Cache deleted!', 'yellow'))
                 }
             })
-        // Below is an watched version but it will affect the performance
         require('./message/index.js')(bocchi, message)
-        // msgHandler(bocchi, message)
     })
 
-    // Block person who called bot
     bocchi.onIncomingCall(async (callData) => {
         await bocchi.sendText(callData.peerJid, ind.blocked(ownerNumber))
         await bocchi.contactBlock(callData.peerJid)
-        console.log(color('[BLOCK]', 'red'), color(`${callData.peerJid} has been blocked. Reason:`, 'yellow'), color('CALLING THE BOT', 'cyan'))
+        console.log(color('[BLOCK]', 'red'), color(`${callData.peerJid} has been blocked.`, 'yellow'))
     })
 
-    // Listen to group's event
     bocchi.onGlobalParticipantsChanged(async (event) => {
         const _welcome = JSON.parse(fs.readFileSync('./database/group/welcome.json'))
         const isWelcome = _welcome.includes(event.chat)
@@ -129,7 +120,6 @@ const start = (bocchi = new Client()) => {
     })
 }
 
-// Creating session
 create(options(start))
     .then((bocchi) => start(bocchi))
     .catch((err) => console.error(err))

@@ -2,9 +2,9 @@ const fs = require('fs-extra')
 
 /**
  * Get user ID from db.
- * @param {String} userId 
- * @param {Object} _dir 
- * @returns {String}
+ * @param {string} userId 
+ * @param {object} _dir 
+ * @returns {string}
  */
 const getLevelingId = (userId, _dir) => {
     let pos = null
@@ -27,9 +27,9 @@ const getLevelingId = (userId, _dir) => {
 
 /**
  * Get user level from db.
- * @param {String} userId 
- * @param {Object} _dir 
- * @returns {Number}
+ * @param {string} userId 
+ * @param {object} _dir 
+ * @returns {number}
  */
 const getLevelingLevel = (userId, _dir) => {
     let pos = null
@@ -52,9 +52,9 @@ const getLevelingLevel = (userId, _dir) => {
 
 /**
  * Get user XP from db.
- * @param {String} userId 
- * @param {Object} _dir 
- * @returns {Number}
+ * @param {string} userId 
+ * @param {object} _dir 
+ * @returns {number}
  */
 const getLevelingXp = (userId, _dir) => {
     let pos = null
@@ -77,9 +77,9 @@ const getLevelingXp = (userId, _dir) => {
 
 /**
  * Add user level to db.
- * @param {String} userId 
- * @param {Number} amount 
- * @param {Object} _dir 
+ * @param {string} userId 
+ * @param {number} amount 
+ * @param {object} _dir 
  */
 const addLevelingLevel = (userId, amount, _dir) => {
     let position = null
@@ -96,9 +96,9 @@ const addLevelingLevel = (userId, amount, _dir) => {
 
 /**
  * Add user XP to db.
- * @param {String} userId 
- * @param {Number} amount 
- * @param {Object} _dir 
+ * @param {string} userId 
+ * @param {number} amount 
+ * @param {object} _dir 
  */
 const addLevelingXp = (userId, amount, _dir) => {
     let position = null
@@ -115,9 +115,9 @@ const addLevelingXp = (userId, amount, _dir) => {
 
 /**
  * Get user rank.
- * @param {String} userId 
- * @param {Object} _dir 
- * @returns {Number}
+ * @param {string} userId 
+ * @param {object} _dir 
+ * @returns {number}
  */
 const getUserRank = (userId, _dir) => {
     let position = null
@@ -142,10 +142,19 @@ const getUserRank = (userId, _dir) => {
 // Cooldown XP gains to prevent spam
 const xpGain = new Set()
 
+/**
+ * Check is user exist in set.
+ * @param {string} userId 
+ * @returns {boolean}
+ */
 const isGained = (userId) => {
     return !!xpGain.has(userId)
 }
 
+/**
+ * Add user in set and delete it when it's 1 minute.
+ * @param {string} userId 
+ */
 const addCooldown = (userId) => {
     xpGain.add(userId)
     setTimeout(() => {

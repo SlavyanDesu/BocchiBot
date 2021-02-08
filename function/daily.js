@@ -1,10 +1,10 @@
 const fs = require('fs-extra')
 
 /**
- * Add limit.
- * @param {String} userId 
- * @param {String} dir 
- * @param {Object} _dir 
+ * Add user daily limit.
+ * @param {string} userId 
+ * @param {string} dir 
+ * @param {object} _dir 
  */
 const addLimit = (userId, _dir) => {
     const obj = { id: userId, time: Date.now() }
@@ -13,10 +13,10 @@ const addLimit = (userId, _dir) => {
 }
 
 /**
- * Get time limit.
- * @param {String} userId 
- * @param {Object} _dir 
- * @returns {Number}
+ * Get user time left.
+ * @param {string} userId 
+ * @param {object} _dir 
+ * @returns {number}
  */
 const getLimit = (userId, _dir) => {
     let position = null
