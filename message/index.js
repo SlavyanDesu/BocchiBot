@@ -130,7 +130,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isLevelingOn = isGroupMsg ? _leveling.includes(groupId) : false
         const isAutoStickerOn = isGroupMsg ? _autosticker.includes(groupId) : false
         const isAntiNsfw = isGroupMsg ? _antinsfw.includes(groupId) : false
-        const isMute = _mute.includes(ownerNumber)
+        const isMute = isGroupMsg ? _mute.includes(chat.id) : false
         const isAfkOn = afk.checkAfkUser(sender.id, _afk)
         const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
         const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
@@ -311,7 +311,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         */
 
         // Mute
-        if (isCmd && isMute && !isOwner) return
+        if (isCmd && isMute && !isGroupAdmins && !isOwner && !isPremium) return
         
         // Ignore banned and blocked users
         if (isCmd && (isBanned || isBlocked) && !isGroupMsg) return console.log(color('[BAN]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
@@ -4070,15 +4070,20 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.doneOwner(), id)
             break
             case 'mute':
-                if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
-                if (isMute) {
-                    _mute.splice(sender.id, 1)
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(pushname), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
+                if (ar[0] === 'on') {
+                    if (isMute) return await bocchi.reply(from, `Mute telah diaktifkan pada group ini sebelumnya!`, id)
+                    _mute.push(groupId)
                     fs.writeFileSync('./database/bot/mute.json', JSON.stringify(_mute))
-                    await bocchi.reply(from, 'Success unmute!', id)
+                    await bocchi.reply(from, `Berhasil mute bot pada grup ini!`, id)
+                } else if (ar[0] === 'off') {
+                    _mute.splice(groupId, 1)
+                    fs.writeFileSync('./database/bot/mute.json', JSON.stringify(_mute))
+                    await bocchi..reply(from, `Berhasil unmute bot pada grup ini!`, id)
                 } else {
-                    _mute.push(sender.id)
-                    fs.writeFileSync('./database/bot/mute.json', JSON.stringify(_mute))
-                    await bocchi.reply(from, 'Success mute!', id)
+                    await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
             case 'setname':
