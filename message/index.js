@@ -4073,15 +4073,15 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(pushname), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
-                if (ar[0] === 'on') {
+                if (ar[0] === 'enable') {
                     if (isMute) return await bocchi.reply(from, `Mute telah diaktifkan pada group ini sebelumnya!`, id)
                     _mute.push(groupId)
                     fs.writeFileSync('./database/bot/mute.json', JSON.stringify(_mute))
                     await bocchi.reply(from, `Berhasil mute bot pada grup ini!`, id)
-                } else if (ar[0] === 'off') {
+                } else if (ar[0] === 'disable') {
                     _mute.splice(groupId, 1)
                     fs.writeFileSync('./database/bot/mute.json', JSON.stringify(_mute))
-                    await bocchi..reply(from, `Berhasil unmute bot pada grup ini!`, id)
+                    await bocchi.reply(from, `Berhasil unmute bot pada grup ini!`, id)
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
