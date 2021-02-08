@@ -45,9 +45,9 @@ const start = (bocchi = new Client()) => {
         bocchi.getAmountOfLoadedMessages()
             .then((msg) => {
                 if (msg >= 1000) {
-                    console.log('[BOCCHI]', color(`Loaded message reach ${msg}, cuting message cache...`, 'yellow'))
+                    console.log(color('[BOCCHI]'), color(`Loaded message reach ${msg}, cuting message cache...`, 'yellow'))
                     bocchi.cutMsgCache()
-                    console.log('[BOCCHI]', color('Cache deleted!', 'yellow'))
+                    console.log(color('[BOCCHI]'), color('Cache deleted!', 'yellow'))
                 }
             })
         require('./message/index.js')(bocchi, message)

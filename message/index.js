@@ -93,7 +93,7 @@ let { memberLimit, groupLimit } = _setting
 // eslint-disable-next-line no-undef
 module.exports = msgHandler = async (bocchi = new Client(), message) => {
     try {
-        const { type, id, from, t, sender, isGroupMsg, chat, chatId, caption, isMedia, mimetype, quotedMsg, quotedMsgObj, mentionedJidList } = message
+        const { type, id, from, t, sender, isGroupMsg, chat, caption, isMedia, mimetype, quotedMsg, quotedMsgObj, mentionedJidList } = message
         let { body } = message
         const { name, formattedTitle } = chat
         let { pushname, verifiedName, formattedName } = sender
@@ -156,45 +156,45 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         // ROLE (Change to what you want, or add) and you can change the role sort based on XP.
         const levelRole = level.getLevelingLevel(sender.id, _level)
         var role = 'Copper V'
-        if (levelRole <= 5) {
+        if (levelRole >= 5) {
             role = 'Copper IV'
-        } else if (levelRole <= 10) {
+        } else if (levelRole >= 10) {
             role = 'Copper III'
-        } else if (levelRole <= 15) {
+        } else if (levelRole >= 15) {
             role = 'Copper II'
-        } else if (levelRole <= 20) {
+        } else if (levelRole >= 20) {
             role = 'Copper I'
-        } else if (levelRole <= 25) {
+        } else if (levelRole >= 25) {
             role = 'Silver V'
-        } else if (levelRole <= 30) {
+        } else if (levelRole >= 30) {
             role = 'Silver IV'
-        } else if (levelRole <= 35) {
+        } else if (levelRole >= 35) {
             role = 'Silver III'
-        } else if (levelRole <= 40) {
+        } else if (levelRole >= 40) {
             role = 'Silver II'
-        } else if (levelRole <= 45) {
+        } else if (levelRole >= 45) {
             role = 'Silver I'
-        } else if (levelRole <= 50) {
+        } else if (levelRole >= 50) {
             role = 'Gold V'
-        } else if (levelRole <= 55) {
+        } else if (levelRole >= 55) {
             role = 'Gold IV'
-        } else if (levelRole <= 60) {
+        } else if (levelRole >= 60) {
             role = 'Gold III'
-        } else if (levelRole <= 65) {
+        } else if (levelRole >= 65) {
             role = 'Gold II'
-        } else if (levelRole <= 70) {
+        } else if (levelRole >= 70) {
             role = 'Gold I'
-        } else if (levelRole <= 75) {
+        } else if (levelRole >= 75) {
             role = 'Platinum V'
-        } else if (levelRole <= 80) {
+        } else if (levelRole >= 80) {
             role = 'Platinum IV'
-        } else if (levelRole <= 85) {
+        } else if (levelRole >= 85) {
             role = 'Platinum III'
-        } else if (levelRole <= 90) {
+        } else if (levelRole >= 90) {
             role = 'Platinum II'
-        } else if (levelRole <= 95) {
+        } else if (levelRole >= 95) {
             role = 'Platinum I'
-        } else if (levelRole <= 100) {
+        } else if (levelRole >= 100) {
             role = 'Exterminator'
         }
 
@@ -400,45 +400,45 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 try {
                     for (let i = 0; i < 10; i++) {
                         var roles = 'Copper V'
-                        if (resp[i].level <= 5) {
+                        if (resp[i].level >= 5) {
                             roles = 'Copper IV'
-                        } else if (resp[i].level <= 10) {
+                        } else if (resp[i].level >= 10) {
                             roles = 'Copper III'
-                        } else if (resp[i].level <= 15) {
+                        } else if (resp[i].level >= 15) {
                             roles = 'Copper II'
-                        } else if (resp[i].level <= 20) {
+                        } else if (resp[i].level >= 20) {
                             roles = 'Copper I'
-                        } else if (resp[i].level <= 25) {
+                        } else if (resp[i].level >= 25) {
                             roles = 'Silver V'
-                        } else if (resp[i].level <= 30) {
+                        } else if (resp[i].level >= 30) {
                             roles = 'Silver IV'
-                        } else if (resp[i].level <= 35) {
+                        } else if (resp[i].level >= 35) {
                             roles = 'Silver III'
-                        } else if (resp[i].level <= 40) {
+                        } else if (resp[i].level >= 40) {
                             roles = 'Silver II'
-                        } else if (resp[i].level <= 45) {
+                        } else if (resp[i].level >= 45) {
                             roles = 'Silver I'
-                        } else if (resp[i].level <= 50) {
+                        } else if (resp[i].level >= 50) {
                             roles = 'Gold V'
-                        } else if (resp[i].level <= 55) {
+                        } else if (resp[i].level >= 55) {
                             roles = 'Gold IV'
-                        } else if (resp[i].level <= 60) {
+                        } else if (resp[i].level >= 60) {
                             roles = 'Gold III'
-                        } else if (resp[i].level <= 65) {
+                        } else if (resp[i].level >= 65) {
                             roles = 'Gold II'
-                        } else if (resp[i].level <= 70) {
+                        } else if (resp[i].level >= 70) {
                             roles = 'Gold I'
-                        } else if (resp[i].level <= 75) {
+                        } else if (resp[i].level >= 75) {
                             roles = 'Platinum V'
-                        } else if (resp[i].level <= 80) {
+                        } else if (resp[i].level >= 80) {
                             roles = 'Platinum IV'
-                        } else if (resp[i].level <= 85) {
+                        } else if (resp[i].level >= 85) {
                             roles = 'Platinum III'
-                        } else if (resp[i].level <= 90) {
+                        } else if (resp[i].level >= 90) {
                             roles = 'Platinum II'
-                        } else if (resp[i].level <= 95) {
+                        } else if (resp[i].level >= 95) {
                             roles = 'Platinum I'
-                        } else if (resp[i].level <= 100) {
+                        } else if (resp[i].level >= 100) {
                             roles = 'Exterminator'
                         }
                         leaderboard += `${i + 1}. wa.me/${_level[i].id.replace('@c.us', '')}\n➸ *XP*: ${_level[i].xp} *Level*: ${_level[i].level}\n➸ *Role*: ${roles}\n\n`
@@ -4074,14 +4074,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
                 if (ar[0] === 'enable') {
-                    if (isMute) return await bocchi.reply(from, `Mute telah diaktifkan pada group ini sebelumnya!`, id)
+                    if (isMute) return await bocchi.reply(from, ind.muteChatOnAlready(), id)
                     _mute.push(groupId)
                     fs.writeFileSync('./database/bot/mute.json', JSON.stringify(_mute))
-                    await bocchi.reply(from, `Berhasil mute bot pada grup ini!`, id)
+                    await bocchi.reply(from, ind.muteChatOn(), id)
                 } else if (ar[0] === 'disable') {
                     _mute.splice(groupId, 1)
                     fs.writeFileSync('./database/bot/mute.json', JSON.stringify(_mute))
-                    await bocchi.reply(from, `Berhasil unmute bot pada grup ini!`, id)
+                    await bocchi.reply(from, ind.muteChatOff(), id)
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }

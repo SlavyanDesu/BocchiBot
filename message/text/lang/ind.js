@@ -301,8 +301,21 @@ exports.menuText = () => {
 ╚══❉ *BocchiBot* ❉════
     `
 }
+
 exports.fakeLink = () => {
     return `Ups, link ini terlihat mencurigakan. Demi keamanan grup, aku harus mengeluarkan mu...\n`
+}
+
+exports.muteChatOn = () => {
+    return `Berhasil *mute* bot pada grup ini!`
+}
+
+exports.muteChatOff = () => {
+    return `Berhasil *unmute* bot pada grup ini!`
+}
+
+exports.muteChatOnAlready = () => {
+    return `Mute telah diaktifkan di grup ini sebelumnya!`
 }
 
 exports.randomQuran = (ranquran) => {
