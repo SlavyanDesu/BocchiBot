@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "@justalk/pornhub-api": "^3.4.0",
-    "@open-wa/wa-automate": "^3.2.0",
+    "@open-wa/wa-automate": "^3.4.0",
     "@vitalets/google-translate-api": "^5.0.0",
     "await-exec": "^0.1.2",
     "axios": "^0.21.1",
@@ -37,7 +37,7 @@
     "google-it": "^1.5.0",
     "is-porn": "^0.9.0",
     "mathjs": "^9.0.0",
-    "moment-timezone": "^0.5.31",
+    "moment-timezone": "^0.5.33",
     "ms": "^2.1.3",
     "nana-api": "^1.1.3",
     "needle": "^2.6.0",
