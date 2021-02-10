@@ -1389,18 +1389,22 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-            case 'playv'://Alvio Adji Januar 
+            case 'playv': // Alvio Adji Januar 
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
-			    if (args.length === 0) return bocchi.reply(from, `Kirim perintah ${prefix}play judul lagu, contoh ${prefix}play lagu jorok`, id)
                 await bocchi.reply(from, ind.wait() ,id)
-	            const getvid = await axios.get(`https://api.zeks.xyz/api/ytplaymp4/2?apikey=apivinz&q=${q}`)
-	            if (getvid.data.status == false) return bocchi.reply(from, getvid.data.message, id)
-                if (Number(getvid.data.result.size.split('MB')[0]) >= 10.00) return bocchi.reply(from, 'Maaf durasi music sudah melebihi batas maksimal 10 MB!', id)
-			    await bocchi.sendFileFromUrl(from, getvid.data.result.thumb, 'gambar.jpg', `Title: ${getvid.data.result.title}\n\n───────────⚪───────────\n(っ◔◡◔)っ\n───────────⚪───────────\n➥Size: ${getvid.data.result.size}\n➥Type: Mp4\n➥Link Download: ${getvid.data.result.link}\n\n*Mohon Tunggu Bot Akan Mengirim Video!*`, id)
-			    await bocchi.sendFileFromUrl(from, getvid.data.result.link, 'play.mp4' , 'nih kak'  ,id)
-                break
+                const getvid = await axios.get(`https://api.zeks.xyz/api/ytplaymp4/2?apikey=apivinz&q=${q}`)
+                if (getvid.data.status === false) {
+                    await bocchi.reply(from, getvid.data.message, id)
+                } else if (Number(getvid.data.result.size.split('MB')[0]) >= 10.00) {
+                    await bocchi.reply(from, 'Maaf durasi musik sudah melebihi batas maksimal 10 MB!', id)
+                } else {
+                    await bocchi.sendFileFromUrl(from, getvid.data.result.thumb, 'thumb.jpg', `Title: ${getvid.data.result.title}\n\n───────────⚪───────────\n(っ◔◡◔)っ\n───────────⚪───────────\n➥Size: ${getvid.data.result.size}\n➥Type: Mp4\n➥Link Download: ${getvid.data.result.link}\n\n*Mohon Tunggu Bot Akan Mengirim Video!*`, id)
+                    await bocchi.sendFileFromUrl(from, getvid.data.result.link, 'play.mp4' , '', id)
+                }
+            break
             case 'whois':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
