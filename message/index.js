@@ -2385,6 +2385,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 await bocchi.reply(from, ind.wait(), id)
+                const sleep = (ms) => {
+                    return new Promise(resolve => setTimeout(resolve, ms));
+                }
                 fun.tbkgmbr()
                     .then(async ({ result }) => {
                         await bocchi.sendFileFromUrl(from, result.soal_gbr, 'TebakGambar.jpg', '', id)
