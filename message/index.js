@@ -873,6 +873,61 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, 'Error or character not found!', id)
                 }
             break
+            case 'jadwaltv': //Chika chantexxzz
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.reply(from, ind.wait(), id)
+                try {
+                    const jtv = await axios.get(`http://api.hurtzcrafter.xyz/jadwaltv?channel=${ar[0]}`)
+                    if (jtv.data.status === 'true') {
+                        let jtvx = `-----[ *JADWAL TV* ]-----\n`
+                        for (let i = 0; i < jtv.data.result.length; i++) {
+                            jtvx +=  `\n${jtv.data.result[i].jam} : ${jtv.data.result[i].tayang}`
+                        }
+                        await bocchi.sendText(from, jtvx, id)
+                    } else {
+                        await bocchi.sendText(from, `
+        _*STASIUN TV TIDAK TERDAFTAR*_
+        
+*Daftar list Channel tv :*\n
+1. Channel Indosiar
+	_keybot_ : ${prefix}jadwaltv indosiar\n
+2. Channel TransTV
+	_keybot_ : ${prefix}jadwaltv transtv\n
+3. Channel Trans7
+	_keybot_ : ${prefix}jadwaltv trans7\n
+4. Channel Rajawali TV
+	_keybot_ : ${prefix}jadwaltv rtv\n
+5. Channel SCTV
+	_keybot_ : ${prefix}jadwaltv sctv\n
+6. Channel RCTI
+	_keybot_ : ${prefix}jadwaltv rcti\n
+7. Channel NetTV
+	_keybot_ : ${prefix}jadwaltv nettv\n
+8. Channel KompasTV
+	_keybot_ : ${prefix}jadwaltv kompastv\n
+9. Channel ANTV
+    _keybot_ : ${prefix}jadwaltv antv\n
+10. Channel GlobalTV
+    _keybot_ : ${prefix}jadwaltv gtv\n
+11. Channel Inews TV
+    _keybot_ : ${prefix}jadwaltv inews\n
+12. Channel MNCTV
+    _keybot_ : ${prefix}jadwaltv mnctv\n
+13. Channel MetroTV
+    _keybot_ : ${prefix}jadwaltv metrotv\n
+14. Channel TVOne
+    _keybot_ : ${prefix}jadwaltv tvone\n
+15. Channel TVRI
+    _keybot_ : ${prefix}jadwaltv tvri
+
+        _*List TV Index*_`, id)
+                    }
+                } catch (err) {
+                    console.error(err)
+                    await bocchi.reply(from, 'Error!', id)
+                }
+            break
             case 'instastory': // By: VideFrelan
             case 'igstory':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
