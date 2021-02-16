@@ -4045,10 +4045,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
                 if (ar[0] === 'add') {
                     if (mentionedJidList.length !== 0) {
-                        for (let benet of mentionedJidList) {
-                            if (benet === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
-                            premium.addPremiumUser(benet, args[2], _premium)
-                            await bocchi.reply(from, `*「 PREMIUM ADDED 」*\n\n➸ *ID*: ${benet}\n➸ *Expired*: ${ms(toMs(args[2])).days} day(s) ${ms(toMs(args[2])).hours} hour(s) ${ms(toMs(args[2])).minutes} minute(s)`, id)
+                        for (let prem of mentionedJidList) {
+                            if (prem === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
+                            premium.addPremiumUser(prem, args[2], _premium)
+                            await bocchi.reply(from, `*「 PREMIUM ADDED 」*\n\n➸ *ID*: ${prem}\n➸ *Expired*: ${ms(toMs(args[2])).days} day(s) ${ms(toMs(args[2])).hours} hour(s) ${ms(toMs(args[2])).minutes} minute(s)`, id)
                         }
                     } else {
                         premium.addPremiumUser(args[1] + '@c.us', args[2], _premium)
