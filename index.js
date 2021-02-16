@@ -42,6 +42,8 @@ const start = (bocchi = new Client()) => {
     })
 
     bocchi.onMessage((message) => {
+        // Uncomment this code below for activating an automated cache deletion
+        /*
         bocchi.getAmountOfLoadedMessages()
             .then((msg) => {
                 if (msg >= 1000) {
@@ -50,6 +52,7 @@ const start = (bocchi = new Client()) => {
                     console.log(color('[BOCCHI]'), color('Cache deleted!', 'yellow'))
                 }
             })
+        */
         require('./message/index.js')(bocchi, message)
     })
 
