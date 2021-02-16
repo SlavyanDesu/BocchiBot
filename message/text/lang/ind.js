@@ -91,7 +91,7 @@ exports.botNotAdmin = () => {
 }
 
 exports.ytFound = (res) => {
-    return `*Video ditemukan!*\n\n➸ *Judul*: ${res.title}\n➸ *Deskripsi*:\n${res.desc}\n➸ *Durasi*: ${res.duration} menit\n\nMedia sedang dikirim, mohon tunggu...`
+    return `*Video ditemukan!*\n\n➸ *Judul*: ${res.title}\n➸ *Deskripsi*:\n${res.desc}\n➸ *Durasi*: ${res.duration}\n\nMedia sedang dikirim, mohon tunggu...`
 }
 
 exports.notRegistered = () => {
