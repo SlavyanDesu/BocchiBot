@@ -5,7 +5,7 @@ node_modules
 *.data.json
 
 # Debug file
-debug.log
+logs
 
 # Local folder
 .node-persist
