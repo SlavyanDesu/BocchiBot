@@ -80,6 +80,7 @@ Edit the required value in `config.json`.
 `vhtear`: VHTear API key. You can get it [here](https://api.vhtear.com/) by purchasing his API key.  
 `melodic`: MelodicXT API key. You can use `administrator` key.   
 `tobz`: Tobz API key. You can use `BotWeA` key.   
+`lolhum`: LolHuman key. You can get it [here](https://lolhuman.herokuapp.com/) create an account & Buy. 
 
 ## 🗣️ Changing language
 If you want to change the language to English, replace all `ind` function to `eng`.   
@@ -313,7 +314,7 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 | Femdom             |      ✔️      |
 | Lewd avatars       |      ✔️      |
 | nHentai search     |      ✔️      |
-| nHentai downloader |    Premium   |
+| nHentai downloader |      ✔️      |
 | Multi-lewds        |    Premium   |
 | Multi-fetish       |    Premium   |
 
