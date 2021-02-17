@@ -1934,7 +1934,29 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         console.error(err)
                         await bocchi.reply(from, 'Error!', id)
                     })
-            break 
+            break
+            case 'doujin':
+              if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+              if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+              if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await anto.reply(from, ind.limit(), id)
+              limit.addLimit(sender.id, _limit, isPremium, isOwner)
+              if (!isPremium) return await anto.reply(from, ind.notPremium(), id)
+              const doujin_ = await axios.get(`http://lolhuman.herokuapp.com/api/nhentai/${q}?apikey=${config.lol}`)
+              try {
+                const { title_romaji, title_native, read, file_pdf, info } = doujin_.data.result
+                const kntl_ = doujin_.data.result.image
+              const randem = kntl_[Math.floor(Math.random() * kntl_.length)]
+                const cepete = `_____DOUJIN_____
+*[Title] : ${title_romaji}*
+*[info] : ${info}*
+*[Read] ${read}*
+`
+              await bocchi.sendFileFromUrl(from, randem, 'duji.jpg', `${cepete}`, id)
+              await bocchi.sendFileFromUrl(from, file_pdf, `${q}.pdf`, `${title_native}`, id)
+              } catch {
+                await bocchi.reply(from, 'Nuklir Failed', id)
+              }
+              break
             case 'wallpaper':
             case 'wp':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
