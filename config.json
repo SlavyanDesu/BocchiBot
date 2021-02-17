@@ -6,5 +6,6 @@
     "nao": "api-key",
     "vhtear": "api-key",
     "melodic": "administrator",
-    "tobz": "BotWeA"
+    "tobz": "BotWeA", 
+    "lol":  "YOUR_APIKEY" //you can get free&buy apikey https://lolhuman.herokuapp.com/
 }
