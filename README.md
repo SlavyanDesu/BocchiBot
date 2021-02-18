@@ -68,7 +68,8 @@ Edit the required value in `config.json`.
     "nao": "api-key",
     "vhtear": "api-key",
     "melodic": "administrator",
-    "tobz": "BotWeA"
+    "tobz": "BotWeA",
+    "lol": "api-key"
 }
 ```
 
