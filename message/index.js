@@ -262,10 +262,16 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         if (isGroupMsg && isAutoStickerOn && isMedia && isImage && !isCmd) {
             const mediaData = await decryptMedia(message, uaOverride)
             const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
-            await bocchi.sendImageAsSticker(from, imageBase64)
+            await bocchi.sendImageAsSticker(from, imageBase64, { author:'bot', pack: 'bocchi', keepScale: false })
             console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
         }
-
+        // Auto-sticker-video
+        if (isGroupMsg && isAutoStickerOn && isMedia && isVideo && !isCmd) {
+            const mediaData = await decryptMedia(message, uaOverride)
+            const videoBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
+            await bocchi.sendMp4AsSticker(from, videoBase64, null, { stickerMetadata: true, pack: 'bocchi', author: 'bot', fps: 15, startTime: `00:00:00.0`, endTime : `00:00:05.0`, crop: false, loop: 0 })
+                console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
+            }
         // AFK by Slavyan
         if (isGroupMsg) {
             for (let ment of mentionedJidList) {
