@@ -897,6 +897,11 @@ Cek on-going anime dari Anoboy.
 Aliases: -
 Usage: *${prefix}anoboy*
 
+12. *${prefix}character*
+Find Character from anime.
+Alias: -
+Usage: *{prefix}character* name_character
+
 _Index of [5]_
     `
 }
