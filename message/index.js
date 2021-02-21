@@ -1935,6 +1935,28 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
+            case 'character':  //byAnto
+            case 'chartsearch':
+              if (!q) return await bocchi.reply(from, '*masukan nama karakter yang ingin di cari dengan benar*', id) 
+              if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+              if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
+              limit.addLimit(sender.id, _limit, isPremium, isOwner) 
+              try{
+                await bocchi.reply(from, ind.wait(), id)
+                const chara_key = await axios.get(`http://lolhuman.herokuapp.com/api/character/${q}?apikey=${config.lol}`)
+                const { name, description, favourites, media, image } = chara_key.data.result
+                let text_1 = `-----[ *${q}* ]-----\n*[NAME✨] : ${name.full}*\n*[KANJI] : ${name.native}*\n*[ID] : ${chara_key.data.result.id}*\n*[FAVORITE]: ${favourites}*\n\n`
+                        for (let i = 0; i < media.nodes.length; i++) {
+                const { id, idMal, title, type } = media.nodes[i]
+                    text_1 += `_________________\n\n_📚Judul:${title.romaji}_\n\n_Type:${type}_\n\n_📚Kanji:${title.native}_\n\n_CharId:${idMal}_\n\n_Id:${id}_\n_______________________\n\n`
+                        }
+                    text_1 += `*[DESC] :* ${description}\n____________[Character]__________`
+ 
+                    await bocchi.sendFileFromUrl(from, image.large, `${q}.jpg`, `${text_1}`, id)
+                    } catch {
+                        bocchi.reply(from, 'Character Not Found', id)
+                    }
+                   break
             case 'doujin':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isPremium) return await bocchi.reply(from, ind.notPremium(), id)
