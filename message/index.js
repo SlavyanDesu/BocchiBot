@@ -2385,22 +2385,22 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 await bocchi.reply(from, ind.wait(), id)
-                const sleep = (ms) => {
+                const tsleep = (ms) => {
                     return new Promise(resolve => setTimeout(resolve, ms));
                 }
                 fun.tbkgmbr()
                     .then(async ({ result }) => {
                         await bocchi.sendFileFromUrl(from, result.soal_gbr, 'TebakGambar.jpg', '', id)
                         await bocchi.sendText(from, '50 Detik Tersisa...')
-                        await sleep(10000)
+                        await tsleep(10000)
                         await bocchi.sendText(from, '40 Detik Tersisa...')
-                        await sleep(10000)
+                        await tsleep(10000)
                         await bocchi.sendText(from, '30 Detik Tersisa...')
-                        await sleep(10000)
+                        await tsleep(10000)
                         await bocchi.sendText(from, '20 Detik Tersisa...')
-                        await sleep(10000)
+                        await tsleep(10000)
                         await bocchi.sendText(from, '10 Detik Tersisa...')
-                        await sleep(10000)
+                        await tsleep(10000)
                         await bocchi.reply(from, `➸ *Jawaban*: ${result.jawaban}`, id)
                         console.log('Success sending tebakgambar result!')
                     })
