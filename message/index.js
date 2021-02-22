@@ -3030,7 +3030,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'stickergif':
             case 'stikergif':
+            case 'sgif':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (isMedia && type === 'video' || mimetype === 'image/gif' || isQuotedVideo || isQuotedGif) {
                     if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
                     limit.addLimit(sender.id, _limit, isPremium, isOwner)
@@ -3039,10 +3041,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         const encryptMedia = isQuotedGif || isQuotedVideo ? quotedMsg : message
                         const mediaData = await decryptMedia(encryptMedia, uaOverride)
                         const videoBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
-                        await bocchi.sendMp4AsSticker(from, videoBase64, { fps: 30, startTime: '00:00:00.0', endTime : '00:00:05.0', loop: 0 })
+                        await bocchi.sendMp4AsSticker(from, videoBase64, null, { stickerMetadata: true, pack: 'BocchiBOT', author: '@SlavyanDesu', fps: 30, startTime: `00:00:00.0`, endTime : `00:00:05.0`, crop: false, loop: 0 })
                             .then(async () => {
                                 console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
-                                await bocchi.sendText(from, ind.ok())
                             })
                     } catch (err) {
                         console.error(err)
