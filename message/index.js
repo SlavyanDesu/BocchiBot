@@ -217,6 +217,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
 
+
+
         // Anti-group link detector
         if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner) {
             if (chats.match(new RegExp(/(https:\/\/chat.whatsapp.com)/gi))) {
@@ -231,6 +233,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
 
+        // Simple anti virtext, sorted by chat length, by: VideFrelan
+        if (isGroupMsg && !isGroupAdmins && !isOwner) {
+            if (chats.length > 5000) {
+                await bocchi.sendTextWithMentions(from, `Terdeteksi @${sender.id} telah mengirim Virtext\nAnda akan dikick!`)
+                await bocchi.removeParticipant(groupId, sender.id)
+             }
+         }
         // Anti-fake-group link detector
         if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner) {
             if (chats.match(new RegExp(/(https:\/\/chat.(?!whatsapp.com))/gi))) {
