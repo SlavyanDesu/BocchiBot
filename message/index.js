@@ -19,7 +19,6 @@
 /********** MODULES **********/
 const { decryptMedia, Client } = require('@open-wa/wa-automate')
 const fs = require('fs-extra')
-const config = require('../config.json')
 const Nekos = require('nekos.life')
 const neko = new Nekos()
 const os = require('os')
@@ -61,6 +60,7 @@ const { nsfw, weeaboo, downloader, fun, misc, toxic } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
 const { daily, level, register, afk, reminder, premium, limit} = require('../function')
+const config = require('../config.json')
 const Exif = require('../tools/exif')
 const exif = new Exif()
 const cd = 4.32e+7
@@ -279,7 +279,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         if (isGroupMsg && isAutoStickerOn && isMedia && isVideo && !isCmd) {
             const mediaData = await decryptMedia(message, uaOverride)
             const videoBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
-            await bocchi.sendMp4AsSticker(from, videoBase64, null, { stickerMetadata: true, pack: 'BocchiBot', author: '@SlavyanDesu', fps: 30, startTime: `00:00:00.0`, endTime : `00:00:05.0`, crop: false, loop: 0 })
+            await bocchi.sendMp4AsSticker(from, videoBase64, null, { stickerMetadata: true, pack: 'BocchiBot', author: '@SlavyanDesu', fps: 30, startTime: '00:00:00.0', endTime : '00:00:05.0', crop: false, loop: 0 })
             console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
         }
 
@@ -890,23 +890,23 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, 'Error or character not found!', id)
                 }
             break
-            case 'jadwaltv': //Chika chantexxzz
+            case 'jadwaltv': // Chika chantexxzz
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (ar.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 try {
                     const jtv = await axios.get(`http://api.hurtzcrafter.xyz/jadwaltv?channel=${ar[0]}`)
                     if (jtv.data.status === 'true') {
-                        let jtvx = `-----[ *JADWAL TV* ]-----\n`
+                        let jtvx = '-----[ *JADWAL TV* ]-----\n'
                         for (let i = 0; i < jtv.data.result.length; i++) {
-                            jtvx +=  `\n${jtv.data.result[i].jam} : ${jtv.data.result[i].tayang}`
+                            jtvx += `\n${jtv.data.result[i].jam} : ${jtv.data.result[i].tayang}`
                         }
-                        await bocchi.sendText(from, jtvx, id)
+                        await bocchi.sendText(from, jtvx)
                     } else {
                         await bocchi.sendText(from, `
         _*STASIUN TV TIDAK TERDAFTAR*_
         
-*Daftar list Channel tv :*\n
+*Daftar Channel TV:*\n
 1. Channel Indosiar
 	_keybot_ : ${prefix}jadwaltv indosiar\n
 2. Channel TransTV
@@ -938,7 +938,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 15. Channel TVRI
     _keybot_ : ${prefix}jadwaltv tvri
 
-        _*List TV Index*_`, id)
+        _*List TV Index*_`)
                     }
                 } catch (err) {
                     console.error(err)
@@ -1372,7 +1372,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case 'hadis': // irham01
             case 'hadees':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (args.length !== 2) return await bocchi.reply(from, ind.hadis(), id)
+                if (ar.length !== 1) return await bocchi.reply(from, ind.hadis(), id)
                 await bocchi.reply(from, ind.wait(), id)
                 try {
                     if (ar[0] === 'darimi') {
@@ -3175,8 +3175,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         const encryptMedia = isQuotedGif || isQuotedVideo ? quotedMsg : message
                         const mediaData = await decryptMedia(encryptMedia, uaOverride)
                         const videoBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
-                        await bocchi.sendMp4AsSticker(from, videoBase64, null, { stickerMetadata: true, pack: 'BocchiBOT', author: '@SlavyanDesu', fps: 30, startTime: `00:00:00.0`, endTime : `00:00:05.0`, crop: false, loop: 0 })
-                            .then(async () => {
+                        await bocchi.sendMp4AsSticker(from, videoBase64, null, { stickerMetadata: true, pack: 'BocchiBot', author: '@SlavyanDesu', fps: 30, startTime: '00:00:00.0', endTime : '00:00:05.0', crop: false, loop: 0 })
+                            .then(() => {
                                 console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                             })
                     } catch (err) {

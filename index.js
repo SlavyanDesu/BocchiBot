@@ -20,6 +20,7 @@ const start = (bocchi = new Client()) => {
     console.log(color('[BOCCHI]'), color('BocchiBot is now online!', 'yellow'))
     console.log(color('[DEV]', 'cyan'), color('Welcome back, Owner! Hope you are doing well~', 'magenta'))
 
+    // Uncomment code di bawah untuk mengaktifkan auto-update file changes. Tidak disarankan untuk long-time use.
     // loader.nocache('../message/index.js', (m) => console.log(color('[WATCH]', 'orange'), color(`=> '${m}'`, 'yellow'), 'file is updated!'))
 
     bocchi.onStateChanged((state) => {
@@ -46,7 +47,7 @@ const start = (bocchi = new Client()) => {
     })
 
     bocchi.onMessage((message) => {
-        // Uncomment this code below for activating an automated cache deletion
+        // Uncomment code di bawah untuk mengaktifkan auto-delete cache pesan.
         /*
         bocchi.getAmountOfLoadedMessages()
             .then((msg) => {
@@ -57,6 +58,8 @@ const start = (bocchi = new Client()) => {
                 }
             })
         */
+        
+        // Comment code msgHandler di bawah untuk mengaktifkan auto-update. Kemudian, uncomment code require di bawah msgHandler.
         msgHandler(bocchi, message)
         // require('./message/index.js')(bocchi, message)
     })

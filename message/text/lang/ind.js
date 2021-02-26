@@ -1,6 +1,5 @@
 /* eslint-disable quotes */
-const fs = require('fs-extra')
-const { prefix } = JSON.parse(fs.readFileSync('config.json'))
+const { prefix } = require('../../../config.json')
 
 exports.wait = () => {
     return `Mohon tunggu sebentar~`

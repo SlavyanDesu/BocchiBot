@@ -12,6 +12,3 @@ logs
 
 # Lock file
 package-lock.json
-
-# Dunno
-.vscode
