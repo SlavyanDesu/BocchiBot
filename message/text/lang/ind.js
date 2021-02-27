@@ -783,7 +783,12 @@ Usage: Kirim video dengan caption *${prefix}tomp3* atau reply video dengan capti
 44. *${prefix}ttp*
 Buat teks menjadi stiker.
 Aliases: -
-UsageL *${prefix}ttp* teks
+Usage: *${prefix}ttp* teks
+
+45. *${prefix}bass*
+Bass boost, bikin telinga sakit.
+Aliases: -
+Usage: *${prefix}bass* tingkat_dB
 
 _Index of [3]_
     `

@@ -136,8 +136,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
         const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
         const isQuotedGif = quotedMsg && quotedMsg.mimetype === 'image/gif'
+        const isQuotedAudio = quotedMsg && quotedMsg.type === 'audio'
+        const isQuotedVoice = quotedMsg && quotedMsg.type === 'ptt'
         const isImage = type === 'image'
         const isVideo = type === 'video'
+        const isAudio = type === 'audio'
+        const isVoice = type === 'ptt'
         /********** END OF VALIDATOR **********/
 
         // Automate
@@ -348,7 +352,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             await bocchi.sendSeen(from)
         }
 
-        // Anti-spam
         if (isCmd && !isPremium && !isOwner) msgFilter.addFilter(from)
 
         switch (command) {
@@ -1690,6 +1693,42 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const texto = q.substring(0, q.indexOf('|') - 1)
                 const languaget = q.substring(q.lastIndexOf('|') + 2)
                 translate(texto, {to: languaget}).then(res => {bocchi.reply(from, res.text, id)})
+            break
+            case 'bass':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (isMedia && isAudio || isQuotedAudio || isVoice || isQuotedVoice) {
+                    if (args.length !== 1) return await bocchi.reply(from, ind.wrongFormat(), id)
+                    if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
+                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                    await bocchi.reply(from, ind.wait(), id)
+                    const encryptMedia = isQuotedAudio || isQuotedVoice ? quotedMsg : message
+                    console.log(color('[WAPI]', 'green'), 'Downloading and decrypting media...')
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const temp = './temp'
+                    const name = new Date() * 1
+                    const fileInputPath = path.join(temp, `${name}.mp3`)
+                    const fileOutputPath = path.join(temp, 'audio', `${name}.mp3`)
+                    fs.writeFile(fileInputPath, mediaData, (err) => {
+                        if (err) return console.error(err)
+                        ffmpeg(fileInputPath)
+                            .audioFilter(`equalizer=f=40:width_type=h:width=50:g=${args[0]}`)
+                            .format('mp3')
+                            .on('start', (commandLine) => console.log(color('[FFmpeg]', 'green'), commandLine))
+                            .on('progress', (progress) => console.log(color('[FFmpeg]', 'green'), progress))
+                            .on('end', async () => {
+                                console.log(color('[FFmpeg]', 'green'), 'Processing finished!')
+                                await bocchi.sendPtt(from, fileOutputPath, id)
+                                console.log(color('[WAPI]', 'green'), 'Success sending audio!')
+                                setTimeout(() => {
+                                    fs.unlinkSync(fileInputPath)
+                                    fs.unlinkSync(fileOutputPath)
+                                }, 30000)
+                            })
+                            .save(fileOutputPath)
+                    })
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
             break
 
             // Bot

@@ -18,13 +18,13 @@
   "homepage": "https://github.com/SlavyanDesu/BocchiBot",
   "license": "MIT",
   "dependencies": {
-    "@justalk/pornhub-api": "^3.4.0",
-    "@open-wa/wa-automate": "^3.5.0",
+    "@justalk/pornhub-api": "^3.5.0",
+    "@open-wa/wa-automate": "^3.6.13",
     "@vitalets/google-translate-api": "^5.0.0",
     "await-exec": "^0.1.2",
     "axios": "^0.21.1",
     "bent": "^7.3.12",
-    "canvacord": "^5.0.8",
+    "canvacord": "^5.1.0",
     "chalk": "^4.1.0",
     "discord-canvas": "^1.4.1",
     "emoji-unicode": "^2.0.1",
@@ -34,7 +34,7 @@
     "form-data": "^4.0.0",
     "fs-extra": "^9.1.0",
     "genshin-impact-api": "^1.0.8",
-    "google-it": "^1.5.0",
+    "google-it": "^1.6.2",
     "is-porn": "^0.9.0",
     "mathjs": "^9.0.0",
     "moment-timezone": "^0.5.33",
@@ -51,9 +51,9 @@
     "parse-ms": "^2.1.0",
     "rumus-bdr": "^1.0.0",
     "sagiri": "^3.1.1",
-    "sharp": "^0.27.0",
+    "sharp": "^0.27.2",
     "video-url-link": "git+https://github.com/YogaSakti/video-url-link.git",
-    "webp-converter": "^2.3.2"
+    "webp-converter": "^2.3.3"
   },
   "devDependencies": {
     "eslint": "^7.20.0"
