@@ -30,7 +30,7 @@ const start = (bocchi = new Client()) => {
 
     bocchi.onAddedToGroup(async (chat) => {
         const gc = await bocchi.getAllGroups()
-        console.log(color('[BOCCHI]'), 'Added a to new group. Name:', color(chat.contact.name, 'yellow'), 'Total members:', color(chat.groupMetadata.participants.length, 'yellow'))
+        console.log(color('[BOCCHI]'), 'Added to a new group. Name:', color(chat.contact.name, 'yellow'), 'Total members:', color(chat.groupMetadata.participants.length, 'yellow'))
         if (chat.groupMetadata.participants.includes(ownerNumber)) {
             await bocchi.sendText(chat.id, ind.addedGroup(chat))
         } else if (gc.length > groupLimit) {
