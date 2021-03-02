@@ -238,7 +238,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         }
 
         // Simple anti virtext, sorted by chat length, by: VideFrelan
-        if (isGroupMsg && !isGroupAdmins && !isOwner) {
+        if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && !isOwner) {
             if (chats.length > 5000) {
                 await bocchi.sendTextWithMentions(from, `Terdeteksi @${sender.id} telah mengirim Virtext\nAnda akan dikick!`)
                 await bocchi.removeParticipant(groupId, sender.id)
@@ -630,12 +630,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
                 downloader.tik(url)
                     .then(async ({ result })=> {
-                        const responses = await fetch(result.video);
-                        const buffer = await responses.buffer();
-                        fs.writeFileSync(`./temp/${sender.id}_TikTok.mp4`, buffer)
-                        await bocchi.sendFile(from, `./temp/${sender.id}_TikTok.mp4`, `${sender.id}_TikTok.mp4`, '', id)
+                        await bocchi.sendFileFromUrl(from, result.video, `TikTok.mp4`, '', id)
                         console.log('Success sending TikTok video!')
-                        fs.unlinkSync(`./temp/${sender.id}_TikTok.mp4`)
                     })
                     .catch(async (err) => {
                         console.log(err)
@@ -1454,10 +1450,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.sendFileFromUrl(from, result.image, `${result.title}.jpg`, ind.ytPlay(result), id)
                         const responses = await fetch(result.mp3);
                         const buffer = await responses.buffer(); 
-                        await fs.writeFile(`./temp/${result.title}.mp3`, buffer)
-                        await bocchi.sendFile(from, `./temp/${result.title}.mp3`, `${result.title}`, id)
+                        await fs.writeFile(`./temp/ytplay_${sender.id}.mp3`, buffer)
+                        await bocchi.sendFile(from, `./temp/ytplay_${sender.id}.mp3`, `ytplay_${sender.id}`, id)
                         console.log('Success sending Play MP3!')
-                        fs.unlinkSync(`./temp/${result.title}.mp3`)
+                        fs.unlinkSync(`./temp/ytplay_${sender.id}.mp3`)
                     })
                     .catch(async (err) => {
                         console.error(err)
