@@ -50,7 +50,7 @@ const emojiUnicode = require('emoji-unicode')
 const moment = require('moment-timezone')
 const translate = require('@vitalets/google-translate-api')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
-const genshin = require('genshin-impact-api')
+const genshin = require('genshin')
 const google = require('google-it')
 const cron = require('node-cron')
 /********** END OF MODULES **********/
