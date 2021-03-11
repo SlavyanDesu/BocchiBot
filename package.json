@@ -45,7 +45,7 @@
     "nekos.life": "^2.0.7",
     "nhentai-api": "^3.0.2",
     "nhentai-js": "^4.0.0",
-    "node-cron": "^2.0.3",
+    "node-cron": "^3.0.0",
     "node-fetch": "^2.6.1",
     "node-gtts": "^2.0.2",
     "parse-ms": "^2.1.0",
