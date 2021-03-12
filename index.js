@@ -7,8 +7,7 @@ const { version, bugs } = require('./package.json')
 const msgHandler = require('./message/index.js')
 const figlet = require('figlet')
 const canvas = require('discord-canvas')
-const config = require('./config.json')
-const ownerNumber = config.ownerBot
+const { ownerBot } = require('./config.json')
 const fs = require('fs-extra')
 const { groupLimit, memberLimit } = require('./database/bot/setting.json')
 
@@ -16,7 +15,7 @@ const start = (bocchi = new Client()) => {
     console.log(color(figlet.textSync('BocchiBot', 'Larry 3D'), 'cyan'))
     console.log(color('=> Bot successfully loaded! Database:', 'yellow'), color(loader.getAllDirFiles('./database').length), color('Library:', 'yellow'), color(loader.getAllDirFiles('./lib').length), color('Function:', 'yellow'), color(loader.getAllDirFiles('./function').length))
     console.log(color('=> Source code version:', 'yellow'), color(version))
-    console.log(color('=> Bugs? Errors? Suggestions? Visit here:', 'yellow'), color(bugs.url))
+    console.log(color('=> Bug? Error? Suggestion? Visit here:', 'yellow'), color(bugs.url))
     console.log(color('[BOCCHI]'), color('BocchiBot is now online!', 'yellow'))
     console.log(color('[DEV]', 'cyan'), color('Welcome back, Owner! Hope you are doing well~', 'magenta'))
 
@@ -31,7 +30,7 @@ const start = (bocchi = new Client()) => {
     bocchi.onAddedToGroup(async (chat) => {
         const gc = await bocchi.getAllGroups()
         console.log(color('[BOCCHI]'), 'Added to a new group. Name:', color(chat.contact.name, 'yellow'), 'Total members:', color(chat.groupMetadata.participants.length, 'yellow'))
-        if (chat.groupMetadata.participants.includes(ownerNumber)) {
+        if (chat.groupMetadata.participants.includes(ownerBot)) {
             await bocchi.sendText(chat.id, ind.addedGroup(chat))
         } else if (gc.length > groupLimit) {
             await bocchi.sendText(chat.id, `Max groups reached!\n\nCurrent status: ${gc.length}/${groupLimit}`)
@@ -65,7 +64,7 @@ const start = (bocchi = new Client()) => {
     })
 
     bocchi.onIncomingCall(async (callData) => {
-        await bocchi.sendText(callData.peerJid, ind.blocked(ownerNumber))
+        await bocchi.sendText(callData.peerJid, ind.blocked(ownerBot))
         await bocchi.contactBlock(callData.peerJid)
         console.log(color('[BLOCK]', 'red'), color(`${callData.peerJid} has been blocked.`, 'yellow'))
     })

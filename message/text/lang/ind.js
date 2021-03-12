@@ -1283,6 +1283,16 @@ Mengganti username bot. Maksimal 25 huruf.
 Aliases: -
 Usage: *${prefix}name* username_baru
 
+14. *${prefix}block*
+Blok user.
+Aliases: *blok*
+Usage: *${prefix}block* @user/62812xxxxxxxx
+
+15. *${prefix}unblock*
+Unblok user.
+Aliases: *unblok*
+Usage: *${prefix}unblock* @user/62812xxxxxxxx
+
 _Index of [9]_
     `
 }

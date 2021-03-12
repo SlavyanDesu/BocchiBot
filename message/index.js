@@ -630,7 +630,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
                 downloader.tik(url)
                     .then(async ({ result })=> {
-                        await bocchi.sendFileFromUrl(from, result.video, `TikTok.mp4`, '', id)
+                        await bocchi.sendFileFromUrl(from, result.video, 'TikTok.mp4', '', id)
                         console.log('Success sending TikTok video!')
                     })
                     .catch(async (err) => {
@@ -882,7 +882,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 try {
                     console.log('Searching for character...')
                     const character = await genshin.characters(q)
-                    await bocchi.sendFileFromUrl(from, character.image, `${character.title}.jpg`, `*「 GENSHIN IMPACT 」*\n\n*${character.title}*\n${character.description}\n➸ *Name*: ${character.name}\n➸ *Nation*: ${character.nation}\n➸ *Gender*: ${character.gender}\n➸ *Birthday*: ${character.birthday}\n➸ *Constellation*: ${character.constellation}\n➸ *Rarity*: ${character.rarity}\n➸ *Vision*: ${character.vision}\n➸ *Weapon*: ${character.weapon}\n\n${character.url}`)
+                    await bocchi.sendFileFromUrl(from, character.image, `${character.name}.jpg`, `*「 GENSHIN IMPACT 」*\n\n*${character.name}*\n${character.description}\n\n"_${character.quote}_" - ${character.name}\n\n➸ *Name*: ${character.name}\n➸ *Seiyuu*: ${character.cv}\n➸ *Region*: ${character.city}\n➸ *Rating*: ${character.rating}\n➸ *Vision*: ${character.element}\n➸ *Weapon*: ${character.weapon}\n\n${character.url}`)
                     console.log('Success sending Genshin Impact character!')
                 } catch (err) {
                     console.error(err)
@@ -4116,6 +4116,38 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Owner command
+            case 'block':
+            case 'blok':
+                if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
+                if (mentionedJidList.length !== 0) {
+                    for (let blok of mentionedJidList) {
+                        if (blok === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
+                        await bocchi.contactBlock(blok)
+                    }
+                    await bocchi.reply(from, ind.doneOwner(), id)
+                } else if (args.length === 1) {
+                    await bocchi.contactBlock(args[0] + '@c.us')
+                    await bocchi.reply(from, ind.doneOwner(), id)
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
+            break
+            case 'unblock':
+            case 'unblok':
+                if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
+                if (mentionedJidList.length !== 0) {
+                    for (let blok of mentionedJidList) {
+                        if (blok === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
+                        await bocchi.contactUnblock(blok)
+                    }
+                    await bocchi.reply(from, ind.doneOwner(), id)
+                } else if (args.length === 1) {
+                    await bocchi.contactUnblock(args[0] + '@c.us')
+                    await bocchi.reply(from, ind.doneOwner(), id)
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
+            break
             case 'bc':
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
                 if (!q) return await bocchi.reply(from, ind.emptyMess(), id)

@@ -1224,7 +1224,17 @@ Usage: Use *${prefix}mute* to mute and use *${prefix}mute* once again to unmute.
 13. *${prefix}setname*
 Change bot's name. Maximum 25 characters.
 Aliases: -
-Usage: *${prefix}name* username_baru
+Usage: *${prefix}name* new_username
+
+14. *${prefix}block*
+Block user.
+Aliases: *blok*
+Usage: *${prefix}block* @user/62812xxxxxxxx
+
+15. *${prefix}unblock*
+Unblock user.
+Aliases: *unblok*
+Usage: *${prefix}unblock* @user/62812xxxxxxxx
 
 _Index of [9]_
     `

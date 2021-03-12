@@ -287,6 +287,8 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 | Add premium user   |      ✔️      |
 | Set bot's info     |      ✔️      |
 | Mute bot           |      ✔️      |
+| Block              |      ✔️      |
+| Unblock            |      ✔️      |
 
 |    Moderation    | Availability |
 | :--------------: | :----------: |
