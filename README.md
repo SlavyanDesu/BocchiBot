@@ -264,6 +264,7 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 | Neonime latest update |      ✔️      |
 | Anoboy on-going list  |      ✔️      |
 | Search character      |      ✔️      |
+| Save sticker          |      ✔️      |
 
 |        Bot       | Availability |
 | :--------------: | :----------: |
