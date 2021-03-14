@@ -85,6 +85,7 @@ let _limit = JSON.parse(fs.readFileSync('./database/user/limit.json'))
 const _afk = JSON.parse(fs.readFileSync('./database/user/afk.json'))
 const _reminder = JSON.parse(fs.readFileSync('./database/user/reminder.json'))
 const _daily = JSON.parse(fs.readFileSync('./database/user/daily.json'))
+const stick = JSON.parse(fs.readFileSync('./database/bot/sticker.json'))
 const _setting = JSON.parse(fs.readFileSync('./database/bot/setting.json'))
 let { memberLimit, groupLimit } = _setting
 /********** END OF DATABASES **********/
@@ -243,7 +244,15 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.sendTextWithMentions(from, `Terdeteksi @${sender.id} telah mengirim Virtext\nAnda akan dikick!`)
                 await bocchi.removeParticipant(groupId, sender.id)
              }
+         } 
+               
+           // Detector Sticker 
+         if (isGroupMsg) { //By @hardianto02_
+         if (stick.includes(chats)) {
+         await bocchi.sendImageAsSticker(from, `./temp/sticker/${chats}.webp`, {author: '@SlavianDesu', pack: 'BocchiBot'})
+              }
          }
+
         // Anti-fake-group link detector
         if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner) {
             if (chats.match(new RegExp(/(https:\/\/chat.(?!whatsapp.com))/gi))) {
@@ -1529,6 +1538,31 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
+            case 'addsticker':   // BY @Hardianto02_
+                   if (!isGroupMsg) return await bocchi.reply(from, 'Simpen Nya Dalam Group Kak', id) 
+                   if (isQuotedSticker) {
+                    var cek_ = stick.includes(body.slice(12));
+            if(cek_){
+                return bocchi.reply(from, `Stiker Sudah Ada Di Database`, id)
+            } else { 
+                stick.push(body.slice(12))
+                fs.writeFileSync('./database/sticker.json', JSON.stringify(stick))
+                const encryptMedia = isQuotedSticker ? quotedMsg : message
+                const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                await fs.writeFile(`./temp/sticker/${body.slice(12)}.webp`, mediaData)
+                await bocchi.reply(from, `Success Save Sticker ${body.slice(12)} To DataBase `, id)
+                    }
+             } else {
+                await bocchi.reply(from, 'Failed To Save Sticker', id)
+                }
+                break
+                case 'liststicker':
+                let lbw = `List sticker\nTotal : ${stick.length}\n`
+                for (let i of stick) {
+                      lbw += `➸ ${i.replace(stick)}\n`
+                    }
+                await bocchi.sendText(from, lbw, id)
+                break
             case 'toxic':
                 if (!isRegistered) return await bocchi.reply(from , ind.notRegistered(), id)
                 await bocchi.reply(from, toxic(), id)
