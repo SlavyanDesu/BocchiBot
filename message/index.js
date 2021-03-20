@@ -28,7 +28,6 @@ const api = new API()
 const sagiri = require('sagiri')
 const NanaAPI = require('nana-api')
 const nana = new NanaAPI()
-const bdr = require('rumus-bdr')
 const fetch = require('node-fetch')
 const isPorn = require('is-porn')
 const exec = require('await-exec')
@@ -150,7 +149,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         cron.schedule('0 0 * * *', () => {
             const reset = []
             _limit = reset
-            console.log('Resetting user limit...')
+            console.log('Hang tight, it\'s time to reset usage limits...')
             fs.writeFileSync('./database/user/limit.json', JSON.stringify(_limit))
             console.log('Success!')
         }, {
@@ -231,13 +230,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.linkDetected(), id)
                     await bocchi.removeParticipant(groupId, sender.id)
                 } else {
-                    console.log(color('[WARN]', 'yellow'), color('Received a group link but is not a valid link!', 'yellow'))
+                    console.log(color('[WARN]', 'yellow'), color('Received a group link but it is not a valid link!', 'yellow'))
                 }
             }
         }
 
-       // Anti virtext by: @VideFrelan
-       if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && !isOwner) {
+        // Anti virtext by: @VideFrelan
+        if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && !isOwner) {
            if (chats.length > 5000) {
                await bocchi.sendTextWithMentions(from, `@${sender.id} is detected sending a virtext.\nYou will be kicked!`)
                await bocchi.removeParticipant(groupId, sender.id)
@@ -254,7 +253,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         // Anti fake group link detector
         if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner) {
             if (chats.match(new RegExp(/(https:\/\/chat.(?!whatsapp.com))/gi))) {
-                console.log(color('[KICK]', 'red'), color('Received a fake group link.', 'yellow'))
+                console.log(color('[KICK]', 'red'), color('Received a fake group link!', 'yellow'))
                 await bocchi.reply(from, 'Fake group link detected!', id)
                 await bocchi.removeParticipant(groupId, sender.id)
             }
@@ -282,7 +281,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         if (isGroupMsg && isAutoStickerOn && isMedia && isImage && !isCmd) {
             const mediaData = await decryptMedia(message, uaOverride)
             const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
-            await bocchi.sendImageAsSticker(from, imageBase64, { author: '@SlavyanDesu', pack: 'BocchiBot', keepScale: false })
+            await bocchi.sendImageAsSticker(from, imageBase64, { author: '@SlavyanDesu', pack: 'BocchiBot' })
             console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
         }
 
@@ -290,7 +289,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         if (isGroupMsg && isAutoStickerOn && isMedia && isVideo && !isCmd) {
             const mediaData = await decryptMedia(message, uaOverride)
             const videoBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
-            await bocchi.sendMp4AsSticker(from, videoBase64, null, { stickerMetadata: true, pack: 'BocchiBot', author: '@SlavyanDesu', fps: 30, startTime: '00:00:00.0', endTime : '00:00:05.0', crop: false, loop: 0 })
+            await bocchi.sendMp4AsSticker(from, videoBase64, { stickerMetadata: true, pack: 'BocchiBot', author: '@SlavyanDesu', fps: 30, startTime: '00:00:00.0', endTime : '00:00:05.0', crop: false, loop: 0 })
             console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
         }
 
@@ -337,7 +336,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
         switch (command) {
             case 'antiporn': // Premium, chat VideFikri
-                await bocchi.reply(from, 'Premium Feature!\n\nContact: wa.me/6285692655520?text=Buy%20Anti%20Porn', id)
+                await bocchi.reply(from, 'Premium feature!\n\nContact: wa.me/6285692655520?text=Buy%20Anti%20Porn', id)
             break
 
             // Register by Slavyan
@@ -397,7 +396,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isGroupMsg) return await bocchi.reply(from. ind.groupOnly(), id)
                 const resp = _level
                 _level.sort((a, b) => (a.xp < b.xp) ? 1 : -1)
-                let leaderboard = '-----[ *LEADERBOARD* ]----\n\n'
+                let leaderboard = '*── 「 LEADERBOARDS 」 ──*\n\n'
                 try {
                     for (let i = 0; i < 10; i++) {
                         var roles = 'Copper V'
@@ -591,8 +590,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 downloader.tikNoWm(url)
                     .then(async ({ result }) => {
                         await bocchi.sendFileFromUrl(from, result.thumb, 'TiktokNoWM.jpg', `➸ *Username*: ${result.username}\n➸ *Caption*: ${result.caption}\n➸ *Uploaded on*: ${result.uploaded_on}\n\nSedang dikirim, sabar ya...`, id)
-                        const responses = await fetch(result.link);
-                        const buffer = await responses.buffer();
+                        const responses = await fetch(result.link)
+                        const buffer = await responses.buffer()
                         fs.writeFileSync(`./temp/${sender.id}_TikTokNoWm.mp4`, buffer)
                         await bocchi.sendFile(from, `./temp/${sender.id}_TikTokNoWm.mp4`, `${sender.id}_TikTokNoWm.mp4`, '', id)
                         console.log('Success sending TikTok video with no WM!')
@@ -724,7 +723,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
                 google({ 'query': q, 'no-display': true })
                     .then(async (results) => {
-                        let txt = `-----[ *GOOGLE SEARCH* ]-----\n\n*by: rashidsiregar28*\n\n_*Search results for: ${q}*_`
+                        let txt = `*── 「 GOOGLE SEARCH 」 ──*\n\n*by: rashidsiregar28*\n\n_*Search results for: ${q}*_`
                         for (let i = 0; i < results.length; i++) {
                             txt += `\n\n➸ *Title*: ${results[i].title}\n➸ *Desc*: ${results[i].snippet}\n➸ *Link*: ${results[i].link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
                         }
@@ -877,48 +876,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 try {
                     const jtv = await axios.get(`http://api.hurtzcrafter.xyz/jadwaltv?channel=${ar[0]}`)
                     if (jtv.data.status === 'true') {
-                        let jtvx = '-----[ *JADWAL TV* ]-----\n'
+                        let jtvx = '*── 「 TV 」 ──*\n'
                         for (let i = 0; i < jtv.data.result.length; i++) {
-                            jtvx += `\n${jtv.data.result[i].jam} : ${jtv.data.result[i].tayang}`
+                            jtvx += `\n${jtv.data.result[i].jam}: ${jtv.data.result[i].tayang}`
                         }
                         await bocchi.sendText(from, jtvx)
                     } else {
-                        await bocchi.sendText(from, `
-        _*STASIUN TV TIDAK TERDAFTAR*_
-        
-*Daftar Channel TV:*\n
-1. Channel Indosiar
-	_keybot_ : ${prefix}jadwaltv indosiar\n
-2. Channel TransTV
-	_keybot_ : ${prefix}jadwaltv transtv\n
-3. Channel Trans7
-	_keybot_ : ${prefix}jadwaltv trans7\n
-4. Channel Rajawali TV
-	_keybot_ : ${prefix}jadwaltv rtv\n
-5. Channel SCTV
-	_keybot_ : ${prefix}jadwaltv sctv\n
-6. Channel RCTI
-	_keybot_ : ${prefix}jadwaltv rcti\n
-7. Channel NetTV
-	_keybot_ : ${prefix}jadwaltv nettv\n
-8. Channel KompasTV
-	_keybot_ : ${prefix}jadwaltv kompastv\n
-9. Channel ANTV
-    _keybot_ : ${prefix}jadwaltv antv\n
-10. Channel GlobalTV
-    _keybot_ : ${prefix}jadwaltv gtv\n
-11. Channel Inews TV
-    _keybot_ : ${prefix}jadwaltv inews\n
-12. Channel MNCTV
-    _keybot_ : ${prefix}jadwaltv mnctv\n
-13. Channel MetroTV
-    _keybot_ : ${prefix}jadwaltv metrotv\n
-14. Channel TVOne
-    _keybot_ : ${prefix}jadwaltv tvone\n
-15. Channel TVRI
-    _keybot_ : ${prefix}jadwaltv tvri
-
-        _*List TV Index*_`)
+                        await bocchi.sendText(from, 'Channel not found!')
                     }
                 } catch (err) {
                     console.error(err)
@@ -964,7 +928,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
                 misc.linesticker()
                     .then(async ({ result }) => {
-                        let lines = '-----[ *NEW STICKER* ]-----'
+                        let lines = '*── 「 LINE STICKERS 」 ──*'
                         for (let i = 0; i < result.hasil.length; i++) {
                             lines +=  `\n\n➸ *Title*: ${result.hasil[i].title}\n➸ *URL*: ${result.hasil[i].uri}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
                         }
@@ -1025,7 +989,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                             await bocchi.reply(from, 'Not found.', id)
                         } else {
                             const { biography, edge_followed_by, edge_follow, full_name, is_private, is_verified, profile_pic_url_hd, username, edge_owner_to_timeline_media } = graphql.user
-                            const text = `*「 IG STALK 」*\n\n➸ *Username*: ${username}\n➸ *Bio*: ${biography}\n➸ *Full name*: ${full_name}\n➸ *Followers*: ${edge_followed_by.count}\n➸ *Followings*: ${edge_follow.count}\n➸ *Private*: ${is_private ? 'Yes' : 'No'}\n➸ *Verified*: ${is_verified ? 'Yes' : 'No'}\n➸ *Total posts*: ${edge_owner_to_timeline_media.count}`
+                            const text = `*── 「 IG STALK 」 ──*\n\n➸ *Username*: ${username}\n➸ *Bio*: ${biography}\n➸ *Full name*: ${full_name}\n➸ *Followers*: ${edge_followed_by.count}\n➸ *Followings*: ${edge_follow.count}\n➸ *Private*: ${is_private ? 'Yes' : 'No'}\n➸ *Verified*: ${is_verified ? 'Yes' : 'No'}\n➸ *Total posts*: ${edge_owner_to_timeline_media.count}`
                             await bocchi.sendFileFromUrl(from, profile_pic_url_hd, 'insta.jpg', text, id)
                             console.log('Success sending IG stalk!')
                         }
@@ -1123,7 +1087,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const tukot = q.substring(q.lastIndexOf('|') + 2)
                 misc.ongkir(kurir, askot, tukot)
                     .then(async ({ result }) => {
-                        let onkir = `-----[ *${result.title}* ]-----`
+                        let onkir = `*── 「 ${result.title} 」 ──*`
                         for (let i = 0; i < result.data.length; i++) {
                             onkir +=  `\n\n➸ *Layanan*: ${result.data[i].layanan}\n➸ *Estimasi*: ${result.data[i].etd}\n➸ *Tarif*: ${result.data[i].tarif}\n➸ *Info*: ${result.informasi}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
                         }
@@ -1244,7 +1208,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                 } catch (err) {
                     console.error(err)
-                    await bocchi.reply(from, `Error!\n\n${err}`, id)
+                    await bocchi.reply(from, 'Error!', id)
                 }
             break
             case 'math':
@@ -1255,7 +1219,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
                     limit.addLimit(sender.id, _limit, isPremium, isOwner)
-                    await bocchi.reply(from, `*「 MATH 」*\n\n${q} = ${mathjs.evaluate(q)}`, id)
+                    await bocchi.reply(from, `*── 「 MATH 」 ──*\n\n${q} = ${mathjs.evaluate(q)}`, id)
                 }
             break
             case 'shopee':
@@ -1277,7 +1241,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         })
                 } catch (err) {
                     console.error(err)
-                    await bocchi.reply(from, `Error!\n\n${err}`, id)
+                    await bocchi.reply(from, 'Error!', id)
                 }
             break
             case 'mutual':
@@ -1323,7 +1287,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
                 misc.listSurah()
                     .then(async ({ result }) => {
-                        let list = '-----[ AL-QUR\'AN LIST ]-----\n\n'
+                        let list = '*── 「 AL-QUR\'AN 」 ──*\n\n'
                         for (let i = 0; i < result.list.length; i++) {
                             list += `${result.list[i]}\n\n`
                         }
@@ -1429,8 +1393,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .then(async ({ result }) => {
                         if (Number(result.size.split(' MB')[0]) >= 10.0) return bocchi.sendFileFromUrl(from, result.image, `${result.title}.jpg`, `Judul: ${result.title}\nSize: *${result.size}*\n\nGagal, Maksimal video size adalah *10MB*!`, id)
                         await bocchi.sendFileFromUrl(from, result.image, `${result.title}.jpg`, ind.ytPlay(result), id)
-                        const responses = await fetch(result.mp3);
-                        const buffer = await responses.buffer(); 
+                        const responses = await fetch(result.mp3)
+                        const buffer = await responses.buffer()
                         await fs.writeFile(`./temp/ytplay_${sender.id}.mp3`, buffer)
                         await bocchi.sendFile(from, `./temp/ytplay_${sender.id}.mp3`, `ytplay_${sender.id}`, id)
                         console.log('Success sending Play MP3!')
@@ -1465,7 +1429,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
                 misc.whois(args[0])
                     .then(async ({ result }) => {
-                        await bocchi.reply(from, `*「 WHOIS 」*\n\n➸ *IP address*: ${result.ip_address}\n➸ *City*: ${result.city}\n➸ *Region*: ${result.region}\n➸ *Country*: ${result.country}\n➸ *ZIP code*: ${result.postal_code}\n➸ *Latitude and longitude*: ${result.latitude_longitude}\n➸ *Time zone*: ${result.time_zone}\n➸ *Call code*: ${result.calling_code}\n➸ *Currency*: ${result.currency}\n➸ *Language code*: ${result.languages}\n➸ *ASN*: ${result.asn}\n➸ *Organization*: ${result.org}`, id)
+                        await bocchi.reply(from, `*── 「 WHOIS 」 ──*\n\n➸ *IP address*: ${result.ip_address}\n➸ *City*: ${result.city}\n➸ *Region*: ${result.region}\n➸ *Country*: ${result.country}\n➸ *ZIP code*: ${result.postal_code}\n➸ *Latitude and longitude*: ${result.latitude_longitude}\n➸ *Time zone*: ${result.time_zone}\n➸ *Call code*: ${result.calling_code}\n➸ *Currency*: ${result.currency}\n➸ *Language code*: ${result.languages}\n➸ *ASN*: ${result.asn}\n➸ *Organization*: ${result.org}`, id)
                     })
                     .catch(async (err) => {
                         console.error(err)
@@ -1511,28 +1475,44 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             break
             case 'addsticker': // by @hardianto02_
+            case 'addstiker':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id) 
                 if (isQuotedSticker) {
                     if (_stick.includes(q)) {
-                        await bocchi.reply(from, 'This sticker is already saved.', id)
+                        await bocchi.reply(from, ind.stickerAddAlready(q), id)
                     } else { 
-                        _stick.push(body.slice(12))
+                        _stick.push(q)
                         fs.writeFileSync('./database/sticker.json', JSON.stringify(_stick))
                         const mediaData = await decryptMedia(quotedMsg, uaOverride)
                         fs.writeFileSync(`./temp/sticker/${q}.webp`, mediaData)
-                        await bocchi.reply(from, 'Sticker has been successfully saved!', id)
+                        await bocchi.reply(from, ind.stickerAdd(), id)
                     }
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
+            case 'delsticker':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                if (_stick.includes(q)) {
+                    _stick.splice(q, 1)
+                    fs.writeFileSync('./database/sticker.json', JSON.stringify(_stick))
+                    fs.unlinkSync(`./temp/sticker/${q}.webp`)
+                    await bocchi.reply(from, ind.stickerDel(), id)
+                } else {
+                    await bocchi.reply(from, ind.stickerNotFound())
+                }
+            break
             case 'stickerlist':
             case 'liststicker':
+            case 'stikerlist':
+            case 'liststiker':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
-                let stickerList = `List sticker\nTotal: ${_stick.length}\n\n`
+                let stickerList = `*── 「 STICKER DATABASE 」 ──*\nTotal: ${_stick.length}\n\n`
                 for (let i of _stick) {
                     stickerList += `➸ ${i.replace(_stick)}\n`
                 }
@@ -1548,7 +1528,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
                 misc.alkitab(q)
                     .then(async ({ result }) => {
-                        let alkitab = '-----[ *AL-KITAB* ]-----'
+                        let alkitab = '*── 「 AL-KITAB 」 ──*'
                         for (let i = 0; i < result.length; i++) {
                             alkitab +=  `\n\n➸ *Ayat*: ${result[i].ayat}\n➸ *Isi*: ${result[i].isi}\n➸ *Link*: ${result[i].link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
                         }
@@ -1565,10 +1545,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const messRemind = q.substring(q.lastIndexOf('|') + 2)
                 const parsedTime = ms(toMs(timeRemind))
                 reminder.addReminder(sender.id, messRemind, timeRemind, _reminder)
-                await bocchi.sendTextWithMentions(from, `*「 REMINDER 」*\n\nReminder diaktifkan! :3\n\n➸ *Pesan*: ${messRemind}\n➸ *Durasi*: ${parsedTime.hours} jam ${parsedTime.minutes} menit ${parsedTime.seconds} detik\n➸ *Untuk*: @${sender.id.replace('@c.us', '')}`, id)
+                await bocchi.sendTextWithMentions(from, ind.reminderOn(messRemind, parsedTime, sender))
                 const intervRemind = setInterval(async () => {
                     if (Date.now() >= reminder.getReminderTime(sender.id, _reminder)) {
-                        await bocchi.sendTextWithMentions(from, `⏰ *「 REMINDER 」* ⏰\n\nAkhirnya tepat waktu~ @${sender.id.replace('@c.us', '')}\n\n➸ *Pesan*: ${reminder.getReminderMsg(sender.id, _reminder)}`)
+                        await bocchi.sendTextWithMentions(from, ind.reminderAlert(reminder.getReminderMsg(sender.id, _reminder), sender))
                         _reminder.splice(reminder.getReminderPosition(sender.id, _reminder), 1)
                         fs.writeFileSync('./database/user/reminder.json', JSON.stringify(_reminder))
                         clearInterval(intervRemind)
@@ -1597,7 +1577,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
                 misc.infoHoax()
                     .then(async ({ result }) => {
-                        let txt = '*「 HOAXES 」*'
+                        let txt = '*── 「 HOAX 」 ──*'
                         for (let i = 0; i < result.length; i++) {
                             const { tag, title, link } = result[i]
                             txt += `\n\n➸ *Status*: ${tag}\n➸ *Deskripsi*: ${title}\n➸ *Link*: ${link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
@@ -1617,7 +1597,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
                 misc.trendingTwt()
                     .then(async ({ result }) => {
-                        let txt = '*「 TRENDING TWITTER 」*'
+                        let txt = '*── 「 TWITTER TRENDING 」 ──*'
                         for (let i = 0; i < result.length; i++) {
                             const { hastag, rank, tweet, link } = result[i]
                             txt += `\n\n${rank}. *${hastag}*\n➸ *Tweets*: ${tweet}\n➸ *Link*: ${link}`
@@ -1637,7 +1617,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
                 misc.jobSeek()
                     .then(async ({ result }) => {
-                        let txt = '*「 JOB SEEKER 」*'
+                        let txt = '*── 「 JOOB SEEK 」 ──*'
                         for (let i = 0; i < result.length; i++) {
                             const { perusahaan, link, profesi, gaji, lokasi, pengalaman, edukasi, desc, syarat } = result[i]
                             txt += `\n\n➸ *Perusahaan*: ${perusahaan}\n➸ *Lokasi*: ${lokasi}\n➸ *Profesi*: ${profesi}\n➸ *Gaji*: ${gaji}\n➸ *Pengalaman*: ${pengalaman}\n➸ *Deskripsi*: ${desc}\n➸ *Syarat*: ${syarat}\n➸ *Edukasi*: ${edukasi}\n➸ *Link*: ${link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
@@ -1717,6 +1697,41 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         if (err) return console.error(err)
                         ffmpeg(fileInputPath)
                             .audioFilter(`equalizer=f=40:width_type=h:width=50:g=${args[0]}`)
+                            .format('mp3')
+                            .on('start', (commandLine) => console.log(color('[FFmpeg]', 'green'), commandLine))
+                            .on('progress', (progress) => console.log(color('[FFmpeg]', 'green'), progress))
+                            .on('end', async () => {
+                                console.log(color('[FFmpeg]', 'green'), 'Processing finished!')
+                                await bocchi.sendPtt(from, fileOutputPath, id)
+                                console.log(color('[WAPI]', 'green'), 'Success sending audio!')
+                                setTimeout(() => {
+                                    fs.unlinkSync(fileInputPath)
+                                    fs.unlinkSync(fileOutputPath)
+                                }, 30000)
+                            })
+                            .save(fileOutputPath)
+                    })
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
+            break
+            case 'nightcore':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (isMedia && isAudio || isQuotedAudio || isVoice || isQuotedVoice) {
+                    if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
+                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                    await bocchi.reply(from, ind.wait(), id)
+                    const encryptMedia = isQuotedAudio || isQuotedVoice ? quotedMsg : message
+                    console.log(color('[WAPI]', 'green'), 'Downloading and decrypting media...')
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const temp = './temp'
+                    const name = new Date() * 1
+                    const fileInputPath = path.join(temp, `${name}.mp3`)
+                    const fileOutputPath = path.join(temp, 'audio', `${name}.mp3`)
+                    fs.writeFile(fileInputPath, mediaData, (err) => {
+                        if (err) return console.error(err)
+                        ffmpeg(fileInputPath)
+                            .audioFilter('asetrate=44100*1.25')
                             .format('mp3')
                             .on('start', (commandLine) => console.log(color('[FFmpeg]', 'green'), commandLine))
                             .on('progress', (progress) => console.log(color('[FFmpeg]', 'green'), progress))
@@ -1821,7 +1836,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     return ' ' + pad(hrs) + ':' + pad(mins) + ':' + pad(secs)
                 }
                 const uptime = process.uptime()
-                await bocchi.reply(from, `── *「 BOT UPTIME 」* ──\n\n ❏${formater(uptime)}`, id)
+                await bocchi.reply(from, `*── 「 BOT UPTIME 」 ──*\n\n❏${formater(uptime)}`, id)
             break
             case 'ping':
             case 'p':
@@ -1846,10 +1861,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.daily(time), id)
                 } else {
                     if (isGroupMsg) {
-                        await bocchi.sendText(ownerNumber, `-----[ REPORT ]-----\n\n*From*: ${pushname}\n*ID*: ${sender.id}\n*Group*: ${(name || formattedTitle)}\n*Message*: ${q}`)
+                        await bocchi.sendText(ownerNumber, `*── 「 REPORT 」 ──*\n\n*From*: ${pushname}\n*ID*: ${sender.id}\n*Group*: ${(name || formattedTitle)}\n*Message*: ${q}`)
                         await bocchi.reply(from, ind.received(pushname), id)
                     } else {
-                        await bocchi.sendText(ownerNumber, `-----[ REPORT ]-----\n\n*From*: ${pushname}\n*ID*: ${sender.id}\n*Message*: ${q}`)
+                        await bocchi.sendText(ownerNumber, `*── 「 REPORT 」 ──*\n\n*From*: ${pushname}\n*ID*: ${sender.id}\n*Message*: ${q}`)
                         await bocchi.reply(from, ind.received(pushname), id)
                     }
                     daily.addLimit(sender.id, _daily)
@@ -1887,14 +1902,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isPremium) return await bocchi.reply(from, ind.notPremium(), id)
                 const cekExp = ms(premium.getPremiumExpired(sender.id, _premium) - Date.now())
-                await bocchi.reply(from, `*「 PREMIUM EXPIRE 」*\n\n➸ *ID*: ${sender.id}\n➸ *Premium left*: ${cekExp.days} day(s) ${cekExp.hours} hour(s) ${cekExp.minutes} minute(s)`, id)
+                await bocchi.reply(from, `*── 「 PREMIUM EXPIRED 」 ──*\n\n➸ *ID*: ${sender.id}\n➸ *Premium left*: ${cekExp.days} day(s) ${cekExp.hours} hour(s) ${cekExp.minutes} minute(s)`, id)
             break
             case 'premiumlist':
             case 'listpremium':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
-                let listPremi = '「 *PREMIUM USER LIST* 」\n\n'
+                let listPremi = '*── 「 PREMIUM USERS 」 ──*\n\n'
                 const deret = premium.getAllPremiumUser(_premium)
                 const arrayPremi = []
                 for (let i = 0; i < deret.length; i++) {
@@ -1950,45 +1965,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, `⤞ Limit left: ${limit.getLimit(sender.id, _limit, limitCount)} / 25\n\n*_Limit direset pada pukul 00:00 WIB_*`, id)
             break
 
-            //EDUCATION
-            case 'kelpersegi':
-                if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
-                if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
-                limit.addLimit(sender.id, _limit, isPremium, isOwner)
-                const persegi = bdr.datar.keliling.persegi(q, false)
-                const caraPersegi = bdr.datar.keliling.persegi(q, true)
-                await bocchi.reply(from, `*Hasil*: ${persegi}\n*Rumus*: ${caraPersegi}`, id)
-            break
-            case 'luaspersegi':
-                if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
-                if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
-                limit.addLimit(sender.id, _limit, isPremium, isOwner)
-                const luaspersegi = bdr.datar.luas.persegi(q, false)
-                const luaspersegis = bdr.datar.luas.persegi(q, true)
-                await bocchi.reply(from, `*Hasil*: ${luaspersegi}\n*Rumus*: ${luaspersegis}`, id)
-            break
-            case 'kuadrat':
-                if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
-                if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
-                limit.addLimit(sender.id, _limit, isPremium, isOwner)
-                const kuadrat = bdr.rdb.kuadrat(q)
-                await bocchi.reply(from, `*Hasil*: ${kuadrat}`, id)
-            break
-            case 'kubik':
-                if (!isRegistered) return await bocchi.reply(from, ind.registered(), id)
-                if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
-                limit.addLimit(sender.id, _limit, isPremium, isOwner)
-                const kubik = bdr.rdb.kubik(q)
-                await bocchi.reply(from, `*Hasil*: ${kubik}`, id)
-            break
-
             // Weeb zone
             case 'neko':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 await bocchi.reply(from, ind.wait(), id)
-                console.log('Getting neko image...')
+                console.log('Get neko image...')
                 await bocchi.sendFileFromUrl(from, (await neko.sfw.neko()).url, 'neko.jpg', '', null, null, true)
                     .then(() => console.log('Success sending neko image!'))
                     .catch(async (err) => {
@@ -1996,50 +1979,26 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-            case 'character':  //byAnto
-            case 'chartsearch':
-              if (!q) return await bocchi.reply(from, '*masukan nama karakter yang ingin di cari dengan benar*', id) 
-              if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-              if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
-              limit.addLimit(sender.id, _limit, isPremium, isOwner) 
-              try{
-                await bocchi.reply(from, ind.wait(), id)
-                const chara_key = await axios.get(`http://lolhuman.herokuapp.com/api/character/${q}?apikey=${config.lol}`)
-                const { name, description, favourites, media, image } = chara_key.data.result
-                let text_1 = `-----[ *${q}* ]-----\n*[NAME✨] : ${name.full}*\n*[KANJI] : ${name.native}*\n*[ID] : ${chara_key.data.result.id}*\n*[FAVORITE]: ${favourites}*\n\n`
-                        for (let i = 0; i < media.nodes.length; i++) {
-                const { id, idMal, title, type } = media.nodes[i]
-                    text_1 += `_________________\n\n_📚Judul:${title.romaji}_\n\n_Type:${type}_\n\n_📚Kanji:${title.native}_\n\n_CharId:${idMal}_\n\n_Id:${id}_\n_______________________\n\n`
-                        }
-                    text_1 += `*[DESC] :* ${description}\n____________[Character]__________`
- 
-                    await bocchi.sendFileFromUrl(from, image.large, `${q}.jpg`, `${text_1}`, id)
-                    } catch {
-                        bocchi.reply(from, 'Character Not Found', id)
-                    }
-                   break
-            case 'doujin':
+            case 'character': // by Anto
+            case 'chara':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (!isPremium) return await bocchi.reply(from, ind.notPremium(), id)
                 if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 await bocchi.reply(from, ind.wait(), id)
-                const doujin_ = await axios.get(`http://lolhuman.herokuapp.com/api/nhentai/${q}?apikey=${config.lol}`)
                 try {
-                    const { title_romaji, title_native, read, file_pdf, info } = doujin_.data.result
-                    const kntl_ = doujin_.data.result.image
-                    const randem = kntl_[Math.floor(Math.random() * kntl_.length)]
-                    const cepete = `_____DOUJIN_____
-*[Title] : ${title_romaji}*
-*[info] : ${info}*
-*[Read] ${read}*
-`
-                    await bocchi.sendFileFromUrl(from, randem, 'duji.jpg', `${cepete}`, id)
-                    await bocchi.sendFileFromUrl(from, file_pdf, `${q}.pdf`, `${title_native}`, id)
+                    const chara_key = await axios.get(`http://lolhuman.herokuapp.com/api/character/${q}?apikey=${config.lol}`)
+                    const { name, description, favourites, media, image } = chara_key.data.result
+                    let text_1 = `*── 「 ${name.full} 」 ──*\n➸ *Name*: ${name.full}\n➸ *Japanese*: ${name.native}\n➸ *ID*: ${chara_key.data.result.id}\n➸ *Favourite*: ${favourites}\n\n`
+                    for (let i = 0; i < media.nodes.length; i++) {
+                        const { id, idMal, title, type } = media.nodes[i]
+                        text_1 += `\n\n➸ *Title*: ${title.romaji}\n➸ *Type*: ${type}\n➸ *Japanese*: ${title.native}\n➸ *Chara ID*: ${idMal}\n➸ *ID*: ${id}\n\n`
+                    }
+                    text_1 += `➸ *Description*: ${description}`
+                    await bocchi.sendFileFromUrl(from, image.large, `${q}.jpg`, `${text_1}`, id)
                 } catch (err) {
                     console.error(err)
-                    await bocchi.reply(from, 'Error!', id)
+                    await bocchi.reply(from, 'Error or chara not foud!', id)
                 }
             break
             case 'wallpaper':
@@ -2048,7 +2007,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 await bocchi.reply(from, ind.wait(), id)
-                console.log('Getting wallpaper image...')
+                console.log('Get wallpaper image...')
                 await bocchi.sendFileFromUrl(from, (await neko.sfw.wallpaper()).url, 'wallpaper.jpg', '', null, null, true)
                     .then(() => console.log('Success sending wallpaper image!'))
                     .catch(async (err) => {
@@ -2061,7 +2020,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 await bocchi.reply(from, ind.wait(), id)
-                console.log('Getting kemonomimi image...')
+                console.log('Get kemonomimi image...')
                 await bocchi.sendFileFromUrl(from, (await neko.sfw.kemonomimi()).url, 'kemono.jpg', '', null, null, true)
                     .then(() => console.log('Success sending kemonomimi image!'))
                     .catch(async (err) => {
@@ -2195,7 +2154,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
                 weeaboo.anitoki()
                     .then(async ({ result }) => {
-                        let anitoki = '-----[ *ANITOKI LATEST* ]-----'
+                        let anitoki = '*── 「 ANITOKI LATEST 」 ──*'
                         for (let i = 0; i < result.length; i++) {
                             anitoki += `\n\n➸ *Title*: ${result[i].title}\n➸ *URL*: ${result[i].link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
                         }
@@ -2214,7 +2173,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 weeaboo.neonime()
                     .then(async ({ status, result }) => {
                         if (status !== 200) return await bocchi.reply(from, 'Not found.', id)
-                        let neoInfo = '-----[ *NEONIME LATEST* ]-----'
+                        let neoInfo = '*── 「 NEONIME LATEST 」 ──*'
                         for (let i = 0; i < result.length; i++) {
                             const { date, title, link, desc } = result[i]
                             neoInfo += `\n\n➸ *Title*: ${title}\n➸ *Date*: ${date}\n➸ *Synopsis*: ${desc}\n➸ *Link*: ${link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
@@ -2234,7 +2193,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
                 weeaboo.anoboy()
                     .then(async ({ result }) => {
-                        let anoboyInfo = '-----[ *ANOBOY ON-GOING* ]-----'
+                        let anoboyInfo = '*── 「 ANOBOY ON-GOING 」 ──*'
                         for (let i = 0; i < result.length; i++) {
                             anoboyInfo += `\n\n➸ *Title*: ${result[i].title}\n➸ *URL*: ${result[i].url}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
                         }
@@ -2538,7 +2497,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 await bocchi.reply(from, ind.wait(), id)
                 const sleep = (ms) => {
-                    return new Promise(resolve => setTimeout(resolve, ms));
+                    return new Promise(resolve => setTimeout(resolve, ms))
                 }
                 fun.caklontong()
                     .then(async ( { result }) => {
@@ -2564,7 +2523,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 await bocchi.reply(from, ind.wait(), id)
                 const tsleep = (ms) => {
-                    return new Promise(resolve => setTimeout(resolve, ms));
+                    return new Promise(resolve => setTimeout(resolve, ms))
                 }
                 fun.tbkgmbr()
                     .then(async ({ result }) => {
@@ -3006,7 +2965,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     console.error(err)
                     await bocchi.reply(from, 'Error!', id)
                 }
-            break // Makasih Free Api nya Bang VideFikri
+            break
 
             // Sticker
             case 'stikernobg':
@@ -3552,7 +3511,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     console.log(`Searching nHentai for ${q}...`)
                     nana.search(q)
                         .then(async (g) => {
-                            let txt = `-----[ *NHENTAI* ]-----\n\n➸ *Result for*: ${q}`
+                            let txt = `*── 「 NHENTAI 」 ──*\n\n➸ *Result for*: ${q}`
                             for (let i = 0; i < g.results.length; i++) {
                                 const { id, title, language } = g.results[i]
                                 txt += `\n\n➸ *Title*: ${title}\n➸ *Language*: ${language.charAt(0).toUpperCase() + language.slice(1)}\n➸ *Link*: nhentai.net/g/${id}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
@@ -3571,7 +3530,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     console.log(`Searching nHentai for ${q}...`)
                     nana.search(q)
                         .then(async (g) => {
-                            let txt = `-----[ *NHENTAI* ]-----\n\n➸ *Result for*: ${q}`
+                            let txt = `*── 「 NHENTAI 」 ──*\n\n➸ *Result for*: ${q}`
                             for (let i = 0; i < g.results.length; i++) {
                                 const { id, title, language } = g.results[i]
                                 txt += `\n\n➸ *Title*: ${title}\n➸ *Language*: ${language.charAt(0).toUpperCase() + language.slice(1)}\n➸ *Link*: nhentai.net/g/${id}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
@@ -3594,7 +3553,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wait(), id)
                     try {
                         const res = await nekobocc.latest()
-                        let text = '-----[ *NEKOPOI LATEST* ]-----'
+                        let text = '*── 「 NEKOPOI LATEST 」 ──*'
                         for (let i = 0; i < res.result.length; i++) {
                             const { title, link } = res.result[i]
                             text += `\n\n➵ *Title*: ${title}\n➵ *Link*: ${link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
@@ -3610,7 +3569,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wait(), id)
                     try {
                         const res = await nekobocc.latest()
-                        let text = '-----[ *NEKOPOI LATEST* ]-----'
+                        let text = '*── 「 NEKOPOI LATEST 」 ──*'
                         for (let i = 0; i < res.result.length; i++) {
                             const { title, link } = res.result[i]
                             text += `\n\n➵ *Title*: ${title}\n➵ *Link*: ${link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
@@ -3632,7 +3591,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wait(), id)
                     try {
                         const res = await nekobocc.search(q)
-                        let text = '-----[ *NEKOPOI RESULT* ]-----'
+                        let text = '*── 「 NEKOPOI 」 ──*'
                         for (let i = 0; i < res.result.length; i++) {
                             const { title, link } = res.result[i]
                             text += `\n\n➵ *Title*: ${title}\n➵ *Link*: ${link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
@@ -3648,7 +3607,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wait(), id)
                     try {
                         const res = await nekobocc.search(q)
-                        let text = '-----[ *NEKOPOI RESULT* ]-----'
+                        let text = '*── 「 NEKOPOI 」 ──*'
                         for (let i = 0; i < res.result.length; i++) {
                             const { title, link } = res.result[i]
                             text += `\n\n➵ *Title*: ${title}\n➵ *Link*: ${link}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
@@ -3799,7 +3758,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wait(), id)
                     nsfw.cersex()
                         .then(async ({ result }) => {
-                            await bocchi.sendFileFromUrl(from, result.image, 'cersex.jpg', `── *「 ${result.judul} 」* ──\n\n${result.cerita}`, id)
+                            await bocchi.sendFileFromUrl(from, result.image, 'cersex.jpg', `*── 「 ${result.judul} 」 ──*\n\n${result.cerita}`, id)
                             console.log('Success sending cersex!')
                         })
                         .catch(async (err) => {
@@ -3812,7 +3771,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wait(), id)
                     nsfw.cersex()
                         .then(async ({ result }) => {
-                            await bocchi.sendFileFromUrl(from, result.image, 'cersex.jpg', `── *「 ${result.judul} 」* ──\n\n${result.cerita}`, id)
+                            await bocchi.sendFileFromUrl(from, result.image, 'cersex.jpg', `*── 「 ${result.judul} 」 ──*\n\n${result.cerita}`, id)
                             console.log('Success sending cersex!')
                         })
                         .catch(async (err) => {
@@ -3830,10 +3789,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isBotGroupAdmins) return bocchi.reply(from, ind.botNotAdmin(), id)
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
-                await bocchi.revokeGroupInviteLink(groupId);
-                bocchi.sendTextWithMentions(from, `Group link revoked by @${sender.id.replace('@c.us', '')}`)
+                await bocchi.revokeGroupInviteLink(groupId)
+                await bocchi.sendTextWithMentions(from, `Group link revoked by @${sender.id.replace('@c.us', '')}`)
             break
-            case 'linkgroup':
+            case 'grouplink':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
@@ -3841,16 +3800,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 const gcLink = await bocchi.getGroupInviteLink(groupId)
-                const linkGc = `Group: *${formattedTitle}*\n\nLink: ${gcLink}`
-                bocchi.reply(from, linkGc, id)
-            break
-            case 'ownergroup':
-                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
-                if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
-                limit.addLimit(sender.id, _limit, isPremium, isOwner)
-                const ownerGc = chat.groupMetadata.owner
-                await bocchi.sendTextWithMentions(from, `Owner Group : @${ownerGc}`)
+                await bocchi.reply(from, gcLink, id)
             break
             case 'mutegc':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
@@ -3932,7 +3882,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, ind.adminOnly(), id)
-                await bocchi.sendText(from, 'Sayounara~ 👋')
+                await bocchi.sendText(from, 'Bye~ 👋')
                 await bocchi.leaveGroup(groupId)
             break
             case 'admins':
@@ -3985,7 +3935,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     txt += '╚═〘 *B O C C H I  B O T* 〙'
                     await bocchi.sendTextWithMentions(from, txt)
                 } else {
-                    let txt = '╔══✪〘 Mention All 〙✪══\n'
+                    let txt = '╔══✪〘 *EVERYONE* 〙✪══\n'
                         for (let i = 0; i < groupMem.length; i++) {
                             txt += '╠➥'
                             txt += ` @${groupMem[i].id.replace(/@c.us/g, '')}\n`
@@ -4230,7 +4180,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.sendText(from, evaled)
                 } catch (err) {
                     console.error(err)
-                    await bocchi.reply(from, 'Error!', id)
+                    await bocchi.reply(from, err, id)
                 }
             break
             case 'shutdown':
@@ -4304,36 +4254,22 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
                 if (!q || q.length > 25) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.setMyName(q)
-                await bocchi.reply(from, `Done!\n\nUsername changed to: ${q}`, id)
+                await bocchi.reply(from, ind.nameChanged(q), id)
             break
-            case 'give':
-                if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
-                if (args.length !== 2) return await bocchi.reply(from, ind.wrongFormat(), id)
-                if (mentionedJidList.length !== 0) {
-                    for (let give of mentionedJidList) {
-                        level.addLevelingXp(give, Number(args[1]), _level)
-                        await bocchi.reply(from, `Sukses menambah XP kepada: ${give}\nJumlah ditambahkan: ${args[1]}`, id)
-                    }
-                } else {
-                    level.addLevelingXp(args[0] + '@c.us', Number(args[1]), _level)
-                    await bocchi.reply(from, `Sukses menambah XP kepada: ${args[0]}\nJumlah ditambahkan: ${args[1]}`, id)
+            case 'grouplist':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                const getGroups = await bocchi.getAllGroups()
+                let txtGc = '*── 「 GROUP LIST 」 ──*\n'
+                for (let i = 0; i < getGroups.length; i++) {
+                    txtGc += `\n\n❏ *Name*: ${getGroups[i].name}\n❏ *Unread messages*: ${getGroups[i].unreadCount} messages`
                 }
-            break
-            case 'listgroup':
-                if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
-                    bocchi.getAllGroups().then((res) => {
-                    let gc = '*Group list*:\n'
-                    for (let i = 0; i < res.length; i++) {
-                        gc += `\n\n*No*: ${i+1}\n*Nama*: ${res[i].name}\n*Unread messages*: ${res[i].unreadCount} messages\n\n=_=_=_=_=_=_=_=_=_=_=_=_=`
-                    }
-                    bocchi.reply(from, gc, id)
-                })
+                await bocchi.sendText(from, txtGc)
             break
             case 'reset':
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
                 const reset = []
                 _limit = reset
-                console.log('Resetting user\'s limit...')
+                console.log('Hang tight, it\'s time to reset usage limits...')
                 fs.writeFileSync('./database/user/limit.json', JSON.stringify(_limit))
                 await bocchi.reply(from, ind.doneOwner(), id)
                 console.log('Success!')

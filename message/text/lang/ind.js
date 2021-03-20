@@ -66,7 +66,10 @@ exports.nhFalse = () => {
 }
 
 exports.listBlock = (blockNumber) => {
-    return `------[ HALL OF SHAME ]------\n\nTotal diblokir: *${blockNumber.length}* user\n`
+    return `
+*── 「 HALL OF SHAME 」 ──*
+
+Total user diblokir: *${blockNumber.length}*\n`
 }
 
 exports.notPremium = () => {
@@ -90,7 +93,17 @@ exports.botNotAdmin = () => {
 }
 
 exports.ytFound = (res) => {
-    return `*Video ditemukan!*\n\n➸ *Judul*: ${res.title}\n➸ *Deskripsi*:\n${res.desc}\n➸ *Durasi*: ${res.duration}\n\nMedia sedang dikirim, mohon tunggu...`
+    return `
+*── 「 YOUTUBE 」 ──*
+
+Video ditemukan!
+➸ *Judul*: ${res.title}
+➸ *Deskripsi*:
+${res.desc}
+➸ *Durasi*: ${res.duration}
+
+Media sedang dikirim, mohon tunggu...
+    `
 }
 
 exports.notRegistered = () => {
@@ -98,7 +111,21 @@ exports.notRegistered = () => {
 }
 
 exports.registered = (name, age, userId, time, serial) => {
-    return `*「 REGISTRATION 」*\n\nAkun kamu telah terdaftar dengan data:\n\n➸ *Nama*: ${name}\n➸ *Umur*: ${age}\n➸ *ID*: ${userId}\n➸ *Waktu pendaftaran*: ${time}\n➸ *Serial*: ${serial}\n\nCatatan:\nJangan pernah menyebarkan data *serial* ke pada siapapun!\n\nKetik *${prefix}rules* terlebih dahulu ya~`
+    return `
+*── 「 REGISTRATION 」 ──*
+    
+Akun kamu telah terdaftar dengan data:
+➸ *Nama*: ${name}
+➸ *Umur*: ${age}
+➸ *ID*: ${userId}
+➸ *Waktu pendaftaran*: ${time}
+➸ *Serial*: ${serial}
+
+Catatan:
+Jangan pernah menyebarkan data *serial* ke pada siapapun!
+
+Ketik *${prefix}rules* terlebih dahulu ya~
+    `
 }
 
 exports.registeredAlready = () => {
@@ -118,27 +145,82 @@ exports.videoLimit = () => {
 }
 
 exports.joox = (result) => {
-    return `*Lagu ditemukan!*\n\n➸ *Penyanyi*: ${result[0].penyanyi}\n➸ *Judul*: ${result[0].judul}\n➸ *Album*: ${result[0].album}\n➸ *Ext*: ${result[0].ext}\n➸ *Size*: ${result[0].filesize}\n➸ *Durasi*: ${result[0].duration}\n\nMedia sedang dikirim, mohon tunggu...`
+    return `
+*── 「 JOOX 」 ──*
+
+Lagu ditemukan!
+➸ *Penyanyi*: ${result[0].penyanyi}
+➸ *Judul*: ${result[0].judul}
+➸ *Album*: ${result[0].album}
+➸ *Ext*: ${result[0].ext}
+➸ *Size*: ${result[0].filesize}
+➸ *Durasi*: ${result[0].duration}
+
+Media sedang dikirim, mohon tunggu...`
 }
 
 exports.gsm = (result) => {
-    return `➸ *Model HP*: ${result.title}\n➸ *Spesifikasi*: ${result.spec}`
+    return `
+*── 「 GSMARENA 」 ──*
+
+➸ *Model HP*: ${result.title}
+➸ *Spesifikasi*: ${result.spec}
+    `
 }
 
 exports.receipt = (result) => {
-    return `${result.title}\n\n${result.desc}\n\n*Bahan*: ${result.bahan}\n\n*Cara membuat*:\n${result.cara}`
+    return `
+*${result.title}*
+
+${result.desc}
+
+➸ *Bahan*: ${result.bahan}
+➸ *Langkah*:
+${result.cara}
+    `
 }
 
 exports.ytResult = (urlyt, title, channel, duration, views) => {
-    return `➸ *Judul*: ${title}\n➸ *Channel*: ${channel}\n➸ *Durasi*: ${duration}\n➸ *Views*: ${views}\n➸ *Link*: ${urlyt}`
+    return `
+*── 「 YOUTUBE 」 ──*
+
+➸ *Judul*: ${title}
+➸ *Channel*: ${channel}
+➸ *Durasi*: ${duration}
+➸ *Views*: ${views}
+➸ *Link*: ${urlyt}
+    `
 }
 
 exports.profile = (username, status, premi, benet, adm, level, requiredXp, xp) => {
-    return `-----[ *USER INFO* ]-----\n\n➸ *Username*: ${username}\n➸ *Status*: ${status}\n➸ *Premium*: ${premi}\n➸ *Banned*: ${benet}\n➸ *Admin*: ${adm}\n\n=_=_=_=_=_=_=_=_=_=_=_=_=\n\nYour progress:\n➸ *Level*: ${level}\n➸ *XP*: ${xp} / ${requiredXp}`
+    return `
+*── 「 USER INFO」 ──*
+
+➸ *Username*: ${username}
+➸ *Status*: ${status}
+➸ *Premium*: ${premi}
+➸ *Banned*: ${benet}
+➸ *Admin*: ${adm}
+
+=_=_=_=_=_=_=_=_=_=_=_=_=
+
+*── 「 PROGRESS 」 ──*
+
+➸ *Level*: ${level}
+➸ *XP*: ${xp} / ${requiredXp}
+    `
 }
 
 exports.detectorOn = (name, formattedTitle) => {
-    return `*「 ANTI GROUP LINK 」*\n\nPerhatian untuk penghuni grup ${(name || formattedTitle)}\nGrup ini memiliki anti-group link detector, apabila ada salah satu member mengirim group link di sini maka dia akan ter-kick secara otomatis.\n\nSekian terima kasih.\n- Admin ${(name || formattedTitle)}`
+    return `
+*── 「 ANTI GROUP LINK 」 ──*
+
+Perhatian untuk penghuni grup *${(name || formattedTitle)}*
+Grup ini memiliki anti-group link detector, apabila ada salah satu member mengirim group link di sini maka dia akan ter-kick secara otomatis.
+
+Sekian terima kasih.
+- Admin *${(name || formattedTitle)}*
+    `
 }
 
 exports.detectorOff = () => {
@@ -150,7 +232,15 @@ exports.detectorOnAlready = () => {
 }
 
 exports.antiNsfwOn = (name, formattedTitle) => {
-    return `*「 ANTI NSFW LINK 」*\n\nPerhatian untuk penghuni grup ${(name || formattedTitle)}\nGrup ini memiliki anti-NSFW link detector, apabila ada salah satu member mengirim link NSFW/porn di sini maka dia akan ter-kick secara otomatis.\n\nSekian terima kasih.\n- Admin ${(name || formattedTitle)}`
+    return `
+*── 「 ANTI NSFW LINK 」 ──*
+
+Perhatian untuk penghuni grup *${(name || formattedTitle)}*
+Grup ini memiliki anti-NSFW link detector, apabila ada salah satu member mengirim link NSFW/porn di sini maka dia akan ter-kick secara otomatis.
+
+Sekian terima kasih.
+- Admin *${(name || formattedTitle)}*
+    `
 }
 
 exports.antiNsfwOff = () => {
@@ -162,7 +252,12 @@ exports.antiNsfwOnAlready = () => {
 }
 
 exports.linkDetected = () => {
-    return `*「 ANTI GROUP LINK 」*\n\nKamu mengirim link group chat!\nMaaf tapi kami harus mengeluarkan mu...\nSelamat tinggal~`
+    return `
+*── 「 ANTI GROUP LINK 」 ──*
+
+Kamu mengirim link group chat!
+Maaf tapi kami harus mengeluarkan mu...
+    `
 }
 
 exports.levelingOn = () => {
@@ -218,7 +313,13 @@ exports.autoStikOnAlready = () => {
 }
 
 exports.afkOn = (pushname, reason) => {
-    return `Fitur AFK berhasil *diaktifkan*!\n\n➸ *Username*: ${pushname}\n➸ *Alasan*: ${reason}`
+    return `
+*── 「 AFK MODE 」 ──*
+    
+Fitur AFK berhasil *diaktifkan*!
+➸ *Username*: ${pushname}
+➸ *Alasan*: ${reason}
+    `
 }
 
 exports.afkOnAlready = () => {
@@ -226,7 +327,13 @@ exports.afkOnAlready = () => {
 }
 
 exports.afkMentioned = (getReason, getTime) => {
-    return `*「 AFK MODE 」*\n\nSssttt! Orangnya lagi AFK, jangan diganggu!\n➸ *Alasan*: ${getReason}\n➸ *Sejak*: ${getTime}`
+    return `
+*── 「 AFK MODE 」 ──*
+
+Sssttt! Orangnya lagi AFK, jangan diganggu!
+➸ *Alasan*: ${getReason}
+➸ *Sejak*: ${getTime}
+    `
 }
 
 exports.afkDone = (pushname) => {
@@ -234,11 +341,19 @@ exports.afkDone = (pushname) => {
 }
 
 exports.gcMute = () => {
-    return `*「 MUTED 」*\n\nHanya admin yang dapat mengirim pesan ke grup ini.`
+    return `
+*── 「 MUTED 」 ──*
+    
+Hanya admin yang dapat mengirim pesan ke grup ini.
+    `
 }
 
 exports.gcUnmute = () => {
-    return `*「 UNMUTED 」*\n\nSekarang semua anggota dapat mengirim chat di grup ini.`
+    return `
+*── 「 UNMUTED 」 ──*
+
+Sekarang semua anggota dapat mengirim chat di grup ini.
+    `
 }
 
 exports.notNum = (q) => {
@@ -246,19 +361,42 @@ exports.notNum = (q) => {
 }
 
 exports.playstore = (app_id, title, developer, description, price, free) => {
-    return `➸ *Nama*: ${title}\n➸ *ID*: ${app_id}\n➸ *Developer*: ${developer}\n➸ *Gratis*: ${free}\n➸ *Harga*: ${price}\n➸ *Deskripsi*: ${description}`
+    return `
+*── 「 PLAY STORE 」 ──*
+    
+➸ *Nama*: ${title}
+➸ *ID*: ${app_id}
+➸ *Developer*: ${developer}
+➸ *Gratis*: ${free}
+➸ *Harga*: ${price}
+➸ *Deskripsi*: ${description}
+    `
 }
 
 exports.shopee = (nama, harga, terjual, shop_location, description, link_product) => {
-    return `➸ *Nama*: ${nama}\n➸ *Harga*: ${harga}\n➸ *Terjual*: ${terjual}\n➸ *Lokasi*: ${shop_location}\n➸ *Link produk*: ${link_product}\n➸ *Deskripsi*: ${description}`
-}
+    return `
+*── 「 SHOPEE 」 ──*
 
-exports.pc = (pushname) => {
-    return `*「 REGISTRATION 」*\n\nAkun kamu berhasil terdaftar! Silakan cek pesan ku di private chat mu ya ${pushname}~ :3\n\nNote:\nJika kamu tidak menerima pesan, artinya kamu belum save nomor bot.`
+➸ *Nama*: ${nama}
+➸ *Harga*: ${harga}
+➸ *Terjual*: ${terjual}
+➸ *Lokasi*: ${shop_location}
+➸ *Link produk*: ${link_product}
+➸ *Deskripsi*: ${description}
+    `
 }
 
 exports.registeredFound = (name, age, time, serial, userId) => {
-    return `*「 REGISTERED 」*\n\nAkun ditemukan!\n\n➸ *Nama*: ${name}\n➸ *Umur*: ${age}\n➸ *ID*: ${userId}\n➸ *Waktu pendaftaran*: ${time}\n➸ *Serial*: ${serial}`
+    return `
+*── 「 REGISTERED 」 ──* 
+
+Akun ditemukan!
+➸ *Nama*: ${name}
+➸ *Umur*: ${age}
+➸ *ID*: ${userId}
+➸ *Waktu pendaftaran*: ${time}
+➸ *Serial*: ${serial}
+    `
 }
 
 exports.registeredNotFound = (serial) => {
@@ -266,14 +404,27 @@ exports.registeredNotFound = (serial) => {
 }
 
 exports.ytPlay = (result) => {
-    return `*「 PLAY 」*\n\n➸ *Judul*: ${result.title}\n➸ *Durasi*: ${result.duration}\n➸ *Link*: ${result.url}\n\nMedia sedang dikirim, mohon tunggu...`
+    return `
+*── 「 PLAY 」 ──*
+
+➸ *Judul*: ${result.title}
+➸ *Durasi*: ${result.duration}
+➸ *Link*: ${result.url}
+
+Media sedang dikirim, mohon tunggu...
+    `
 }
 exports.pcOnly = () => {
     return `Command ini hanya bisa digunakan di dalam private chat saja!`
 }
 
 exports.linkNsfw = () => {
-    return `*「 ANTI NSFW LINK 」*\n\nKamu telah mengirim link NSFW!\nMaaf, tapi aku harus mengeluarkan mu...`
+    return `
+*── 「 ANTI NSFW LINK 」 ──*
+
+Kamu telah mengirim link NSFW!
+Maaf, tapi aku harus mengeluarkan mu...
+    `
 }
 
 exports.ageOld = () => {
@@ -319,7 +470,8 @@ exports.muteChatOnAlready = () => {
 
 exports.randomQuran = (ranquran) => {
     return `
-    بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
+*── 「 AL-QUR'AN 」 ──*
+
 *Nama surah*: ${ranquran.data.result.nama} / ${ranquran.data.result.asma}
 *Arti*: ${ranquran.data.result.arti}
 *Surat ke*: ${ranquran.data.result.nomor}
@@ -330,9 +482,9 @@ exports.randomQuran = (ranquran) => {
 
 exports.hadis = () => {
     return `
-_*Assalamu'alaikum wr. wb.*_
+*── 「 HADIS 」 ──*
 
-*Daftar hadis*:
+Daftar hadis:
 1. Hadis Bukhari ada 6638 hadis
     _usage_: ${prefix}hadis bukhari 1
 2. Hadis Muslim ada 4930 hadis
@@ -351,9 +503,6 @@ _*Assalamu'alaikum wr. wb.*_
     _usage_: ${prefix}hadis ibnumajah 8
 9. Hadis Darimi ada 2949 hadis
     _usage_: ${prefix}hadis darimi 3
-
-*Semoga bermanfaat*
-_*Wassalam*_
     `
 }
 
@@ -368,7 +517,7 @@ Limit penggunaan kamu telah habis! Silakan lakukan hal berikut:
 
 exports.asmaulHusna = (assna) => {
     return `
-───❉ 𝐀𝐬𝐦𝐚𝐮𝐥 𝐇𝐮𝐬𝐧𝐚 ❉──
+*── 「 ASMAUL HUSNA 」 ──*
 
 *${assna.name}*
 ❏ *Asmaul husna ke*: ${assna.number}
@@ -377,9 +526,48 @@ exports.asmaulHusna = (assna) => {
     `
 }
 
+exports.stickerDel = () => {
+    return `Stiker berhasil dihapus dari database!`
+}
+
+exports.stickerAdd = () => {
+    return `Stiker berhasil ditambahkan ke database!`
+}
+
+exports.stickerAddAlready = (q) => {
+    return `Stiker dengan keyword "${q}" sudah ada di database!`
+}
+
+exports.stickerNotFound = () => {
+    return `Stiker tidak ditemukan!`
+}
+
+exports.reminderOn = (messRemind, parsedTime, sender) => {
+    return `
+*── 「 REMINDER 」 ──*
+    
+Reminder berhasil diaktifkan!
+➸ *Pesan*: ${messRemind}
+➸ *Durasi*: ${parsedTime.hours} jam ${parsedTime.minutes} menit ${parsedTime.seconds} detik
+➸ *Untuk*: @${sender.id.replace('@c.us', '')}
+    `
+}
+
+exports.reminderAlert = (messRemind, sender) => {
+    return `
+*── 「 REMINDER 」 ──*
+
+⏰ @${sender.id.replace('@c.us', '')} ⏰
+➸ *Pesan*: ${messRemind}`
+}
+
+exports.nameChanged = (q) => {
+    return `Username berhasil diubah ke *${q}*`
+}
+
 exports.menu = (jumlahUser, level, xp, role, pushname, requiredXp, premium) => {
     return `
-------[ WELCOME ]-----
+*── 「 WELCOME 」 ──*
 
 ======================
 ➸ *Nama*: ${pushname}
@@ -414,7 +602,7 @@ Bot ini terdapat anti-spam yang berupa cooldown command selama *5 detik* setiap 
 
 exports.menuDownloader = () => {
     return `
------[ DOWNLOADER ]-----
+*── 「 DOWNLOADER 」 ──*
 
 1. *${prefix}facebook*
 Download Facebook video.
@@ -477,7 +665,7 @@ _Index of [1]_
 
 exports.menuBot = () => {
     return `
------[ BOT ]-----
+*── 「 BOT 」 ──*
 
 1. *${prefix}rules*
 Wajib baca.
@@ -550,7 +738,7 @@ _Index of [2]_
 
 exports.menuMisc = () => {
     return `
------[ MISC ]-----
+*── 「 MISC 」 ──*
 
 1. *${prefix}say*
 Bot akan mengulang pesan mu.
@@ -788,7 +976,26 @@ Usage: *${prefix}ttp* teks
 45. *${prefix}bass*
 Bass boost, bikin telinga sakit.
 Aliases: -
-Usage: *${prefix}bass* tingkat_dB
+Usage: Reply audio/voice dengan caption *${prefix}bass* tingkat_dB.
+
+46. *${prefix}addsticker*
+Menambahkan stiker ke database.
+Aliases: *addstiker*
+Usage: Reply stiker dengan caption *${prefix}addsticker* keyword_stiker.
+
+47. *${prefix}delsticker*
+Menghapus stiker dari database.
+Aliases: *delstiker*
+Usage: *${prefix}delstiker* keyword_stiker
+
+48. *${prefix}stickerlist*
+Melihat list stiker yang telah ditambahkan.
+Aliases: *liststicker stikerlist liststiker*
+Usage: *${prefix}stickerlist*
+
+49. *${prefix}nightcore*
+Membuat efek nightcore dari audio yang dikirim.
+Aliases: Reply audio/voice dengan caption *${prefix}nightcore*.
 
 _Index of [3]_
     `
@@ -796,7 +1003,7 @@ _Index of [3]_
 
 exports.menuSticker = () => {
     return `
------[ STICKER ]-----
+*── 「 STICKER 」 ──*
 
 1. *${prefix}sticker*
 Membuat stiker dari gambar yang dikirim atau di-reply.
@@ -844,7 +1051,7 @@ _Index of [4]_
 
 exports.menuWeeaboo = () => {
     return `
------[ WEEABOO ]-----
+*── 「 WEEABOO 」 ──*
 
 1. *${prefix}neko*
 Mengirim foto neko girl.
@@ -912,7 +1119,7 @@ _Index of [5]_
 
 exports.menuFun = () => {
     return `
------[ FUN ]-----
+*── 「 FUN 」 ──*
 
 1. *${prefix}hartatahta*
 Membuat gambar Harta Tahta Nama.
@@ -1055,7 +1262,7 @@ _Index of [6]_
 
 exports.menuModeration = () => {
     return `
------[ MODERATION ]-----
+*── 「 MODERATION 」 ──*
 
 1. *${prefix}add*
 Menambah user ke dalam group.
@@ -1122,13 +1329,23 @@ Set group hanya admin yang bisa mengirim pesan.
 Aliases: -
 Usage: *${prefix}mutegc* enabled/disable
 
+14. *${prefix}grouplink*
+Melihat invite link grup.
+Aliases: -
+Usage: *${prefix}grouplink*
+
+15. *${prefix}revoke*
+Revoke invite link grup.
+Aliases: -
+Usage: *${prefix}revoke*
+
 _Index of [7]_
     `
 }
 
 exports.menuNsfw = () => {
     return `
------[ NSFW ]-----
+*── 「 NSFW 」 ──*
 
 1. *${prefix}lewds*
 Mengirim pict anime lewd.
@@ -1211,8 +1428,7 @@ _Index of [8]_
 
 exports.menuOwner = () => {
     return `
------[ OWNER ]-----
-Halo Owner-sama ヽ(・∀・)ﾉ!
+*── 「 OWNER 」 ──*
 
 1. *${prefix}bc*
 Membuat broadcast.
@@ -1299,7 +1515,7 @@ _Index of [9]_
 
 exports.menuLeveling = () => {
     return `
------[ LEVELING ]-----
+*── 「 LEVELING 」 ──*
 
 1. *${prefix}level*
 Untuk melihat level kamu.
@@ -1317,7 +1533,7 @@ _Index of [10]_
 
 exports.rules = () => {
     return `
------[ RULES ]-----
+*── 「 RULES 」 ──*
 
 1. Jangan spam bot. 
 Sanksi: *WARN/SOFT BLOCK*
@@ -1329,16 +1545,13 @@ Sanksi: *SOFT BLOCK*
 Sanksi: *PERMANENT BLOCK*
 
 Jika sudah dipahami rules-nya, silakan ketik *${prefix}menu* untuk memulai!
-
-Source code oleh:
-wa.me/6281294958473 (Kal a.k.a. Slavyan)
     `
 }
 
 // Dimohon untuk owner/hoster jangan mengedit ini, terima kasih.
 exports.tos = (ownerNumber) => {
     return `
------[ TERMS OF SERVICE ]-----
+*── 「 TERMS OF SERVICE 」 ──*
 
 Bot ini merupakan open-source bot dengan nama asli BocchiBot yang tersedia di GitHub secara gratis.
 Owner/hoster dari bot ini terlepas dari tanggung jawab dan pengawasan developer (Slavyan).
