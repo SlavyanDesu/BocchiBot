@@ -85,7 +85,7 @@ let _limit = JSON.parse(fs.readFileSync('./database/user/limit.json'))
 const _afk = JSON.parse(fs.readFileSync('./database/user/afk.json'))
 const _reminder = JSON.parse(fs.readFileSync('./database/user/reminder.json'))
 const _daily = JSON.parse(fs.readFileSync('./database/user/daily.json'))
-const stick = JSON.parse(fs.readFileSync('./database/bot/sticker.json'))
+const _stick = JSON.parse(fs.readFileSync('./database/bot/sticker.json'))
 const _setting = JSON.parse(fs.readFileSync('./database/bot/setting.json'))
 let { memberLimit, groupLimit } = _setting
 /********** END OF DATABASES **********/
@@ -222,8 +222,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
 
-
-
         // Anti-group link detector
         if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner) {
             if (chats.match(new RegExp(/(https:\/\/chat.whatsapp.com)/gi))) {
@@ -238,22 +236,22 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
 
-        // Simple anti virtext, sorted by chat length, by: VideFrelan
-        if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && !isOwner) {
-            if (chats.length > 5000) {
-                await bocchi.sendTextWithMentions(from, `Terdeteksi @${sender.id} telah mengirim Virtext\nAnda akan dikick!`)
-                await bocchi.removeParticipant(groupId, sender.id)
-             }
-         } 
+       // Simple anti-virtext by: @VideFrelan
+       if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && !isOwner) {
+           if (chats.length > 5000) {
+               await bocchi.sendTextWithMentions(from, `@${sender.id} is detected sending a virtext.\nYou will be kicked!`)
+               await bocchi.removeParticipant(groupId, sender.id)
+            }
+        } 
                
-           // Detector Sticker 
-         if (isGroupMsg) { //By @hardianto02_
-         if (stick.includes(chats)) {
-         await bocchi.sendImageAsSticker(from, `./temp/sticker/${chats}.webp`, {author: '@SlavianDesu', pack: 'BocchiBot'})
-              }
-         }
+        // Sticker keywords detector by: @hardianto02_
+        if (isGroupMsg && isRegistered) {
+            if (_stick.includes(chats)) {
+                await bocchi.sendImageAsSticker(from, `./temp/sticker/${chats}.webp`, { author: '@SlavyanDesu', pack: 'BocchiBot' })
+            }
+        }
 
-        // Anti-fake-group link detector
+        // Anti fake group link detector
         if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner) {
             if (chats.match(new RegExp(/(https:\/\/chat.(?!whatsapp.com))/gi))) {
                 console.log(color('[KICK]', 'red'), color('Received a fake group link.', 'yellow'))
@@ -280,7 +278,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
 
-        // Auto-sticker
+        // Auto sticker
         if (isGroupMsg && isAutoStickerOn && isMedia && isImage && !isCmd) {
             const mediaData = await decryptMedia(message, uaOverride)
             const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
@@ -288,7 +286,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
         }
 
-        // Auto-sticker-video
+        // Auto sticker video
         if (isGroupMsg && isAutoStickerOn && isMedia && isVideo && !isCmd) {
             const mediaData = await decryptMedia(message, uaOverride)
             const videoBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
@@ -312,33 +310,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.sendText(from, ind.afkDone(pushname))
             }
         }
-        
-        // AUTO REPLY by Piyo >_<
-        /*
-        if (chats == 'p') {
-            if (!isGroupMsg) await bocchi.reply(from, `Halo Kak, Untuk Memulai bot silahkan ketik ${prefix}menu`, id)
-        }
-        
-        if (chats == 'P') {
-            if (!isGroupMsg) await bocchi.reply(from, `Halo Kak, Untuk Memulai bot silahkan ketik ${prefix}menu`, id)
-        }
-        
-        if (chats == 'bot') {
-            if (!isGroupMsg) await bocchi.reply(from, `Halo Kak, Untuk Memulai bot silahkan ketik ${prefix}menu`, id)
-        }
-        
-        if (chats == 'Bot') {
-            if (!isGroupMsg) await bocchi.reply(from, `Halo Kak, Untuk Memulai bot silahkan ketik ${prefix}menu`, id)
-        }
-        
-        if (chats == 'assalamualaikum') {
-            if (!isGroupMsg) await bocchi.reply(from, `Waalaikumsalam , Halo Kak, Untuk Memulai bot silahkan ketik ${prefix}menu`, id)
-        }
-        
-        if (chats == 'Assalamualaikum') {
-            if (!isGroupMsg) await bocchi.reply(from, `Waalaikumsalam , Halo Kak, Untuk Memulai bot silahkan ketik ${prefix}menu`, id)
-        }
-        */
 
         // Mute
         if (isCmd && isMute && !isGroupAdmins && !isOwner && !isPremium) return
@@ -347,7 +318,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         if (isCmd && (isBanned || isBlocked) && !isGroupMsg) return console.log(color('[BAN]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
         if (isCmd && (isBanned || isBlocked) && isGroupMsg) return console.log(color('[BAN]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
 
-        // Anti-spam
+        // Anti spam
         if (isCmd && msgFilter.isFiltered(from) && !isGroupMsg) return console.log(color('[SPAM]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
         if (isCmd && msgFilter.isFiltered(from) && isGroupMsg) return console.log(color('[SPAM]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
 
@@ -360,7 +331,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             console.log(color('[CMD]'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
             await bocchi.sendSeen(from)
         }
-
+        
+        // Anti spam
         if (isCmd && !isPremium && !isOwner) msgFilter.addFilter(from)
 
         switch (command) {
@@ -1538,31 +1510,34 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-            case 'addsticker':   // BY @Hardianto02_
-                   if (!isGroupMsg) return await bocchi.reply(from, 'Simpen Nya Dalam Group Kak', id) 
-                   if (isQuotedSticker) {
-                    var cek_ = stick.includes(body.slice(12));
-            if(cek_){
-                return bocchi.reply(from, `Stiker Sudah Ada Di Database`, id)
-            } else { 
-                stick.push(body.slice(12))
-                fs.writeFileSync('./database/sticker.json', JSON.stringify(stick))
-                const encryptMedia = isQuotedSticker ? quotedMsg : message
-                const mediaData = await decryptMedia(encryptMedia, uaOverride)
-                await fs.writeFile(`./temp/sticker/${body.slice(12)}.webp`, mediaData)
-                await bocchi.reply(from, `Success Save Sticker ${body.slice(12)} To DataBase `, id)
+            case 'addsticker': // by @hardianto02_
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!q) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id) 
+                if (isQuotedSticker) {
+                    if (_stick.includes(q)) {
+                        await bocchi.reply(from, 'This sticker is already saved.', id)
+                    } else { 
+                        _stick.push(body.slice(12))
+                        fs.writeFileSync('./database/sticker.json', JSON.stringify(_stick))
+                        const mediaData = await decryptMedia(quotedMsg, uaOverride)
+                        fs.writeFileSync(`./temp/sticker/${q}.webp`, mediaData)
+                        await bocchi.reply(from, 'Sticker has been successfully saved!', id)
                     }
-             } else {
-                await bocchi.reply(from, 'Failed To Save Sticker', id)
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
                 }
-                break
-                case 'liststicker':
-                let lbw = `List sticker\nTotal : ${stick.length}\n`
-                for (let i of stick) {
-                      lbw += `➸ ${i.replace(stick)}\n`
-                    }
-                await bocchi.sendText(from, lbw, id)
-                break
+            break
+            case 'stickerlist':
+            case 'liststicker':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
+                let stickerList = `List sticker\nTotal: ${_stick.length}\n\n`
+                for (let i of _stick) {
+                    stickerList += `➸ ${i.replace(_stick)}\n`
+                }
+                await bocchi.sendText(from, stickerList)
+            break
             case 'toxic':
                 if (!isRegistered) return await bocchi.reply(from , ind.notRegistered(), id)
                 await bocchi.reply(from, toxic(), id)
