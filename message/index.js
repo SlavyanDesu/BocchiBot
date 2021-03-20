@@ -222,7 +222,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
 
-        // Anti-group link detector
+        // Anti group link detector
         if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner) {
             if (chats.match(new RegExp(/(https:\/\/chat.whatsapp.com)/gi))) {
                 const valid = await bocchi.inviteInfo(chats)
@@ -236,7 +236,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
 
-       // Simple anti-virtext by: @VideFrelan
+       // Anti virtext by: @VideFrelan
        if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && !isOwner) {
            if (chats.length > 5000) {
                await bocchi.sendTextWithMentions(from, `@${sender.id} is detected sending a virtext.\nYou will be kicked!`)
@@ -244,7 +244,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         } 
                
-        // Sticker keywords detector by: @hardianto02_
+        // Sticker keywords by: @hardianto02_
         if (isGroupMsg && isRegistered) {
             if (_stick.includes(chats)) {
                 await bocchi.sendImageAsSticker(from, `./temp/sticker/${chats}.webp`, { author: '@SlavyanDesu', pack: 'BocchiBot' })
