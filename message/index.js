@@ -4185,7 +4185,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'shutdown':
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
-                await bocchi.sendText(from, 'Otsukaresama deshita~ 👋')
+                await bocchi.sendText(from, 'Byee Sayang ~ 👋')
                     .then(async () => await bocchi.kill())
                     .catch(() => new Error('Target closed.'))
             break
