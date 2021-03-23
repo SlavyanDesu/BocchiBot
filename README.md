@@ -256,6 +256,7 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 | Random kemonomimi     |      ✔️      |
 | Kusonime scraper      |      ✔️      |
 | Komiku scraper        |      ✔️      |
+| Random Video Loli     |      ✔️      |
 | Anime tracer          |      ✔️      |
 | Source finder         |      ✔️      |
 | Random waifu pics     |      ✔️      |
