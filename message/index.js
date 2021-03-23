@@ -1157,7 +1157,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'tomp3': // by: Piyobot
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if ((isMedia && isVideo || isQuotedVideo)) {
+                if (isMedia && isVideo || isQuotedVideo) {
                     if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
                     limit.addLimit(sender.id, _limit, isPremium, isOwner)
                     await bocchi.reply(from, ind.wait(), id)
@@ -1191,24 +1191,21 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
             break
             case 'toptt':
-            if (quotedMsg){
-                if (quotedMsg.type === 'audio') { 
-                    try {
-                        await bocchi.reply(from, `Tunggu sebentar` , id)
-                        mediaData = await decryptMedia(quotedMsg, uaOverride)
-                        fs.writeFileSync(`./temp/audio/toptt.mp3`, mediaData)
-                        bocchi.reply(from, `Audio berhasil di convert ke voice not tunggu sebentar`, id)
-                        await bocchi.sendPtt(from, `./temp/audio/toptt.mp3` , id)
-                        } catch(err) {
-                        bocchi.reply(from, `Gagal save audio!`, id)
-                        }
-                          } else {
-                        bocchi.reply(from, `Harus reply audio!`, id)
-                           }
-                        } else {
-                        bocchi.reply(from, `Gaada audio yang direply gan`, id)
-                       }
-                       break
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (isMedia && isAudio || isQuotedAudio) {
+                    if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
+                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                    await bocchi.reply(from, ind.wait(), id)
+                    const encryptMedia = isQuotedAudio ? quotedMsg : message
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const name = new Date() * 1
+                    fs.writeFileSync(`./temp/audio/${name}.mp3`, mediaData)
+                    await bocchi.sendPtt(from, `./temp/audio/${name}.mp3`, id)
+                    fs.unlinkSync(`./temp/audio/${name}.mp3`)
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
+            break
             case 'playstore':
             case 'ps':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
