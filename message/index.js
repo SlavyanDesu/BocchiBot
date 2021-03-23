@@ -3635,6 +3635,21 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     }
                 }
             break
+            case 'lolivid':  //Piyobot
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
+                limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                weeaboo.loli()
+                    .then(async (body) => {
+                        let lolipiyo = body.split('\n')
+                        let papololi = lolipiyo[Math.floor(Math.random() * lolipiyo.length)]
+                        await bocchi.sendFileFromUrl(from, papololi, 'loli.mp4', '', id)
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
+            break
             case 'waifu18':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (isGroupMsg) {
