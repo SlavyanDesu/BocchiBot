@@ -1190,6 +1190,25 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
+            case 'toptt':
+            if (quotedMsg){
+                if (quotedMsg.type === 'audio') { 
+                    try {
+                        await bocchi.reply(from, `Tunggu sebentar` , id)
+                        mediaData = await decryptMedia(quotedMsg, uaOverride)
+                        fs.writeFileSync(`./temp/audio/toptt.mp3`, mediaData)
+                        bocchi.reply(from, `Audio berhasil di convert ke voice not tunggu sebentar`, id)
+                        await bocchi.sendPtt(from, `./temp/audio/toptt.mp3` , id)
+                        } catch(err) {
+                        bocchi.reply(from, `Gagal save audio!`, id)
+                        }
+                          } else {
+                        bocchi.reply(from, `Harus reply audio!`, id)
+                           }
+                        } else {
+                        bocchi.reply(from, `Gaada audio yang direply gan`, id)
+                       }
+                       break
             case 'playstore':
             case 'ps':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
