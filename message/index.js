@@ -1157,7 +1157,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case 'tomp3': // by: Piyobot
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if ((isMedia && isVideo || isQuotedVideo)) {
+                if (isMedia && isVideo || isQuotedVideo) {
                     if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
                     limit.addLimit(sender.id, _limit, isPremium, isOwner)
                     await bocchi.reply(from, ind.wait(), id)
@@ -1186,6 +1186,22 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                             })
                             .save(fileOutputPath)
                     })
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
+            break
+            case 'toptt':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (isMedia && isAudio || isQuotedAudio) {
+                    if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
+                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                    await bocchi.reply(from, ind.wait(), id)
+                    const encryptMedia = isQuotedAudio ? quotedMsg : message
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const name = new Date() * 1
+                    fs.writeFileSync(`./temp/audio/${name}.mp3`, mediaData)
+                    await bocchi.sendPtt(from, `./temp/audio/${name}.mp3`, id)
+                    fs.unlinkSync(`./temp/audio/${name}.mp3`)
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
