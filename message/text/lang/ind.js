@@ -1111,7 +1111,12 @@ Usage: *${prefix}anoboy*
 12. *${prefix}character*
 Find Character from anime.
 Alias: -
-Usage: *{prefix}character* name_character
+Usage: *${prefix}character* name_character
+
+13. *${prefix}lolivid*
+Get Random Video Loli
+Aliases: -
+Usage: *${prefix}lolivid
 
 _Index of [5]_
     `
