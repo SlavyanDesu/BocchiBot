@@ -74,7 +74,7 @@ Edit the required value in `config.json`.
 ```
 
 `ownerBot`: your WhatsApp number.  
-`prefix`: bot's prefix.  
+`prefix`: Based on the latest update, you don't need to change the prefix, because this bot has multiple prefix.  
 `uaOverride`: your user agent.  
 `itech`: I-Tech API key. You can get it [here](https://api.i-tech.id) by creating an account. After that, set your server/host static IP in [here](https://api.i-tech.id/settings/profile).  
 `nao`: SauceNAO API key. You can get it [here](https://saucenao.com/user.php) by creating an account.  
