@@ -4306,7 +4306,16 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.doneOwner(), id)
                 console.log('Success!')
             break
-            
+            case prefix+'game-mine': //By Angga Surya
+            if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+            if (!isGroupMsg) return bocchi.reply(from, 'Perintah ini hanya bisa di gunakan dalam group!', id)
+            const mining = ['jewels', 'diamond', 'silver', 'bronze', 'gold', 'ruby', 'stone']
+            const mathxpnye = Math.floor(Math.random() * 500) + 10000
+            const mining2 = mining[Math.floor(Math.random() * (mining.length))]
+            level.addLevelingXp(sender.id, mathxpnye, _level)
+            await bocchi.reply(from, `Congratulations 🎉\n\nYou get *${mathxpnye} xp* From the mine results *${mining2}*`, id)
+            break
+                
             default:
                 if (isCmd) {
                     await bocchi.reply(from, ind.cmdNotFound(command), id)
