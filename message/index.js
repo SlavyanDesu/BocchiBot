@@ -199,7 +199,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             role = 'Platinum II'
         } else if (levelRole >= 95) {
             role = 'Platinum I'
-        } else if (levelRole >= 100) {
+        } else if (levelRole > 100) {
             role = 'Exterminator'
         }
 
