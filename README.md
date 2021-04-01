@@ -94,6 +94,21 @@ To:
 eng.wrongFormat()
 ```
 
+## 🧾 Installing the Tesseract
+* Download the Tesseract program [here](https://s.id/vftesseract).
+* Run the downloaded tesseract program with run As Administrator.
+* Run installation.
+* Run Command Prompt as Administrator.
+* Run this command:
+```cmd
+> setx /m PATH "C:\Tessract-OCR;%PATH%"
+```
+It will give us a callback like `SUCCESS: specified value was saved`.
+* Now that you've Tesseract installed, verify that it's working by running this command to see version number:
+```cmd
+> tesseract -version
+```
+
 ## 🛠️ Installing the FFmpeg
 * Download one of the available versions of FFmpeg by clicking [this link](https://www.gyan.dev/ffmpeg/builds/).
 * Extract the file to `C:\` path.
