@@ -101,7 +101,7 @@ eng.wrongFormat()
 * Run Command Prompt as Administrator.
 * Run this command:
 ```cmd
-> setx /m PATH "C:\Tessract-OCR;%PATH%"
+> setx /m PATH "C:\Tesseract-OCR;%PATH%"
 ```
 It will give us a callback like `SUCCESS: specified value was saved`.
 * Now that you've Tesseract installed, verify that it's working by running this command to see version number:
