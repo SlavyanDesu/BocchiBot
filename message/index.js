@@ -47,6 +47,7 @@ const canvas = require('canvacord')
 const mathjs = require('mathjs')
 const emojiUnicode = require('emoji-unicode')
 const moment = require('moment-timezone')
+const ocrtess = require('node-tesseract-ocr')
 const translate = require('@vitalets/google-translate-api')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
 const genshin = require('genshin')
@@ -602,6 +603,44 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         console.error(err)
                         await bocchi.reply(from, 'Error!', id)
                     })
+            break
+            case prefix+'ocr': //by: VideFrelan
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                const ocrconf = {
+                    lang: 'eng',
+                    oem: '1',
+                    psm: '3'
+                }
+                if (isMedia && isImage || isQuotedImage) {
+                    await bocchi.reply(from, ind.wait(), id)
+                    const encryptMedia = isQuotedImage ? quotedMsg : message
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    fs.writeFileSync(`./temp/${sender.id}.jpg`, mediaData)
+                    ocrtess.recognize(`./temp/${sender.id}.jpg`, ocrconf)
+                    .then(text => {
+                    bocchi.reply(from, `*...:* *OCR RESULT* *:...*\n\n${text}`, id)
+                    fs.unlinkSync(`./temp/${sender.id}.jpg`)
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
+            } else if (quotedMsg && quotedMsg.type == 'sticker') {
+                    await bocchi.reply(from, ind.wait(), id)
+                    const mediaData = await decryptMedia(quotedMsg, uaOverride)
+                    fs.writeFileSync(`./temp/${sender.id}.jpg`, mediaData)
+                    ocrtess.recognize(`./temp/${sender.id}.jpg`, ocrconf)
+                    .then(text => {
+                    bocchi.reply(from, `*...:* *OCR RESULT* *:...*\n\n${text}`, id)
+                    fs.unlinkSync(`./temp/${sender.id}.jpg`)
+                })
+                .catch(async (err) => {
+                    console.error(err)
+                    await bocchi.reply(from, 'Error!', id)
+                })
+            } else {
+                await bocchi.reply(from, ind.wrongFormat(), id)
+            }
             break
             case prefix+'tiktok':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
