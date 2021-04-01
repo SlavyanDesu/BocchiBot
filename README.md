@@ -200,6 +200,7 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 
 |         Misc         | Availability |
 | :------------------: | :----------: |
+| OCR (Image to Text)  |      ✔️      |
 | Say                  |      ✔️      |
 | Search lyrics        |      ✔️      |
 | Shortlink maker      |      ✔️      |
