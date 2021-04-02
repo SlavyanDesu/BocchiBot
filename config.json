@@ -6,6 +6,8 @@
     "nao": "api-key",
     "vhtear": "api-key",
     "melodic": "administrator",
-    "tobz": "BotWeA", 
-    "lol": "api-key"
+    "tobz": "api-key", 
+    "lol": "api-key",
+    "authorStick": "@SlavyanDesu",
+    "packStick": "BocchiBot"
 }
