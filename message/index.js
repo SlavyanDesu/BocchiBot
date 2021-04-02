@@ -102,6 +102,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const botNumber = await bocchi.getHostNumber() + '@c.us'
         const blockNumber = await bocchi.getBlockedIds()
         const ownerNumber = config.ownerBot
+        const authorWm = config.authorStick
+        const packWm = config.packStick
         const groupId = isGroupMsg ? chat.groupMetadata.id : ''
         const groupAdmins = isGroupMsg ? await bocchi.getGroupAdmins(groupId) : ''
         const time = moment(t * 1000).format('DD/MM/YY HH:mm:ss')
@@ -248,7 +250,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         // Sticker keywords by: @hardianto02_
         if (isGroupMsg && isRegistered) {
             if (_stick.includes(chats)) {
-                await bocchi.sendImageAsSticker(from, `./temp/sticker/${chats}.webp`, { author: '@SlavyanDesu', pack: 'BocchiBot' })
+                await bocchi.sendImageAsSticker(from, `./temp/sticker/${chats}.webp`, { author: `${authorWm}`, pack:`${packWm}` })
             }
         }
 
@@ -283,7 +285,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         if (isGroupMsg && isAutoStickerOn && isMedia && isImage && !isCmd) {
             const mediaData = await decryptMedia(message, uaOverride)
             const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
-            await bocchi.sendImageAsSticker(from, imageBase64, { author: '@SlavyanDesu', pack: 'BocchiBot' })
+            await bocchi.sendImageAsSticker(from, imageBase64, { author: `${authorWm}`, pack:`${packWm}` })
             console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
         }
 
@@ -743,7 +745,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .then(async (res) => {
                         await bocchi.sendFileFromUrl(from, res.thumb, 'line.png', `*「 LINE STICKER DOWNLOADER 」*\n\n➸ *Title*: ${res.title}\n➸ *Sticker type*: ${res.type}\n\n_Media sedang dikirim, mohon tunggu sebentar..._`, id)
                         for (let i = 0; i < res.sticker.length; i++) {
-                            await bocchi.sendStickerfromUrl(from, `${res.sticker[i]}`)
+                            await bocchi.sendStickerfromUrl(from, `${res.sticker[i]}`, null, { author: `${authorWm}`, pack:`${packWm}` })
                             console.log('Success sending Line sticker!')
                         }
                     })
@@ -884,7 +886,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, ind.wait(), id)
                 misc.ttp(q)
                     .then(async (res) => {
-                        await bocchi.sendImageAsSticker(from, res.base64)
+                        await bocchi.sendImageAsSticker(from, res.base64, { author: `${authorWm}`, pack:`${packWm}` })
                         console.log('Success creating TTP!')
                     })
                     .catch(async (err) => {
@@ -1086,7 +1088,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         .then(async ({ result }) => {
                             if (result.response !== 200) return await bocchi.reply(from, 'Not found!', id)
                             for (let i = 0; i < result.data.length; i++) {
-                                await bocchi.sendStickerfromUrl(from, result.data[i])
+                                await bocchi.sendStickerfromUrl(from, result.data[i], null, { author: `${authorWm}`, pack:`${packWm}` })
                             }
                             console.log('Success sending sticker!')
                         })
@@ -2398,7 +2400,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .then(async (body) => {
                         const dadugerak = body.split('\n')
                         const dadugerakx = dadugerak[Math.floor(Math.random() * dadugerak.length)]
-                        await bocchi.sendStickerfromUrl(from, dadugerakx)
+                        await bocchi.sendStickerfromUrl(from, dadugerakx, null, { author: `${authorWm}`, pack:`${packWm}` })
                     })
                     .catch(async (err) => {
                         console.error(err)
@@ -2415,7 +2417,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .then(async (body) => {
                         const dogeg = body.split('\n')
                         const dogegx = dogeg[Math.floor(Math.random() * dogeg.length)]
-                        await bocchi.sendStickerfromUrl(from, dogegx)
+                        await bocchi.sendStickerfromUrl(from, dogegx, null, { author: `${authorWm}`, pack:`${packWm}` })
                     })
                     .catch(async (err) => {
                         console.error(err)
@@ -3036,7 +3038,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const q = await uploadImages(mediaData, `stickernobg.${sender.id}`)
                     misc.stickernobg(q)
                     .then(async ({ result }) => {
-                        await bocchi.sendStickerfromUrl(from, result.image)
+                        await bocchi.sendStickerfromUrl(from, result.image, null, { author: `${authorWm}`, pack:`${packWm}` })
                         console.log('Success sending Sticker no background!')
                     })
                 } else {
@@ -3083,7 +3085,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, ind.wrongFormat(), id)
                     }
             break
-            case prefix+'stickermeme':
+            case prefix+'stickermeme': //Chika Chantexx
             case prefix+'stcmeme':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -3092,34 +3094,19 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     limit.addLimit(sender.id, _limit, isPremium, isOwner)
                     await bocchi.reply(from, ind.wait(), id)
                     const top = q.substring(0, q.indexOf('|') - 1)
+                    const topp = top.replace('', '_').replace('\n','%5Cn').replace('?', '~q').replace('%', '~p').replace('#', '~h').replace('/', '~s')
                     const bottom = q.substring(q.lastIndexOf('|') + 2)
+                    const bottomm = bottom.replace('', '_').replace('\n','%5Cn').replace('?', '~q').replace('%', '~p').replace('#', '~h').replace('/', '~s')
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
                     const getUrl = await uploadImages(mediaData, `meme.${sender.id}`)
-                    const create = `https://api.memegen.link/images/custom/${top}/${bottom}.png?background=${getUrl}`
-                    const meme = await bent('buffer')(create)
-                    webp.buffer2webpbuffer(meme, 'png', '-q 100')
-                        .then((res) => {
-                            sharp(res)
-                                .resize(512, 512)
-                                .toFile(`./temp/stage_${sender.id}.webp`, async (err) => {
-                                    if (err) return console.error(err)
-                                    await exec(`webpmux -set exif ./temp/data.exif ./temp/stage_${sender.id}.webp -o ./temp/${sender.id}.webp`, { log: true })
-                                    if (fs.existsSync(`./temp/${sender.id}.webp`)) {
-                                        const data = fs.readFileSync(`./temp/${sender.id}.webp`)
-                                        const base64 = `data:image/webp;base64,${data.toString('base64')}`
-                                        await bocchi.sendRawWebpAsSticker(from, base64)
-                                        console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
-                                        fs.unlinkSync(`./temp/${sender.id}.webp`)
-                                        fs.unlinkSync(`./temp/stage_${sender.id}.webp`)
-                                    }
-                                })
-                        })
+                    const create = `https://api.memegen.link/images/custom/${topp}/${bottomm}.png?background=${getUrl}`
+                    await bocchi.sendStickerfromUrl(from, create, null, { author: `${authorWm}`, pack:`${packWm}`, keepScale: true })
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
             break
-            case prefix+'takestick': // By: VideFrelan
+            case prefix+'takestick': // By: VideFrelan, Chika Chantexx
             case prefix+'take':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -3127,28 +3114,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
                     limit.addLimit(sender.id, _limit, isPremium, isOwner)
                     await bocchi.reply(from, ind.wait(), id)
-                    const mediaDataTake = await decryptMedia(quotedMsg, uaOverride)
+                    const mediaDataTake = await decryptMedia(quotedMsg)
                     const packname = q.substring(0, q.indexOf('|') - 1)
-                    const author = q.substring(q.lastIndexOf('|') + 2)
-                    exif.create(packname, author, `takestick_${sender.id}`)
-                    webp.buffer2webpbuffer(mediaDataTake, 'jpg', '-q 100')
-                        .then((res) => {
-                            sharp(res)
-                                .resize(512, 512)
-                                .toFile(`./temp/takestickstage_${sender.id}.webp`, async (err) => {
-                                    if (err) return console.error(err)
-                                    await exec(`webpmux -set exif ./temp/takestick_${sender.id}.exif ./temp/takestickstage_${sender.id}.webp -o ./temp/takestick_${sender.id}.webp`, { log: true })
-                                    if (fs.existsSync(`./temp/takestick_${sender.id}.webp`)) {
-                                        const data = fs.readFileSync(`./temp/takestick_${sender.id}.webp`)
-                                        const base64 = `data:image/webp;base64,${data.toString('base64')}`
-                                        await bocchi.sendRawWebpAsSticker(from, base64)
-                                        console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
-                                        fs.unlinkSync(`./temp/takestick_${sender.id}.webp`)
-                                        fs.unlinkSync(`./temp/takestickstage_${sender.id}.webp`)
-                                        fs.unlinkSync(`./temp/takestick_${sender.id}.exif`)
-                                    }
-                                })
-                        })
+                    const authors = q.substring(q.lastIndexOf('|') + 2)
+                    const imageBase64 = `data:${quotedMsg.mimetype};base64,${mediaDataTake.toString('base64')}`
+                    await bocchi.sendImageAsSticker(from, imageBase64, null, author: `${authors}`, pack:`${packname}` })
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
@@ -3234,7 +3204,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         const encryptMedia = isQuotedGif || isQuotedVideo ? quotedMsg : message
                         const mediaData = await decryptMedia(encryptMedia, uaOverride)
                         const videoBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
-                        await bocchi.sendMp4AsSticker(from, videoBase64, null, { stickerMetadata: true, pack: 'BocchiBot', author: '@SlavyanDesu', fps: 30, startTime: '00:00:00.0', endTime : '00:00:05.0', crop: false, loop: 0 })
+                        await bocchi.sendMp4AsSticker(from, videoBase64, null, { stickerMetadata: true, author: `${authorWm}`, pack:`${packWm}`, fps: 30, startTime: '00:00:00.0', endTime : '00:00:05.0', crop: false, loop: 0 })
                             .then(() => {
                                 console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                             })
@@ -3252,7 +3222,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 await bocchi.reply(from, ind.wait(), id)
-                await bocchi.sendStickerfromUrl(from, `https://api.vhtear.com/textxgif?text=${q}&apikey=${config.vhtear}`)
+                await bocchi.sendStickerfromUrl(from, `https://api.vhtear.com/textxgif?text=${q}&apikey=${config.vhtear}`, null, { author: `${authorWm}`, pack:`${packWm}` })
                     .then(() => console.log('Success creating GIF!'))
                     .catch(async (err) => {
                         console.error(err)
@@ -3288,7 +3258,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const emoji = emojiUnicode(args[0])
                 await bocchi.reply(from, ind.wait(), id)
                 console.log('Creating emoji code for =>', emoji)
-                await bocchi.sendStickerfromUrl(from, `https://api.vhtear.com/emojitopng?code=${emoji}&apikey=${config.vhtear}`)
+                await bocchi.sendStickerfromUrl(from, `https://api.vhtear.com/emojitopng?code=${emoji}&apikey=${config.vhtear}`, null, { author: `${authorWm}`, pack:`${packWm}` })
                     .then(async () => {
                         await bocchi.reply(from, ind.ok(), id)
                         console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
