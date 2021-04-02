@@ -110,7 +110,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
         const bcmd = caption || body || ''
         const command = bcmd.toLowerCase().split(' ')[0] || ''
-        const prefix = /^[°•π÷×¶∆£¢€¥®™✓=|~!#$%^&.\/\\©^]/.test(command) ? command.match(/^[°•π÷×¶∆£¢€¥®™✓=|~!#$%^&.\/\\©^]/gi) : '-' //Multi-Prefix by: VideFrelan
+        const prefix = /^[°•π÷×¶∆£¢€¥®™✓=|~!#$%^&./\\©^]/.test(command) ? command.match(/^[°•π÷×¶∆£¢€¥®™✓=|~!#$%^&./\\©^]/gi) : '-' //Multi-Prefix by: VideFrelan
         const chats = (type === 'chat') ? body : ((type === 'image' || type === 'video')) ? caption : ''
         body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video') && caption) && caption.startsWith(prefix)) ? caption : ''
         const args = body.trim().split(/ +/).slice(1)
@@ -3118,7 +3118,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const packname = q.substring(0, q.indexOf('|') - 1)
                     const authors = q.substring(q.lastIndexOf('|') + 2)
                     const imageBase64 = `data:${quotedMsg.mimetype};base64,${mediaDataTake.toString('base64')}`
-                    await bocchi.sendImageAsSticker(from, imageBase64, null, author: `${authors}`, pack:`${packname}` })
+                    await bocchi.sendImageAsSticker(from, imageBase64, null, { author: `${authors}`, pack:`${packname}` })
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
