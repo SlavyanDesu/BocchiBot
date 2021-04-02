@@ -83,7 +83,7 @@ Edit the required value in `config.json`.
 `vhtear`: VHTear API key. You can get it [here](https://api.vhtear.com/) by purchasing his API key.  
 `melodic`: MelodicXT API key. You can use `administrator` key.   
 `tobz`: Tobz API key. You can use `BotWeA` key.   
-`lol`: LolHuman API key. You can get it [here](https://lolhuman.herokuapp.com/) by creating an account. 
+`lol`: LolHuman API key. You can get it [here](https://lolhuman.herokuapp.com/) by creating an account.  
 `authorStick`: author sticker pack.  
 `packStick`: name of the sticker pack.  
 
