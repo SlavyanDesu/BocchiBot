@@ -110,7 +110,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
         const bcmd = caption || body || ''
         const command = bcmd.toLowerCase().split(' ')[0] || ''
-        const prefix = /^[°•π÷×¶∆£¢€¥®™✓=|~!#$%^&./\\©^]/.test(command) ? command.match(/^[°•π÷×¶∆£¢€¥®™✓=|~!#$%^&./\\©^]/gi) : '-' //Multi-Prefix by: VideFrelan
+        const prefix = /^[°•π÷×¶∆£¢€¥®™✓=|~!#$%^&./\\©^]/.test(command) ? command.match(/^[°•π÷×¶∆£¢€¥®™✓=|~!#$%^&./\\©^]/gi) : '-' // Multi-Prefix by: VideFrelan
         const chats = (type === 'chat') ? body : ((type === 'image' || type === 'video')) ? caption : ''
         body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video') && caption) && caption.startsWith(prefix)) ? caption : ''
         const args = body.trim().split(/ +/).slice(1)
@@ -3967,7 +3967,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (lastEveryone !== undefined && cd - (Date.now() - lastEveryone) > 0) {
                     const time = ms(cd - (Date.now() - lastEveryone))
                     await bocchi.reply(from, ind.daily(time), id)
-                } else if (isOwner) {
+                } else if (isOwner || isPremium) {
                     let txt = '╔══✪〘 *EVERYONE* 〙✪══\n'
                         for (let i = 0; i < groupMem.length; i++) {
                             txt += '╠➥'

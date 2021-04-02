@@ -1,6 +1,5 @@
 /* eslint-disable quotes */
-const fs = require('fs-extra')
-const { prefix, ownerNumber } = JSON.parse(fs.readFileSync('config.json'))
+const { prefix } = require('../../../config.json')
 
 exports.wait = () => {
     return `Please wait a moment~`
@@ -22,7 +21,7 @@ exports.cmdNotFound = (cmd) => {
     return `Command *${prefix}${cmd}* not found!`
 }
 
-exports.blocked = () => {
+exports.blocked = (ownerNumber) => {
     return `Bot not receiving calls. You have been blocked because breaking the rules!\n\nContact the owner: wa.me/${ownerNumber.replace('@c.us', '')}`
 }
 
@@ -67,7 +66,11 @@ exports.nhFalse = () => {
 }
 
 exports.listBlock = (blockNumber) => {
-    return `------[ HALL OF SHAME ]------\n\nTotal blocked: *${blockNumber.length}* user(s)\n`
+    return `
+*── 「 HALL OF SHAME 」 ──*
+
+Total blocked: *${blockNumber.length}* user(s)\n
+    `
 }
 
 exports.notPremium = () => {
@@ -91,7 +94,17 @@ exports.botNotAdmin = () => {
 }
 
 exports.ytFound = (res) => {
-    return `*Video found!*\n\n➸ *Title*: ${res.title}\n➸ *Description*:\n${res.desc}\n➸ *Duration*: ${res.duration} minutes\n\nMedia is being shipped, please wait...`
+    return `
+*── 「 YOUTUBE 」 ──*
+
+Video has been found!
+➸ *Title*: ${res.title}
+➸ *Description*:
+${res.desc}
+➸ *Duration*: ${res.duration}
+    
+Media is being send, please wait...
+    `
 }
 
 exports.notRegistered = () => {
@@ -99,7 +112,21 @@ exports.notRegistered = () => {
 }
 
 exports.registered = (name, age, userId, time, serial) => {
-    return `*「 REGISTRATION 」*\n\nYour account was successfully registered with the data:\n\n➸ *Name*: ${name}\n➸ *Age*: ${age}\n➸ *ID*: ${userId}\n➸ *Time registered*: ${time}\n➸ *Serial*: ${serial}\n\nNote:\nDO NOT share your *serial* to someone!\n\nConsider to read *${prefix}rules* first.`
+    return `
+*── 「 REGISTRATION 」 ──*
+    
+Your account has been created with data below:
+➸ *Name*: ${name}
+➸ *Age*: ${age}
+➸ *ID*: ${userId}
+➸ *Registered time*: ${time}
+➸ *Serial*: ${serial}
+    
+Note:
+Don't share your *serial* to anyone!
+    
+Type *${prefix}rules* first ok~
+    `
 }
 
 exports.registeredAlready = () => {
@@ -110,7 +137,7 @@ exports.received = (pushname) => {
     return `Hello ${pushname}!\nThank you for reporting, we will work on it ASAP.`
 }
 
-exports.limit = (time) => {
+exports.daily = (time) => {
     return `Sorry, but you have reached the limit using this commands.\nPlease wait *${time.hours}* hour(s) *${time.minutes}* minute(s) *${time.seconds}* second(s) more.`
 }
 
@@ -119,27 +146,83 @@ exports.videoLimit = () => {
 }
 
 exports.joox = (result) => {
-    return `*Song found!*\n\n➸ *Singer*: ${result[0].penyanyi}\n➸ *Title*: ${result[0].judul}\n➸ *Album*: ${result[0].album}\n➸ *Ext*: ${result[0].ext}\n➸ *Size*: ${result[0].filesize}\n➸ *Duration*: ${result[0].duration}\n\nMedia is being shipped, please wait...`
+    return `
+*── 「 JOOX 」 ──*
+
+Song has been found!
+➸ *Artist*: ${result[0].penyanyi}
+➸ *Title*: ${result[0].judul}
+➸ *Album*: ${result[0].album}
+➸ *Ext*: ${result[0].ext}
+➸ *Size*: ${result[0].filesize}
+➸ *Duration*: ${result[0].duration}
+    
+Media is being send, please wait...
+    `
 }
 
 exports.gsm = (result) => {
-    return `➸ *Phone model*: ${result.title}\n➸ *Spesification*: ${result.spec}`
+    return `
+*── 「 GSMARENA 」 ──*
+
+➸ *Model*: ${result.title}
+➸ *Spesification*: ${result.spec}
+    `
 }
 
 exports.receipt = (result) => {
-    return `${result.title}\n\n${result.desc}\n\n*Ingredients*: ${result.bahan}\n\n*Steps*:\n${result.cara}`
+    return `
+*${result.title}*
+
+${result.desc}
+
+➸ *Ingredients*: ${result.bahan}
+➸ *Steps*:
+${result.cara}
+    `
 }
 
 exports.ytResult = (urlyt, title, channel, duration, views) => {
-    return `➸ *Title*: ${title}\n➸ *Channel*: ${channel}\n➸ *Durations*: ${duration}\n➸ *Views*: ${views}\n➸ *Link*: ${urlyt}`
+    return `
+*── 「 YOUTUBE 」 ──*
+
+➸ *Title*: ${title}
+➸ *Channel*: ${channel}
+➸ *Duration*: ${duration}
+➸ *Views*: ${views}
+➸ *Link*: ${urlyt}
+    `
 }
 
-exports.profile = (username, status, premi, benet, adm) => {
-    return `-----[ *USER INFO* ]-----\n\n➸ *Username*: ${username}\n➸ *Status*: ${status}\n➸ *Premium*: ${premi}\n➸ *Banned*: ${benet}\n➸ *Admin*: ${adm}`
+exports.profile = (username, status, premi, benet, adm, level, requiredXp, xp) => {
+    return `
+*── 「 USER INFO」 ──*
+
+➸ *Username*: ${username}
+➸ *Status*: ${status}
+➸ *Premium*: ${premi}
+➸ *Banned*: ${benet}
+➸ *Admin*: ${adm}
+
+=_=_=_=_=_=_=_=_=_=_=_=_=
+
+*── 「 PROGRESS 」 ──*
+
+➸ *Level*: ${level}
+➸ *XP*: ${xp} / ${requiredXp}
+    `
 }
 
 exports.detectorOn = (name, formattedTitle) => {
-    return `*「 ANTI GROUP LINK 」*\n\nAnnouncement for all group members of ${(name || formattedTitle)}\nIf somebody sending a group link on this group, they will be kicked automatically by bot.\n\nThank you.\n- Admin ${(name || formattedTitle)}`
+    return `
+*── 「 ANTI GROUP LINK 」 ──*
+
+Attention for all *${(name || formattedTitle)}* members.
+This group has an anti-group link detector, if one of you sending a group link then you'll be kicked immediately.
+
+Thank you for your attention.
+- Admin *${(name || formattedTitle)}*
+    `
 }
 
 exports.detectorOff = () => {
@@ -150,8 +233,33 @@ exports.detectorOnAlready = () => {
     return `Anti-group link feature has been enabled before.`
 }
 
+exports.antiNsfwOn = (name, formattedTitle) => {
+    return `
+*── 「 ANTI NSFW LINK 」 ──*
+
+Attention for all *${(name || formattedTitle)}* members.
+This group has an anti-NSFW link detector, if one of you sending a NSFW link then you'll be kicked immediately.
+
+Thank you for your attention.
+- Admin *${(name || formattedTitle)}*
+    `
+}
+
+exports.antiNsfwOff = () => {
+    return `Anti-NSFW link feature was successfully *disabled*!`
+}
+
+exports.antiNsfwOnAlready = () => {
+    return `Anti-NSFW link feature has been enabled before.`
+}
+
 exports.linkDetected = () => {
-    return `*「 ANTI GROUP LINK 」*\n\nYou've sent a group link!\nSorry, but you have to leave...\nNice knowing you~`
+    return `
+*── 「 ANTI GROUP LINK 」 ──*
+
+You've sent a group link!
+Sorry, but you have to leave...
+    `
 }
 
 exports.levelingOn = () => {
@@ -207,7 +315,13 @@ exports.autoStikOnAlready = () => {
 }
 
 exports.afkOn = (pushname, reason) => {
-    return `AFK feature was successfully *enabled*!\n\n➸ *Username*: ${pushname}\n➸ *Reason*: ${reason}`
+    return `
+*── 「 AFK MODE 」 ──*
+    
+AFK feature has been successfully *enabled*!
+➸ *Username*: ${pushname}
+➸ *Reason*: ${reason}
+    `
 }
 
 exports.afkOnAlready = () => {
@@ -215,7 +329,13 @@ exports.afkOnAlready = () => {
 }
 
 exports.afkMentioned = (getReason, getTime) => {
-    return `*「 AFK MODE 」*\n\nSssttt! The person is on AFK state, don't bother!\n➸ *Reason*: ${getReason}\n➸ *Since*: ${getTime}`
+    return `
+*── 「 AFK MODE 」 ──*
+
+Sssttt! This person in currently AFK, don't bother!
+➸ *Reason*: ${getReason}
+➸ *Since*: ${getTime}
+    `
 }
 
 exports.afkDone = (pushname) => {
@@ -223,11 +343,19 @@ exports.afkDone = (pushname) => {
 }
 
 exports.gcMute = () => {
-    return `*「 MUTED 」*\n\nOnly admins who can send message in this group.` 
+    return `
+*── 「 MUTED 」 ──*
+    
+Only admins who can send message in this group.
+    `
 }
 
 exports.gcUnmute = () => {
-    return `*「 UNMUTED 」*\n\nAll members can send message in this group now.`
+    return `
+*── 「 UNMUTED 」 ──*
+
+All members can send message in this group now.
+    `
 }
 
 exports.notNum = (q) => {
@@ -235,19 +363,42 @@ exports.notNum = (q) => {
 }
 
 exports.playstore = (app_id, title, developer, description, price, free) => {
-    return `➸ *Name*: ${title}\n➸ *ID*: ${app_id}\n➸ *Developer*: ${developer}\n➸ *Free*: ${free}\n➸ *Price*: ${price}\n➸ *Description*: ${description}`
+    return `
+*── 「 PLAY STORE 」 ──*
+    
+➸ *Name*: ${title}
+➸ *ID*: ${app_id}
+➸ *Developer*: ${developer}
+➸ *Free*: ${free}
+➸ *Price*: ${price}
+➸ *Description*: ${description}
+    `
 }
 
 exports.shopee = (nama, harga, terjual, shop_location, description, link_product) => {
-    return `➸ *Name*: ${nama}\n➸ *Price*: ${harga}\n➸ *Sold*: ${terjual}\n➸ *Location*: ${shop_location}\n➸ *Product link*: ${link_product}\n➸ *Description*: ${description}`
-}
+    return `
+*── 「 SHOPEE 」 ──*
 
-exports.pc = (pushname) => {
-    return `*「 REGISTRATION 」*\n\nYour account is successfully registered! Please check my message in your private chat ${pushname}~ :3`
+➸ *Name*: ${nama}
+➸ *Price*: ${harga}
+➸ *Sold*: ${terjual}
+➸ *Location*: ${shop_location}
+➸ *Product link*: ${link_product}
+➸ *Description*: ${description}
+    `
 }
 
 exports.registeredFound = (name, age, time, serial, userId) => {
-    return `*「 REGISTERED 」*\n\nAccount found!\n\n➸ *Name*: ${name}\n➸ *Age*: ${age}\n➸ *ID*: ${userId}\n➸ *Time registered*: ${time}\n➸ *Serial*: ${serial}`
+    return `
+*── 「 REGISTERED 」 ──* 
+
+Account has been found!
+➸ *Name*: ${name}
+➸ *Age*: ${age}
+➸ *ID*: ${userId}
+➸ *Registered time*: ${time}
+➸ *Serial*: ${serial}
+    `
 }
 
 exports.registeredNotFound = (serial) => {
@@ -255,7 +406,15 @@ exports.registeredNotFound = (serial) => {
 }
 
 exports.ytPlay = (result) => {
-    return `*「 PLAY 」*\n\n➸ *Title*: ${result.title}\n➸ *Duration*: ${result.duration}\n➸ *Link*: ${result.url}\n\nMedia is being shipped, please wait...`
+    return `
+*── 「 PLAY 」 ──*
+
+➸ *Title*: ${result.title}
+➸ *Duration*: ${result.duration}
+➸ *Link*: ${result.url}
+
+Media is being send, please wait...
+    `
 }
 
 exports.pcOnly = () => {
@@ -263,20 +422,59 @@ exports.pcOnly = () => {
 }
 
 exports.linkNsfw = () => {
-    return `*「 ANTI NSFW LINK 」*\n\nYou've sent a group link!\nSorry, but you have to leave...`
+    return `
+*── 「 ANTI NSFW LINK 」 ──*
+
+You've sent a group link!
+Sorry, but you have to leave...
+    `
 }
 
 exports.ageOld = () => {
     return `You're too old for using this feature! Please go back to your youth to be able to using this feature.`
 }
 
+exports.menuText = () => {
+    return `
+╔══❉ *𝐓𝐞𝐱𝐭 𝐌𝐚𝐤𝐞𝐫 (VF)* ❉═══
+║
+║ For spaces, use *+*
+║ Example: ${prefix}text1 neon good+morning
+║
+╟⊱ *${prefix}text1 burnpaper* _text_
+╟⊱ *${prefix}text1 candlemug* _text_
+╟⊱ *${prefix}text1 lovemsg* _text_
+╟⊱ *${prefix}text1 mugflower* _text_
+╟⊱ *${prefix}text1 narutobanner* _text_
+╟⊱ *${prefix}text1 paperonglass* _text_
+╟⊱ *${prefix}text1 romancetext* _text_
+╟⊱ *${prefix}text1 shadowtext* _text_
+╟⊱ *${prefix}text1 tiktokeffect* _text_
+║
+╚══❉ *BocchiBot* ❉════
+    `
+}
+
 exports.fakeLink = () => {
     return `Ow, this link looks kinda suspicious, for the security of the members of this group I'm gonna kick you.\nBye~.`
 }
 
+exports.muteChatOn = () => {
+    return `Successfully *mute* bot for this group!`
+}
+
+exports.muteChatOff = () => {
+    return `Successfully *unmute* bot for this group!`
+}
+
+exports.muteChatOnAlready = () => {
+    return `Bot is already muted in this group!`
+}
+
 exports.randomQuran = (ranquran) => {
     return `
-    بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
+*── 「 AL-QUR'AN 」 ──*
+
 *Surah name*: ${ranquran.data.result.nama} / ${ranquran.data.result.asma}
 *Meaning*: ${ranquran.data.result.arti}
 *Number*: ${ranquran.data.result.nomor}
@@ -287,7 +485,9 @@ exports.randomQuran = (ranquran) => {
 
 exports.hadis = () => {
     return `
-*List of hadees*:
+*── 「 HADIS 」 ──*
+
+List of hadees:
 1. Bukhari hadees has 6638 hadees
     _usage_: ${prefix}hadees bukhari 1
 2. Muslim hadees has 4930 hadees
@@ -313,14 +513,14 @@ exports.limit = () => {
     return `
 *── 「 LIMIT 」 ──*
 
-You run out of usage limit! Please do the following:
+You ran out of usage limit! Please do the following:
 ❏ *_Wait until 12:00 AM (GMT+7)_*
     `
 }
 
 exports.asmaulHusna = (assna) => {
     return `
-───❉ 𝐀𝐬𝐦𝐚𝐮𝐥 𝐇𝐮𝐬𝐧𝐚 ❉──
+*── 「 ASMAUL HUSNA 」 ──*
 
 *${assna.name}*
 ❏ *Number*: ${assna.number}
@@ -329,9 +529,48 @@ exports.asmaulHusna = (assna) => {
     `
 }
 
+exports.stickerDel = () => {
+    return `Sticker has been deleted from database!`
+}
+
+exports.stickerAdd = () => {
+    return `Sticker has been added to database!`
+}
+
+exports.stickerAddAlready = (q) => {
+    return `Sticker with keyword "${q}" is already in database!`
+}
+
+exports.stickerNotFound = () => {
+    return `Sticker not found!`
+}
+
+exports.reminderOn = (messRemind, parsedTime, sender) => {
+    return `
+*── 「 REMINDER 」 ──*
+    
+Reminder has been set!
+➸ *Message*: ${messRemind}
+➸ *Duration*: ${parsedTime.hours} jam ${parsedTime.minutes} menit ${parsedTime.seconds} detik
+➸ *For*: @${sender.id.replace('@c.us', '')}
+    `
+}
+
+exports.reminderAlert = (messRemind, sender) => {
+    return `
+*── 「 REMINDER 」 ──*
+
+⏰ @${sender.id.replace('@c.us', '')} ⏰
+➸ *Message*: ${messRemind}`
+}
+
+exports.nameChanged = (q) => {
+    return `Username has been changed to *${q}*`
+}
+
 exports.menu = (jumlahUser, level, xp, role, pushname, requiredXp, premium) => {
     return `
-------[ WELCOME ]-----
+*── 「 WELCOME 」 ──*
 
 ======================
 ➸ *Name*: ${pushname}
@@ -366,7 +605,7 @@ This bot has anti-spam in the form of a cooldown command for *5 seconds* every t
 
 exports.menuDownloader = () => {
     return `
------[ DOWNLOADER ]-----
+*── 「 DOWNLOADER 」 ──*
 
 1. *${prefix}facebook*
 Download Facebook video.
@@ -429,7 +668,7 @@ _Index of [1]_
 
 exports.menuBot = () => {
     return `
------[ BOT ]-----
+*── 「 BOT 」 ──*
 
 1. *${prefix}rules*
 Must read.
@@ -507,7 +746,7 @@ _Index of [2]_
 
 exports.menuMisc = () => {
     return `
------[ MISC ]-----
+*── 「 MISC 」 ──*
 
 1. *${prefix}say*
 The bot will repeat your message.
@@ -742,13 +981,37 @@ Text to sticker.
 Aliases: -
 UsageL *${prefix}ttp* text
 
+45. *${prefix}bass*
+Bass boost.
+Aliases: -
+Usage: Reply audio/voice with caption *${prefix}bass* dB_level.
+
+46. *${prefix}addsticker*
+Add sticker to database.
+Aliases: *addstiker*
+Usage: Reply sticker with caption *${prefix}addsticker* sticker_keyword.
+
+47. *${prefix}delsticker*
+Delete sticker from database.
+Aliases: *delstiker*
+Usage: *${prefix}delstiker* sticker_keyword
+
+48. *${prefix}stickerlist*
+List of added stickers.
+Aliases: *liststicker stikerlist liststiker*
+Usage: *${prefix}stickerlist*
+
+49. *${prefix}nightcore*
+Create a nightcore effect.
+Aliases: Reply audio/voice with caption *${prefix}nightcore*.
+
 _Index of [3]_
     `
 }
 
 exports.menuSticker = () => {
     return `
------[ STICKER ]-----
+*── 「 STICKER 」 ──*
 
 1. *${prefix}sticker*
 Create stickers from images sent or replied.
@@ -796,7 +1059,7 @@ _Index of [4]_
 
 exports.menuWeeaboo = () => {
     return `
------[ WEEABOO ]-----
+*── 「 WEEABOO 」 ──*
 
 1. *${prefix}neko*
 Send a neko girl photo.
@@ -853,13 +1116,23 @@ On-going anime on Anoboy fansub.
 Aliases: -
 Usage: *${prefix}anoboy*
 
+12. *${prefix}character*
+Find Character from anime.
+Alias: -
+Usage: *${prefix}character* name_character
+
+13. *${prefix}lolivid*
+Random loli video.
+Aliases: -
+Usage: *${prefix}lolivid
+
 _Index of [5]_
     `
 }
 
 exports.menuFun = () => {
     return `
------[ FUN ]-----
+*── 「 FUN 」 ──*
 
 1. *${prefix}hartatahta*
 Make a picture of the "Harta Tahta Nama".
@@ -1002,7 +1275,7 @@ _Index of [6]_
 
 exports.menuModeration = () => {
     return `
------[ MODERATION ]-----
+*── 「 MODERATION 」 ──*
 
 1. *${prefix}add*
 Add users to group.
@@ -1069,13 +1342,23 @@ Set group to admin only who can send a message.
 Aliases: -
 Usage: *${prefix}mutegc* enable/disable
 
+14. *${prefix}grouplink*
+Send a invite link of current group.
+Aliases: -
+Usage: *${prefix}grouplink*
+
+15. *${prefix}revoke*
+Revoke invite link of current group.
+Aliases: -
+Usage: *${prefix}revoke*
+
 _Index of [7]_
     `
 }
 
 exports.menuNsfw = () => {
     return `
------[ NSFW ]-----
+*── 「 NSFW 」 ──*
 
 1. *${prefix}lewds*
 Send lewd anime pict.
@@ -1158,8 +1441,7 @@ _Index of [8]_
 
 exports.menuOwner = () => {
     return `
------[ OWNER ]-----
-Hello Owner-sama ヽ(・∀・)ﾉ!
+*── 「 OWNER 」 ──*
 
 1. *${prefix}bc*
 Make a broadcast.
@@ -1242,7 +1524,7 @@ _Index of [9]_
 
 exports.menuLeveling = () => {
     return `
------[ LEVELING ]-----
+*── 「 LEVELING 」 ──*
 
 1. *${prefix}level*
 Check your level.
@@ -1260,7 +1542,7 @@ _Index of [10]_
 
 exports.rules = () => {
     return `
------[ RULES ]-----
+*── 「 RULES 」 ──*
 
 1. Do NOT spam bot. 
 Penalty: *WARN/SOFT BLOCK*
@@ -1272,19 +1554,13 @@ Penalty: *SOFT BLOCK*
 Penalty: *PERMANENT BLOCK*
 
 If you've understand these rules, please type *${prefix}menu* to get started.
-
-Owner:
-wa.me/${ownerNumber.replace('@c.us', '')}
-
-Source code by:
-wa.me/6281294958473 (Slavyan)
     `
 }
 
 // Note for owner/hoster, please DO NOT edit this section.
-exports.tos = () => {
+exports.tos = (ownerNumber) => {
     return `
------[ TERMS OF SERVICE ]-----
+*── 「 TERMS OF SERVICE 」 ──*
 
 This bot is an open-source bot, come with the name of BocchiBot which is available on GitHub for free.
 The owner/hoster of this bot is independent from the responsibility and supervision of the developer (Slavyan).
@@ -1303,6 +1579,6 @@ You guys can also support me to keep this bot up to date with:
 
 Thank you!
 
-- Slavyan
+Slavyan.
     `
 }

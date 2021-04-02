@@ -69,7 +69,8 @@ exports.listBlock = (blockNumber) => {
     return `
 *── 「 HALL OF SHAME 」 ──*
 
-Total user diblokir: *${blockNumber.length}*\n`
+Total user diblokir: *${blockNumber.length}*\n
+    `
 }
 
 exports.notPremium = () => {
@@ -107,7 +108,7 @@ Media sedang dikirim, mohon tunggu...
 }
 
 exports.notRegistered = () => {
-    return `Kamu belum terdaftar di database!\n\nSilakan register dengan format:\n*${prefix}register* nama | umur\n\nNote:\nHarap save nomor ku agar bisa mendapatkan serial!!`
+    return `Kamu belum terdaftar di database!\n\nSilakan register dengan format:\n*${prefix}register* nama | umur`
 }
 
 exports.registered = (name, age, userId, time, serial) => {
@@ -149,14 +150,15 @@ exports.joox = (result) => {
 *── 「 JOOX 」 ──*
 
 Lagu ditemukan!
-➸ *Penyanyi*: ${result[0].penyanyi}
+➸ *Artist*: ${result[0].penyanyi}
 ➸ *Judul*: ${result[0].judul}
 ➸ *Album*: ${result[0].album}
 ➸ *Ext*: ${result[0].ext}
 ➸ *Size*: ${result[0].filesize}
 ➸ *Durasi*: ${result[0].duration}
 
-Media sedang dikirim, mohon tunggu...`
+Media sedang dikirim, mohon tunggu...
+    `
 }
 
 exports.gsm = (result) => {
@@ -414,6 +416,7 @@ exports.ytPlay = (result) => {
 Media sedang dikirim, mohon tunggu...
     `
 }
+
 exports.pcOnly = () => {
     return `Command ini hanya bisa digunakan di dalam private chat saja!`
 }
@@ -435,8 +438,8 @@ exports.menuText = () => {
     return `
 ╔══❉ *𝐓𝐞𝐱𝐭 𝐌𝐚𝐤𝐞𝐫 (VF)* ❉═══
 ║
-║ Untuk Spasi Teks menggunakan *+*
-║ contoh : ${prefix}text1 neon kael+bot
+║ Untuk spasi teks menggunakan *+*
+║ Contoh: ${prefix}text1 neon kael+bot
 ║
 ╟⊱ *${prefix}text1 burnpaper* _teks_
 ╟⊱ *${prefix}text1 candlemug* _teks_
@@ -731,6 +734,11 @@ Usage: *${prefix}premiumcheck*
 Cek list user premium.
 Aliases: *listpremium*
 Usage: *${prefix}premiumlist*
+
+14. *${prefix}limit*
+Cek limit kamu.
+Aliases: -
+Usage: *${prefix}limit*
 
 _Index of [2]_
     `
@@ -1109,12 +1117,12 @@ Aliases: -
 Usage: *${prefix}anoboy*
 
 12. *${prefix}character*
-Find Character from anime.
+Cari karakter anime.
 Alias: -
-Usage: *${prefix}character* name_character
+Usage: *${prefix}character* nama_karakter
 
 13. *${prefix}lolivid*
-Get Random Video Loli
+Random video loli, awas ada pedo.
 Aliases: -
 Usage: *${prefix}lolivid
 
