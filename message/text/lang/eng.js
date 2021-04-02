@@ -1003,7 +1003,13 @@ Usage: *${prefix}stickerlist*
 
 49. *${prefix}nightcore*
 Create a nightcore effect.
-Aliases: Reply audio/voice with caption *${prefix}nightcore*.
+Aliases: -
+Usage: Reply audio/voice with caption *${prefix}nightcore*.
+
+50. *${prefix}ocr*
+Scan text from image.
+Aliases: -
+Usage: Send images with caption *${prefix}ocr* or reply to the images/stickers with a caption *${prefix}ocr*.
 
 _Index of [3]_
     `

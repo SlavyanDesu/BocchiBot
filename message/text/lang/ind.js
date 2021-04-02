@@ -1003,7 +1003,13 @@ Usage: *${prefix}stickerlist*
 
 49. *${prefix}nightcore*
 Membuat efek nightcore dari audio yang dikirim.
-Aliases: Reply audio/voice dengan caption *${prefix}nightcore*.
+Aliases: -
+Usage: Reply audio/voice dengan caption *${prefix}nightcore*.
+
+50. *${prefix}ocr*
+Scan teks dari foto.
+Aliases: -
+Usage: Kirim gambar dengan caption *${prefix}ocr* atau reply gambar/stiker dengan caption *${prefix}ocr*.
 
 _Index of [3]_
     `

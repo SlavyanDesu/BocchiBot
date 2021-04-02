@@ -67,6 +67,11 @@ const cd = 4.32e+7
 const limitCount = 25
 const errorImg = 'https://i.ibb.co/jRCpLfn/user.png'
 const tanggal = moment.tz('Asia/Jakarta').format('DD-MM-YYYY')
+const ocrconf = {
+    lang: 'eng',
+    oem: '1',
+    psm: '3'
+}
 /********** END OF UTILS **********/
 
 /********** DATABASES **********/
@@ -606,44 +611,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-            case prefix+'ocr': // by: VideFrelan
-                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                const ocrconf = {
-                    lang: 'eng',
-                    oem: '1',
-                    psm: '3'
-                }
-                if (isMedia && isImage || isQuotedImage) {
-                    await bocchi.reply(from, ind.wait(), id)
-                    const encryptMedia = isQuotedImage ? quotedMsg : message
-                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
-                    fs.writeFileSync(`./temp/${sender.id}.jpg`, mediaData)
-                    ocrtess.recognize(`./temp/${sender.id}.jpg`, ocrconf)
-                    .then(text => {
-                    bocchi.reply(from, `*...:* *OCR RESULT* *:...*\n\n${text}`, id)
-                    fs.unlinkSync(`./temp/${sender.id}.jpg`)
-                    })
-                    .catch(async (err) => {
-                        console.error(err)
-                        await bocchi.reply(from, 'Error!', id)
-                    })
-            } else if (quotedMsg && quotedMsg.type == 'sticker') {
-                    await bocchi.reply(from, ind.wait(), id)
-                    const mediaData = await decryptMedia(quotedMsg, uaOverride)
-                    fs.writeFileSync(`./temp/${sender.id}.jpg`, mediaData)
-                    ocrtess.recognize(`./temp/${sender.id}.jpg`, ocrconf)
-                    .then(text => {
-                    bocchi.reply(from, `*...:* *OCR RESULT* *:...*\n\n${text}`, id)
-                    fs.unlinkSync(`./temp/${sender.id}.jpg`)
-                })
-                .catch(async (err) => {
-                    console.error(err)
-                    await bocchi.reply(from, 'Error!', id)
-                })
-            } else {
-                await bocchi.reply(from, ind.wrongFormat(), id)
-            }
-            break
             case prefix+'tiktok':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('tiktok.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
@@ -756,6 +723,26 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Misc
+            case prefix+'ocr': // by: VideFrelan
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
+                if (isMedia && isImage || isQuotedImage || isQuotedSticker) {
+                    await bocchi.reply(from, ind.wait(), id)
+                    const encryptMedia = isQuotedImage || isQuotedSticker ? quotedMsg : message
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    fs.writeFileSync(`./temp/${sender.id}.jpg`, mediaData)
+                    ocrtess.recognize(`./temp/${sender.id}.jpg`, ocrconf)
+                        .then(async (text) => {
+                            await bocchi.reply(from, `*...:* *OCR RESULT* *:...*\n\n${text}`, id)
+                            fs.unlinkSync(`./temp/${sender.id}.jpg`)
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, 'Error!', id)
+                        })
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
+            break
             case prefix+'google': // chika-chantekkzz
             case prefix+'googlesearch':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
