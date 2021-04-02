@@ -84,8 +84,8 @@ Edit the required value in `config.json`.
 `melodic`: MelodicXT API key. You can use `administrator` key.   
 `tobz`: Tobz API key. You can use `BotWeA` key.   
 `lol`: LolHuman API key. You can get it [here](https://lolhuman.herokuapp.com/) by creating an account. 
-`authorStick`: author sticker pack.
-`packStick`: name of the sticker pack.
+`authorStick`: author sticker pack.  
+`packStick`: name of the sticker pack.  
 
 ## 🗣️ Changing language
 If you want to change the language to English, replace all `ind` function to `eng`.   
