@@ -1,7 +1,7 @@
 <div align="center">
 <img src="https://images5.alphacoders.com/911/911614.png" alt="BocchiBot" width="500" />
 
-# _**BocchiBot**_
+# **BocchiBot**
 
 > BocchiBot is a multipurpose WhatsApp bot using wa-automate-nodejs library!
 >
@@ -48,6 +48,7 @@
 * [Git](https://git-scm.com/downloads)
 * [FFmpeg](https://www.gyan.dev/ffmpeg/builds/)
 * [libwebp](https://developers.google.com/speed/webp/download)
+* [Tesseract](https://s.id/vftesseract)
 * Any text editor
 
 # Installation
@@ -84,7 +85,7 @@ Edit the required value in `config.json`.
 `melodic`: MelodicXT API key. You can use `administrator` key.   
 `tobz`: Tobz API key. You can use `BotWeA` key.   
 `lol`: LolHuman API key. You can get it [here](https://lolhuman.herokuapp.com/) by creating an account.  
-`authorStick`: author sticker pack.  
+`authorStick`: name of the author sticker pack.  
 `packStick`: name of the sticker pack.  
 
 ## 🗣️ Changing language
@@ -99,13 +100,13 @@ eng.wrongFormat()
 ```
 
 ## 🧾 Installing the Tesseract
-* Download the Tesseract program [here](https://s.id/vftesseract).
-* Run the downloaded tesseract program with run As Administrator.
-* Run installation.
+* Download the file [here](https://s.id/vftesseract).
+* After that, run downloaded file as Administrator.
+* Complete the installation.
 * Run Command Prompt as Administrator.
 * Run this command:
 ```cmd
-> setx /m PATH "C:\Tesseract-OCR;%PATH%"
+> setx /m PATH "C:\Program Files\Tesseract-OCR;%PATH%"
 ```
 It will give us a callback like `SUCCESS: specified value was saved`.
 * Now that you've Tesseract installed, verify that it's working by running this command to see version number:

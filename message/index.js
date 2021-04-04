@@ -31,8 +31,6 @@ const nana = new NanaAPI()
 const fetch = require('node-fetch')
 const isPorn = require('is-porn')
 const exec = require('await-exec')
-const webp = require('webp-converter')
-const sharp = require('sharp')
 const config = require('../config.json')
 const saus = sagiri(config.nao, { results: 5 })
 const axios = require('axios')
@@ -61,12 +59,10 @@ const { nsfw, weeaboo, downloader, fun, misc, toxic } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
 const { ind, eng } = require('./text/lang/')
 const { daily, level, register, afk, reminder, premium, limit} = require('../function')
-const Exif = require('../tools/exif')
-const exif = new Exif()
 const cd = 4.32e+7
 const limitCount = 25
 const errorImg = 'https://i.ibb.co/jRCpLfn/user.png'
-const tanggal = moment.tz('Asia/Jakarta').format('DD-MM-YYYY')
+const dateNow = moment.tz('Asia/Jakarta').format('DD-MM-YYYY')
 const ocrconf = {
     lang: 'eng',
     oem: '1',
@@ -113,8 +109,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const groupAdmins = isGroupMsg ? await bocchi.getGroupAdmins(groupId) : ''
         const time = moment(t * 1000).format('DD/MM/YY HH:mm:ss')
 
-        const bcmd = caption || body || ''
-        const command = bcmd.toLowerCase().split(' ')[0] || ''
+        const cmd = caption || body || ''
+        const command = cmd.toLowerCase().split(' ')[0] || ''
         const prefix = /^[°•π÷×¶∆£¢€¥®™✓=|~!#$%^&./\\©^]/.test(command) ? command.match(/^[°•π÷×¶∆£¢€¥®™✓=|~!#$%^&./\\©^]/gi) : '-' // Multi-Prefix by: VideFrelan
         const chats = (type === 'chat') ? body : ((type === 'image' || type === 'video')) ? caption : ''
         body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video') && caption) && caption.startsWith(prefix)) ? caption : ''
@@ -128,11 +124,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isCmd = body.startsWith(prefix)
         const isBlocked = blockNumber.includes(sender.id)
         const isOwner = sender.id === ownerNumber
-        const isGroupAdmins = groupAdmins.includes(sender.id) || false
-        const isBotGroupAdmins = groupAdmins.includes(botNumber) || false
         const isBanned = _ban.includes(sender.id)
         const isPremium = premium.checkPremiumUser(sender.id, _premium)
         const isRegistered = register.checkRegisteredUser(sender.id, _registered)
+        const isGroupAdmins = isGroupMsg ? groupAdmins.includes(sender.id) : false
+        const isBotGroupAdmins = isGroupMsg ? groupAdmins.includes(botNumber) : false
         const isNsfw = isGroupMsg ? _nsfw.includes(groupId) : false
         const isWelcomeOn = isGroupMsg ? _welcome.includes(groupId) : false
         const isDetectorOn = isGroupMsg ? _antilink.includes(groupId) : false
@@ -140,7 +136,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isAutoStickerOn = isGroupMsg ? _autosticker.includes(groupId) : false
         const isAntiNsfw = isGroupMsg ? _antinsfw.includes(groupId) : false
         const isMute = isGroupMsg ? _mute.includes(chat.id) : false
-        const isAfkOn = afk.checkAfkUser(sender.id, _afk)
+        const isAfkOn = isGroupMsg ? afk.checkAfkUser(sender.id, _afk) : false
         const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
         const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
         const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
@@ -151,6 +147,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isVideo = type === 'video'
         const isAudio = type === 'audio'
         const isVoice = type === 'ptt'
+        const isGif = mimetype === 'image/gif'
         /********** END OF VALIDATOR **********/
 
         // Automate
@@ -223,7 +220,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     level.addLevelingLevel(sender.id, 1, _level)
                     const userLevel = level.getLevelingLevel(sender.id, _level)
                     const fetchXp = 5 * Math.pow(userLevel, 2) + 50 * userLevel + 100
-                    await bocchi.reply(from, `*「 LEVEL UP 」*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${currentLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙 \n➸ *Role*: *${role}*\n\nCongrats!! 🎉🎉`, id)
+                    await bocchi.reply(from, `*── 「 LEVEL UP 」 ──*\n\n➸ *Name*: ${pushname}\n➸ *XP*: ${level.getLevelingXp(sender.id, _level)} / ${fetchXp}\n➸ *Level*: ${currentLevel} -> ${level.getLevelingLevel(sender.id, _level)} 🆙 \n➸ *Role*: *${role}*`, id)
                 }
             } catch (err) {
                 console.error(err)
@@ -259,7 +256,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             }
         }
 
-        // Anti fake group link detector
+        // Anti fake group link detector by: Baguettou
         if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner) {
             if (chats.match(new RegExp(/(https:\/\/chat.(?!whatsapp.com))/gi))) {
                 console.log(color('[KICK]', 'red'), color('Received a fake group link!', 'yellow'))
@@ -298,7 +295,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         if (isGroupMsg && isAutoStickerOn && isMedia && isVideo && !isCmd) {
             const mediaData = await decryptMedia(message, uaOverride)
             const videoBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
-            await bocchi.sendMp4AsSticker(from, videoBase64, { stickerMetadata: true, pack: 'BocchiBot', author: '@SlavyanDesu', fps: 30, startTime: '00:00:00.0', endTime : '00:00:05.0', crop: false, loop: 0 })
+            await bocchi.sendMp4AsSticker(from, videoBase64, { stickerMetadata: true, pack: packWm, author: authorWm, fps: 30, startTime: '00:00:00.0', endTime : '00:00:05.0', crop: false, loop: 0 })
             console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
         }
 
@@ -390,9 +387,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     .setDiscriminator(sender.id.substring(6, 10))
                 rank.build()
                     .then(async (buffer) => {
-                        canvas.write(buffer, `${sender.id}_card.png`)
-                        await bocchi.sendFile(from, `${sender.id}_card.png`, `${sender.id}_card.png`, '', id)
-                        fs.unlinkSync(`${sender.id}_card.png`)
+                        const imageBase64 = `data:image/png;base64,${buffer.toString('base64')}`
+                        await bocchi.sendImage(from, imageBase64, 'rank.png', '', id)
                     })
                     .catch(async (err) => {
                         console.error(err)
@@ -447,7 +443,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                             roles = 'Platinum II'
                         } else if (resp[i].level >= 95) {
                             roles = 'Platinum I'
-                        } else if (resp[i].level >= 100) {
+                        } else if (resp[i].level > 100) {
                             roles = 'Exterminator'
                         }
                         leaderboard += `${i + 1}. wa.me/${_level[i].id.replace('@c.us', '')}\n➸ *XP*: ${_level[i].xp} *Level*: ${_level[i].level}\n➸ *Role*: ${roles}\n\n`
@@ -982,7 +978,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                             const xy = x[0] - y[0]
                             const yx = x[1] - y[1]
                             const perbandingan = `${xy < 0 ? Math.abs(xy) : xy} jam ${yx < 0 ? Math.abs(yx) : yx} menit`
-                            const msg = `Jadwal sholat untuk ${q} dan sekitarnya ( *${tanggal}* )\n\nDzuhur: ${dzuhur}\nAshar: ${ashar}\nMaghrib: ${maghrib}\nIsya: ${isya}\nSubuh: ${subuh}\n\nDiperkirakan matahari akan terbit pada pukul ${terbit} dengan jeda dari subuh sekitar ${perbandingan}`
+                            const msg = `Jadwal sholat untuk ${q} dan sekitarnya ( *${dateNow}* )\n\nDzuhur: ${dzuhur}\nAshar: ${ashar}\nMaghrib: ${maghrib}\nIsya: ${isya}\nSubuh: ${subuh}\n\nDiperkirakan matahari akan terbit pada pukul ${terbit} dengan jeda dari subuh sekitar ${perbandingan}`
                             await bocchi.reply(from, msg, id)
                             console.log('Success sending jadwal sholat!')
                         })
@@ -3014,9 +3010,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
             // Sticker
             case prefix+'stikernobg':
-            case prefix+'stickernobg': //by: VideFrelan
+            case prefix+'stickernobg': // by: VideFrelan
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (isMedia && type === 'image' || isQuotedImage) {
+                if (isMedia && isImage || isQuotedImage) {
                     if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
                     limit.addLimit(sender.id, _limit, isPremium, isOwner)
                     await bocchi.reply(from, ind.wait(), id)
@@ -3024,10 +3020,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
                     const q = await uploadImages(mediaData, `stickernobg.${sender.id}`)
                     misc.stickernobg(q)
-                    .then(async ({ result }) => {
-                        await bocchi.sendStickerfromUrl(from, result.image, null, { author: authorWm, pack: packWm })
-                        console.log('Success sending Sticker no background!')
-                    })
+                        .then(async ({ result }) => {
+                            await bocchi.sendStickerfromUrl(from, result.image, null, { author: authorWm, pack: packWm })
+                            console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, 'Error!', id)
+                        })
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
@@ -3043,34 +3043,15 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wait(), id)
                     const packname = q.substring(0, q.indexOf('|') - 1)
                     const author = q.substring(q.lastIndexOf('|') + 2)
-                    exif.create(packname, author, `stc_${sender.id}`)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
-                    webp.buffer2webpbuffer(mediaData, 'jpg', '-q 100')
-                        .then((res) => {
-                            sharp(res)
-                                .resize(512, 512)
-                                .toFile(`./temp/stage_${sender.id}.webp`, async (err) => {
-                                    if (err) return console.error(err)
-                                    await exec(`webpmux -set exif ./temp/stc_${sender.id}.exif ./temp/stage_${sender.id}.webp -o ./temp/${sender.id}.webp`, { log: true })
-                                    if (fs.existsSync(`./temp/${sender.id}.webp`)) {
-                                        const data = fs.readFileSync(`./temp/${sender.id}.webp`)
-                                        const base64 = `data:image/webp;base64,${data.toString('base64')}`
-                                        await bocchi.sendRawWebpAsSticker(from, base64)
-                                        console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
-                                        fs.unlinkSync(`./temp/${sender.id}.webp`)
-                                        fs.unlinkSync(`./temp/stage_${sender.id}.webp`)
-                                        fs.unlinkSync(`stc_${sender.id}`)
-                                    }
-                                })
-                        })
-                        .catch(async (err) => {
-                            console.error(err)
-                            await bocchi.reply(from, 'Error!', id)
-                        })
-                    } else {
-                        await bocchi.reply(from, ind.wrongFormat(), id)
-                    }
+                    const _mimetype = isQuotedImage ? quotedMsg.mimetype : mimetype
+                    const imageBase64 = `data:${_mimetype};base64,${mediaData.toString('base64')}`
+                    await bocchi.sendImageAsSticker(from, imageBase64, { author: author, pack: packname })
+                    console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(), id)
+                }
             break
             case prefix+'stickermeme': //Chika Chantexx
             case prefix+'stcmeme':
@@ -3103,9 +3084,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wait(), id)
                     const mediaDataTake = await decryptMedia(quotedMsg)
                     const packname = q.substring(0, q.indexOf('|') - 1)
-                    const authors = q.substring(q.lastIndexOf('|') + 2)
+                    const author = q.substring(q.lastIndexOf('|') + 2)
                     const imageBase64 = `data:${quotedMsg.mimetype};base64,${mediaDataTake.toString('base64')}`
-                    await bocchi.sendImageAsSticker(from, imageBase64, null, { author: `${authors}`, pack:`${packname}` })
+                    await bocchi.sendImageAsSticker(from, imageBase64, { author: author, pack: packname })
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
@@ -3117,24 +3098,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
-                    webp.buffer2webpbuffer(mediaData, 'jpg', '-q 100')
-                        .then((res) => {
-                            sharp(res)
-                                .resize(512, 512)
-                                .toFile(`./temp/stage_${sender.id}.webp`, async (err) => {
-                                    if (err) return console.error(err)
-                                    await exec(`webpmux -set exif ./temp/data.exif ./temp/stage_${sender.id}.webp -o ./temp/${sender.id}.webp`, { log: true })
-                                    if (fs.existsSync(`./temp/${sender.id}.webp`)) {
-                                        const data = fs.readFileSync(`./temp/${sender.id}.webp`)
-                                        const base64 = `data:image/webp;base64,${data.toString('base64')}`
-                                        await bocchi.sendRawWebpAsSticker(from, base64)
-                                        await bocchi.reply(from, ind.ok(), id)
-                                        console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
-                                        fs.unlinkSync(`./temp/${sender.id}.webp`)
-                                        fs.unlinkSync(`./temp/stage_${sender.id}.webp`)
-                                    }
-                                })
-                        })
+                    const _mimetype = isQuotedImage ? quotedMsg.mimetype : mimetype
+                    const imageBase64 = `data:${_mimetype};base64,${mediaData.toString('base64')}`
+                    await bocchi.sendImageAsSticker(from, imageBase64, { author: authorWm, pack: packWm })
+                    console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
@@ -3147,33 +3114,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
-                    webp.buffer2webpbuffer(mediaData, 'jpg', '-q 100')
-                        .then((res) => {
-                            sharp(res)
-                                .resize({
-                                    width: 512,
-                                    height: 512,
-                                    fit: 'contain',
-                                    background: {
-                                        r: 255,
-                                        g: 255,
-                                        b: 255,
-                                        alpha: 0
-                                    }
-                                })
-                                .toFile(`./temp/stage_${sender.id}.webp`, async (err) => {
-                                    if (err) return console.error(err)
-                                    await exec(`webpmux -set exif ./temp/data.exif ./temp/stage_${sender.id}.webp -o ./temp/${sender.id}.webp`, { log: true })
-                                    if (fs.existsSync(`./temp/${sender.id}.webp`)) {
-                                        const data = fs.readFileSync(`./temp/${sender.id}.webp`)
-                                        const base64 = `data:image/webp;base64,${data.toString('base64')}`
-                                        await bocchi.sendRawWebpAsSticker(from, base64)
-                                        console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
-                                        fs.unlinkSync(`./temp/${sender.id}.webp`)
-                                        fs.unlinkSync(`./temp/stage_${sender.id}.webp`)
-                                    }
-                                })
-                        })
+                    const _mimetype = isQuotedImage ? quotedMsg.mimetype : mimetype
+                    const imageBase64 = `data:${_mimetype};base64,${mediaData.toString('base64')}`
+                    await bocchi.sendImageAsSticker(from, imageBase64, { author: authorWm, pack: packWm, keepScale: true })
+                    console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
@@ -3183,7 +3127,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case prefix+'sgif':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, ind.groupOnly(), id)
-                if (isMedia && type === 'video' || mimetype === 'image/gif' || isQuotedVideo || isQuotedGif) {
+                if (isMedia && isVideo || isGif || isQuotedVideo || isQuotedGif) {
                     if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
                     limit.addLimit(sender.id, _limit, isPremium, isOwner)
                     await bocchi.reply(from, ind.wait(), id)
@@ -4224,11 +4168,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         for (let prem of mentionedJidList) {
                             if (prem === botNumber) return await bocchi.reply(from, ind.wrongFormat(), id)
                             premium.addPremiumUser(prem, args[2], _premium)
-                            await bocchi.reply(from, `*「 PREMIUM ADDED 」*\n\n➸ *ID*: ${prem}\n➸ *Expired*: ${ms(toMs(args[2])).days} day(s) ${ms(toMs(args[2])).hours} hour(s) ${ms(toMs(args[2])).minutes} minute(s)`, id)
+                            await bocchi.reply(from, `*── 「 PREMIUM ADDED 」 ──*\n\n➸ *ID*: ${prem}\n➸ *Expired*: ${ms(toMs(args[2])).days} day(s) ${ms(toMs(args[2])).hours} hour(s) ${ms(toMs(args[2])).minutes} minute(s)`, id)
                         }
                     } else {
                         premium.addPremiumUser(args[1] + '@c.us', args[2], _premium)
-                        await bocchi.reply(from, `*「 PREMIUM ADDED 」*\n\n➸ *ID*: ${args[1]}@c.us\n➸ *Expired*: ${ms(toMs(args[2])).days} day(s) ${ms(toMs(args[2])).hours} hour(s) ${ms(toMs(args[2])).minutes} minute(s)`, id)
+                        await bocchi.reply(from, `*── 「 PREMIUM ADDED 」 ──*\n\n➸ *ID*: ${args[1]}@c.us\n➸ *Expired*: ${ms(toMs(args[2])).days} day(s) ${ms(toMs(args[2])).hours} hour(s) ${ms(toMs(args[2])).minutes} minute(s)`, id)
                     }
                 } else if (ar[0] === 'del') {
                     if (mentionedJidList.length !== 0) {
@@ -4251,14 +4195,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
                 if (!q) return await bocchi.reply(from, ind.emptyMess(), id)
                 await bocchi.setMyStatus(q)
-                await bocchi.reply(from, ind.doneOwner(), id)
-            break
-            case prefix+'exif':
-                if (!isOwner) return await bocchi.reply(from, ind.ownerOnly(), id)
-                if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
-                const namaPack = q.substring(0, q.indexOf('|') - 1)
-                const authorPack = q.substring(q.lastIndexOf('|') + 2)
-                exif.create(namaPack, authorPack)
                 await bocchi.reply(from, ind.doneOwner(), id)
             break
             case prefix+'mute':

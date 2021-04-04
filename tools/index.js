@@ -89,7 +89,7 @@ const addFilter = (from) => {
     usedCommandRecently.add(from)
     setTimeout(() => {
         return usedCommandRecently.delete(from)
-    }, 5000) // 5 seconds delay.
+    }, 5000)
 }
 
 module.exports = {
