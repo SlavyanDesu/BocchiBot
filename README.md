@@ -47,7 +47,6 @@
 * [Node.js](https://nodejs.org/en/)
 * [Git](https://git-scm.com/downloads)
 * [FFmpeg](https://www.gyan.dev/ffmpeg/builds/)
-* [libwebp](https://developers.google.com/speed/webp/download)
 * [Tesseract](https://s.id/vftesseract)
 * Any text editor
 
@@ -127,22 +126,6 @@ It will give us a callback like `SUCCESS: specified value was saved`.
 * Now that you've FFmpeg installed, verify that it's working by running this command to see version number:
 ```cmd
 > ffmpeg -version
-```
-
-## 📷 Installing the libwebp
-The installation is same as you install FFmpeg but whatever. I will make it clear.
-* Download the file according to the OS you are using by clicking [this link](https://developers.google.com/speed/webp/download).
-* Extract the file to `C:\` path.
-* Rename the extracted file to `libwebp`.
-* Run Command Prompt as Administrator.
-* Run this command:
-```cmd
-> setx /m PATH "C:\libwebp\bin;%PATH%"
-```
-It will give us a callback like `SUCCESS: specified value was saved`.
-* Now that you've libwebp installed, verify that it's installed by running this command to see version number:
-```cmd
-> webpmux -version
 ```
 
 ## 🔍 Installing the dependencies
