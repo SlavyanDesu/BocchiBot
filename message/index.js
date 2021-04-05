@@ -1438,7 +1438,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         const responses = await fetch(result.mp3)
                         const buffer = await responses.buffer()
                         await fs.writeFile(`./temp/ytplay_${sender.id}.mp3`, buffer)
-                        await bocchi.sendFile(from, `./temp/ytplay_${sender.id}.mp3`, `ytplay_${sender.id}`, id)
+                        await bocchi.sendFile(from, `./temp/ytplay_${sender.id}.mp3`, `ytplay_${sender.id}`, '', id)
                         console.log('Success sending Play MP3!')
                         fs.unlinkSync(`./temp/ytplay_${sender.id}.mp3`)
                     })
@@ -3048,7 +3048,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
                     const _mimetype = isQuotedImage ? quotedMsg.mimetype : mimetype
                     const imageBase64 = `data:${_mimetype};base64,${mediaData.toString('base64')}`
-                    await bocchi.sendImageAsSticker(from, imageBase64, { author: author, pack: packname })
+                    await bocchi.sendImageAsSticker(from, imageBase64, { author: author, pack: packname, keepScale: true })
                     console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
@@ -3102,6 +3102,22 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const _mimetype = isQuotedImage ? quotedMsg.mimetype : mimetype
                     const imageBase64 = `data:${_mimetype};base64,${mediaData.toString('base64')}`
                     await bocchi.sendImageAsSticker(from, imageBase64, { author: authorWm, pack: packWm })
+                    console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
+                } else {
+                    await bocchi.reply(from, ind.wrongFormat(prefix), id)
+                }
+            break
+            case prefix+'circlesticker':
+            case prefix+'circlestiker':
+            case prefix+'circle':
+                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(prefix), id)
+                if (isMedia && isImage || isQuotedImage) {
+                    await bocchi.reply(from, ind.wait(), id)
+                    const encryptMedia = isQuotedImage ? quotedMsg : message
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const _mimetype = isQuotedImage ? quotedMsg.mimetype : mimetype
+                    const imageBase64 = `data:${_mimetype};base64,${mediaData.toString('base64')}`
+                    await bocchi.sendImageAsSticker(from, imageBase64, { author: authorWm, pack: packWm, circle: true })
                     console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(prefix), id)
