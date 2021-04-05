@@ -1,5 +1,4 @@
 /* eslint-disable quotes */
-const { prefix } = require('../../../config.json')
 
 exports.wait = () => {
     return `Mohon tunggu sebentar~`
@@ -18,7 +17,7 @@ exports.emptyMess = () => {
 }
 
 exports.cmdNotFound = (cmd) => {
-    return `Command *${prefix}${cmd}* tidak ditemukan!`
+    return `Command *${cmd}* tidak ditemukan!`
 }
 
 exports.blocked = (ownerNumber) => {
@@ -107,11 +106,11 @@ Media sedang dikirim, mohon tunggu...
     `
 }
 
-exports.notRegistered = () => {
+exports.notRegistered = (prefix) => {
     return `Kamu belum terdaftar di database!\n\nSilakan register dengan format:\n*${prefix}register* nama | umur`
 }
 
-exports.registered = (name, age, userId, time, serial) => {
+exports.registered = (name, age, userId, time, prefix, serial) => {
     return `
 *── 「 REGISTRATION 」 ──*
     
@@ -434,7 +433,7 @@ exports.ageOld = () => {
     return `Kamu terlalu tua untuk menggunakan fitur ini! Mohon kembali ke masa muda anda agar bisa menggunakannya.`
 }
 
-exports.menuText = () => {
+exports.menuText = (prefix) => {
     return `
 ╔══❉ *𝐓𝐞𝐱𝐭 𝐌𝐚𝐤𝐞𝐫 (VF)* ❉═══
 ║
@@ -483,7 +482,7 @@ exports.randomQuran = (ranquran) => {
     `
 }
 
-exports.hadis = () => {
+exports.hadis = (prefix) => {
     return `
 *── 「 HADIS 」 ──*
 
@@ -568,7 +567,7 @@ exports.nameChanged = (q) => {
     return `Username berhasil diubah ke *${q}*`
 }
 
-exports.menu = (jumlahUser, level, xp, role, pushname, requiredXp, premium) => {
+exports.menu = (jumlahUser, level, xp, role, pushname, requiredXp, prefix, premium) => {
     return `
 *── 「 WELCOME 」 ──*
 
@@ -603,7 +602,7 @@ Bot ini terdapat anti-spam yang berupa cooldown command selama *5 detik* setiap 
     `
 }
 
-exports.menuDownloader = () => {
+exports.menuDownloader = (prefix) => {
     return `
 *── 「 DOWNLOADER 」 ──*
 
@@ -666,7 +665,7 @@ _Index of [1]_
     `
 }
 
-exports.menuBot = () => {
+exports.menuBot = (prefix) => {
     return `
 *── 「 BOT 」 ──*
 
@@ -744,7 +743,7 @@ _Index of [2]_
     `
 }
 
-exports.menuMisc = () => {
+exports.menuMisc = (prefix) => {
     return `
 *── 「 MISC 」 ──*
 
@@ -1015,7 +1014,7 @@ _Index of [3]_
     `
 }
 
-exports.menuSticker = () => {
+exports.menuSticker = (prefix) => {
     return `
 *── 「 STICKER 」 ──*
 
@@ -1063,7 +1062,7 @@ _Index of [4]_
     `
 }
 
-exports.menuWeeaboo = () => {
+exports.menuWeeaboo = (prefix) => {
     return `
 *── 「 WEEABOO 」 ──*
 
@@ -1136,7 +1135,7 @@ _Index of [5]_
     `
 }
 
-exports.menuFun = () => {
+exports.menuFun = (prefix) => {
     return `
 *── 「 FUN 」 ──*
 
@@ -1279,7 +1278,7 @@ _Index of [6]_
     `
 }
 
-exports.menuModeration = () => {
+exports.menuModeration = (prefix) => {
     return `
 *── 「 MODERATION 」 ──*
 
@@ -1362,7 +1361,7 @@ _Index of [7]_
     `
 }
 
-exports.menuNsfw = () => {
+exports.menuNsfw = (prefix) => {
     return `
 *── 「 NSFW 」 ──*
 
@@ -1445,7 +1444,7 @@ _Index of [8]_
     `
 }
 
-exports.menuOwner = () => {
+exports.menuOwner = (prefix) => {
     return `
 *── 「 OWNER 」 ──*
 
@@ -1532,7 +1531,7 @@ _Index of [9]_
     `
 }
 
-exports.menuLeveling = () => {
+exports.menuLeveling = (prefix) => {
     return `
 *── 「 LEVELING 」 ──*
 
@@ -1550,7 +1549,7 @@ _Index of [10]_
     `
 }
 
-exports.rules = () => {
+exports.rules = (prefix) => {
     return `
 *── 「 RULES 」 ──*
 
