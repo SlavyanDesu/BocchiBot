@@ -1,5 +1,4 @@
 /* eslint-disable quotes */
-const { prefix } = require('../../../config.json')
 
 exports.wait = () => {
     return `Please wait a moment~`
@@ -9,7 +8,7 @@ exports.ok = () => {
     return `Ok desu~`
 }
 
-exports.wrongFormat = () => {
+exports.wrongFormat = (prefix) => {
     return `Incorrect format! Please check the usage in *${prefix}menu*.`
 }
 
@@ -18,7 +17,7 @@ exports.emptyMess = () => {
 }
 
 exports.cmdNotFound = (cmd) => {
-    return `Command *${prefix}${cmd}* not found!`
+    return `Command *${cmd}* not found!`
 }
 
 exports.blocked = (ownerNumber) => {
@@ -107,11 +106,11 @@ Media is being send, please wait...
     `
 }
 
-exports.notRegistered = () => {
+exports.notRegistered = (prefix) => {
     return `You haven't registered in our database!\n\nPlease register by typing:\n*${prefix}register* name | age`
 }
 
-exports.registered = (name, age, userId, time, serial) => {
+exports.registered = (name, age, userId, time, prefix, serial) => {
     return `
 *── 「 REGISTRATION 」 ──*
     
@@ -283,7 +282,7 @@ exports.levelNull = () => {
 }
 
 exports.welcome = (event) => {
-    return `Welcome @${event.who.replace('@c.us', '')}!`
+    return `Welcome ${event.who.replace('@c.us', '')}!`
 }
 
 exports.welcomeOn = () => {
@@ -434,7 +433,7 @@ exports.ageOld = () => {
     return `You're too old for using this feature! Please go back to your youth to be able to using this feature.`
 }
 
-exports.menuText = () => {
+exports.menuText = (prefix) => {
     return `
 ╔══❉ *𝐓𝐞𝐱𝐭 𝐌𝐚𝐤𝐞𝐫 (VF)* ❉═══
 ║
@@ -483,7 +482,7 @@ exports.randomQuran = (ranquran) => {
     `
 }
 
-exports.hadis = () => {
+exports.hadis = (prefix) => {
     return `
 *── 「 HADIS 」 ──*
 
@@ -568,7 +567,7 @@ exports.nameChanged = (q) => {
     return `Username has been changed to *${q}*`
 }
 
-exports.menu = (jumlahUser, level, xp, role, pushname, requiredXp, premium) => {
+exports.menu = (jumlahUser, level, xp, role, pushname, requiredXp, prefix, premium) => {
     return `
 *── 「 WELCOME 」 ──*
 
@@ -603,7 +602,7 @@ This bot has anti-spam in the form of a cooldown command for *5 seconds* every t
     `
 }
 
-exports.menuDownloader = () => {
+exports.menuDownloader = (prefix) => {
     return `
 *── 「 DOWNLOADER 」 ──*
 
@@ -666,7 +665,7 @@ _Index of [1]_
     `
 }
 
-exports.menuBot = () => {
+exports.menuBot = (prefix) => {
     return `
 *── 「 BOT 」 ──*
 
@@ -744,7 +743,7 @@ _Index of [2]_
     `
 }
 
-exports.menuMisc = () => {
+exports.menuMisc = (prefix) => {
     return `
 *── 「 MISC 」 ──*
 
@@ -1015,7 +1014,7 @@ _Index of [3]_
     `
 }
 
-exports.menuSticker = () => {
+exports.menuSticker = (prefix) => {
     return `
 *── 「 STICKER 」 ──*
 
@@ -1063,7 +1062,7 @@ _Index of [4]_
     `
 }
 
-exports.menuWeeaboo = () => {
+exports.menuWeeaboo = (prefix) => {
     return `
 *── 「 WEEABOO 」 ──*
 
@@ -1136,7 +1135,7 @@ _Index of [5]_
     `
 }
 
-exports.menuFun = () => {
+exports.menuFun = (prefix) => {
     return `
 *── 「 FUN 」 ──*
 
@@ -1279,7 +1278,7 @@ _Index of [6]_
     `
 }
 
-exports.menuModeration = () => {
+exports.menuModeration = (prefix) => {
     return `
 *── 「 MODERATION 」 ──*
 
@@ -1362,7 +1361,7 @@ _Index of [7]_
     `
 }
 
-exports.menuNsfw = () => {
+exports.menuNsfw = (prefix) => {
     return `
 *── 「 NSFW 」 ──*
 
@@ -1445,7 +1444,7 @@ _Index of [8]_
     `
 }
 
-exports.menuOwner = () => {
+exports.menuOwner = (prefix) => {
     return `
 *── 「 OWNER 」 ──*
 
@@ -1528,7 +1527,7 @@ _Index of [9]_
     `
 }
 
-exports.menuLeveling = () => {
+exports.menuLeveling = (prefix) => {
     return `
 *── 「 LEVELING 」 ──*
 
@@ -1546,7 +1545,7 @@ _Index of [10]_
     `
 }
 
-exports.rules = () => {
+exports.rules = (prefix) => {
     return `
 *── 「 RULES 」 ──*
 
