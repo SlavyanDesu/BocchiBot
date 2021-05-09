@@ -39,7 +39,7 @@
 </p>
 
 <h4 align="center">
-  <a href="https://chat.whatsapp.com/KSG5C4SGlT2IpRtFm05owk">Join WA BOT DEV Indonesia!</a>
+  <a href="https://chat.whatsapp.com/EMwIy6dPDbhDVpgdDyt7Gs">Join WA BOT DEV Indonesia!</a>
 </h4>
 </div>
 
