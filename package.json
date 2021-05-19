@@ -48,7 +48,7 @@
     "node-fetch": "^2.6.1",
     "node-gtts": "^2.0.2",
     "node-tesseract-ocr": "^2.0.0",
-    "parse-ms": "^3.0.0",
+    "parse-ms": "^2.1.0",
     "sagiri": "^3.1.1",
     "video-url-link": "git+https://github.com/YogaSakti/video-url-link.git"
   },
