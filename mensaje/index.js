@@ -64,7 +64,7 @@ const limitCount = 25
 const errorImg = 'https://i.ibb.co/jRCpLfn/user.png'
 const dateNow = moment.tz('Asia/Jakarta').format('DD-MM-YYYY')
 const ocrconf = {
-    lang: 'eng',
+    lang: 'esp',
     oem: '1',
     psm: '3'
 }
