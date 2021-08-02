@@ -347,6 +347,7 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 * [`rashidsiregar28`](https://github.com/rashidsiregar28)
 * [`irham01`](https://github.com/irham01)
 * [`hardiantojek93`](https://github.com/hardiantojek93)
+* [`gamingrkp`](https://github.com/gamingrkp)
 
 # License
 **BocchiBot** © [SlavyanDesu](https://github.com/SlavyanDesu), released under the MIT License.
