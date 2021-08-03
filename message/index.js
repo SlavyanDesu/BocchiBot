@@ -522,21 +522,19 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.reply(from, 'Error!', id)
                     })
             break
-            case prefix+'ytmp3':
+                case prefix+'ytmp3':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('youtu.be')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 await bocchi.reply(from, ind.wait(), id)
                 downloader.ytdl(url)
-                    .then(async (res) => {
-                        if (res.status === 'error') {
-                            await bocchi.reply(from, res.pesan, id)
-                        } else if (Number(res.size.split(' MB')[0]) >= 30) {
-                            await bocchi.reply(from, ind.videoLimit(), id)
+                    .then(async ({result}) => {
+                        if (Number(result.size.split(' MB')[0]) >= 30) {
+                            await bocchi.reply(from, ind.musiclimit(), id)
                         } else {
-                            await bocchi.sendFileFromUrl(from, res.thumbnail, `${res.title}.jpg`, ind.ytFound(res), id)
-                            await bocchi.sendFileFromUrl(from, res.url_audio, `${res.title}.mp3`, '', id)
+                            await bocchi.sendFileFromUrl(from, result.imgUrl, `${result.title}.jpg`, ind.ytFound(result), id)
+                            await bocchi.sendFileFromUrl(from, result.UrlMp3, `${result.title}.mp3`, '', id)
                             console.log('Success sending YouTube video!')
                         }
                     })
@@ -552,14 +550,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 await bocchi.reply(from, ind.wait(), id)
                 downloader.ytdl(url)
-                    .then(async (res) => {
-                        if (res.status === 'error') {
-                            await bocchi.reply(from, res.pesan, id)
-                        } else if (Number(res.size.split(' MB')[0]) >= 30) {
+                    .then(async ({result}) => {
+                        if (Number(result.size.split(' MB')[0]) >= 30) {
                             await bocchi.reply(from, ind.videoLimit(), id)
                         } else {
-                            await bocchi.sendFileFromUrl(from, res.thumbnail, `${res.title}.jpg`, ind.ytFound(res), id)
-                            await bocchi.sendFileFromUrl(from, res.url_video, `${res.title}.mp4`, '', id)
+                            await bocchi.sendFileFromUrl(from, result.imgUrl, `${result.title}.jpg`, ind.ytFound(result), id)
+                            await bocchi.sendFileFromUrl(from, result.UrlVideo, `${result.title}.mp3`, '', id)
                             console.log('Success sending YouTube video!')
                         }
                     })
