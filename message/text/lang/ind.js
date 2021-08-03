@@ -141,6 +141,10 @@ exports.daily = (time) => {
     return `Maaf, tetapi kamu telah mencapai limit menggunakan command ini.\nSilakan tunggu *${time.hours}* jam *${time.minutes}* menit *${time.seconds}* detik lagi.`
 }
 
+exports.musiclimit = () => {
+    return `Ukuran Music Terlalu Besar!`
+}
+
 exports.videoLimit = () => {
     return `Ukuran video terlalu besar!`
 }
