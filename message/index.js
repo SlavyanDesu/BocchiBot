@@ -3129,9 +3129,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wait(), id)
                     try {
                         const encryptMedia = isQuotedGif || isQuotedVideo ? quotedMsg : message
-                        const mediaData = await decryptMedia(encryptMedia, uaOverride)
-                        const videoBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
-                        await bocchi.sendMp4AsSticker(from, videoBase64, null, { stickerMetadata: true, author: authorWm, pack: packWm, fps: 30, startTime: '00:00:00.0', endTime : '00:00:05.0', crop: false, loop: 0 })
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const _mimetype = isQuotedVideo || isQuotedGif ? quotedMsg.mimetype : mimetype
+                    const videoBase64 = `data:${_mimetype};base64,${mediaData.toString('base64')}`
+                    await bocchi.sendMp4AsSticker(from, videoBase64, null, { stickerMetadata: true, author: authorWm, pack: packWm, keepScale: true, fps: 30, startTime: '00:00:00.0', endTime : '00:00:05.0', crop: false, loop: 0 })
                             .then(() => {
                                 console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                             })

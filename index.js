@@ -84,7 +84,7 @@ const start = (bocchi = new Client()) => {
         try {
             if (event.action === 'add' && event.who !== botNumbers && isWelcome) {
                 const pic = await bocchi.getProfilePicFromServer(event.who)
-                if (pic === undefined) {
+                if (pic === `ERROR: 401`) {
                     var picx = 'https://i.ibb.co/Tq7d7TZ/age-hananta-495-photo.png'
                 } else {
                     picx = pic
@@ -106,7 +106,7 @@ const start = (bocchi = new Client()) => {
                 await bocchi.sendFile(event.chat, base64, 'welcome.png', `Welcome ${pushname}!`)
             } else if (event.action === 'remove' && event.who !== botNumbers && isWelcome) {
                 const pic = await bocchi.getProfilePicFromServer(event.who)
-                if (pic === undefined) {
+                if (pic === `ERROR: 401`) {
                     var picxs = 'https://i.ibb.co/Tq7d7TZ/age-hananta-495-photo.png'
                 } else {
                     picxs = pic
