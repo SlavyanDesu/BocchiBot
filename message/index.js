@@ -2420,7 +2420,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const xpMe = level.getLevelingXp(getQuoted, _level)
                     const req = 5 * Math.pow(levelMe, 2) + 50 * 1 + 100
                     const { status } = statuses
-                    if (profilePic === undefined) {
+                    if (profilePic === `ERROR: 401`) {
                         var pfp = errorImg
                     } else {
                         pfp = profilePic
@@ -2437,7 +2437,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const xpMe = level.getLevelingXp(sender.id, _level)
                     const req = 5 * Math.pow(levelMe, 2) + 50 * 1 + 100
                     const { status } = statuses
-                    if (profilePic === undefined) {
+                    if (profilePic === `ERROR: 401`) {
                         var pfps = errorImg
                     } else {
                         pfps = profilePic
@@ -3130,8 +3130,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     try {
                         const encryptMedia = isQuotedGif || isQuotedVideo ? quotedMsg : message
                         const mediaData = await decryptMedia(encryptMedia, uaOverride)
-                        const videoBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
-                        await bocchi.sendMp4AsSticker(from, videoBase64, null, { stickerMetadata: true, author: authorWm, pack: packWm, fps: 30, startTime: '00:00:00.0', endTime : '00:00:05.0', crop: false, loop: 0 })
+                        const _mimetype = isQuotedVideo || isQuotedGif ? quotedMsg.mimetype : mimetype
+                        const videoBase64 = `data:${_mimetype};base64,${mediaData.toString('base64')}`
+                        await bocchi.sendMp4AsSticker(from, videoBase64, null, { stickerMetadata: true, author: authorWm, pack: packWm, keepScale: true, fps: 30, startTime: '00:00:00.0', endTime : '00:00:05.0', crop: false, loop: 0 })    
                             .then(() => {
                                 console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                             })
