@@ -866,7 +866,7 @@ Tafsir ayat surah Al-Qur'an.
 Aliases: -
 Usage: *${prefix}tafsir* nama_surah  ayat
 
-23. *${prefix}motivasi*
+23. *$  {prefix}motivasi*
 Kata-kata motivasi.
 Aliases: -
 Usage: *${prefix}motivasi*
