@@ -163,50 +163,69 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             timezone: 'Asia/Jakarta'
         })
 
-        // ROLE (Change to what you want, or add) and you can change the role sort based on XP.
-        const levelRole = level.getLevelingLevel(sender.id, _level)
-        var role = 'Copper V'
-        if (levelRole >= 5) {
-            role = 'Copper IV'
-        } else if (levelRole >= 10) {
-            role = 'Copper III'
-        } else if (levelRole >= 15) {
-            role = 'Copper II'
-        } else if (levelRole >= 20) {
-            role = 'Copper I'
-        } else if (levelRole >= 25) {
-            role = 'Silver V'
-        } else if (levelRole >= 30) {
-            role = 'Silver IV'
-        } else if (levelRole >= 35) {
-            role = 'Silver III'
-        } else if (levelRole >= 40) {
-            role = 'Silver II'
-        } else if (levelRole >= 45) {
-            role = 'Silver I'
-        } else if (levelRole >= 50) {
-            role = 'Gold V'
-        } else if (levelRole >= 55) {
-            role = 'Gold IV'
-        } else if (levelRole >= 60) {
-            role = 'Gold III'
-        } else if (levelRole >= 65) {
-            role = 'Gold II'
-        } else if (levelRole >= 70) {
-            role = 'Gold I'
-        } else if (levelRole >= 75) {
-            role = 'Platinum V'
-        } else if (levelRole >= 80) {
-            role = 'Platinum IV'
-        } else if (levelRole >= 85) {
-            role = 'Platinum III'
-        } else if (levelRole >= 90) {
-            role = 'Platinum II'
-        } else if (levelRole >= 95) {
-            role = 'Platinum I'
-        } else if (levelRole > 100) {
-            role = 'Exterminator'
-        }
+            // ROLE (Change to what you want, or add) and you can change the role sort based on XP.
+            const levelRole = level.getLevelingLevel(sender.id, _level)
+            var role = 'Copper V'
+            if (levelRole >= 5){
+                role = 'Copper IV'
+            } 
+            if (levelRole >= 10){
+                role = 'Copper III'
+            } 
+            if (levelRole >= 15){
+                role = 'Copper II'
+            } 
+            if (levelRole >= 20){
+                role = 'Copper I'
+            } 
+            if (levelRole >= 25) {
+                role = 'Silver V'
+            } 
+            if (levelRole >= 30) {
+                role = 'Silver IV'
+            } 
+            if (levelRole >= 35) {
+                role = 'Silver III'
+            } 
+            if (levelRole >= 40) {
+                role = 'Silver II'
+            } 
+            if (levelRole >= 45) {
+                role = 'Silver I'
+            } 
+            if (levelRole >= 50) {
+                role = 'Gold V'
+            } 
+            if (levelRole >= 55) {
+                role = 'Gold IV'
+            } 
+            if (levelRole >= 60) {
+                role = 'Gold III'
+            } 
+            if (levelRole >= 65) {
+                role = 'Gold II'
+            } 
+            if (levelRole >= 70) {
+                role = 'Gold I'
+            } 
+            if (levelRole >= 75) {
+                role = 'Platinum V'
+            } 
+            if (levelRole >= 80) {
+                role = 'Platinum IV'
+            } 
+            if (levelRole >= 85) {
+                role = 'Platinum III'
+            } 
+            if (levelRole >= 90) {
+                role = 'Platinum II'
+            } 
+            if (levelRole >= 95) {
+                role = 'Platinum I'
+            } 
+            if (levelRole >= 100) {
+                role = 'Exterminator'
+            } 
 
         // Leveling [BETA] by Slavyan
         if (isGroupMsg && isRegistered && !level.isGained(sender.id) && !isBanned && isLevelingOn) {
@@ -407,43 +426,62 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         var roles = 'Copper V'
                         if (resp[i].level >= 5) {
                             roles = 'Copper IV'
-                        } else if (resp[i].level >= 10) {
+                        } 
+                         if (resp[i].level >= 10) {
                             roles = 'Copper III'
-                        } else if (resp[i].level >= 15) {
+                        } 
+                         if (resp[i].level >= 15) {
                             roles = 'Copper II'
-                        } else if (resp[i].level >= 20) {
+                        } 
+                         if (resp[i].level >= 20) {
                             roles = 'Copper I'
-                        } else if (resp[i].level >= 25) {
+                        } 
+                         if (resp[i].level >= 25) {
                             roles = 'Silver V'
-                        } else if (resp[i].level >= 30) {
+                        } 
+                         if (resp[i].level >= 30) {
                             roles = 'Silver IV'
-                        } else if (resp[i].level >= 35) {
+                        } 
+                         if (resp[i].level >= 35) {
                             roles = 'Silver III'
-                        } else if (resp[i].level >= 40) {
+                        } 
+                         if (resp[i].level >= 40) {
                             roles = 'Silver II'
-                        } else if (resp[i].level >= 45) {
+                        } 
+                         if (resp[i].level >= 45) {
                             roles = 'Silver I'
-                        } else if (resp[i].level >= 50) {
+                        } 
+                         if (resp[i].level >= 50) {
                             roles = 'Gold V'
-                        } else if (resp[i].level >= 55) {
+                        } 
+                         if (resp[i].level >= 55) {
                             roles = 'Gold IV'
-                        } else if (resp[i].level >= 60) {
+                        } 
+                         if (resp[i].level >= 60) {
                             roles = 'Gold III'
-                        } else if (resp[i].level >= 65) {
+                        } 
+                         if (resp[i].level >= 65) {
                             roles = 'Gold II'
-                        } else if (resp[i].level >= 70) {
+                        } 
+                         if (resp[i].level >= 70) {
                             roles = 'Gold I'
-                        } else if (resp[i].level >= 75) {
+                        } 
+                         if (resp[i].level >= 75) {
                             roles = 'Platinum V'
-                        } else if (resp[i].level >= 80) {
+                        } 
+                         if (resp[i].level >= 80) {
                             roles = 'Platinum IV'
-                        } else if (resp[i].level >= 85) {
+                        } 
+                         if (resp[i].level >= 85) {
                             roles = 'Platinum III'
-                        } else if (resp[i].level >= 90) {
+                        } 
+                         if (resp[i].level >= 90) {
                             roles = 'Platinum II'
-                        } else if (resp[i].level >= 95) {
+                        } 
+                         if (resp[i].level >= 95) {
                             roles = 'Platinum I'
-                        } else if (resp[i].level > 100) {
+                        } 
+                         if (resp[i].level > 100) {
                             roles = 'Exterminator'
                         }
                         leaderboard += `${i + 1}. wa.me/${_level[i].id.replace('@c.us', '')}\n➸ *XP*: ${_level[i].xp} *Level*: ${_level[i].level}\n➸ *Role*: ${roles}\n\n`
@@ -1490,25 +1528,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                             await bocchi.reply(from, `*Success sending email*!\n➸ *Target*: ${emailTarget}\n➸ *Subject*: ${result.subjek}\n➸ *Message*: ${result.pesan}`, id)
                             console.log('Success sending email!')
                         }
-                    })
-            break
-            case prefix+'sms':
-                if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
-                const pesanPengirim = q.substring(0, q.indexOf('|') - 1)
-                const nomorPenerima = q.substring(q.lastIndexOf('|') + 2)
-                if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
-                limit.addLimit(sender.id, _limit, isPremium, isOwner)
-                await bocchi.reply(from, ind.wait(), id)
-                misc.sms(nomorPenerima, pesanPengirim)
-                    .then(async ({ status, pesan }) => {
-                        if (status !== 'success') return await bocchi.reply(from, pesan, id)
-                        await bocchi.reply(from, `Success sending SMS to: ${nomorPenerima}\nMessage: ${pesanPengirim}`, id)
-                        console.log(`Success sending SMS to ${nomorPenerima}!`)
-                    })
-                    .catch(async (err) => {
-                        console.error(err)
-                        await bocchi.reply(from, 'Error!', id)
                     })
             break
             case prefix+'addsticker': // by @hardianto02_
@@ -3129,9 +3148,10 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wait(), id)
                     try {
                         const encryptMedia = isQuotedGif || isQuotedVideo ? quotedMsg : message
-                        const mediaData = await decryptMedia(encryptMedia, uaOverride)
-                        const videoBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
-                        await bocchi.sendMp4AsSticker(from, videoBase64, null, { stickerMetadata: true, author: authorWm, pack: packWm, fps: 30, startTime: '00:00:00.0', endTime : '00:00:05.0', crop: false, loop: 0 })
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const _mimetype = isQuotedVideo || isQuotedGif ? quotedMsg.mimetype : mimetype
+                    const videoBase64 = `data:${_mimetype};base64,${mediaData.toString('base64')}`
+                    await bocchi.sendMp4AsSticker(from, videoBase64, null, { stickerMetadata: true, author: authorWm, pack: packWm, keepScale: true, fps: 30, startTime: '00:00:00.0', endTime : '00:00:05.0', crop: false, loop: 0 })
                             .then(() => {
                                 console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
                             })
