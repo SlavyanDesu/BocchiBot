@@ -1,14 +1,15 @@
 # Modules directory
 node_modules
-
 # Session file
 *.data.json
-
 # Debug file
 logs
-
 # Local folder
 .node-persist
-
 # Lock file
 package-lock.json
+
+# managed
+**.data.json
+**.node-persist**
+# end managed

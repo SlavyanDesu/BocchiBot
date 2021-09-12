@@ -856,42 +856,37 @@ Play audio dari YouTube.
 Aliases: - 
 Usage: *${prefix}play* judul_video
 
-21. *${prefix}sms*
-Mengirim SMS secara anonymous. (SMS gateway)
-Aliases: -
-Usage: *${prefix}sms* pesan | nomor_penerima
-
-22. *${prefix}toxic*
+21. *${prefix}toxic*
 Random toxic.
 Aliases: -
 Usage: *${prefix}toxic*
 
-23. *${prefix}tafsir*
+22. *${prefix}tafsir*
 Tafsir ayat surah Al-Qur'an.
 Aliases: -
 Usage: *${prefix}tafsir* nama_surah  ayat
 
-24. *${prefix}motivasi*
+23. *$  {prefix}motivasi*
 Kata-kata motivasi.
 Aliases: -
 Usage: *${prefix}motivasi*
 
-25. *${prefix}linesticker*
+24. *${prefix}linesticker*
 Sticker Line terbaru.
 Aliases: *linestiker*
 Usage: *${prefix}linesticker*
 
-26. *${prefix}alkitab*
+25. *${prefix}alkitab*
 Al-Kitab search.
 Aliases: -
 Usage: *${prefix}* nama_injil
 
-27. *${prefix}cekongkir*
+26. *${prefix}cekongkir*
 Cek ongkos kirim.
 Aliases: -
 Usage: *${prefix}ongkir* kurir | asal | tujuan
 
-28. *${prefix}movie*
+27. *${prefix}movie*
 Cari film.
 Aliases: -
 Usage: *${prefix}movie* judul
