@@ -56,6 +56,7 @@ const options = (start) => {
         useChrome: true,
         killProcessOnBrowserClose: true,
         throwErrorOnTosBlock: false,
+        disableSpins: true,
         chromiumArgs: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
