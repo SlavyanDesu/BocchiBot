@@ -10,6 +10,7 @@ const canvas = require('discord-canvas')
 const { ownerBot } = require('./config.json')
 const fs = require('fs-extra')
 const { groupLimit, memberLimit } = require('./database/bot/setting.json')
+// heroku by gamingrkp
 const express = require('express')
 const app = express();
 
