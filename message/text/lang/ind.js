@@ -948,7 +948,7 @@ Usage: *${prefix}genshininfo* nama_karakter
 38. *${prefix}translate*
 Terjemahkan teks.
 Aliases: *trans*
-Usage: *${prefix}translate* teks | kode_bahasa
+Usage: *${prefix}translate* teks | kode_bahasa, bisa menggunakan reply juga
 
 39. *${prefix}hadis*
 Info hadis.

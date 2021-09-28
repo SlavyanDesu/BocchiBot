@@ -50,6 +50,11 @@
 * [Tesseract](https://s.id/vftesseract)
 * Any text editor
 
+# Requirements Heroku
+* [Chrome](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-chromedriver)
+* [FFmpeg](https://elements.heroku.com/buildpacks/jonathanong/heroku-buildpack-ffmpeg-latest)
+* [Tesseract](https://elements.heroku.com/buildpacks/matteotiziano/heroku-buildpack-tesseract)
+* [Canvas](https://elements.heroku.com/buildpacks/automattic/node-canvas)
 # Installation
 ## 📝 Cloning this repo
 ```cmd
@@ -153,6 +158,11 @@ After that scan the QR code using your WhatsApp in your phone!
 
 # Features
 If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-fi platform.
+
+|     Deploy       |  Availability  |
+| :--------------: | :------------: |
+| Heroku           |       ✔️       |
+| Windows          |        ✔️      |
 
 |     Leveling     |  Availability  |
 | :--------------: | :------------: |
