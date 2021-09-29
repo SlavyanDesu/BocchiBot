@@ -55,6 +55,7 @@
 * [FFmpeg](https://elements.heroku.com/buildpacks/jonathanong/heroku-buildpack-ffmpeg-latest)
 * [Tesseract](https://elements.heroku.com/buildpacks/matteotiziano/heroku-buildpack-tesseract)
 * [Canvas](https://elements.heroku.com/buildpacks/automattic/node-canvas)
+
 # Installation
 ## 📝 Cloning this repo
 ```cmd
