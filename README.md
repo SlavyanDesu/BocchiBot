@@ -55,6 +55,12 @@
 * [FFmpeg](https://elements.heroku.com/buildpacks/jonathanong/heroku-buildpack-ffmpeg-latest)
 * [Tesseract](https://elements.heroku.com/buildpacks/matteotiziano/heroku-buildpack-tesseract)
 * [Canvas](https://elements.heroku.com/buildpacks/automattic/node-canvas)
+> highly recommended to use heroku only for private groups ( only this group )
+>
+
+> sangat disarankan untuk menggunakan heroku hanya untuk grup pribadi (hanya grup ini)
+>
+
 
 # Installation
 ## 📝 Cloning this repo
