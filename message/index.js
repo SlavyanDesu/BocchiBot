@@ -1727,13 +1727,19 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
             case prefix+'translate':
             case prefix+'trans':
+            case prefix+'tr':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
-                if (!q.includes('|')) return await bocchi.reply(from, ind.wrongFormat(), id)
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, ind.limit(), id)
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                if (quotedMsg) {
+                const textos = quotedMsg.body
+                const languagets = args[0]
+                translate(textos, {to: languagets}).then(ress => {bocchi.reply(from, ress.text, id)})
+                } else {
                 const texto = q.substring(0, q.indexOf('|') - 1)
                 const languaget = q.substring(q.lastIndexOf('|') + 2)
                 translate(texto, {to: languaget}).then(res => {bocchi.reply(from, res.text, id)})
+                }
             break
             case prefix+'bass':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)

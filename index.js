@@ -10,6 +10,8 @@ const canvas = require('discord-canvas')
 const { ownerBot } = require('./config.json')
 const fs = require('fs-extra')
 const { groupLimit, memberLimit } = require('./database/bot/setting.json')
+const express = require('express')
+const app = express()
 
 const start = (bocchi = new Client()) => {
     console.log(color(figlet.textSync('BocchiBot', 'Larry 3D'), 'cyan'))
@@ -18,6 +20,13 @@ const start = (bocchi = new Client()) => {
     console.log(color('=> Bug? Error? Suggestion? Visit here:', 'yellow'), color(bugs.url))
     console.log(color('[BOCCHI]'), color('BocchiBot is now online!', 'yellow'))
     console.log(color('[DEV]', 'cyan'), color('Welcome back, Owner! Hope you are doing well~', 'magenta'))
+
+    // Creating a localhost
+    app.get('/', (req, res) => res.status(200).send('Bocchi Client'))
+    const PORT = process.env.PORT || 8080 || 5000 || 3000
+    app.listen(PORT, () => {
+        console.log(color('Localhost is running!', 'yellow'))
+    })  
 
     // Uncomment code di bawah untuk mengaktifkan auto-update file changes. Tidak disarankan untuk long-time use.
     // Uncomment code below to activate auto-update file changes. Not recommended for long-time use.
