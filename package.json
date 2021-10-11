@@ -54,6 +54,6 @@
     "video-url-link": "git+https://github.com/YogaSakti/video-url-link.git"
   },
   "devDependencies": {
-    "eslint": "^7.22.0"
+    "eslint": "^8.0.0"
   }
 }
