@@ -160,19 +160,25 @@ PM2 with cron job (restart after 5 hours):
 
 After that scan the QR code using your WhatsApp in your phone!
 
+# Known issue
+## ESM error
+To prevent this, please use `node-fetch` and `parse-ms` with v2.x version.
+```cmd
+> npm install node-fetch@2.6.5
+> npm install parse-ms@2.1.0
+```
+
 # Features
 If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-fi platform.
 
 |     Deploy       |  Availability  |
 | :--------------: | :------------: |
 | Heroku           |       ✔️       |
-| Windows          |        ✔️      |
+| Local            |       ✔️       |
 
 |     Leveling     |  Availability  |
 | :--------------: | :------------: |
 | Leveling         |       ✔️       |
-| Set level color  |      Soon      |
-| Set bar color    |      Soon      |
 
 |     Sticker Maker     | Availability |
 | :-------------------: | :----------: |
