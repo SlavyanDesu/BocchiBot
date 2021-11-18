@@ -358,7 +358,7 @@ If you want to unlock premium commands, please buy me a coffee at least 1 on Ko-
 * [`AlvioAdjiJanuar`](https://github.com/AlvioAdjiJanuar)
 * [`VideFrelan`](https://github.com/VideFrelan)
 * [`VirusLauncher`](https://github.com/VirusLauncher)
-* [`shansekai`](https://github.com/shansekai)
+* [`Sansekai`](https://github.com/Sansekai)
 * [`Baguettou`](https://github.com/Baguettou)
 * [`HAFizh-15`](https://github.com/HAFizh-15)
 * [`TheSploit`](https://github.com/TheSploit)

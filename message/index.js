@@ -3039,7 +3039,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, ind.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
                     const mediaData = await decryptMedia(encryptMedia, uaOverride)
-                    const q = await uploadImages(mediaData, `stickernobg.${sender.id}`)
+                    await bocchi.sendImageAsSticker(from, mediaData, { author: authorWm, pack: packWm, removebg: true })
+                    console.log(`Sticker processed for ${processTime(t, moment())} seconds`)                
+                    /*const q = await uploadImages(mediaData, `stickernobg.${sender.id}`)
                     misc.stickernobg(q)
                         .then(async ({ result }) => {
                             await bocchi.sendStickerfromUrl(from, result.image, null, { author: authorWm, pack: packWm })
@@ -3048,7 +3050,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         .catch(async (err) => {
                             console.error(err)
                             await bocchi.reply(from, 'Error!', id)
-                        })
+                        })*/
                 } else {
                     await bocchi.reply(from, ind.wrongFormat(), id)
                 }
