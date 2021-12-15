@@ -374,3 +374,4 @@ Authored and maintained by SlavyanDesu.
 <p align="center">
   <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FSlavyanDesu%2FBocchiBot?ref=badge_large"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FSlavyanDesu%2FBocchiBot.svg?type=large" />
 </p>
+ 
