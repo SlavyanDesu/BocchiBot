@@ -29,7 +29,7 @@
       "emoji-unicode": "^2.0.1",
       "express": "^4.17.1",
       "figlet": "^1.5.0",
-      "file-type": "^16.2.0",
+      "file-type": "^17.1.0",
       "fluent-ffmpeg": "^2.1.2",
       "form-data": "^4.0.0",
       "fs-extra": "^10.0.0",
