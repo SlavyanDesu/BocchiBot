@@ -4263,6 +4263,38 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 console.log('Success!')
             break
             
+
+
+            // minigames 
+            // Made by gamingrkp If Some Error Appear Just Open The Issue
+            // just easy game who type the word first the winner 
+             case prefix+'fasttype':
+                const fastypetime = daily.getLimit(sender.id, _daily)
+                let timegtype = 60000
+                if (fasttypetime !== undefined && timegtype - (Date.now() - fasttypetime) > 0) {
+                    const time = ms(timegtype - (Date.now() - fasttypetime))
+                    await bocchi.reply(from, `You Need Wait {time}`, id)
+                }  else {
+                const randomcoek = [ "observe", "omit", "alcoholic", "wash", "meet", "far", "pencil", "redundant", "organic", "gamy", "tough", "warn", "linen", "beast", "fall", "expensive", "cannon", "kill", "flower", "illegal", "town", "functional", "whispering", "right", "relax", "quick", "detect", "mellow", "sassy", "lovely", "quince", "table", "guard", "ring", "tidy", "place", "cheap", "disgust", "quill", "unused", "decorous", "station", "purring", "store", "dapper", "separate", "trail", "push", "cause", "ready", "forbid", "relax", "legs", "rise", "save", "return", "stitch", "quartz", "brush", "female", "run", "flop", "grandmother", "healthy", "spring", "grain", "difficult", "incise", "fight", "abject", "voracious", "dapper", "sound", "pest", "greet", "writer", "enlighten", "store", "bet", "lyrical", "reuse", "ignore", "melt", "week", "relate", "curvy", "silent", "heavenly", "leather", "gabby", "endorse", "abrasive", "read", "son", "club", "coil", "bash", "godly", "ragged", "mould", "promise", "bait", "gainsay", "book", "dash", "clumsy", "gain", "disagreeable", "chat", "lacking", "scab", "shaggy", "resolve", "telling", "renew", "roar", "learning", "reduce", "piquant", "scale", "creator", "tart", "happy", "learned", "measure", "correct", "crush", "cope", "art", "country", "thump", "contrive", "elegant", "mailbox", "symptomatic", "scant", "letter", "lick", "conquer", "suppose", "exclude", "female", "bustling", "show", "needy", "beautiful", "representative", "imperil", "learning", "growth", "bashful", "kid", "carry", "retain", "set", "careless", "frantic", "touch", "wave", "dwell", "leap", "agree", "ball", "pardon", "beggar", "frame", "soda", "scared", "swim", "statement", "contribute", "dynamic", "fallacious", "install", "tiresome", "beseech", "abate", "fallacious", "bray", "cable", "cost", "foot", "chicken", "balloon", "sidewalk", "classify", "tough", "sheep", "bit", "tender", "beneficial", "flippant", "attractive", "magnificent", "pricey", "illegal", "fierce", "stitch", "like", "suffer", "break", "feast", "hill", "mammoth", "spotted", "wise", "stupid", "collapse", "sail", "plucky", "impinge", "expert", "flop", "harsh", "hammer", "concerned", "battle", "sag", "break", "honorable", "salvage", "aspiring", "abiding", "cautious", "breakable", "normal", "sleep", "assorted", "float", "medical", "birds", "adjustment", "hate", "contrive", "coast", "shiver", "invent", "exuberant", "fixed", "friends", "visitor", "motivate", "dolls", "tax", "subtract", "lazy", "crime", "disobey", "resonant", "ugliest", "daughter", "representative", "snow", "envious", "growth", "father", "racial", "persuade", "rich", "scan", "throw", "coil", "hapless", "paint", "elderly", "compare", "teach", "fetch", "winter", "hurried", "historical", "party", "comfortable", "saponify", "sink", "profit", "sticky", "heavenly", "aloof", "find", "encourage", "boorish", "impress", "force", "family", "fight", "handy", "stem", "far", "desk", "discreet", "five", "robust", "thrive", "murmur", "far", "obeisant", "venomous", "versed", "bash", "earsplitting", "beggar", "guarded", "disturbed", "solicit", "forlese", "great", "friend"];
+                let word = randomcoek[Math.floor(Math.random() * randomcoek.length)]
+                let filter = m => m.content.startsWith(word)
+                bocchi.sendText(from, ind.waitfasttype(), id)
+                await sleep(5000)
+                bocchi.sendText(from, `the word ${word}`, id).then(() => {
+                bocchi.awaitMessages(message, filter, {
+                      max: 1,
+                      time: 30000,
+                      errors: ['time']
+                    })
+                    .then(message => {
+                        bocchi.sendText(from, `*The Winner Is ${message.first().sender.pushname}*`)
+                    })
+                    .catch(collected => {
+                        bocchi.sendText(from ,'Too Slow', id);
+                    });
+                })
+            }
+            break
             default:
                 if (isCmd) {
                     await bocchi.reply(from, ind.cmdNotFound(command), id)
