@@ -1569,27 +1569,24 @@ If you've understand these rules, please type *${prefix}menu* to get started.
 }
 
 // Note for owner/hoster, please DO NOT edit this section.
-exports.tos = (ownerNumber) => {
+exports.tos = (8373017400) => {
     return `
 *── 「 TERMS OF SERVICE 」 ──*
 
 This bot is an open-source bot, come with the name of BocchiBot which is available on GitHub for free.
-The owner/hoster of this bot is independent from the responsibility and supervision of the developer (Slavyan).
+The owner/hoster of this bot is independent from the responsibility and supervision of the developer (chey).
 Owner/hoster may plagiarize, add, delete, replace source code with notes *DO NOT SELL* this source code in any form.
 If an error occurs, the first person you should contact is the owner/hoster.  
 
 If you want to contributing to this project, visit:
-https://github.com/SlavyanDesu/BocchiBot
+https://github.com/Chey777cc/BocchiBot
 
 Contact person:
 wa.me/${ownerNumber.replace('@c.us', '')} (Owner/hoster)
-wa.me/6281294958473 (Developer)
-
-You guys can also support me to keep this bot up to date with:
-081294958473 (OVO/Telkomsel/GoPay)
+wa.me/8373017400 (Developer)
 
 Thank you!
 
-Slavyan.
+Chey.
     `
 }
