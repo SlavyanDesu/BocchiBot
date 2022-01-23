@@ -1,12 +1,12 @@
 {
-    "name": "bocchibot",
+    "name": "elli-chan-bot",
     "version": "1.0.0",
-    "description": "BocchiBot is a multipurpose WhatsApp bot.",
+    "description": "ELLI-CHAN-Bot is a multipurpose WhatsApp bot.",
     "main": "index.js",
     "scripts": {
       "start": "node index.js"
     },
-    "author": "SlavyanDesu",
+    "author": "CHEY",
     "repository": {
       "type": "git",
       "url": "https://github.com/SlavyanDesu/BocchiBot.git"
