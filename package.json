@@ -19,7 +19,7 @@
     "dependencies": {
       "@justalk/pornhub-api": "^3.5.0",
       "@open-wa/wa-automate": "^4.22.4",
-      "@vitalets/google-translate-api": "^7.0.0",
+      "@vitalets/google-translate-api": "^8.0.0",
       "await-exec": "^0.1.2",
       "axios": "^0.24.0",
       "bent": "^7.3.12",
