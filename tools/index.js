@@ -53,6 +53,7 @@ const options = (start) => {
         authTimeout: 0,
         restartOnCrash: start,
         cacheEnabled: false,
+        multiDevice: false, // change to true if you want run multidevice mode
         useChrome: true,
         killProcessOnBrowserClose: true,
         throwErrorOnTosBlock: false,
