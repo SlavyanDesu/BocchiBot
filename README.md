@@ -37,7 +37,8 @@
   <a href="https://github.com/SlavyanDesu/BocchiBot#thanks-to">Thanks to</a> •
   <a href="https://github.com/SlavyanDesu/BocchiBot#license">License</a>
 </p>
-
+</div
+  
 # Requirements
 * [Node.js](https://nodejs.org/en/)
 * [Git](https://git-scm.com/downloads)
