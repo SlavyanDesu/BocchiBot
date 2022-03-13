@@ -38,11 +38,6 @@
   <a href="https://github.com/SlavyanDesu/BocchiBot#license">License</a>
 </p>
 
-<h4 align="center">
-  <a href="https://chat.whatsapp.com/BXlkQNiaemx4I8oIHjvhP4">Join WA BOT DEV Indonesia!</a>
-</h4>
-</div>
-
 # Requirements
 * [Node.js](https://nodejs.org/en/)
 * [Git](https://git-scm.com/downloads)
