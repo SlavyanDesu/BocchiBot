@@ -95,7 +95,7 @@ let { memberLimit, groupLimit } = _setting
 // eslint-disable-next-line no-undef
 module.exports = msgHandler = async (bocchi = new Client(), message) => {
     try {
-        const { type, id, from, t, sender, isGroupMsg, chat, caption, isMedia, mimetype, quotedMsg, quotedMsgObj, mentionedJidList } = message
+        const { type, id, fromMe, from, t, sender, buttons, selectedButtonId, isGroupMsg, chat, caption, isMedia, mimetype, quotedMsg, quotedMsgObj, chatId, mentionedJidList, author } = message
         let { body } = message
         const { name, formattedTitle } = chat
         let { pushname, verifiedName, formattedName } = sender
@@ -113,7 +113,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const command = cmd.toLowerCase().split(' ')[0] || ''
         const prefix = /^[°•π÷×¶∆£¢€¥®™✓=|~!#$%^&./\\©^]/.test(command) ? command.match(/^[°•π÷×¶∆£¢€¥®™✓=|~!#$%^&./\\©^]/gi) : '-' // Multi-Prefix by: VideFrelan
         const chats = (type === 'chat') ? body : ((type === 'image' || type === 'video')) ? caption : ''
-        body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video') && caption) && caption.startsWith(prefix)) ? caption : ''
+        body = (type === 'chat' && body.startsWith(prefix)) ? body : (((type === 'image' || type === 'video' || type === 'buttons_response') && caption) && caption.startsWith(prefix)) ? caption : ''
         const args = body.trim().split(/ +/).slice(1)
         const uaOverride = config.uaOverride
         const q = args.join(' ')
@@ -258,6 +258,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     console.log(color('[WARN]', 'yellow'), color('Received a group link but it is not a valid link!', 'yellow'))
                 }
             }
+        }
+        
+        // Example response button (if you have license key)
+        if (message.type === 'buttons_response') {
+        if (message.selectedButtonId === 'menu') {
+        	await bocchi.sendText(from, ind.menu(jumlahUser, levelMenu, xpMenu, role, pushname, reqXpMenu, isPremium ? 'YES' : 'NO'))
+        }
         }
 
         // Anti virtext by: @VideFrelan
@@ -1814,6 +1821,16 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             break
 
             // Bot
+                // Example case if you have license key
+            /*case prefix+'menu':
+            case prefix+'help':
+               await bocchi.sendButtons(from, "Hallo, saya bocchi bot.\nsilahkan klik button do bawah untuk melihan menu."),
+               [
+                  {id:"menu","text":"Menu"},
+               ],
+               "", "© Bocchi Bot")
+               await bocchi.reply(from, menuId.textMenu(pushname, prefix), id)
+            break*/
             case prefix+'menu':
             case prefix+'help':
                 const jumlahUser = _registered.length
