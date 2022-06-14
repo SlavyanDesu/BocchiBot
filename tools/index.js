@@ -53,7 +53,8 @@ const options = (start) => {
         authTimeout: 0,
         restartOnCrash: start,
         cacheEnabled: false,
-        multiDevice: false, // change to true if you want run multidevice mode
+        multiDevice: true, // change to true if you want run multidevice mode
+        licenseKey: 'YOUR-LICENSE-KEY', // If you have license key, put here your license key
         useChrome: true,
         killProcessOnBrowserClose: true,
         throwErrorOnTosBlock: false,
