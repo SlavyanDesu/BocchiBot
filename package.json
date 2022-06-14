@@ -18,10 +18,10 @@
     "license": "MIT",
     "dependencies": {
       "@justalk/pornhub-api": "^3.5.0",
-      "@open-wa/wa-automate": "^4.22.4",
+      "@open-wa/wa-automate": "^4.39.0",
       "@vitalets/google-translate-api": "^8.0.0",
       "await-exec": "^0.1.2",
-      "axios": "^0.26.1",
+      "axios": "^0.27.7",
       "bent": "^7.3.12",
       "canvacord": "^5.1.0",
       "chalk": "^4.1.0",
