@@ -1953,6 +1953,15 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 await bocchi.sendLinkWithAutoPreview(from, 'https://github.com/SlavyanDesu/BocchiBot', ind.tos(ownerNumber))
             break
+            case prefix+'react' : case prefix+'reaction' :
+              if (quotedMsg) {
+            	if (args.length !== 1)  return await bocchi.reply(from, ind.wrongFormat(), id)
+            	const getReact = args[0]
+                  await bocchi.react(quotedMsg.id, getReact)
+            	} else {
+            	await bocchi.reply(from, ind.wrongFormat(), id)
+            	}
+            break
             case prefix+'join':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('chat.whatsapp.com')) return await bocchi.reply(from, ind.wrongFormat(), id)
