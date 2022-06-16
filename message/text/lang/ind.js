@@ -1010,6 +1010,11 @@ Scan teks dari foto.
 Aliases: -
 Usage: Kirim gambar dengan caption *${prefix}ocr* atau reply gambar/stiker dengan caption *${prefix}ocr*.
 
+51. *${prefix}react*
+Memberikan reaction berupa emoji.
+Aliases: -
+Usage: Balas/reply pesan yang ingin kamu react\n\nContoh: ${prefix}react 😱
+
 _Index of [3]_
     `
 }
