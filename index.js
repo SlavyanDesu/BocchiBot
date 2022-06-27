@@ -80,6 +80,23 @@ const start = (bocchi = new Client()) => {
         await bocchi.contactBlock(callData.peerJid)
         console.log(color('[BLOCK]', 'red'), color(`${callData.peerJid} has been blocked.`, 'yellow'))
     })
+    
+    // Clear Chat Every 12 Hours
+    cron.schedule('0 0 */12 * * *', () => {
+        	async function start() {
+            const cronallChat = await bocchi.getAllChats()
+            for (let getdchat of cronallChat) {
+                if (getdchat.isGroup == true){
+                console.log(color('[BOCCHI]'), 'Clear Chat Group', 'yellow'))
+               await bocchi.clearChat(getdchat.id)
+                } else {
+                await bocchi.deleteChat(getdchat.id)
+                }
+            }
+            console.log(color('[BOCCHI]'), 'Success Clear All Chat!', 'yellow'))
+            }
+        start();
+        })
 
     bocchi.onGlobalParticipantsChanged(async (event) => {
         const _welcome = JSON.parse(fs.readFileSync('./database/group/welcome.json'))
