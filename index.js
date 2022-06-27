@@ -88,13 +88,13 @@ const start = (bocchi = new Client()) => {
             const cronallChat = await bocchi.getAllChats()
             for (let getdchat of cronallChat) {
                 if (getdchat.isGroup == true){
-                console.log(color('[BOCCHI]'), 'Clear Chat Group', 'yellow'))
+                console.log(color('[BOCCHI]'), 'Clear Chat Group', 'yellow')
                await bocchi.clearChat(getdchat.id)
                 } else {
                 await bocchi.deleteChat(getdchat.id)
                 }
             }
-            console.log(color('[BOCCHI]'), 'Success Clear All Chat!', 'yellow'))
+            console.log(color('[BOCCHI]'), 'Success Clear All Chat!', 'yellow')
             }
         start();
         })
