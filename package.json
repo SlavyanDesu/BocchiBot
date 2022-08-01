@@ -46,7 +46,7 @@
         "nhentai-api": "^3.0.2",
         "nhentai-js": "^4.0.0",
         "node-cron": "^3.0.0",
-        "node-fetch": "^2.6.7",
+        "node-fetch": "^3.2.10",
         "node-gtts": "^2.0.2",
         "node-tesseract-ocr": "^2.0.0",
         "parse-ms": "^2.1.0",
