@@ -18,7 +18,7 @@
     "license": "MIT",
     "dependencies": {
         "@justalk/pornhub-api": "^3.5.0",
-        "@open-wa/wa-automate": "^4.42.1",
+        "@open-wa/wa-automate": "^4.43.1",
         "@vitalets/google-translate-api": "^8.0.0",
         "await-exec": "^0.1.2",
         "axios": "^0.27.2",
