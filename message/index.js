@@ -1926,8 +1926,18 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             case prefix+'del':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
                 if (!quotedMsg) return await bocchi.reply(from, ind.wrongFormat(), id)
+                if (isGroupMsg) {
+                if (!isBotGroupAdmins) return await bocchi.reply(from, ind.botNotAdmin(), id)
+                if (isGroupAdmins) {
+                await bocchi.deleteMessage(quotedMsgObj.chatId, quotedMsgObj.id, false)
+                } else if (!isGroupAdmins) { 
                 if (!quotedMsgObj.fromMe) return await bocchi.reply(from, ind.wrongFormat(), id)
                 await bocchi.deleteMessage(quotedMsgObj.chatId, quotedMsgObj.id, false)
+                }
+                } else if (!isGroupMsg) {
+                if (!quotedMsgObj.fromMe) return await bocchi.reply(from, ind.wrongFormat(), id)
+                await bocchi.deleteMessage(quotedMsgObj.chatId, quotedMsgObj.id, false)
+           	}
             break
             case prefix+'report':
                 if (!isRegistered) return await bocchi.reply(from, ind.notRegistered(), id)
