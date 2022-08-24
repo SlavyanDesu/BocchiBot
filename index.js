@@ -13,6 +13,7 @@ const { groupLimit, memberLimit } = require('./database/bot/setting.json')
 const express = require('express')
 const app = express()
 const cron = require('node-cron')
+const exec = require('await-exec')
 
 const start = (bocchi = new Client()) => {
     console.log(color(figlet.textSync('BocchiBot', 'Larry 3D'), 'cyan'))
@@ -35,6 +36,10 @@ const start = (bocchi = new Client()) => {
 
     bocchi.onStateChanged((state) => {
         console.log(color('[BOCCHI]'), state)
+        if (state === 'OPENING') return client.refresh().catch(e => {
+            console.log("ERROR WHEN REFRESH >>>", e)
+            exec('pm2 restart .')
+        })
         if (state === 'UNPAIRED' || state === 'CONFLICT' || state === 'UNLAUNCHED') bocchi.forceRefocus()
     })
 
