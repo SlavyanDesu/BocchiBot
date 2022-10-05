@@ -24,7 +24,7 @@
         "axios": "^0.27.2",
         "bent": "^7.3.12",
         "canvacord": "^5.1.0",
-        "chalk": "^4.1.1",
+        "chalk": "^5.1.0",
         "discord-canvas": "^1.4.1",
         "emoji-unicode": "^2.0.1",
         "express": "^4.17.1",
