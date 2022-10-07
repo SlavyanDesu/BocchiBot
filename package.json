@@ -21,7 +21,7 @@
         "@open-wa/wa-automate": "^4.44.3",
         "@vitalets/google-translate-api": "^8.0.0",
         "await-exec": "^0.1.2",
-        "axios": "^0.27.2",
+        "axios": "^1.1.2",
         "bent": "^7.3.12",
         "canvacord": "^5.1.0",
         "chalk": "^4.1.1",
