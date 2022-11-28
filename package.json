@@ -32,7 +32,7 @@
         "file-type": "^16.5.3",
         "fluent-ffmpeg": "^2.1.2",
         "form-data": "^4.0.0",
-        "fs-extra": "^10.0.0",
+        "fs-extra": "^11.0.0",
         "genshin": "^1.2.4",
         "google-it": "^1.6.2",
         "is-porn": "^0.9.0",
