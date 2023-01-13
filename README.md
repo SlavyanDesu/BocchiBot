@@ -82,19 +82,19 @@ It will give us a callback like `SUCCESS: specified value was saved`.
 
 ## 🔍 Installing the dependencies
 ```cmd
-$ npm install
+> npm install
 ```
 
 ## 🆗 Running the bot
 Regular node:
 ```cmd
-$ npm start
+> npm start
 ```
 
 PM2:
 ```cmd
-$ pm2 start index.js cluster max
-$ pm2 monit
+> pm2 start index.js cluster max
+> pm2 monit
 ```
 
 After that scan the QR code using your WhatsApp in your phone.
