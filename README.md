@@ -42,9 +42,9 @@
 
 # Installation
 ## 📝 Cloning the repo
-```bash
-$ git clone https://github.com/SlavyanDesu/BocchiBot.git
-$ cd BocchiBot
+```cmd
+> git clone https://github.com/SlavyanDesu/BocchiBot.git
+> cd BocchiBot
 ```
 
 ## ✍️ Editing the file
@@ -59,11 +59,11 @@ Edit the required value in `config.json`.
 }
 ```
 
-`ownerBot`: your WhatsApp number.  
-`prefix`: bot's prefix.
-`nao`: SauceNAO API key. You can get it [here](https://saucenao.com/user.php) by creating an account.
-`authorStick`: name of the author sticker pack.
-`packStick`: name of the sticker pack.
+`ownerBot`: your WhatsApp number.   
+`prefix`: bot's prefix.   
+`nao`: SauceNAO API key. You can get it [here](https://saucenao.com/user.php) by creating an account.   
+`authorStick`: name of the author sticker pack.   
+`packStick`: name of the sticker pack.   
 
 ## 🛠️ Installing the FFmpeg
 * Download one of the available versions of FFmpeg by clicking [this link](https://www.gyan.dev/ffmpeg/builds/).
@@ -71,28 +71,28 @@ Edit the required value in `config.json`.
 * Rename the extracted folder to `ffmpeg`.
 * Run Command Prompt as Administrator.
 * Run this command:
-```bash
-$ setx /m PATH "C:\ffmpeg\bin;%PATH%"
+```cmd
+> setx /m PATH "C:\ffmpeg\bin;%PATH%"
 ```
 It will give us a callback like `SUCCESS: specified value was saved`.
 * Now that you've FFmpeg installed, verify that it's working by running this command to see version number:
-```bash
-$ ffmpeg -version
+```cmd
+> ffmpeg -version
 ```
 
 ## 🔍 Installing the dependencies
-```bash
+```cmd
 $ npm install
 ```
 
 ## 🆗 Running the bot
 Regular node:
-```bash
+```cmd
 $ npm start
 ```
 
 PM2:
-```bash
+```cmd
 $ pm2 start index.js cluster max
 $ pm2 monit
 ```
