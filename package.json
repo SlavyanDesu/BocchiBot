@@ -22,7 +22,7 @@
         "@vitalets/google-translate-api": "^9.0.0",
         "await-exec": "^0.1.2",
         "canvacord": "^5.4.8",
-        "chalk": "^4.1.2",
+        "chalk": "^5.2.0",
         "figlet": "^1.5.2",
         "file-type": "^16.5.4",
         "fluent-ffmpeg": "^2.1.2",
