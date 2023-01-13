@@ -2,15 +2,15 @@
 const { prefix } = require('../../../config.json')
 
 exports.wait = () => {
-    return `Please wait a moment~`
+    return `Please wait a moment...`
 }
 
 exports.ok = () => {
-    return `Ok desu~`
+    return `Done!`
 }
 
 exports.wrongFormat = () => {
-    return `Incorrect format! Please check the usage in *${prefix}menu*.`
+    return `Incorrect format! Please check usage at *${prefix}menu*`
 }
 
 exports.emptyMess = () => {
@@ -22,15 +22,11 @@ exports.cmdNotFound = (cmd) => {
 }
 
 exports.blocked = (ownerNumber) => {
-    return `Bot not receiving calls. You have been blocked because breaking the rules!\n\nContact the owner: wa.me/${ownerNumber.replace('@c.us', '')}`
+    return `The bot cannot receive calls. You have been blocked because breaking the rules!\n\nContact the owner: wa.me/${ownerNumber.replace('@c.us', '')}`
 }
 
 exports.ownerOnly = () => {
-    return `This command only Owner-sama can use!`
-}
-
-exports.doneOwner = () => {
-    return `Done, Owner-sama~`
+    return `This command can only be used by owner!`
 }
 
 exports.groupOnly = () => {
@@ -41,28 +37,8 @@ exports.adminOnly = () => {
     return `This command can only be used by group admins!`
 }
 
-exports.notNsfw = () => {
-    return `NSFW command hasn't been enabled!`
-}
-
-exports.nsfwOn = () => {
-    return `NSFW command was successfully *enabled*!`
-}
-
-exports.nsfwOff = () => {
-    return `NSFW command was successfully *disabled*!`
-}
-
-exports.nsfwAlready = () => {
-    return `NSFW command was successfully enabled before.`
-}
-
 exports.addedGroup = (chat) => {
-    return `Thank you for inviting me, members of *${chat.contact.name}*!\n\nPlease register by typing:\n*${prefix}register* name | age`
-}
-
-exports.nhFalse = () => {
-    return `Invalid code!`
+    return `Thanks for inviting me, members of *${chat.contact.name}*!\n\nPlease register by typing:\n*${prefix}register* name`
 }
 
 exports.listBlock = (blockNumber) => {
@@ -82,50 +58,35 @@ exports.notAdmin = () => {
 }
 
 exports.adminAlready = () => {
-    return `Cannot promote a user who is an admin already!`
+    return `Cannot promote user who is an admin already!`
 }
 
 exports.botNotPremium = () => {
-    return `This bot does not support premium commands. Please contact the owner of this bot.`
+    return `This bot doesn't support premium commands. Please contact the owner of this bot.`
 }
 
 exports.botNotAdmin = () => {
     return `Make the bot as admin first!`
 }
 
-exports.ytFound = (res) => {
-    return `
-*── 「 YOUTUBE 」 ──*
-
-Video has been found!
-➸ *Title*: ${res.title}
-➸ *Description*:
-${res.desc}
-➸ *Duration*: ${res.duration}
-    
-Media is being send, please wait...
-    `
-}
-
 exports.notRegistered = () => {
-    return `You haven't registered in our database!\n\nPlease register by typing:\n*${prefix}register* name | age`
+    return `You haven't registered in our database!\n\nPlease register by typing:\n*${prefix}register* name`
 }
 
-exports.registered = (name, age, userId, time, serial) => {
+exports.registered = (name, userId, time, serial) => {
     return `
 *── 「 REGISTRATION 」 ──*
     
 Your account has been created with data below:
 ➸ *Name*: ${name}
-➸ *Age*: ${age}
 ➸ *ID*: ${userId}
-➸ *Registered time*: ${time}
+➸ *Registered on*: ${time}
 ➸ *Serial*: ${serial}
     
 Note:
 Don't share your *serial* to anyone!
     
-Type *${prefix}rules* first ok~
+Type *${prefix}rules* to see the rules.
     `
 }
 
@@ -134,69 +95,11 @@ exports.registeredAlready = () => {
 }
 
 exports.received = (pushname) => {
-    return `Hello ${pushname}!\nThank you for reporting, we will work on it ASAP.`
+    return `Hello ${pushname}!\nThanks for the report, we will work on it ASAP.`
 }
 
 exports.daily = (time) => {
-    return `Sorry, but you have reached the limit using this commands.\nPlease wait *${time.hours}* hour(s) *${time.minutes}* minute(s) *${time.seconds}* second(s) more.`
-}
-
-
-exports.musiclimit = () => {
-    return `The Music size is too large!`
-}
-
-exports.videoLimit = () => {
-    return `The video size is too large!`
-}
-
-exports.joox = (result) => {
-    return `
-*── 「 JOOX 」 ──*
-
-Song has been found!
-➸ *Artist*: ${result[0].penyanyi}
-➸ *Title*: ${result[0].judul}
-➸ *Album*: ${result[0].album}
-➸ *Ext*: ${result[0].ext}
-➸ *Size*: ${result[0].filesize}
-➸ *Duration*: ${result[0].duration}
-    
-Media is being send, please wait...
-    `
-}
-
-exports.gsm = (result) => {
-    return `
-*── 「 GSMARENA 」 ──*
-
-➸ *Model*: ${result.title}
-➸ *Spesification*: ${result.spec}
-    `
-}
-
-exports.receipt = (result) => {
-    return `
-*${result.title}*
-
-${result.desc}
-
-➸ *Ingredients*: ${result.bahan}
-➸ *Steps*:
-${result.cara}
-    `
-}
-
-exports.ytResult = (urlyt, title, channel, duration, views) => {
-    return `
-*── 「 YOUTUBE 」 ──*
-
-➸ *Title*: ${title}
-➸ *Channel*: ${channel}
-➸ *Duration*: ${duration}
-➸ *Views*: ${views}
-➸ *Link*: ${urlyt}
-    `
+    return `Sorry, but you've reached your limit using this command.\nPlease wait for *${time.hours}* hour(s) *${time.minutes}* minute(s) *${time.seconds}* second(s) more.`
 }
 
 exports.profile = (username, status, premi, benet, adm, level, requiredXp, xp) => {
@@ -222,10 +125,10 @@ exports.detectorOn = (name, formattedTitle) => {
     return `
 *── 「 ANTI GROUP LINK 」 ──*
 
-Attention for all *${(name || formattedTitle)}* members.
-This group has an anti-group link detector, if one of you sending a group link then you'll be kicked immediately.
+Announcement for all *${(name || formattedTitle)}* members.
+This group has an anti-group link detector, if someone sends a group link then he'll be kicked out immediately.
 
-Thank you for your attention.
+Thanks for your attention.
 - Admin *${(name || formattedTitle)}*
     `
 }
@@ -242,10 +145,10 @@ exports.antiNsfwOn = (name, formattedTitle) => {
     return `
 *── 「 ANTI NSFW LINK 」 ──*
 
-Attention for all *${(name || formattedTitle)}* members.
-This group has an anti-NSFW link detector, if one of you sending a NSFW link then you'll be kicked immediately.
+Announcement for all *${(name || formattedTitle)}* members.
+This group has an anti-NSFW link detector, if someone sends a NSFW link then he'll be kicked out immediately.
 
-Thank you for your attention.
+Thanks for your attention.
 - Admin *${(name || formattedTitle)}*
     `
 }
@@ -262,7 +165,7 @@ exports.linkDetected = () => {
     return `
 *── 「 ANTI GROUP LINK 」 ──*
 
-You've sent a group link!
+You sent a group chat link!
 Sorry, but you have to leave...
     `
 }
@@ -337,14 +240,14 @@ exports.afkMentioned = (getReason, getTime) => {
     return `
 *── 「 AFK MODE 」 ──*
 
-Sssttt! This person in currently AFK, don't bother!
+Ssshhh! This person is currently AFK!
 ➸ *Reason*: ${getReason}
 ➸ *Since*: ${getTime}
     `
 }
 
 exports.afkDone = (pushname) => {
-    return `*${pushname}* is back from AFK, welcome~`
+    return `*${pushname}* is back from AFK!`
 }
 
 exports.gcMute = () => {
@@ -367,39 +270,12 @@ exports.notNum = (q) => {
     return `"${q}", are not a numbers!`
 }
 
-exports.playstore = (app_id, title, developer, description, price, free) => {
-    return `
-*── 「 PLAY STORE 」 ──*
-    
-➸ *Name*: ${title}
-➸ *ID*: ${app_id}
-➸ *Developer*: ${developer}
-➸ *Free*: ${free}
-➸ *Price*: ${price}
-➸ *Description*: ${description}
-    `
-}
-
-exports.shopee = (nama, harga, terjual, shop_location, description, link_product) => {
-    return `
-*── 「 SHOPEE 」 ──*
-
-➸ *Name*: ${nama}
-➸ *Price*: ${harga}
-➸ *Sold*: ${terjual}
-➸ *Location*: ${shop_location}
-➸ *Product link*: ${link_product}
-➸ *Description*: ${description}
-    `
-}
-
-exports.registeredFound = (name, age, time, serial, userId) => {
+exports.registeredFound = (name, time, serial, userId) => {
     return `
 *── 「 REGISTERED 」 ──* 
 
 Account has been found!
 ➸ *Name*: ${name}
-➸ *Age*: ${age}
 ➸ *ID*: ${userId}
 ➸ *Registered time*: ${time}
 ➸ *Serial*: ${serial}
@@ -408,18 +284,6 @@ Account has been found!
 
 exports.registeredNotFound = (serial) => {
     return `Account with serial: *${serial}* not found!`
-}
-
-exports.ytPlay = (result) => {
-    return `
-*── 「 PLAY 」 ──*
-
-➸ *Title*: ${result.title}
-➸ *Duration*: ${result.duration}
-➸ *Link*: ${result.url}
-
-Media is being send, please wait...
-    `
 }
 
 exports.pcOnly = () => {
@@ -435,33 +299,8 @@ Sorry, but you have to leave...
     `
 }
 
-exports.ageOld = () => {
-    return `You're too old for using this feature! Please go back to your youth to be able to using this feature.`
-}
-
-exports.menuText = () => {
-    return `
-╔══❉ *𝐓𝐞𝐱𝐭 𝐌𝐚𝐤𝐞𝐫 (VF)* ❉═══
-║
-║ For spaces, use *+*
-║ Example: ${prefix}text1 neon good+morning
-║
-╟⊱ *${prefix}text1 burnpaper* _text_
-╟⊱ *${prefix}text1 candlemug* _text_
-╟⊱ *${prefix}text1 lovemsg* _text_
-╟⊱ *${prefix}text1 mugflower* _text_
-╟⊱ *${prefix}text1 narutobanner* _text_
-╟⊱ *${prefix}text1 paperonglass* _text_
-╟⊱ *${prefix}text1 romancetext* _text_
-╟⊱ *${prefix}text1 shadowtext* _text_
-╟⊱ *${prefix}text1 tiktokeffect* _text_
-║
-╚══❉ *BocchiBot* ❉════
-    `
-}
-
 exports.fakeLink = () => {
-    return `Ow, this link looks kinda suspicious, for the security of the members of this group I'm gonna kick you.\nBye~.`
+    return `The link you sent is suspicious, for the safety of the group I will kick you out.\nBye~.`
 }
 
 exports.muteChatOn = () => {
@@ -476,78 +315,13 @@ exports.muteChatOnAlready = () => {
     return `Bot is already muted in this group!`
 }
 
-exports.randomQuran = (ranquran) => {
-    return `
-*── 「 AL-QUR'AN 」 ──*
-
-*Surah name*: ${ranquran.data.result.nama} / ${ranquran.data.result.asma}
-*Meaning*: ${ranquran.data.result.arti}
-*Number*: ${ranquran.data.result.nomor}
-*Description*: ${ranquran.data.result.keterangan}
-*Audio link*: ${ranquran.data.result.audio}
-    `
-}
-
-exports.hadis = () => {
-    return `
-*── 「 HADIS 」 ──*
-
-List of hadees:
-1. Bukhari hadees has 6638 hadees
-    _usage_: ${prefix}hadees bukhari 1
-2. Muslim hadees has 4930 hadees
-    _usage_: ${prefix}hadees muslim 25
-3. Tirmidzi hadees has 3625 hadees
-    _usage_: ${prefix}hadees tirmidzi 10
-4. Nasai hadees has 5364 hadees
-    _usage_: ${prefix}hadees nasai 6
-5. Ahmad hadees 4305 hadees
-    _usage_: ${prefix}hadees ahmad 5
-6. Abu Daud hadees 4419 hadees
-    _usage_: ${prefix}hadees abudaud 45
-7. Malik hadees 1587 hadees
-    _usage_: ${prefix}hadees malik 45
-8. Ibnu Majah hadees 4285 hadees
-    _usage_: ${prefix}hadees ibnumajah 8
-9. Darimi hadees 2949 hadees
-    _usage_: ${prefix}hadees darimi 3
-    `
-}
-
 exports.limit = () => {
     return `
 *── 「 LIMIT 」 ──*
 
 You ran out of usage limit! Please do the following:
-❏ *_Wait until 12:00 AM (GMT+7)_*
+❏ *_Wait until 12:00 AM (UTC+7)_*
     `
-}
-
-exports.asmaulHusna = (assna) => {
-    return `
-*── 「 ASMAUL HUSNA 」 ──*
-
-*${assna.name}*
-❏ *Number*: ${assna.number}
-❏ *Transliteration*: ${assna.transliteration}
-❏ *English*: ${assna.en.meaning}
-    `
-}
-
-exports.stickerDel = () => {
-    return `Sticker has been deleted from database!`
-}
-
-exports.stickerAdd = () => {
-    return `Sticker has been added to database!`
-}
-
-exports.stickerAddAlready = (q) => {
-    return `Sticker with keyword "${q}" is already in database!`
-}
-
-exports.stickerNotFound = () => {
-    return `Sticker not found!`
 }
 
 exports.reminderOn = (messRemind, parsedTime, sender) => {
@@ -556,7 +330,7 @@ exports.reminderOn = (messRemind, parsedTime, sender) => {
     
 Reminder has been set!
 ➸ *Message*: ${messRemind}
-➸ *Duration*: ${parsedTime.hours} jam ${parsedTime.minutes} menit ${parsedTime.seconds} detik
+➸ *Duration*: ${parsedTime.hours} hour(s) ${parsedTime.minutes} minute(s) ${parsedTime.seconds} second(s)
 ➸ *For*: @${sender.id.replace('@c.us', '')}
     `
 }
@@ -587,8 +361,6 @@ exports.menu = (jumlahUser, level, xp, role, pushname, requiredXp, premium) => {
 
 Total registered: *${jumlahUser}*
 
-The following menus are available:
-
 *[1]* Downloader
 *[2]* Bot
 *[3]* Misc
@@ -596,15 +368,13 @@ The following menus are available:
 *[5]* Weeaboo
 *[6]* Fun
 *[7]* Moderation
-*[8]* NSFW
-*[9]* Owner
-*[10]* Leveling
+*[8]* Owner
+*[9]* Leveling
 
 Type *${prefix}menu* index_number to open the selected page menu.
 
 Note:
-Treat the bot well, dev will act firmly if the user violates the rules.
-This bot has anti-spam in the form of a cooldown command for *5 seconds* every time you use it.
+The bot has a cooldown for *5 seconds* every time you use it.
     `
 }
 
@@ -612,60 +382,10 @@ exports.menuDownloader = () => {
     return `
 *── 「 DOWNLOADER 」 ──*
 
-1. *${prefix}facebook*
-Download Facebook video.
-Aliases: *fb*
-Usage: *${prefix}facebook* video_link
-
-2. *${prefix}ytmp3*
-Download YouTube audio.
-Aliases: -
-Usage: *${prefix}ytmp3* link
-
-3. *${prefix}ytmp4*
-Download YouTube video.
-Aliases: -
-Usage: *${prefix}ytmp4* link
-
-4. *${prefix}joox*
-Download music from Joox.
-Aliases: -
-Usage: *${prefix}joox* song's_title
-
-5. *${prefix}tiktok*
-Downlaod TikTok video.
-Aliases: -
-Usage: *${prefix}tiktok* link
-
-6. *${prefix}twitter*
+1. *${prefix}twitter*
 Download Twitter media.
 Aliases: *twt*
 Usage: *${prefix}twiter* link
-
-7. *${prefix}tiktokpic*
-Download TikTok profile pic.
-Aliases: -
-Usage: *${prefix}tiktokpic* username
-
-8. *${prefix}tiktoknowm*
-Download TikTok video with no WM.
-Aliases: *tktnowm*
-Usage: *${prefix}tiktoknowm* link
-
-9. *${prefix}moddroid*
-Search for mod on moddroid.
-Aliases: -
-Usage: *${prefix}moddroid* APK_name
-
-10. *${prefix}happymod*
-Search for mod on happymod.
-Aliases: -
-Usage: *${prefix}happymod* APK_name
-
-11. *${prefix}linedl*
-Line sticker downloader.
-Aliases: -
-Usage: *${prefix}linedl* sticker_link
 
 _Index of [1]_
     `
@@ -681,12 +401,12 @@ Aliases: *rule*
 Usage: *${prefix}rules*
 
 2. *${prefix}menu*
-Displays available commands.
+Display available commands.
 Aliases: -
 Usage: *${prefix}menu* index_number
 
 3. *${prefix}status*
-Displays bot status.
+Display bot status.
 Aliases: *stats*
 Usage: *${prefix}status*
 
@@ -696,17 +416,17 @@ Aliases: -
 Usage: *${prefix}listblock*
 
 5. *${prefix}ping*
-Check the bot speed.
+Check bot speed.
 Aliases: *p*
 Usage: *${prefix}ping*
 
 6. *${prefix}delete*
-Delete messages from bots.
+Delete messages from bot.
 Aliases: *del*
-Usage: Reply to deleted messages with a caption *${prefix}delete*.
+Usage: Reply to deleted messages with a caption *${prefix}delete*
 
 7. *${prefix}report*
-Report bugs to dev.
+Report bugs to owner.
 Aliases: -
 Usage: *${prefix}report* text
 
@@ -716,9 +436,9 @@ Aliases: -
 Usage: *${prefix}tos*
 
 9. *${prefix}join*
-Join to group via link.
+Join a group via link.
 Aliases: -
-Usage: *${prefix}join* group's_link
+Usage: *${prefix}join* group_link
 
 10. *${prefix}ownerbot*
 Send owner contact.
@@ -731,19 +451,29 @@ Aliases: -
 Usage: *${prefix}getpic* @user/62812xxxxxxxx
 
 12. *${prefix}premiumcheck*
-Premium active time check.
+Check your remaining premium time limit.
 Aliases: *cekpremium*
 Usage: *${prefix}premiumcheck*
 
 13. *${prefix}premiumlist*
-Premium users list.
+Premium user list.
 Aliases: *listpremium*
 Usage: *${prefix}premiumlist*
 
 14. *${prefix}limit*
-Check your remainings limit.
+Check your remaining limit.
 Aliases: -
 Usage: *${prefix}limit*
+
+15. *${prefix}serial*
+Check your bio using serial.
+Aliases: -
+Usage: *${prefix}serial* serial
+
+16. *${prefix}runtime*
+Check your host runtime.
+Aliases: -
+Usage: *${prefix}runtime*
 
 _Index of [2]_
     `
@@ -758,67 +488,17 @@ The bot will repeat your message.
 Aliases: -
 Usage: *${prefix}say* text
 
-2. *${prefix}lyric*
-Search for song lyrics.
-Aliases: -
-Usage: *${prefix}lyric* song's_title
-
-3. *${prefix}shortlink*
-Create a shortlink.
-Aliases: -
-Usage: *${prefix}shortlink* link
-
-4. *${prefix}wikien*
-Send Wikipedia from the given text.
-Aliases: -
-Usage: *${prefix}wikien* query
-
-5. *${prefix}kbbi*
-Send word definitions from KBBI.
-Aliases: -
-Usage: *${prefix}kbbi* text
-
-6. *${prefix}igstalk*
-Stalk Instagram account.
-Aliases: -
-Usage: *${prefix}igstalk* ig_username
-
-7. *${prefix}gsmarena*
-Sending phone info from GSMArena.
-Aliases: -
-Usage: *${prefix}gsmarena* phone's_model
-
-8. *${prefix}receipt*
-Sending food receipt.
-Aliases: *resep*
-Usage: *${prefix}receipt* food's_name
-
-9. *${prefix}ytsearch*
-Sending YouTube search results.
-Aliases: *yts*
-Usage: *${prefix}ytsearch* query
-
-10. *${prefix}tts*
-Create a Text to Speech. You need a language code, you can find it here https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+2. *${prefix}tts*
+Create a text to speech audio. You can find language code here https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 Aliases: -
 Usage: *${prefix}tts* language_code | text
 
-11. *${prefix}afk*
-Set your account to AFK mode, I will them who mentioned you.
+3. *${prefix}afk*
+Set your account to AFK mode.
 Aliases: -
 Usage: *${prefix}afk* reason. Send any message to group to disable.
 
-12. *${prefix}distance*
-Sending city distance information.
-Aliases: -
-Usage: *${prefix}distance* from | to
-
-13. *${prefix}findsticker*
-Search sticker.
-Aliases: *findstiker*
-Usage: *${prefix}findsticker* text
-
-14. *${prefix}math*
+4. *${prefix}math*
 A calculator.
 * = multiplication
 + = addition
@@ -827,77 +507,7 @@ A calculator.
 Aliases: -
 Usage: *${prefix}math* 12*12
 
-15. *${prefix}listsurah*
-Sending Al-Qur'an list.
-Aliases: -
-Usage: *${prefix}listsurah*
-
-16. *${prefix}surah*
-Sending surah.
-Aliases: -
-Usage: *${prefix}surah* surah_number
-
-17. *${prefix}js*
-Get sholat schedule.
-Aliases: - 
-Usage: *${prefix}js* area
-
-18. *${prefix}mutual*
-Get random contact.
-Aliases: -
-Usage: *${prefix}mutual*
-
-19. *${prefix}whois*
-IP look-up.
-Aliases: -
-Usage: *${prefix}whois* ip_address
-
-20. *${prefix}play*
-Play audio from YouTube.
-Aliases: - 
-Usage: *${prefix}play* title
-
-21. *${prefix}sms*
-Send SMS as anonymous. (SMS gateway)
-Aliases: -
-Usage: *${prefix}sms* message | number
-
-22. *${prefix}toxic*
-Random toxic. (Indonesian)
-Aliases: -
-Usage: *${prefix}toxic*
-
-23. *${prefix}tafsir*
-Al-Qur'an tafsir. (Indonesian)
-Aliases: -
-Usage: *${prefix}tafsir* surah_name ayat
-
-24. *${prefix}motivasi*
-Motivation text. (Indonesian)
-Aliases: -
-Usage: *${prefix}motivasi*
-
-25. *${prefix}linesticker*
-Latest Line sticker.
-Aliases: *linestiker*
-Usage: *${prefix}linesticker*
-
-26. *${prefix}alkitab*
-Bible search. (Indonesian)
-Aliases: -
-Usage: *${prefix}* gospel_name
-
-27. *${prefix}cekongkir*
-Postal fee check. (Indonesian)
-Aliases: -
-Usage: *${prefix}ongkir* service_name | from | to
-
-28. *${prefix}movie*
-Search for movies.
-Aliases: -
-Usage: *${prefix}movie* title
-
-28. *${prefix}reminder*
+5. *${prefix}reminder*
 Reminder. 
 *s* - seconds
 *m* - minutes
@@ -906,115 +516,45 @@ Reminder.
 Aliases: -
 Usage: *${prefix}reminder* 10s | reminder_message
 
-29. *${prefix}imagetourl*
+6. *${prefix}imagetourl*
 Image uploader.
 Aliases: *imgtourl*
-Usage: Send images with caption *${prefix}imagetourl* or reply to the image with a caption *${prefix}imagetourl*.
+Usage: Send images with caption *${prefix}imagetourl* or reply to the image with a caption *${prefix}imagetourl*
 
-30. *${prefix}infohoax*
-Hoax info update.
-Aliases: -
-Usage: *${prefix}infohoax*
-
-31. *${prefix}trending*
-Twitter trendings.
-Aliases: -
-Usage: *${prefix}trending*
-
-32. *${prefix}jobseek*
-Job seeker in Indonesia only.
-Aliases: -
-Usage: *${prefix}jobseek*
-
-33. *${prefix}spamcall*
-Spam call.
-Aliases: -
-Usage: *${prefix}spamcall* 812xxxxxxxx
-
-34. *${prefix}spamsms*
-Spam SMS.
-Aliases: -
-Usage: *${prefix}spamsms* 0812xxxxxxxx amount
-
-35. *${prefix}email*
-Send an email.
-Aliases: -
-Usage: *${prefix}email* email | subject | message
-
-36. *${prefix}quotes*
-Random Indonesian quotes.
-Aliases: -
-Usage: *${prefix}quotes*
-
-37. *${prefix}genshininfo*
+7. *${prefix}genshininfo*
 Genshin Impact characters info.
 Aliases: *genshin*
 Usage: *${prefix}genshininfo* chara_name
 
-38. *${prefix}translate*
+8. *${prefix}translate*
 Translate a text.
-Aliases: *trans*
+Aliases: *tl*
 Usage: *${prefix}translate* text | code_lang
 
-39. *${prefix}hadees*
-Hadees info.
-Aliases: *hadis*
-Usage: *${prefix}hadees* hadees_name | hadees_number
-
-40. *${prefix}asmaulhusna*
-Asmaul husna.
-Aliases: -
-Usage: *${prefix}asmaulhusna* asmaulhusna_number
-
-41. *${prefix}randomquran*
-Random Al-Qur'an surah.
-Aliases: -
-Usage: *${prefix}randomquran*
-
-42. *${prefix}coronavirus*
-Check a COVID-19 cases.
-Aliases: *corona*
-Usage: *${prefix}coronavirus* nation_name
-
-43. *${prefix}tomp3*
+9. *${prefix}tomp3*
 Convert a video to audio only (MP3).
 Aliases: -
-Usage: Send a video with caption *${prefix}tomp3* or reply video with a caption *${prefix}tomp3*.
+Usage: Send a video with caption *${prefix}tomp3* or reply video with a caption *${prefix}tomp3*
 
-44. *${prefix}ttp*
-Text to sticker.
-Aliases: -
-UsageL *${prefix}ttp* text
-
-45. *${prefix}bass*
+10. *${prefix}bass*
 Bass boost.
 Aliases: -
 Usage: Reply audio/voice with caption *${prefix}bass* dB_level.
 
-46. *${prefix}addsticker*
-Add sticker to database.
-Aliases: *addstiker*
-Usage: Reply sticker with caption *${prefix}addsticker* sticker_keyword.
-
-47. *${prefix}delsticker*
-Delete sticker from database.
-Aliases: *delstiker*
-Usage: *${prefix}delstiker* sticker_keyword
-
-48. *${prefix}stickerlist*
-List of added stickers.
-Aliases: *liststicker stikerlist liststiker*
-Usage: *${prefix}stickerlist*
-
-49. *${prefix}nightcore*
+11. *${prefix}nightcore*
 Create a nightcore effect.
 Aliases: -
-Usage: Reply audio/voice with caption *${prefix}nightcore*.
+Usage: Reply audio/voice with caption *${prefix}nightcore*
 
-50. *${prefix}ocr*
-Scan text from image.
-Aliases: -
-Usage: Send images with caption *${prefix}ocr* or reply to the images/stickers with a caption *${prefix}ocr*.
+12. *${prefix}google*
+Search through Google.
+Aliases: *googlesearch*
+Usage: *${prefix}google* query
+
+13. *${prefix}toptt*
+Create PTT audio.
+Aliases: *ptt*
+Usage: Reply audio/voice with caption *${prefix}toptt*
 
 _Index of [3]_
     `
@@ -1027,42 +567,37 @@ exports.menuSticker = () => {
 1. *${prefix}sticker*
 Create stickers from images sent or replied.
 Aliases: *stiker*
-Usage: Send images with caption *${prefix}sticker* or reply to the images with a caption *${prefix}sticker*.
+Usage: Send images with caption *${prefix}sticker* or reply to the images with a caption *${prefix}sticker*
 
 2. *${prefix}stickergif*
 Create stickers from videos/GIFs.
-Aliases: *stikergif*
-Usage: Send videos/GIFs with caption *${prefix}stickergif* or reply to the videos/GIFs with a caption *${prefix}stickergif*.
+Aliases: *stikergif* *sgif*
+Usage: Send videos/GIFs with caption *${prefix}stickergif* or reply to the videos/GIFs with a caption *${prefix}stickergif*
 
-3. *${prefix}ttg*
-Create text to GIF stickers.
-Aliases: -
-Usage: *${prefix}ttg* text
-
-4. *${prefix}stickertoimg*
+3. *${prefix}stickertoimg*
 Convert sticker to image.
-Aliases: *stikertoimg*
-Usage: Reply to the stickers with a caption *${prefix}stickertoimg*.
+Aliases: *stikertoimg* *toimg*
+Usage: Reply to the stickers with a caption *${prefix}stickertoimg*
 
-5. *${prefix}emojisticker*
-Convert emoji to sticker.
-Aliases: *emojistiker*
-Usage: *${prefix}emojisticker* emoji
-
-6. *${prefix}stickerwm*
+4. *${prefix}stickerwm*
 Create a sticker with metadata/WM.
 Aliases: *stcwm*
-Usage: Send images with caption *${prefix}stickerwm* pack_name | author_name or reply to the image with a caption *${prefix}stickerwm* pack_name | author_name.
+Usage: Send images with caption *${prefix}stickerwm* pack_name | author_name or reply to the image with a caption *${prefix}stickerwm* pack_name | author_name
 
-7. *${prefix}stickermeme*
+5. *${prefix}stickermeme*
 Create a sticker meme.
 Aliases: *stcmeme*
-Usage: Send images with caption *${prefix}sticker* upper_text | bottom_text or reply to the images with a caption *${prefix}sticker* upper_text | bottom_text.
+Usage: Send images with caption *${prefix}sticker* upper_text | bottom_text or reply to the images with a caption *${prefix}sticker* upper_text | bottom_text
 
-8. *${prefix}takestick*
+6. *${prefix}takestick*
 Edit sticker metadata.
-Aliases: -
+Aliases: *take*
 Usage: Reply to the stickers with a caption *${prefix}takestick* pack_name | author_name
+
+7. *${prefix}stickernobg*
+Create stickers from images sent or replied with blank background.
+Aliases: *take*
+Usage: Send images with caption *${prefix}sticker* or reply to the images with a caption *${prefix}sticker*
 
 _Index of [4]_
     `
@@ -1087,55 +622,20 @@ Send kemonomimi girl photos.
 Aliases: -
 Usage: *${prefix}kemono*
 
-4. *${prefix}kusonime*
-Look for anime info and batch download links on Kusonime.
-Aliases: -
-Usage: *${prefix}kusonime* anime's_title
-
-5. *${prefix}komiku*
-Looking for manga info and download links on Komiku.
-Aliases: -
-Usage: *${prefix}komiku* manga's_title
-
-6. *${prefix}wait*
+4. *${prefix}wait*
 Search anime source from the screenshots scene.
 Aliases: -
-Usage: Send screenshots with caption *${prefix}wait* or reply to the screenshots with a caption *${prefix}wait*.
+Usage: Send screenshots with caption *${prefix}wait* or reply to the screenshots with a caption *${prefix}wait*
 
-7. *${prefix}source*
+5. *${prefix}source*
 Look for sources from the doujin panel, illustrations, and images related to anime.
 Aliases: *sauce*
-Usage: Send images with caption *${prefix}source* or reply to the images with a caption *${prefix}source*.
+Usage: Send images with caption *${prefix}source* or reply to the images with a caption *${prefix}source*
 
-8. *${prefix}waifu*
+6. *${prefix}waifu*
 Send random waifu photos.
 Aliases: -
 Usage: *${prefix}waifu*
-
-9. *${prefix}anitoki*
-Anitoki fansub latest update.
-Aliases: -
-Usage: *${prefix}anitoki*
-
-10. *${prefix}neonime*
-Neonime fansub latest update.
-Aliases: -
-Usage: *${prefix}neonime*
-
-11. *${prefix}anoboy*
-On-going anime on Anoboy fansub.
-Aliases: -
-Usage: *${prefix}anoboy*
-
-12. *${prefix}character*
-Find Character from anime.
-Alias: -
-Usage: *${prefix}character* name_character
-
-13. *${prefix}lolivid*
-Random loli video.
-Aliases: -
-Usage: *${prefix}lolivid
 
 _Index of [5]_
     `
@@ -1145,140 +645,30 @@ exports.menuFun = () => {
     return `
 *── 「 FUN 」 ──*
 
-1. *${prefix}hartatahta*
-Make a picture of the "Harta Tahta Nama".
-Aliases: -
-Usage: *${prefix}hartatahta* name
-
-2. *${prefix}partner*
-Weton match. (Indonesian)
-Aliases: *pasangan*
-Usage: *${prefix}partner* name | partner
-
-3. *${prefix}zodiac*
-Weekly zodiac fortune. (Indonesian)
-Aliases: *zodiak*
-Usage: *${prefix}zodiac* zodiac
-
-4. *${prefix}write*
-Make notes written in a book.
-Aliases: *nulis*
-Usage: *${prefix}write* text
-
-5. *${prefix}glitchtext*
-Create a glitch styled text.
-Aliases: *glitext*
-Usage: *${prefix}glitchtext* text1 | text2
-
-6. *${prefix}simi*
-SimiSimi chat. (Indonesian)
-Aliases: -
-Usage: *${prefix}simi* text
-
-7. *${prefix}blackpink*
-Create a Blackpink logo styled text.
-Aliases: -
-Usage: *${prefix}blackpink* text
-
-8. *${prefix}phmaker*
-Create a Pornhub logo styled text.
-Aliases: -
-Usage: *${prefix}phmaker* left_text | right_text
-
-9. *${prefix}galaxy*
-Create a galaxy styled text.
-Aliases: -
-Usage: *${prefix}galaxy* text
-
-10. *${prefix}tod*
-Play truth or dare. (Indonesian)
-Aliases: -
-Usage: *${prefix}tod*
-
-11. *${prefix}weton*
-Weton fortune. (Indonesian)
-Aliases: -
-Usage: *${prefix}weton* date | month | year
-
-12. *${prefix}triggered*
+1. *${prefix}triggered*
 Apply a triggered effect to image.
 Aliases: -
-Usage: Send image with caption *${prefix}triggered* or reply to someone message with caption *${prefix}triggered* or you can directly use *${prefix}triggered*.
+Usage: Send image with caption *${prefix}triggered* or reply to someone message with caption *${prefix}triggered* or you can directly use *${prefix}triggered*
 
-13. *${prefix}kiss*
+2. *${prefix}kiss*
 Kiss someone ( ͡° ͜ʖ ͡°).
 Aliases: -
-Usage: Send image with caption *${prefix}kiss* or reply image with caption *${prefix}kiss*.
+Usage: Send image with caption *${prefix}kiss* or reply image with caption *${prefix}kiss*
 
-14. *${prefix}asupan*
-Daily dose of TikTok.
+3. *${prefix}profile*
+Create a triggered effect.
+Aliases: *me*
+Usage: *${prefix}profile*
+
+4. *${prefix}trash*
+Trash?
 Aliases: -
-Usage: *${prefix}asupan*
+Usage: *${prefix}trash*
 
-15. *${prefix}citacita*
-Cita-cita meme. (Indonesian)
+5. *${prefix}hitler*
+Worse than hitler
 Aliases: -
-Usage: *${prefix}citacita*
-
-16. *${prefix}phcomment*
-Create a Pornhub comment section styled image.
-Aliases: -
-Usage: *${prefix}phcomment* username | text
-
-17. *${prefix}ffbanner*
-Create a Free Fire banner.
-Aliases: -
-Usage: *${prefix}ffbanner* text1 | text2
-
-18. *${prefix}fflogo*
-Create a Free Fire characters logo.
-Aliases: -
-Usage: *${prefix}fflogo* text1 | text2
-
-19. *${prefix}neontext*
-Create a neon text image
-Aliases: *neon*
-Usage: *${prefix}neontext* up | center | bottom
-
-20. *${prefix}firemaker*
-Create a fire text.
-Aliases: -
-Usage: *${prefix}firemaker* text
-
-21. *${prefix}mlmaker*
-Create ML hero image with text.
-Aliases: -
-Usage: *${prefix}mlmaker* hero_name | text
-
-22. *${prefix}balloonmaker*
-Create a couple balloon image.
-Aliases: *blmaker*
-Usage: *${prefix}balloonmaker* name1 | name2
-
-23. *${prefix}sliding*
-Create a sliding text.
-Aliases: -
-Usage: *${prefix}sliding* text
-
-24. *${prefix}wasted*
-Create a wasted effect.
-Aliases: -
-Usage: Send image with caption *${prefix}wasted* or reply image with caption *${prefix}wasted*.
-
-25. *${prefix}caklontong*
-Cak Lontong quiz.
-Aliases: -
-Usage: *${prefix}caklontong*
-
-26. *${prefix}hilih*
-Hilih-ify your text.
-Aliases: -
-Usage: *${prefix}hilih* text.
-
-27. *${prefix}tebakgambar*
-Tebak Gambar quiz.
-Aliases: -
-Usage: *${prefix}tebakgambar*
+Usage: *${prefix}hitler*
 
 _Index of [6]_
     `
@@ -1318,135 +708,52 @@ Mention all group members.
 Aliases: -
 Usage: *${prefix}everyone*
 
-7. *${prefix}nsfw*
-Toogle NSFW mode.
-Aliases: -
-Usage: *${prefix}nsfw* enable/disable
-
-8. *${prefix}groupicon*
+7. *${prefix}groupicon*
 Change group icon.
 Aliases: -
-Usage: Send images with caption *${prefix}groupicon* or reply to the images with a caption *${prefix}groupicon*.
+Usage: Send images with caption *${prefix}groupicon* or reply to the images with a caption *${prefix}groupicon*
 
-9. *${prefix}antilink*
+8. *${prefix}antilink*
 Toogle anti-group link feature.
 Aliases: -
 Usage: *${prefix}antilink* enable/disable
 
-10. *${prefix}welcome*
+9. *${prefix}welcome*
 Toogle welcome feature.
 Aliases: -
 Usage: *${prefix}welcome* enable/disable
 
-11. *${prefix}autosticker*
+10. *${prefix}autosticker*
 Toogle auto-sticker feature. Every sended image will made into a sticker.
 Aliases: *autostiker autostik*
 Usage: *${prefix}autostiker* enable/disable
 
-12. *${prefix}antinsfw*
+11. *${prefix}antinsfw*
 Toogle anti-NSFW link.
 Aliases: -
 Usage: *${prefix}antinsfw* enable/disable
 
-13. *${prefix}mutegc*
+12. *${prefix}mutegc*
 Set group to admin only who can send a message.
 Aliases: -
 Usage: *${prefix}mutegc* enable/disable
 
-14. *${prefix}grouplink*
+13. *${prefix}grouplink*
 Send a invite link of current group.
 Aliases: -
 Usage: *${prefix}grouplink*
 
-15. *${prefix}revoke*
+14. *${prefix}revoke*
 Revoke invite link of current group.
 Aliases: -
 Usage: *${prefix}revoke*
 
+15. *${prefix}leveling*
+Toogle leveling feature.
+Aliases: -
+Usage: *${prefix}leveling* enable/disable
+
 _Index of [7]_
-    `
-}
-
-exports.menuNsfw = () => {
-    return `
-*── 「 NSFW 」 ──*
-
-1. *${prefix}lewds*
-Send lewd anime pict.
-Aliases: *lewd*
-Usage: *${prefix}lewds*
-
-2. *${prefix}multilewds*
-Send up to 5 anime lewd pics. (PREMIUM ONLY)
-Aliases: *multilewds multilewd mlewd mlewds*
-Usage: *${prefix}multilewds*
-
-3. *${prefix}nhentai*
-Sending doujinshi info from nHentai.
-Aliases: *nh*
-Usage: *${prefix}nhentai* code
-
-4. *${prefix}nhdl*
-Download doujin from nHentai as a PDF file. (PREMIUM ONLY)
-Aliases: -
-Usage: *${prefix}nhdl* code
-
-5. *${prefix}nekopoi*
-Send the latest video link Nekopoi.
-Aliases: -
-Usage: *${prefix}nekopoi*
-
-6. *${prefix}multifetish*
-Send up to 5 fetish pics. (PREMIUM ONLY)
-Aliases: *mfetish*
-Usage: *${prefix}multifetish* armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao
-
-7. *${prefix}waifu18*
-Send random NSFW waifu photos.
-Aliases: -
-Usage: *${prefix}waifu18*
-
-8. *${prefix}fetish*
-Send fetish pics.
-Aliases: -
-Usage: *${prefix}fetish* armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao
-
-9. *${prefix}phdl*
-Download videos from Pornhub.
-Aliases: -
-Usage *${prefix}phdl* link
-
-10. *${prefix}yuri*
-Send random yuri pics.
-Aliases: -
-Usage: *${prefix}yuri*
-
-11. *${prefix}lewdavatar*
-Send random lewd avatars.
-Aliases: -
-Usage: *${prefix}lewdavatar*
-
-12. *${prefix}femdom*
-Send random femdom pics.
-Aliases: -
-Usage: *${prefix}femdom*
-
-13. *${prefix}nhsearch*
-nHentai search.
-Aliases: -
-Usage: *${prefix}nhsearch* query
-
-14. *${prefix}nekosearch*
-Nekopoi search.
-Aliases: -
-Usage: *${prefix}nekosearch* query
-
-15. *${prefix}cersex*
-Random adult stories (Indonesian).
-Aliases: -
-Usage: *${prefix}cersex*
-
-_Index of [8]_
     `
 }
 
@@ -1583,13 +890,8 @@ https://github.com/SlavyanDesu/BocchiBot
 
 Contact person:
 wa.me/${ownerNumber.replace('@c.us', '')} (Owner/hoster)
-wa.me/6281294958473 (Developer)
 
-You guys can also support me to keep this bot up to date with:
-081294958473 (OVO/Telkomsel/GoPay)
-
-Thank you!
-
-Slavyan.
+Regards,
+Slavyan
     `
 }

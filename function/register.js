@@ -4,13 +4,12 @@ const fs = require('fs-extra')
  * Add user to database.
  * @param {string} userId 
  * @param {string} name 
- * @param {string|number} age 
  * @param {string} time 
  * @param {string} serial 
  * @param {object} _dir 
  */
-const addRegisteredUser = (userId, name, age, time, serial, _dir) => {
-    const obj = { id: userId, name: name, age: age, time: time, serial: serial }
+const addRegisteredUser = (userId, name, time, serial, _dir) => {
+    const obj = { id: userId, name: name, time: time, serial: serial }
     _dir.push(obj)
     fs.writeFileSync('./database/bot/registered.json', JSON.stringify(_dir))
 }
@@ -84,24 +83,6 @@ const getRegisteredNameFromSerial = (serial, _dir) => {
 }
 
 /**
- * Check user age from serial.
- * @param {string} serial 
- * @param {object} _dir 
- * @returns {number}
- */
-const getRegisteredAgeFromSerial = (serial, _dir) => {
-    let position = null
-    Object.keys(_dir).forEach((i) => {
-        if (_dir[i].serial === serial) {
-            position = i
-        }
-    })
-    if (position !== null) {
-        return _dir[position].age
-    }
-}
-
-/**
  * Check user time registration from serial.
  * @param {string} serial 
  * @param {object} _dir 
@@ -151,7 +132,6 @@ module.exports = {
     checkRegisteredUser,
     checkRegisteredUserFromSerial,
     getRegisteredNameFromSerial,
-    getRegisteredAgeFromSerial,
     getRegisteredTimeFromSerial,
     getRegisteredIdFromSerial,
     getRegisteredRandomId,

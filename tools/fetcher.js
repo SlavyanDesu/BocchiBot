@@ -55,12 +55,11 @@ const fetchBuffer = (url, options) => {
  * @returns {Promise<string>}
  */
 const uploadImages = (buffData, fileName) => {
-    return new Promise(async (resolve, reject) => {
-        const { ext } = await fromBuffer(buffData)
+    return new Promise((resolve, reject) => {
+        const { ext } = fromBuffer(buffData)
         const filePath = `temp/${fileName}.${ext}`
         fs.writeFile(filePath, buffData, { encoding: 'base64' }, (err) => {
             if (err) reject(err)
-            console.log('Uploading image to telegra.ph server...')
             const fileData = fs.readFileSync(filePath)
             const form = new FormData()
             form.append('file', fileData, `${fileName}.${ext}`)

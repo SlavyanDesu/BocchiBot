@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const chalk = require('chalk')
 const crypto = require('crypto')
 const moment = require('moment-timezone')
@@ -41,27 +42,27 @@ const processTime = (timestamp, now) => {
 }
 
 const chromeArgs = [
-		"--aggressive-cache-discard",
-		"--aggressive-tab-discard",
-		"--disable-accelerated-2d-canvas",
-		"--disable-application-cache",
-		"--disable-cache",
-		"--disable-dev-shm-usage",
-		"--disable-gpu",
-		"--disable-offline-load-stale-cache",
-		"--disable-setuid-sandbox",
-		"--disable-setuid-sandbox",
-		"--disk-cache-size=0",
-		"--ignore-certificate-errors",
-		"--no-first-run",
-		"--no-sandbox",
-		"--no-zygote"
+		'--aggressive-cache-discard',
+		'--aggressive-tab-discard',
+		'--disable-accelerated-2d-canvas',
+		'--disable-application-cache',
+		'--disable-cache',
+		'--disable-dev-shm-usage',
+		'--disable-gpu',
+		'--disable-offline-load-stale-cache',
+		'--disable-setuid-sandbox',
+		'--disable-setuid-sandbox',
+		'--disk-cache-size=0',
+		'--ignore-certificate-errors',
+		'--no-first-run',
+		'--no-sandbox',
+		'--no-zygote'
 	]
 
 /**
  * Client options.
  * @param {Function} start 
- * @returns {object}
+ * @returns {options}
  */
 const options = (start) => {
     const options = {
@@ -71,13 +72,11 @@ const options = (start) => {
         authTimeout: 0,
         restartOnCrash: start,
         cacheEnabled: false,
-        multiDevice: true, // change to true if you want run multidevice mode
-        licenseKey: 'YOUR-LICENSE-KEY', // If you have license key, put here your license key
+        multiDevice: true,
         useChrome: true,
         killProcessOnBrowserClose: true,
         throwErrorOnTosBlock: false,
-        disableSpins: true,
-        chromiumArgs: chromeArgs
+        // chromiumArgs: chromeArgs
     }
     return options
 }
