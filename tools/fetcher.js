@@ -1,68 +1,42 @@
-const fetch = require('node-fetch')
-const { fromBuffer } = require('file-type')
 const fs = require('fs-extra')
 const FormData = require('form-data')
+const FileType = require('file-type')
+const fetch = require('node-fetch')
 
 /**
  * Fetch JSON from URL.
- * @param {string} url 
+ * @param {string} url
  * @param {object} [options]
- * @returns {Promise<object>} 
+ * @returns {Promise<object>}
  */
 const fetchJson = (url, options) => {
-    return new Promise((resolve, reject) => {
-        return fetch(url, options)
-            .then((response) => response.json())
-            .then((json) => resolve(json))
-            .catch((err) => reject(err))
-    })
-}
-
-/**
- * Fetch text from URL.
- * @param {string} url 
- * @param {object} [options]
- * @returns {Promise<string>}
- */
-const fetchText = (url, options) => {
-    return new Promise((resolve, reject) => {
-        return fetch(url, options)
-            .then((response) => response.text())
-            .then((text) => resolve(text))
-            .catch((err) => reject(err))
-    })
-}
-
-/**
- * Get buffer from direct media.
- * @param {string} url 
- * @param {object} [options]
- * @returns {Promise<Buffer>}
- */
-const fetchBuffer = (url, options) => {
-    return new Promise((resolve, reject) => {
-        return fetch(url, options)
-            .then((response) => response.buffer())
-            .then((result) => resolve(result))
-            .catch((err) => reject(err))
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await fetch(url, options)
+            const json = await response.json()
+            return resolve(json)
+        } catch (err) {
+            return reject(err)
+        }
     })
 }
 
 /**
  * Upload images to telegra.ph server.
- * @param {Buffer} buffData 
+ * @param {Buffer} buffData
  * @param {string} fileName
  * @returns {Promise<string>}
  */
 const uploadImages = (buffData, fileName) => {
-    return new Promise((resolve, reject) => {
-        const { ext } = fromBuffer(buffData)
-        const filePath = `temp/${fileName}.${ext}`
+    return new Promise(async (resolve, reject) => {
+        const { fromBuffer } = FileType
+        const type = await fromBuffer(buffData)
+        const filePath = `temp/${fileName}.${type.ext}`
         fs.writeFile(filePath, buffData, { encoding: 'base64' }, (err) => {
             if (err) reject(err)
             const fileData = fs.readFileSync(filePath)
             const form = new FormData()
-            form.append('file', fileData, `${fileName}.${ext}`)
+            form.append('file', fileData, `${fileName}.${type.ext}`)
             fetch('https://telegra.ph/upload', {
                 method: 'POST',
                 body: form
@@ -80,7 +54,5 @@ const uploadImages = (buffData, fileName) => {
 
 module.exports = {
     fetchJson,
-    fetchText,
-    fetchBuffer,
     uploadImages
 }

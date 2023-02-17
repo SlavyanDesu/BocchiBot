@@ -51,7 +51,7 @@
 Edit the required value in `config.json`.
 ```json
 {
-    "ownerBot": "62812xxxxxxxx@c.us", 
+    "ownerBot": "62812xxxxxxxx@c.us",
     "prefix": ".",
     "nao": "SAUCENAO-API-KEY",
     "authorStick": "@SlavyanDesu",
@@ -64,6 +64,9 @@ Edit the required value in `config.json`.
 `nao`: SauceNAO API key. You can get it [here](https://saucenao.com/user.php) by creating an account.   
 `authorStick`: name of the author sticker pack.   
 `packStick`: name of the sticker pack.   
+
+## 🗣️ Changing Language
+Replace all of `eng` to `ind` for Bahasa Indonesia.
 
 ## 🛠️ Installing the FFmpeg
 * Download one of the available versions of FFmpeg by clicking [this link](https://www.gyan.dev/ffmpeg/builds/).

@@ -2,11 +2,15 @@
 const { prefix } = require('../../../config.json')
 
 exports.wait = () => {
-    return `Mohon tunggu sebentar~`
+    return `Mohon tunggu sebentar...`
 }
 
 exports.ok = () => {
-    return `Ok desu~`
+    return `Done!`
+}
+
+exports.videoLimit = () => {
+    return `Ukuran video/GIF terlalu besar!`
 }
 
 exports.wrongFormat = () => {
@@ -22,15 +26,11 @@ exports.cmdNotFound = (cmd) => {
 }
 
 exports.blocked = (ownerNumber) => {
-    return `Bot tidak menerima panggilan. Karena kamu telah melanggar rules, maka kamu telah diblok!\n\nHarap hubungi owner: wa.me/${ownerNumber.replace('@c.us', '')}`
+    return `Bot tidak menerima panggilan. Kamu diblokir karena telah melanggar rules!\n\nHubungi owner: wa.me/${ownerNumber.replace('@c.us', '')}`
 }
 
 exports.ownerOnly = () => {
-    return `Command ini khusus Owner-sama!`
-}
-
-exports.doneOwner = () => {
-    return `Sudah selesai, Owner-sama~`
+    return `Command ini hanya bisa digunakan oleh owner!`
 }
 
 exports.groupOnly = () => {
@@ -41,28 +41,8 @@ exports.adminOnly = () => {
     return `Command ini hanya bisa digunakan oleh admin grup!`
 }
 
-exports.notNsfw = () => {
-    return `Command NSFW belum diaktifkan!`
-}
-
-exports.nsfwOn = () => {
-    return `Command NSFW berhasil *diaktifkan*!`
-}
-
-exports.nsfwOff = () => {
-    return `Command NSFW berhasil *dinonaktifkan*!`
-}
-
-exports.nsfwAlready = () => {
-    return `Command NSFW sudah diaktifkan sebelumnya.`
-}
-
 exports.addedGroup = (chat) => {
-    return `Terima kasih telah mengundangku, para member *${chat.contact.name}*!\n\nSilakan register dengan cara ketik:\n*${prefix}register* nama | umur`
-}
-
-exports.nhFalse = () => {
-    return `Kode tidak valid!`
+    return `Terima kasih telah mengundangku, para member *${chat.contact.name}*!\n\nSilakan register di *private chat* dengan format:\n*${prefix}register* nama`
 }
 
 exports.listBlock = (blockNumber) => {
@@ -93,31 +73,16 @@ exports.botNotAdmin = () => {
     return `Jadikan bot sebagai admin terlebih dahulu!`
 }
 
-exports.ytFound = (res) => {
-    return `
-*── 「 YOUTUBE 」 ──*
-
-Video ditemukan!
-➸ *Judul*: ${res.title}
-➸ *Deskripsi*:
-${res.desc}
-➸ *Durasi*: ${res.duration}
-
-Media sedang dikirim, mohon tunggu...
-    `
-}
-
 exports.notRegistered = () => {
-    return `Kamu belum terdaftar di database!\n\nSilakan register dengan format:\n*${prefix}register* nama | umur`
+    return `Kamu belum terdaftar di database!\n\nSilakan register di *private chat* dengan format:\n*${prefix}register* nama`
 }
 
-exports.registered = (name, age, userId, time, serial) => {
+exports.registered = (name, userId, time, serial) => {
     return `
 *── 「 REGISTRATION 」 ──*
-    
+
 Akun kamu telah terdaftar dengan data:
 ➸ *Nama*: ${name}
-➸ *Umur*: ${age}
 ➸ *ID*: ${userId}
 ➸ *Waktu pendaftaran*: ${time}
 ➸ *Serial*: ${serial}
@@ -139,63 +104,6 @@ exports.received = (pushname) => {
 
 exports.daily = (time) => {
     return `Maaf, tetapi kamu telah mencapai limit menggunakan command ini.\nSilakan tunggu *${time.hours}* jam *${time.minutes}* menit *${time.seconds}* detik lagi.`
-}
-
-exports.musiclimit = () => {
-    return `Ukuran Music Terlalu Besar!`
-}
-
-exports.videoLimit = () => {
-    return `Ukuran video terlalu besar!`
-}
-
-exports.joox = (result) => {
-    return `
-*── 「 JOOX 」 ──*
-
-Lagu ditemukan!
-➸ *Artist*: ${result[0].penyanyi}
-➸ *Judul*: ${result[0].judul}
-➸ *Album*: ${result[0].album}
-➸ *Ext*: ${result[0].ext}
-➸ *Size*: ${result[0].filesize}
-➸ *Durasi*: ${result[0].duration}
-
-Media sedang dikirim, mohon tunggu...
-    `
-}
-
-exports.gsm = (result) => {
-    return `
-*── 「 GSMARENA 」 ──*
-
-➸ *Model HP*: ${result.title}
-➸ *Spesifikasi*: ${result.spec}
-    `
-}
-
-exports.receipt = (result) => {
-    return `
-*${result.title}*
-
-${result.desc}
-
-➸ *Bahan*: ${result.bahan}
-➸ *Langkah*:
-${result.cara}
-    `
-}
-
-exports.ytResult = (urlyt, title, channel, duration, views) => {
-    return `
-*── 「 YOUTUBE 」 ──*
-
-➸ *Judul*: ${title}
-➸ *Channel*: ${channel}
-➸ *Durasi*: ${duration}
-➸ *Views*: ${views}
-➸ *Link*: ${urlyt}
-    `
 }
 
 exports.profile = (username, status, premi, benet, adm, level, requiredXp, xp) => {
@@ -221,11 +129,20 @@ exports.detectorOn = (name, formattedTitle) => {
     return `
 *── 「 ANTI GROUP LINK 」 ──*
 
-Perhatian untuk penghuni grup *${(name || formattedTitle)}*
-Grup ini memiliki anti-group link detector, apabila ada salah satu member mengirim group link di sini maka dia akan ter-kick secara otomatis.
+Pengumuman untuk member *${(name || formattedTitle)}*.
+Grup ini memiliki group link detector, apabila ada member yang mengirim group link, maka dia akan ter-kick secara otomatis.
 
 Sekian terima kasih.
 - Admin *${(name || formattedTitle)}*
+    `
+}
+
+exports.linkDetected = () => {
+    return `
+*── 「 ANTI GROUP LINK 」 ──*
+
+Kamu mengirim link group chat!
+Maaf tapi kamu harus keluar...
     `
 }
 
@@ -241,8 +158,8 @@ exports.antiNsfwOn = (name, formattedTitle) => {
     return `
 *── 「 ANTI NSFW LINK 」 ──*
 
-Perhatian untuk penghuni grup *${(name || formattedTitle)}*
-Grup ini memiliki anti-NSFW link detector, apabila ada salah satu member mengirim link NSFW/porn di sini maka dia akan ter-kick secara otomatis.
+Pengumuman untuk member *${(name || formattedTitle)}*.
+Grup ini memiliki NSFW link detector, apabila ada member yang mengirim NSFW link, maka dia akan ter-kick secara otomatis.
 
 Sekian terima kasih.
 - Admin *${(name || formattedTitle)}*
@@ -257,13 +174,28 @@ exports.antiNsfwOnAlready = () => {
     return `Fitur anti-NSFW link telah diaktifkan sebelumnya.`
 }
 
-exports.linkDetected = () => {
+exports.antiBadWordsOn = (name, formattedTitle) => {
     return `
-*── 「 ANTI GROUP LINK 」 ──*
+*── 「 ANTI BAD WORDS 」 ──*
 
-Kamu mengirim link group chat!
-Maaf tapi kami harus mengeluarkan mu...
+Pengumuman untuk member *${(name || formattedTitle)}*.
+Grup ini memiliki bad word detector, apabila ada member yang mengirim bad word/kata kasar, maka pesannya akan segera dihapus.
+
+Sekian terima kasih.
+- Admin *${(name || formattedTitle)}*
     `
+}
+
+exports.antiBadWordsOff = () => {
+    return `Fitur anti-bad word berhasil *dinonaktifkan*!`
+}
+
+exports.antiBadWordsOnAlready = () => {
+    return `Fitur anti-bad word telah diaktifkan sebelumnya.`
+}
+
+exports.antiBadWordsError = () => {
+    return `Fitur anti-bad word belum diaktifkan!`
 }
 
 exports.levelingOn = () => {
@@ -287,7 +219,7 @@ exports.levelNull = () => {
 }
 
 exports.welcome = (event) => {
-    return `Selamat datang @${event.who.replace('@c.us', '')}!\n\nSemoga betah terus di grup kami ya~`
+    return `Selamat datang @${event.who.replace('@c.us', '')}!`
 }
 
 exports.welcomeOn = () => {
@@ -321,7 +253,7 @@ exports.autoStikOnAlready = () => {
 exports.afkOn = (pushname, reason) => {
     return `
 *── 「 AFK MODE 」 ──*
-    
+
 Fitur AFK berhasil *diaktifkan*!
 ➸ *Username*: ${pushname}
 ➸ *Alasan*: ${reason}
@@ -349,7 +281,7 @@ exports.afkDone = (pushname) => {
 exports.gcMute = () => {
     return `
 *── 「 MUTED 」 ──*
-    
+
 Hanya admin yang dapat mengirim pesan ke grup ini.
     `
 }
@@ -366,39 +298,12 @@ exports.notNum = (q) => {
     return `"${q}", bukan angka!`
 }
 
-exports.playstore = (app_id, title, developer, description, price, free) => {
+exports.registeredFound = (name, time, serial, userId) => {
     return `
-*── 「 PLAY STORE 」 ──*
-    
-➸ *Nama*: ${title}
-➸ *ID*: ${app_id}
-➸ *Developer*: ${developer}
-➸ *Gratis*: ${free}
-➸ *Harga*: ${price}
-➸ *Deskripsi*: ${description}
-    `
-}
-
-exports.shopee = (nama, harga, terjual, shop_location, description, link_product) => {
-    return `
-*── 「 SHOPEE 」 ──*
-
-➸ *Nama*: ${nama}
-➸ *Harga*: ${harga}
-➸ *Terjual*: ${terjual}
-➸ *Lokasi*: ${shop_location}
-➸ *Link produk*: ${link_product}
-➸ *Deskripsi*: ${description}
-    `
-}
-
-exports.registeredFound = (name, age, time, serial, userId) => {
-    return `
-*── 「 REGISTERED 」 ──* 
+*── 「 REGISTERED 」 ──*
 
 Akun ditemukan!
 ➸ *Nama*: ${name}
-➸ *Umur*: ${age}
 ➸ *ID*: ${userId}
 ➸ *Waktu pendaftaran*: ${time}
 ➸ *Serial*: ${serial}
@@ -407,18 +312,6 @@ Akun ditemukan!
 
 exports.registeredNotFound = (serial) => {
     return `Akun dengan serial: *${serial}* tidak ditemukan!`
-}
-
-exports.ytPlay = (result) => {
-    return `
-*── 「 PLAY 」 ──*
-
-➸ *Judul*: ${result.title}
-➸ *Durasi*: ${result.duration}
-➸ *Link*: ${result.url}
-
-Media sedang dikirim, mohon tunggu...
-    `
 }
 
 exports.pcOnly = () => {
@@ -431,31 +324,6 @@ exports.linkNsfw = () => {
 
 Kamu telah mengirim link NSFW!
 Maaf, tapi aku harus mengeluarkan mu...
-    `
-}
-
-exports.ageOld = () => {
-    return `Kamu terlalu tua untuk menggunakan fitur ini! Mohon kembali ke masa muda anda agar bisa menggunakannya.`
-}
-
-exports.menuText = () => {
-    return `
-╔══❉ *𝐓𝐞𝐱𝐭 𝐌𝐚𝐤𝐞𝐫 (VF)* ❉═══
-║
-║ Untuk spasi teks menggunakan *+*
-║ Contoh: ${prefix}text1 neon kael+bot
-║
-╟⊱ *${prefix}text1 burnpaper* _teks_
-╟⊱ *${prefix}text1 candlemug* _teks_
-╟⊱ *${prefix}text1 lovemsg* _teks_
-╟⊱ *${prefix}text1 mugflower* _teks_
-╟⊱ *${prefix}text1 narutobanner* _teks_
-╟⊱ *${prefix}text1 paperonglass* _teks_
-╟⊱ *${prefix}text1 romancetext* _teks_
-╟⊱ *${prefix}text1 shadowtext* _teks_
-╟⊱ *${prefix}text1 tiktokeffect* _teks_
-║
-╚══❉ *BocchiBot* ❉════
     `
 }
 
@@ -475,44 +343,6 @@ exports.muteChatOnAlready = () => {
     return `Mute telah diaktifkan di grup ini sebelumnya!`
 }
 
-exports.randomQuran = (ranquran) => {
-    return `
-*── 「 AL-QUR'AN 」 ──*
-
-*Nama surah*: ${ranquran.data.result.nama} / ${ranquran.data.result.asma}
-*Arti*: ${ranquran.data.result.arti}
-*Surat ke*: ${ranquran.data.result.nomor}
-*Keterangan*: ${ranquran.data.result.keterangan}
-*Link audio*: ${ranquran.data.result.audio}
-    `
-}
-
-exports.hadis = () => {
-    return `
-*── 「 HADIS 」 ──*
-
-Daftar hadis:
-1. Hadis Bukhari ada 6638 hadis
-    _usage_: ${prefix}hadis bukhari 1
-2. Hadis Muslim ada 4930 hadis
-    _usage_: ${prefix}hadis muslim 25
-3. Hadis Tirmidzi ada 3625 hadis
-    _usage_: ${prefix}hadis tirmidzi 10
-4. Hadis nasai ada 5364 hadis
-    _usage_: ${prefix}hadis nasai 6
-5. Hadis Ahmad ada 4305 hadis
-    _usage_: ${prefix}hadis ahmad 5
-6. Hadis Abu Daud ada 4419 hadis
-    _usage_: ${prefix}hadis abudaud 45
-7. Hadis Malik ada 1587 hadis
-    _usage_: ${prefix}hadis malik 45
-8. Hadis Ibnu Majah ada 4285 hadis
-    _usage_: ${prefix}hadis ibnumajah 8
-9. Hadis Darimi ada 2949 hadis
-    _usage_: ${prefix}hadis darimi 3
-    `
-}
-
 exports.limit = () => {
     return `
 *── 「 LIMIT 」 ──*
@@ -522,37 +352,10 @@ Limit penggunaan kamu telah habis! Silakan lakukan hal berikut:
     `
 }
 
-exports.asmaulHusna = (assna) => {
-    return `
-*── 「 ASMAUL HUSNA 」 ──*
-
-*${assna.name}*
-❏ *Asmaul husna ke*: ${assna.number}
-❏ *Pelafalan*: ${assna.transliteration}
-❏ *Inggris*: ${assna.en.meaning}
-    `
-}
-
-exports.stickerDel = () => {
-    return `Stiker berhasil dihapus dari database!`
-}
-
-exports.stickerAdd = () => {
-    return `Stiker berhasil ditambahkan ke database!`
-}
-
-exports.stickerAddAlready = (q) => {
-    return `Stiker dengan keyword "${q}" sudah ada di database!`
-}
-
-exports.stickerNotFound = () => {
-    return `Stiker tidak ditemukan!`
-}
-
 exports.reminderOn = (messRemind, parsedTime, sender) => {
     return `
 *── 「 REMINDER 」 ──*
-    
+
 Reminder berhasil diaktifkan!
 ➸ *Pesan*: ${messRemind}
 ➸ *Durasi*: ${parsedTime.hours} jam ${parsedTime.minutes} menit ${parsedTime.seconds} detik
@@ -595,15 +398,13 @@ Berikut adalah menu yang tersedia:
 *[5]* Weeaboo
 *[6]* Fun
 *[7]* Moderation
-*[8]* NSFW
-*[9]* Owner
-*[10]* Leveling
+*[8]* Owner
+*[9]* Leveling
 
 Ketik *${prefix}menu* angka_index untuk membuka menu page yang dipilih.
 
 Catatan:
-Perlakukan bot secara baik, dev akan bertindak tegas apabila user melanggar rules.
-Bot ini terdapat anti-spam yang berupa cooldown command selama *5 detik* setiap kali pemakaian.
+Bot ini terdapat cooldown command selama *5 detik* setiap kali pemakaian.
     `
 }
 
@@ -611,60 +412,15 @@ exports.menuDownloader = () => {
     return `
 *── 「 DOWNLOADER 」 ──*
 
-1. *${prefix}facebook*
-Download Facebook video.
-Aliases: *fb*
-Usage: *${prefix}facebook* link_video
-
-2. *${prefix}ytmp3*
-Download YouTube audio.
-Aliases: -
-Usage: *${prefix}ytmp3* link
-
-3. *${prefix}ytmp4*
-Download YouTube video.
-Aliases: -
-Usage: *${prefix}ytmp4* link
-
-4. *${prefix}joox*
-Mencari dan men-download lagu dari Joox.
-Aliases: -
-Usage: *${prefix}joox* judul_lagu
-
-5. *${prefix}tiktok*
-Mendownload video TikTok.
-Aliases: -
-Usage: *${prefix}tiktok* link_video
-
-6. *${prefix}twitter*
+1. *${prefix}twitter*
 Download Twitter media.
 Aliases: *twt*
-Usage: *${prefix}twiter* link
+Usage: *${prefix}twitter* link
 
-7. *${prefix}tiktokpic*
-Download profile pic user
-Aliases: -
-Usage: *${prefix}tiktokpic* username
-
-8. *${prefix}tiktoknowm*
-Download video TikTok tanpa WM.
-Aliases: *tktnowm*
-Usage: *${prefix}tiktoknowm* link_video
-
-9. *${prefix}moddroid*
-Cari APK mod dari moddroid.
-Aliases: -
-Usage: *${prefix}moddroid* nama_APK
-
-10. *${prefix}happymod*
-Cari APK mod dari happymod.
-Aliases: -
-Usage: *${prefix}happymod* nama_APK
-
-11. *${prefix}linedl*
-Stiker Line downloader.
-Aliases: -
-Usage: *${prefix}linedl* link_stiker
+2. *${prefix}youtube*
+Download YouTube video.
+Aliases: *yt*
+Usage: *${prefix}youtube* link
 
 _Index of [1]_
     `
@@ -744,6 +500,16 @@ Cek limit kamu.
 Aliases: -
 Usage: *${prefix}limit*
 
+15. *${prefix}serial*
+Cek biodata menggunakan serial.
+Aliases: -
+Usage: *${prefix}serial* serial
+
+16. *${prefix}runtime*
+Cek runtime host.
+Aliases: -
+Usage: *${prefix}runtime*
+
 _Index of [2]_
     `
 }
@@ -757,67 +523,17 @@ Bot akan mengulang pesan mu.
 Aliases: -
 Usage: *${prefix}say* teks
 
-2. *${prefix}lirik*
-Mencari lirik lagu.
-Aliases: -
-Usage: *${prefix}lirik* judul_lagu
-
-3. *${prefix}shortlink*
-Membuat shortlink.
-Aliases: -
-Usage: *${prefix}shortlink* link
-
-4. *${prefix}wikipedia*
-Mengirim Wikipedia dari teks yang diberikan.
-Aliases: *wiki*
-Usage: *${prefix}wikipedia* teks
-
-5. *${prefix}kbbi*
-Mengirim definisi kata dari KBBI.
-Aliases: -
-Usage: *${prefix}kbbi* teks
-
-6. *${prefix}igstalk*
-Stalk akun Instagram.
-Aliases: -
-Usage: *${prefix}igstalk* username
-
-7. *${prefix}gsmarena*
-Mengirim info spesifikasi HP dari GSMArena.
-Aliases: -
-Usage: *${prefix}gsmarena* model_hp
-
-8. *${prefix}receipt*
-Mengirim resep makanan.
-Aliases: *resep*
-Usage: *${prefix}receipt* nama_makanan
-
-9. *${prefix}ytsearch*
-Mengirim hasil pencarian di YouTube.
-Aliases: *yts*
-Usage: *${prefix}ytsearch* query
-
-10. *${prefix}tts*
+2. *${prefix}tts*
 Membuat Text to Speech. Kalian perlu kode bahasa setiap menggunakan, cek di sini https://id.wikipedia.org/wiki/Daftar_bahasa_menurut_ISO_639-2
 Aliases: -
 Usage: *${prefix}tts* kode_bahasa | teks
 
-11. *${prefix}afk*
+3. *${prefix}afk*
 Set akun kamu ke mode AFK, aku akan mengirim pesan ke orang yang me-mention kamu.
 Aliases: -
 Usage: *${prefix}afk* alasan. Kirim pesan ke grup untuk menonaktifkan mode AFK.
 
-12. *${prefix}distance*
-Untuk mengetahui jarak dari kotamu ke kota yang kamu tuju
-Aliases: -
-Usage: *${prefix}distance* kota_asal | kota_tujuan
-
-13. *${prefix}findsticker*
-Untuk mencari sticker yang kamu cari
-Aliases: *findstiker*
-Usage: *${prefix}findsticker* teks
-
-14. *${prefix}math*
+4. *${prefix}math*
 Kalkulator.
 * = Perkalian
 + = Pertambahan
@@ -826,73 +542,8 @@ Kalkulator.
 Aliases: -
 Usage: *${prefix}math* 12*12
 
-15. *${prefix}listsurah*
-Melihat list surah Al-Qur'an.
-Aliases: -
-Usage: *${prefix}listsurah*
-
-16. *${prefix}surah*
-Mengirim surah Al-Qur'an.
-Aliases: -
-Usage: *${prefix}surah* nomor_surah
-
-17. *${prefix}js*
-Mengetahui jadwal shalat di daerah kalian
-Aliases: - 
-Usage: *${prefix}js* namadaerah
-
-18. *${prefix}mutual*
-Dapatkan kontak WA random.
-Aliases: -
-Usage: *${prefix}mutual*
-
-19. *${prefix}whois*
-IP look-up.
-Aliases: -
-Usage: *${prefix}whois* ip_address
-
-20. *${prefix}play*
-Play audio dari YouTube.
-Aliases: - 
-Usage: *${prefix}play* judul_video
-
-21. *${prefix}toxic*
-Random toxic.
-Aliases: -
-Usage: *${prefix}toxic*
-
-22. *${prefix}tafsir*
-Tafsir ayat surah Al-Qur'an.
-Aliases: -
-Usage: *${prefix}tafsir* nama_surah  ayat
-
-23. *$  {prefix}motivasi*
-Kata-kata motivasi.
-Aliases: -
-Usage: *${prefix}motivasi*
-
-24. *${prefix}linesticker*
-Sticker Line terbaru.
-Aliases: *linestiker*
-Usage: *${prefix}linesticker*
-
-25. *${prefix}alkitab*
-Al-Kitab search.
-Aliases: -
-Usage: *${prefix}* nama_injil
-
-26. *${prefix}cekongkir*
-Cek ongkos kirim.
-Aliases: -
-Usage: *${prefix}ongkir* kurir | asal | tujuan
-
-27. *${prefix}movie*
-Cari film.
-Aliases: -
-Usage: *${prefix}movie* judul
-
-28. *${prefix}reminder*
-Pengingat. 
+5. *${prefix}reminder*
+Pengingat.
 *s* - detik
 *m* - menit
 *h* - jam
@@ -900,120 +551,45 @@ Pengingat.
 Aliases: -
 Usage: *${prefix}reminder* 10s | pesan_pengingat
 
-29. *${prefix}imagetourl*
+6. *${prefix}imagetourl*
 Image uploader.
 Aliases: *imgtourl*
 Usage: Kirim gambar dengan caption *${prefix}imagetourl* atau reply gambar dengan caption *${prefix}imagetourl*.
 
-30. *${prefix}infohoax*
-Cek update info hoax.
-Aliases: -
-Usage: *${prefix}infohoax*
-
-31. *${prefix}trending*
-Cek trending di Twitter.
-Aliases: -
-Usage: *${prefix}trending*
-
-32. *${prefix}jobseek*
-Mencari info lowongan kerja.
-Aliases: -
-Usage: *${prefix}jobseek*
-
-33. *${prefix}spamcall*
-Spam call.
-Aliases: -
-Usage: *${prefix}spamcall* 812xxxxxxxx
-
-34. *${prefix}spamsms*
-Spam SMS.
-Aliases: -
-Usage: *${prefix}spamsms* 0812xxxxxxxx jumlah_pesan
-
-35. *${prefix}email*
-Mengirim email secara anonymous.
-Aliases: -
-Usage: *${prefix}email* email_target | subjek | pesan_email
-
-36. *${prefix}quotes*
-Random quotes bahasa indonesia.
-Aliases: -
-Usage: *${prefix}quotes*
-
-37. *${prefix}genshininfo*
+7. *${prefix}genshininfo*
 Kirim info karakter Genshin Impact.
 Aliases: *genshin*
 Usage: *${prefix}genshininfo* nama_karakter
 
-38. *${prefix}translate*
+8. *${prefix}translate*
 Terjemahkan teks.
 Aliases: *trans*
 Usage: *${prefix}translate* teks | kode_bahasa, bisa menggunakan reply juga
 
-39. *${prefix}hadis*
-Info hadis.
-Aliases: -
-Usage: *${prefix}hadis* kitab_hadis | nomor_hadis
-
-40. *${prefix}asmaulhusna*
-Asmaul husna.
-Aliases: -
-Usage: *${prefix}asmaulhusna* nomor_asmaulhusna
-
-41. *${prefix}randomquran*
-Kirim surah Al-Qur'an secara random.
-Aliases: -
-Usage: *${prefix}randomquran*
-
-42. *${prefix}coronavirus*
-Cek kasus COVID-19.
-Aliases: *corona*
-Usage: *${prefix}coronavirus* negara
-
-43. *${prefix}tomp3*
+9. *${prefix}tomp3*
 Format video ke MP3.
 Aliases: -
 Usage: Kirim video dengan caption *${prefix}tomp3* atau reply video dengan caption *${prefix}tomp3*.
 
-44. *${prefix}ttp*
-Buat teks menjadi stiker.
-Aliases: -
-Usage: *${prefix}ttp* teks
-
-45. *${prefix}bass*
+10. *${prefix}bass*
 Bass boost, bikin telinga sakit.
 Aliases: -
 Usage: Reply audio/voice dengan caption *${prefix}bass* tingkat_dB.
 
-46. *${prefix}addsticker*
-Menambahkan stiker ke database.
-Aliases: *addstiker*
-Usage: Reply stiker dengan caption *${prefix}addsticker* keyword_stiker.
-
-47. *${prefix}delsticker*
-Menghapus stiker dari database.
-Aliases: *delstiker*
-Usage: *${prefix}delstiker* keyword_stiker
-
-48. *${prefix}stickerlist*
-Melihat list stiker yang telah ditambahkan.
-Aliases: *liststicker stikerlist liststiker*
-Usage: *${prefix}stickerlist*
-
-49. *${prefix}nightcore*
-Membuat efek nightcore dari audio yang dikirim.
+11. *${prefix}nightcore*
+Membuat efek nightcore dari audio.
 Aliases: -
-Usage: Reply audio/voice dengan caption *${prefix}nightcore*.
+Usage: Reply audio/voice dengan caption *${prefix}nightcore*
 
-50. *${prefix}ocr*
-Scan teks dari foto.
-Aliases: -
-Usage: Kirim gambar dengan caption *${prefix}ocr* atau reply gambar/stiker dengan caption *${prefix}ocr*.
+12. *${prefix}google*
+Mencari via Google.
+Aliases: *googlesearch*
+Usage: *${prefix}google* query
 
-51. *${prefix}react*
-Memberikan reaction berupa emoji.
-Aliases: -
-Usage: Balas/reply pesan yang ingin kamu react\n\nContoh: ${prefix}react 😱
+13. *${prefix}toptt*
+Buat audio PTT.
+Aliases: *ptt*
+Usage: Reply audio/voice dengan caption *${prefix}toptt*
 
 _Index of [3]_
     `
@@ -1033,35 +609,31 @@ Membuat stiker dari video MP4 atau GIF yang dikirim atau di-reply.
 Aliases: *stikergif*
 Usage: Kirim video/GIF dengan caption *${prefix}stickergif* atau reply video/GIF dengan caption *${prefix}stickergif*.
 
-3. *${prefix}ttg*
-Membuat stiker text to GIF.
-Aliases: -
-Usage: *${prefix}ttg* teks
-
-4. *${prefix}stickertoimg*
+3. *${prefix}stickertoimg*
 Konversi stiker ke foto.
 Aliases: *stikertoimg toimg*
 Usage: Reply sticker dengan caption *${prefix}stickertoimg*.
 
-5. *${prefix}emojisticker*
-Konversi emoji ke stiker.
-Aliases: *emojistiker*
-Usage: *${prefix}emojisticker* emoji
-
-6. *${prefix}stickerwm*
+4. *${prefix}stickerwm*
 Buat stiker dengan WM.
 Aliases: *stcwm*
 Usage: Kirim gambar dengan caption *${prefix}stickerwm* pack_name | author_name atau reply gambar dengan caption *${prefix}stickerwm* pack_name | author_name.
 
-7. *${prefix}stickermeme*
+5. *${prefix}stickermeme*
 Buat sticker meme.
 Aliases: *stcmeme*
 Usage: Kirim gambar dengan caption *${prefix}stickermeme* teks_atas | teks_bawah atau reply gambar dengan caption *${prefix}stickermeme* teks_atas | teks_bawah.
 
-8. *${prefix}takestick*
+6. *${prefix}takestick*
 Merubah watermark sticker.
 Aliases: -
 Usage: Reply stiker dengan caption *${prefix}takestick* pack_name | author_name
+
+7. *${prefix}stickernobg*
+Membuat stiker tanpa background.
+Aliases: *take*
+Usage: Kirim gambar dengan caption *${prefix}stickernobg* atau reply gambar dengan caption *${prefix}stickernobg*
+
 
 _Index of [4]_
     `
@@ -1086,55 +658,20 @@ Mengirim foto kemonomimi girl.
 Aliases: -
 Usage: *${prefix}kemono*
 
-4. *${prefix}kusonime*
-Mencari info anime dan link download batch di Kusonime.
-Aliases: -
-Usage: *${prefix}kusonime* judul_anime
-
-5. *${prefix}komiku*
-Mencari info manga dan link download di Komiku.
-Aliases: -
-Usage: *${prefix}komiku* judul_manga
-
-6. *${prefix}wait*
+4. *${prefix}wait*
 Mencari source anime dari screenshot scene.
 Aliases: -
 Usage: Kirim screenshot dengan caption *${prefix}wait* atau reply screenshot dengan caption *${prefix}wait*.
 
-7. *${prefix}source*
+5. *${prefix}source*
 Mencari source dari panel doujin, ilustrasi, dan gambar yang berhubungan dengan anime.
 Aliases: *sauce*
 Usage: Kirim gambar dengan caption *${prefix}source* atau reply gambar dengan caption *${prefix}source*.
 
-8. *${prefix}waifu*
+6. *${prefix}waifu*
 Mengirim random foto waifu.
 Aliases: -
 Usage: *${prefix}waifu*
-
-9. *${prefix}anitoki*
-Cek update terbaru Anitoki.
-Aliases: -
-Usage: *${prefix}anitoki*
-
-10. *${prefix}neonime*
-Cek update terbaru Neonime.
-Aliases: -
-Usage: *${prefix}neonime*
-
-11. *${prefix}anoboy*
-Cek on-going anime dari Anoboy.
-Aliases: -
-Usage: *${prefix}anoboy*
-
-12. *${prefix}character*
-Cari karakter anime.
-Alias: -
-Usage: *${prefix}character* nama_karakter
-
-13. *${prefix}lolivid*
-Random video loli, awas ada pedo.
-Aliases: -
-Usage: *${prefix}lolivid
 
 _Index of [5]_
     `
@@ -1144,140 +681,30 @@ exports.menuFun = () => {
     return `
 *── 「 FUN 」 ──*
 
-1. *${prefix}hartatahta*
-Membuat gambar Harta Tahta Nama.
-Aliases: -
-Usage: *${prefix}hartatahta* nama
-
-2. *${prefix}partner*
-Weton jodoh.
-Aliases: *pasangan*
-Usage: *${prefix}partner* nama | pasangan
-
-3. *${prefix}zodiac*
-Ramalan zodiak Mingguan.
-Aliases: *zodiak*
-Usage: *${prefix}zodiac* zodiak
-
-4. *${prefix}write*
-Membuat catatan tulisan di buku.
-Aliases: *nulis*
-Usage: *${prefix}write* teks
-
-5. *${prefix}glitchtext*
-Membuat gambar teks glitch.
-Aliases: *glitext*
-Usage: *${prefix}glitchtext* teks1 | teks2
-
-6. *${prefix}simi*
-Chat SimiSimi.
-Aliases: -
-Usage: *${prefix}simi* teks
-
-7. *${prefix}blackpink*
-Membuat teks dengan style logo Blackpink.
-Aliases: -
-Usage: *${prefix}blackpink* teks
-
-8. *${prefix}phmaker*
-Membuat teks dengan style logo Pornhub.
-Aliases: -
-Usage: *${prefix}phmaker* teks_kiri | teks_kanan
-
-9. *${prefix}galaxy*
-Membuat gambar teks galaxy.
-Aliases: -
-Usage: *${prefix}galaxy* teks
-
-10. *${prefix}tod*
-Bermain truth or dare.
-Aliases: -
-Usage: *${prefix}tod*
-
-11. *${prefix}weton*
-Kirim ramalan weton.
-Aliases: -
-Usage: *${prefix}weton* tanggal | bulan | tahun
-
-12. *${prefix}triggered*
+1. *${prefix}triggered*
 Membuat efek triggered.
 Aliases: -
 Usage: Kirim gambar dengan caption *${prefix}triggered* atau reply pesan orang dengan *${prefix}triggered*.
 
-13. *${prefix}kiss*
+2. *${prefix}kiss*
 Kiss someone ( ͡° ͜ʖ ͡°).
 Aliases: -
 Usage: Kirim gambar dengan caption *${prefix}kiss* atau reply gambar dengan *${prefix}kiss*.
 
-14. *${prefix}asupan*
-Asupan video cewek-cewek.
+3. *${prefix}profile*
+Cek profile.
+Aliases: *me*
+Usage: *${prefix}profile*
+
+4. *${prefix}trash*
+Trash?
 Aliases: -
-Usage: *${prefix}asupan*
+Usage: *${prefix}trash*
 
-15. *${prefix}citacita*
-Meme cita-cita.
+5. *${prefix}hitler*
+Worse than hitler.
 Aliases: -
-Usage: *${prefix}citacita*
-
-16. *${prefix}phcomment*
-Membuat capton ala PH comment.
-Aliases: -
-Usage: *${prefix}phcomment* username | teks
-
-17. *${prefix}ffbanner*
-Membuat banner Free Fire.
-Aliases: -
-Usage: *${prefix}ffbanner* teks1 | teks2
-
-18. *${prefix}fflogo*
-Membuat logo karakter Free Fire.
-Aliases: -
-Usage: *${prefix}fflogo* teks1 | teks2
-
-19. *${prefix}neontext*
-Membuat gambar neon teks.
-Aliases: *neon*
-Usage: *${prefix}neontext* teks_atas | teks_tengah | teks_bawah
-
-20. *${prefix}firemaker*
-Membuat gambar teks fire.
-Aliases: -
-Usage: *${prefix}firemaker* teks
-
-21. *${prefix}mlmaker*
-Membuat gambar karakter hero ML dengan teks.
-Aliases: -
-Usage: *${prefix}mlmaker* nama_hero | teks
-
-22. *${prefix}balloonmaker*
-Membuat gambar couple balloon.
-Aliases: *blmaker*
-Usage: *${prefix}balloonmaker* nama1 | nama2
-
-23. *${prefix}sliding*
-Membuat GIF sliding text.
-Aliases: -
-Usage: *${prefix}sliding* teks
-
-24. *${prefix}wasted*
-Membuat gambar wasted.
-Aliases: -
-Usage: Upload foto dengan caption *${prefix}wasted*
-
-25. *${prefix}caklontong*
-Bermain kuis caklontong.
-Aliases: -
-Usage: *${prefix}caklontong*
-
-26. *${prefix}hilih*
-Replace beberapa huruf menjadi i.
-Aliases: -
-Usage: *${prefix}hilih* teks
-
-27. *${prefix}tebakgambar*
-Bermain kuis tebak gambar.
-Aliases: -
-Usage: *${prefix}tebakgambar*
+Usage: *${prefix}hitler*
 
 _Index of [6]_
     `
@@ -1317,135 +744,58 @@ Mention semua member group.
 Aliases: -
 Usage: *${prefix}everyone*
 
-7. *${prefix}nsfw*
-Mematikan/menyalakan mode NSFW.
-Aliases: -
-Usage: *${prefix}nsfw* enable/disable
-
-8. *${prefix}groupicon*
+7. *${prefix}groupicon*
 Mengganti icon grup.
 Aliases: -
 Usage: Kirim gambar dengan caption *${prefix}groupicon* atau reply gambar dengan caption *${prefix}groupicon*.
 
-9. *${prefix}antilink*
+8. *${prefix}antilink*
 Mematikan/menyalakan fitur anti-group link.
 Aliases: -
 Usage: *${prefix}antilink* enable/disable
 
-10. *${prefix}welcome*
+9. *${prefix}welcome*
 Mematikan/menyalakan fitur welcome di grup agar menyambut setiap kedatangan member.
 Aliases: -
 Usage: *${prefix}welcome* enable/disable
 
-11. *${prefix}autosticker*
+10. *${prefix}autosticker*
 Mematikan/menyalakan fitur auto-stiker. Setiap foto yang dikirim akan selalu diubah ke stiker.
 Aliases: *autostiker autostik*
 Usage: *${prefix}autostiker* enable/disable
 
-12. *${prefix}antinsfw*
+11. *${prefix}antinsfw*
 Mematikan/menyalakan fitur anti-NSFW link.
 Aliases: -
 Usage: *${prefix}antinsfw* enable/disable
 
-13. *${prefix}mutegc*
+12. *${prefix}mutegc*
 Set group hanya admin yang bisa mengirim pesan.
 Aliases: -
 Usage: *${prefix}mutegc* enabled/disable
 
-14. *${prefix}grouplink*
+13. *${prefix}grouplink*
 Melihat invite link grup.
 Aliases: -
 Usage: *${prefix}grouplink*
 
-15. *${prefix}revoke*
+14. *${prefix}revoke*
 Revoke invite link grup.
 Aliases: -
 Usage: *${prefix}revoke*
 
+15. *${prefix}leveling*
+Mematikan/menyalakan fitur leveling.
+Aliases: -
+Usage: *${prefix}leveling* enable/disable
+
+16. *${prefix}badwords*
+Setting fitur anti-bad word.
+Aliases: *badword*
+Usage: *${prefix}badwords* enable/disable atau add/remove untuk menambahkan/menghapus kata kasar.
+
+
 _Index of [7]_
-    `
-}
-
-exports.menuNsfw = () => {
-    return `
-*── 「 NSFW 」 ──*
-
-1. *${prefix}lewds*
-Mengirim pict anime lewd.
-Aliases: *lewd*
-Usage: *${prefix}lewds*
-
-2. *${prefix}multilewds*
-Mengirim up to 5 anime lewd pics. (PREMIUM ONLY)
-Aliases: *multilewds multilewd mlewd mlewds*
-Usage: *${prefix}multilewds*
-
-3. *${prefix}nhentai*
-Mengirim info doujinshi dari nHentai.
-Aliases: *nh*
-Usage: *${prefix}nhentai* kode
-
-4. *${prefix}nhdl*
-Mendownload doujin dari nHentai sebagai file PDF. (PREMIUM ONLY)
-Aliases: -
-Usage: *${prefix}nhdl* kode
-
-5. *${prefix}nekopoi*
-Mengirim video link Nekopoi terbaru.
-Aliases: -
-Usage: *${prefix}nekopoi*
-
-6. *${prefix}multifetish*
-Mengirim up to 5 fetish pics. (PREMIUM ONLY)
-Aliases: *mfetish*
-Usage: *${prefix}multifetish* <armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao>
-
-7. *${prefix}waifu18*
-Mengirim random foto waifu NSFW.
-Aliases: -
-Usage: *${prefix}waifu18*
-
-8. *${prefix}fetish*
-Mengirim fetish pics.
-Aliases: -
-Usage: *${prefix}fetish* armpits/feets/thighs/ass/boobs/belly/sideboobs/ahegao
-
-9. *${prefix}phdl*
-Download video dari Pornhub.
-Aliases: -
-Usage *${prefix}phdl* link
-
-10. *${prefix}yuri*
-Mengirim random foto lewd yuri.
-Aliases: -
-Usage: *${prefix}yuri*
-
-11. *${prefix}lewdavatar*
-Mengirim random avatar lewd.
-Aliases: -
-Usage: *${prefix}lewdavatar*
-
-12. *${prefix}femdom*
-Mengirim random foto ero femdom.
-Aliases: -
-Usage: *${prefix}femdom*
-
-13. *${prefix}nhsearch*
-nHentai search.
-Aliases: -
-Usage: *${prefix}nhsearch* query
-
-14. *${prefix}nekosearch*
-Nekopoi search.
-Aliases: -
-Usage: *${prefix}nekosearch* query
-
-15. *${prefix}cersex*
-Random cerita sex.
-Aliases: -
-Usage: *${prefix}cersex*
-
-_Index of [8]_
     `
 }
 
@@ -1456,7 +806,7 @@ exports.menuOwner = () => {
 1. *${prefix}bc*
 Membuat broadcast.
 Aliases: -
-Usage: *${prefix}bc* <teks> 
+Usage: *${prefix}bc* teks
 
 2. *${prefix}clearall*
 Menghapus semua chat di akun bot.
@@ -1558,7 +908,7 @@ exports.rules = () => {
     return `
 *── 「 RULES 」 ──*
 
-1. Jangan spam bot. 
+1. Jangan spam bot.
 Sanksi: *WARN/SOFT BLOCK*
 
 2. Jangan telepon bot.
@@ -1586,13 +936,8 @@ https://github.com/SlavyanDesu/BocchiBot
 
 Contact person:
 wa.me/${ownerNumber.replace('@c.us', '')} (Owner/hoster)
-wa.me/6281294958473 (Developer)
 
-Kalian juga bisa mendukung saya agar bot ini tetap up to date dengan:
-081294958473 (OVO/Telkomsel/GoPay)
-
-Terima kasih!
-
+Regards,
 Slavyan.
     `
 }

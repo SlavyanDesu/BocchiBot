@@ -1,6 +1,6 @@
 {
     "name": "bocchibot",
-    "version": "1.4.0",
+    "version": "1.5.0",
     "description": "BocchiBot is a multipurpose WhatsApp bot.",
     "main": "index.js",
     "type": "commonjs",
@@ -18,13 +18,14 @@
     "homepage": "https://github.com/SlavyanDesu/BocchiBot",
     "license": "MIT",
     "dependencies": {
-        "@open-wa/wa-automate": "^4.55.2",
+        "@open-wa/wa-automate": "^4.57.0",
         "@vitalets/google-translate-api": "^9.1.0",
         "await-exec": "^0.1.2",
+        "bad-words": "^3.0.4",
         "canvacord": "^5.4.8",
-        "chalk": "^4.1.2",
+        "chalk": "4.1.2",
         "figlet": "^1.5.2",
-        "file-type": "^16.5.4",
+        "file-type": "16.5.4",
         "fluent-ffmpeg": "^2.1.2",
         "form-data": "^4.0.0",
         "fs-extra": "^11.1.0",
@@ -36,14 +37,14 @@
         "ms": "^2.1.3",
         "nekos.life": "^3.0.0",
         "node-cron": "^3.0.2",
-        "node-fetch": "^2.6.7",
+        "node-fetch": "2.6.7",
         "node-gtts": "^2.0.2",
-        "parse-ms": "^2.1.0",
+        "parse-ms": "2.1.0",
         "sagiri": "^3.4.0",
         "video-url-link": "^0.1.5",
         "ytdl-core": "^4.11.2"
     },
     "devDependencies": {
-        "eslint": "^8.33.0"
+        "eslint": "^8.34.0"
     }
 }

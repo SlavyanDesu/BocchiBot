@@ -3,10 +3,10 @@ const toMs = require('ms')
 
 /**
  * Add reminder to user.
- * @param {string} userId 
- * @param {string} message 
- * @param {number} time 
- * @param {object} _dir 
+ * @param {string} userId
+ * @param {string} message
+ * @param {number} time
+ * @param {object} _dir
  */
 const addReminder = (userId, message, time, _dir) => {
     const obj = { id: userId, msg: message, time: Date.now() + toMs(time) }
@@ -16,8 +16,8 @@ const addReminder = (userId, message, time, _dir) => {
 
 /**
  * Get reminder.
- * @param {string} userId 
- * @param {object} _dir 
+ * @param {string} userId
+ * @param {object} _dir
  * @returns {number}
  */
 const getReminderTime = (userId, _dir) => {
@@ -34,8 +34,8 @@ const getReminderTime = (userId, _dir) => {
 
 /**
  * Get reminder message.
- * @param {string} userId 
- * @param {object} _dir 
+ * @param {string} userId
+ * @param {object} _dir
  * @returns {string}
  */
 const getReminderMsg = (userId, _dir) => {
@@ -52,8 +52,8 @@ const getReminderMsg = (userId, _dir) => {
 
 /**
  * Get position of reminder.
- * @param {string} userId 
- * @param {object} _dir 
+ * @param {string} userId
+ * @param {object} _dir
  * @returns {number}
  */
 const getReminderPosition = (userId, _dir) => {

@@ -2,8 +2,8 @@ const fs = require('fs-extra')
 
 /**
  * Get user ID from db.
- * @param {string} userId 
- * @param {object} _dir 
+ * @param {string} userId
+ * @param {object} _dir
  * @returns {string}
  */
 const getLevelingId = (userId, _dir) => {
@@ -23,12 +23,12 @@ const getLevelingId = (userId, _dir) => {
     } else {
         return _dir[pos].id
     }
-} 
+}
 
 /**
  * Get user level from db.
- * @param {string} userId 
- * @param {object} _dir 
+ * @param {string} userId
+ * @param {object} _dir
  * @returns {number}
  */
 const getLevelingLevel = (userId, _dir) => {
@@ -52,8 +52,8 @@ const getLevelingLevel = (userId, _dir) => {
 
 /**
  * Get user XP from db.
- * @param {string} userId 
- * @param {object} _dir 
+ * @param {string} userId
+ * @param {object} _dir
  * @returns {number}
  */
 const getLevelingXp = (userId, _dir) => {
@@ -77,9 +77,9 @@ const getLevelingXp = (userId, _dir) => {
 
 /**
  * Add user level to db.
- * @param {string} userId 
- * @param {number} amount 
- * @param {object} _dir 
+ * @param {string} userId
+ * @param {number} amount
+ * @param {object} _dir
  */
 const addLevelingLevel = (userId, amount, _dir) => {
     let position = null
@@ -96,9 +96,9 @@ const addLevelingLevel = (userId, amount, _dir) => {
 
 /**
  * Add user XP to db.
- * @param {string} userId 
- * @param {number} amount 
- * @param {object} _dir 
+ * @param {string} userId
+ * @param {number} amount
+ * @param {object} _dir
  */
 const addLevelingXp = (userId, amount, _dir) => {
     let position = null
@@ -115,8 +115,8 @@ const addLevelingXp = (userId, amount, _dir) => {
 
 /**
  * Get user rank.
- * @param {string} userId 
- * @param {object} _dir 
+ * @param {string} userId
+ * @param {object} _dir
  * @returns {number}
  */
 const getUserRank = (userId, _dir) => {
@@ -144,7 +144,7 @@ const xpGain = new Set()
 
 /**
  * Check is user exist in set.
- * @param {string} userId 
+ * @param {string} userId
  * @returns {boolean}
  */
 const isGained = (userId) => {
@@ -153,7 +153,7 @@ const isGained = (userId) => {
 
 /**
  * Add user in set and delete it when it's 1 minute.
- * @param {string} userId 
+ * @param {string} userId
  */
 const addCooldown = (userId) => {
     xpGain.add(userId)

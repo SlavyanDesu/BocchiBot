@@ -2,10 +2,10 @@ const fs = require('fs-extra')
 
 /**
  * Add AFK user.
- * @param {string} userId 
- * @param {string} time 
- * @param {string} reason 
- * @param {object} _dir 
+ * @param {string} userId
+ * @param {string} time
+ * @param {string} reason
+ * @param {object} _dir
  */
 const addAfkUser = (userId, time, reason, _dir) => {
     const obj = { id: userId, time: time, reason: reason }
@@ -15,8 +15,8 @@ const addAfkUser = (userId, time, reason, _dir) => {
 
 /**
  * Check if user is on AFK state.
- * @param {string} userId 
- * @param {object} _dir 
+ * @param {string} userId
+ * @param {object} _dir
  * @returns {boolean}
  */
 const checkAfkUser = (userId, _dir) => {
@@ -31,8 +31,8 @@ const checkAfkUser = (userId, _dir) => {
 
 /**
  * Get user AFK reason.
- * @param {string} userId 
- * @param {object} _dir 
+ * @param {string} userId
+ * @param {object} _dir
  * @returns {string}
  */
 const getAfkReason = (userId, _dir) => {
@@ -49,8 +49,8 @@ const getAfkReason = (userId, _dir) => {
 
 /**
  * Get user AFK time.
- * @param {string} userId 
- * @param {object} _dir 
+ * @param {string} userId
+ * @param {object} _dir
  * @returns {string}
  */
 const getAfkTime = (userId, _dir) => {
@@ -67,8 +67,8 @@ const getAfkTime = (userId, _dir) => {
 
 /**
  * Get user AFK ID.
- * @param {string} userId 
- * @param {object} _dir 
+ * @param {string} userId
+ * @param {object} _dir
  * @returns {string}
  */
 const getAfkId = (userId, _dir) => {
@@ -85,8 +85,8 @@ const getAfkId = (userId, _dir) => {
 
 /**
  * Get user AFK index position.
- * @param {string} userId 
- * @param {object} _dir 
+ * @param {string} userId
+ * @param {object} _dir
  * @returns {number}
  */
 const getAfkPosition = (userId, _dir) => {

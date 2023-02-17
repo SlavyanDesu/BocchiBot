@@ -4,7 +4,7 @@ const { color } = require('../tools')
 
 /**
  * Returns an array of files.
- * @param {*} dirPath 
+ * @param {*} dirPath
  * @param {string[]} [arrayOfFiles]
  * @returns {string[]}
  */
@@ -19,11 +19,11 @@ const getAllDirFiles = (dirPath, arrayOfFiles) => {
         }
     })
     return arrayOfFiles
-} 
+}
 
 /**
  * Uncache a changes.
- * @param {*} module 
+ * @param {*} module
  */
 const uncache = (module = '.') => {
     return new Promise((resolve, reject) => {
@@ -38,8 +38,8 @@ const uncache = (module = '.') => {
 
 /**
  * Delete file cache.
- * @param {*} module 
- * @param {*} call 
+ * @param {*} module
+ * @param {*} call
  */
 const nocache = (module, call = () => {}) => {
     console.log(color('[WATCH]', 'orange'), color(`=> '${module}'`, 'yellow'), 'file is now being watched by me!')
