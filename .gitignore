@@ -1,16 +1,9 @@
-# Modules directory
 node_modules
-
-# Session file
 *.data.json
-
-# Debug file
 logs
-
-# Local folder
 .node-persist
 _IGNORE_*
-database
-
-# Temp folder
 temp
+**.data.json
+**.node-persist**
+**_IGNORE_**

@@ -6,8 +6,8 @@ moment.tz.setDefault('Asia/Jakarta').locale('id')
 
 /**
  * Get text with color.
- * @param {string} text 
- * @param {string} [color] 
+ * @param {string} text
+ * @param {string} [color]
  */
 const color = (text, color) => {
     return !color ? chalk.green(text) : chalk.keyword(color)(text)
@@ -15,7 +15,7 @@ const color = (text, color) => {
 
 /**
  * Create serial ID.
- * @param {number} size 
+ * @param {number} size
  * @returns {string}
  */
 const createSerial = (size) => {
@@ -24,7 +24,7 @@ const createSerial = (size) => {
 
 /**
  * URL validator.
- * @param {string} url 
+ * @param {string} url
  * @returns {boolean}
  */
 const isUrl = (url) => {
@@ -33,8 +33,8 @@ const isUrl = (url) => {
 
 /**
  * Get time duration.
- * @param {Date} timestamp 
- * @param {Date} now 
+ * @param {Date} timestamp
+ * @param {Date} now
  * @returns {number}
  */
 const processTime = (timestamp, now) => {
@@ -61,7 +61,7 @@ const chromeArgs = [
 
 /**
  * Client options.
- * @param {Function} start 
+ * @param {Function} start
  * @returns {options}
  */
 const options = (start) => {
@@ -86,7 +86,7 @@ const usedCommandRecently = new Set()
 
 /**
  * Check is number filtered.
- * @param {string} from 
+ * @param {string} from
  * @returns {boolean}
  */
 const isFiltered = (from) => {
@@ -95,7 +95,7 @@ const isFiltered = (from) => {
 
 /**
  * Add filter to number.
- * @param {string} from 
+ * @param {string} from
  */
 const addFilter = (from) => {
     usedCommandRecently.add(from)

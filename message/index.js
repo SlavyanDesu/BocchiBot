@@ -17,6 +17,8 @@ const ms = require('parse-ms')
 const toMs = require('ms')
 const canvas = require('canvacord')
 const mathjs = require('mathjs')
+const Filter = require('bad-words')
+const badwords = new Filter()
 const moment = require('moment-timezone')
 const translate = require('@vitalets/google-translate-api')
 moment.tz.setDefault('Asia/Jakarta').locale('id')
@@ -29,7 +31,7 @@ const cron = require('node-cron')
 const { msgFilter, color, processTime, isUrl, createSerial } = require('../tools')
 const { weeaboo, downloader } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
-const { eng } = require('./text/lang/')
+const { eng, ind } = require('./text/lang/')
 const { daily, level, register, afk, reminder, premium, limit} = require('../function')
 const cd = 4.32e+7
 const limitCount = 25
@@ -42,6 +44,7 @@ const _antinsfw = JSON.parse(fs.readFileSync('./database/group/antinsfw.json'))
 const _leveling = JSON.parse(fs.readFileSync('./database/group/leveling.json'))
 const _welcome = JSON.parse(fs.readFileSync('./database/group/welcome.json'))
 const _autosticker = JSON.parse(fs.readFileSync('./database/group/autosticker.json'))
+const _badwords = JSON.parse(fs.readFileSync('./database/group/badwords.json'))
 const _ban = JSON.parse(fs.readFileSync('./database/bot/banned.json'))
 const _premium = JSON.parse(fs.readFileSync('./database/bot/premium.json'))
 const _mute = JSON.parse(fs.readFileSync('./database/bot/mute.json'))
@@ -98,6 +101,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         const isAntiNsfw = isGroupMsg ? _antinsfw.includes(groupId) : false
         const isMute = isGroupMsg ? _mute.includes(chat.id) : false
         const isAfkOn = isGroupMsg ? afk.checkAfkUser(sender.id, _afk) : false
+        const isAntiBadWords = isGroupMsg ? _badwords.includes(groupId) : false
         const isQuotedImage = quotedMsg && quotedMsg.type === 'image'
         const isQuotedVideo = quotedMsg && quotedMsg.type === 'video'
         const isQuotedSticker = quotedMsg && quotedMsg.type === 'sticker'
@@ -129,64 +133,64 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         var role = 'Copper V'
         if (levelRole >= 5) {
             role = 'Copper IV'
-        } 
+        }
         if (levelRole >= 10) {
             role = 'Copper III'
-            } 
+        }
         if(levelRole >= 15) {
             role = 'Copper II'
-        } 
+        }
         if (levelRole >= 20) {
             role = 'Copper I'
-        } 
+        }
         if (levelRole >= 25) {
             role = 'Silver V'
-        } 
+        }
         if (levelRole >= 30) {
             role = 'Silver IV'
-        } 
+        }
         if (levelRole >= 35) {
             role = 'Silver III'
-        } 
+        }
         if (levelRole >= 40) {
             role = 'Silver II'
-        } 
+        }
         if (levelRole >= 45) {
             role = 'Silver I'
-        } 
+        }
         if (levelRole >= 50) {
             role = 'Gold V'
-        } 
+        }
         if (levelRole >= 55) {
             role = 'Gold IV'
-        } 
+        }
         if (levelRole >= 60) {
             role = 'Gold III'
-        } 
+        }
         if (levelRole >= 65) {
             role = 'Gold II'
-        } 
+        }
         if (levelRole >= 70) {
             role = 'Gold I'
-        } 
+        }
         if (levelRole >= 75) {
             role = 'Platinum V'
-        } 
+        }
         if (levelRole >= 80) {
             role = 'Platinum IV'
-        } 
+        }
         if (levelRole >= 85) {
             role = 'Platinum III'
-        } 
+        }
         if (levelRole >= 90) {
             role = 'Platinum II'
-        } 
+        }
         if (levelRole >= 95) {
             role = 'Platinum I'
-        } 
+        }
         if (levelRole >= 100) {
             role = 'Exterminator'
-        } 
+        }
 
         // Leveling [BETA] by Slavyan
         if (isGroupMsg && isRegistered && !level.isGained(sender.id) && !isBanned && isLevelingOn) {
@@ -227,7 +231,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                await bocchi.sendTextWithMentions(from, `@${sender.id} is detected sending a virtext.\nYou will be kicked!`)
                await bocchi.removeParticipant(groupId, sender.id)
             }
-        } 
+        }
 
         // Anti fake group link detector by: Baguettou
         if (isGroupMsg && !isGroupAdmins && isBotGroupAdmins && isDetectorOn && !isOwner) {
@@ -235,6 +239,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 console.log(color('[KICK]', 'red'), color('Received a fake group link!', 'yellow'))
                 await bocchi.reply(from, 'Fake group link detected!', id)
                 await bocchi.removeParticipant(groupId, sender.id)
+            }
+        }
+
+        // Anti badwords
+        if (isGroupMsg && isBotGroupAdmins && isAntiBadWords) {
+            if (badwords.isProfane(chats)) {
+                await bocchi.deleteMessage(chat.id, id, false)
             }
         }
 
@@ -260,7 +271,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         if (isGroupMsg && isAutoStickerOn && isMedia && isImage && !isCmd) {
             const mediaData = await decryptMedia(message)
             const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
-            await bocchi.sendImageAsSticker(from, imageBase64, { author: authorWm, pack: packWm })
+            await bocchi.sendImageAsSticker(from, imageBase64, { author: authorWm, pack: packWm, keepScale: true })
             console.log(`Sticker processed for ${processTime(t, moment())} seconds`)
         }
 
@@ -291,7 +302,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
 
         // Mute
         if (isCmd && isMute && !isGroupAdmins && !isOwner && !isPremium) return
-        
+
         // Ignore banned and blocked users
         if (isCmd && (isBanned || isBlocked) && !isGroupMsg) return console.log(color('[BAN]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname))
         if (isCmd && (isBanned || isBlocked) && isGroupMsg) return console.log(color('[BAN]', 'red'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
@@ -309,20 +320,21 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
             console.log(color('[CMD]'), color(time, 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(name || formattedTitle))
             await bocchi.sendSeen(from)
         }
-        
+
         // Anti spam
         if (isCmd && !isPremium && !isOwner) msgFilter.addFilter(from)
 
         switch (command) {
             // Register by Slavyan
             case 'register':
+                if (isGroupMsg) return await bocchi.reply(from, eng.pcOnly(), id)
                 if (isRegistered) return await bocchi.reply(from, eng.registeredAlready(), id)
                 if (!q) return await bocchi.reply(from, eng.wrongFormat(), id)
                 const serialUser = createSerial(20)
                 register.addRegisteredUser(sender.id, q, time, serialUser, _registered)
                 await bocchi.reply(from, eng.registered(q, sender.id, time, serialUser), id)
-                console.log(color('[REGISTER]'), color(time, 'yellow'), 'Name:', color(q, 'cyan'), 'Age:', 'Serial:', color(serialUser, 'cyan'))
-            break
+                console.log(color('[REGISTER]'), color(time, 'yellow'), 'Name:', color(q, 'cyan'), 'Serial:', color(serialUser, 'cyan'))
+                break
 
             // Level [BETA] by Slavyan
             case 'level':
@@ -359,7 +371,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         console.error(err)
                         await bocchi.reply(from, 'Error!', id)
                     })
-            break
+                break
             case 'leaderboard':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!isLevelingOn) return await bocchi.reply(from, eng.levelingNotOn(), id)
@@ -372,61 +384,61 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         var roles = 'Copper V'
                         if (resp[i].level >= 5) {
                             roles = 'Copper IV'
-                        } 
+                        }
                          if (resp[i].level >= 10) {
                             roles = 'Copper III'
-                        } 
+                        }
                          if (resp[i].level >= 15) {
                             roles = 'Copper II'
-                        } 
+                        }
                          if (resp[i].level >= 20) {
                             roles = 'Copper I'
-                        } 
+                        }
                          if (resp[i].level >= 25) {
                             roles = 'Silver V'
-                        } 
+                        }
                          if (resp[i].level >= 30) {
                             roles = 'Silver IV'
-                        } 
+                        }
                          if (resp[i].level >= 35) {
                             roles = 'Silver III'
-                        } 
+                        }
                          if (resp[i].level >= 40) {
                             roles = 'Silver II'
-                        } 
+                        }
                          if (resp[i].level >= 45) {
                             roles = 'Silver I'
-                        } 
+                        }
                          if (resp[i].level >= 50) {
                             roles = 'Gold V'
-                        } 
+                        }
                          if (resp[i].level >= 55) {
                             roles = 'Gold IV'
-                        } 
+                        }
                          if (resp[i].level >= 60) {
                             roles = 'Gold III'
-                        } 
+                        }
                          if (resp[i].level >= 65) {
                             roles = 'Gold II'
-                        } 
+                        }
                          if (resp[i].level >= 70) {
                             roles = 'Gold I'
-                        } 
+                        }
                          if (resp[i].level >= 75) {
                             roles = 'Platinum V'
-                        } 
+                        }
                          if (resp[i].level >= 80) {
                             roles = 'Platinum IV'
-                        } 
+                        }
                          if (resp[i].level >= 85) {
                             roles = 'Platinum III'
-                        } 
+                        }
                          if (resp[i].level >= 90) {
                             roles = 'Platinum II'
-                        } 
+                        }
                          if (resp[i].level >= 95) {
                             roles = 'Platinum I'
-                        } 
+                        }
                          if (resp[i].level > 100) {
                             roles = 'Exterminator'
                         }
@@ -437,7 +449,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     console.error(err)
                     await bocchi.reply(from, eng.minimalDb(), id)
                 }
-            break
+                break
 
             // Downloader
             case 'twitter':
@@ -457,7 +469,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                                 await bocchi.reply(from, 'Error!', id)
                             })
                     })
-            break
+                break
             case 'youtube':
             case 'yt':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
@@ -474,7 +486,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         console.error(err)
                         await bocchi.reply(from, 'Error!', id)
                     })
-            break
+                break
 
             // Misc
             case 'google': // chika-chantekkzz
@@ -496,14 +508,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         console.error(err)
                         await bocchi.reply(from, 'Error!', id)
                     })
-            break
+                break
             case 'say':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, eng.wrongFormat(), id)
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, eng.limit(), id)
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 await bocchi.sendText(from, q)
-            break
+                break
             case 'afk': // by Slavyan
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, eng.groupOnly(), id)
@@ -513,7 +525,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const reason = q ? q : 'Nothing.'
                 afk.addAfkUser(sender.id, time, reason, _afk)
                 await bocchi.reply(from, eng.afkOn(pushname, reason), id)
-            break
+                break
             case 'genshininfo': // by chika chantexxzz
             case 'genshin':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
@@ -530,7 +542,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     console.error(err)
                     await bocchi.reply(from, 'Error or character not found!', id)
                 }
-            break
+                break
             case 'tts':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, eng.wrongFormat(), id)
@@ -547,7 +559,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     console.error(err)
                     await bocchi.reply(from, 'Error!', id)
                 }
-            break
+                break
             case 'tomp3': // by Piyobot
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (isMedia && isVideo || isQuotedVideo) {
@@ -582,7 +594,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'toptt':
             case 'ptt':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
@@ -599,7 +611,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'math':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, eng.wrongFormat(), id)
@@ -610,7 +622,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     limit.addLimit(sender.id, _limit, isPremium, isOwner)
                     await bocchi.reply(from, `*── 「 MATH 」 ──*\n\n${q} = ${mathjs.evaluate(q)}`, id)
                 }
-            break
+                break
             case 'reminder': // by Slavyan
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, eng.wrongFormat(), id)
@@ -629,7 +641,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         clearInterval(intervRemind)
                     }
                 }, 1000)
-            break
+                break
             case 'imagetourl':
             case 'imgtourl':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
@@ -644,7 +656,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'translate':
             case 'tl':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
@@ -659,7 +671,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     const languaget = q.substring(q.lastIndexOf('|') + 2)
                     translate(texto, {to: languaget}).then(res => {bocchi.reply(from, res.text, id)})
                 }
-            break
+                break
             case 'bass':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (isMedia && isAudio || isQuotedAudio || isVoice || isQuotedVoice) {
@@ -695,7 +707,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'nightcore':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (isMedia && isAudio || isQuotedAudio || isVoice || isQuotedVoice) {
@@ -730,7 +742,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
 
             // Bot
             case 'menu':
@@ -763,16 +775,16 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.sendText(from, eng.menu(jumlahUser, levelMenu, xpMenu, role, pushname, reqXpMenu, isPremium ? 'YES' : 'NO'))
                 }
-            break
+                break
             case 'rules':
             case 'rule':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 await bocchi.sendText(from, eng.rules())
-            break
+                break
             case 'status':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 await bocchi.sendText(from, `*RAM*: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB / ${Math.round(os.totalmem / 1024 / 1024)} MB\n*CPU*: ${os.cpus()[0].model}`)
-            break
+                break
             case 'listblock':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 let block = eng.listBlock(blockNumber)
@@ -780,11 +792,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     block += `@${i.replace('@c.us', '')}\n`
                 }
                 await bocchi.sendTextWithMentions(from, block)
-            break
+                break
             case 'ownerbot':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 await bocchi.sendContact(from, ownerNumber)
-            break
+                break
             case 'runtime': // BY HAFIZH
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 const formater = (seconds) => {
@@ -798,12 +810,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 }
                 const uptime = process.uptime()
                 await bocchi.reply(from, `*── 「 BOT UPTIME 」 ──*\n\n❏${formater(uptime)}`, id)
-            break
+                break
             case 'ping':
             case 'p':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 await bocchi.sendText(from, `Pong!\nSpeed: ${processTime(t, moment())} secs`)
-            break
+                break
             case 'delete':
             case 'del':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
@@ -820,7 +832,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     if (!quotedMsgObj.fromMe) return await bocchi.reply(from, eng.wrongFormat(), id)
                     await bocchi.deleteMessage(quotedMsgObj.chatId, quotedMsgObj.id, false)
                 }
-            break
+                break
             case 'report':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!q) return await bocchi.reply(from, eng.emptyMess(), id)
@@ -840,11 +852,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     }
                     daily.addLimit(sender.id, _daily)
                 }
-            break
+                break
             case 'tos':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 await bocchi.sendLinkWithAutoPreview(from, 'https://github.com/SlavyanDesu/BocchiBot', eng.tos(ownerNumber))
-            break
+                break
             case 'join':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!isUrl(url) && !url.includes('chat.whatsapp.com')) return await bocchi.reply(from, eng.wrongFormat(), id)
@@ -867,14 +879,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         await bocchi.sendText(checkInvite.id, `Hello! I was invited by ${pushname}`)
                     }
                 }
-            break
+                break
             case 'premiumcheck':
             case 'cekpremium':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!isPremium) return await bocchi.reply(from, eng.notPremium(), id)
                 const cekExp = ms(premium.getPremiumExpired(sender.id, _premium) - Date.now())
                 await bocchi.reply(from, `*── 「 PREMIUM EXPIRED 」 ──*\n\n➸ *ID*: ${sender.id}\n➸ *Premium left*: ${cekExp.days} day(s) ${cekExp.hours} hour(s) ${cekExp.minutes} minute(s)`, id)
-            break
+                break
             case 'premiumlist':
             case 'listpremium':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
@@ -889,7 +901,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     listPremi += `${i + 1}. wa.me/${premium.getAllPremiumUser(_premium)[i].replace('@c.us', '')}\n➸ *Name*: ${arrayPremi[i].pushname}\n➸ *Expired*: ${checkExp.days} day(s) ${checkExp.hours} hour(s) ${checkExp.minutes} minute(s)\n\n`
                 }
                 await bocchi.reply(from, listPremi, id)
-            break
+                break
             case 'getpic':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (mentionedJidList.length !== 0) {
@@ -915,7 +927,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'serial':
                 if (!isRegistered) return await bocchi.reply(from, eng.registered(), id)
                 if (isGroupMsg) return await bocchi.reply(from, eng.pcOnly(), id)
@@ -929,11 +941,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.sendText(from, eng.registeredNotFound(serials))
                 }
-            break
+                break
             case 'limit':
                 if (isPremium || isOwner) return await bocchi.reply(from, '⤞ Limit left: ∞ (UNLIMITED)', id)
                 await bocchi.reply(from, `⤞ Limit left: ${limit.getLimit(sender.id, _limit, limitCount)} / 25\n\n*_Limit direset pada pukul 00:00 WIB_*`, id)
-            break
+                break
 
             // Weeb zone
             case 'neko':
@@ -948,7 +960,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         console.error(err)
                         await bocchi.reply(from, 'Error!', id)
                     })
-            break
+                break
             case 'wallpaper':
             case 'wp':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
@@ -962,7 +974,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         console.error(err)
                         await bocchi.reply(from, 'Error!', id )
                     })
-            break
+                break
             case 'kemono':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, eng.limit(), id)
@@ -975,7 +987,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         console.error(err)
                         await bocchi.reply(from, 'Error!', id)
                     })
-            break
+                break
             case 'wait':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (isMedia && isImage || isQuotedImage) {
@@ -1005,7 +1017,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'source':
             case 'sauce':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
@@ -1036,7 +1048,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'waifu':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, eng.limit(), id)
@@ -1051,7 +1063,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                         console.error(err)
                         await bocchi.reply(from, 'Error!', id)
                     })
-            break
+                break
 
             // Fun
             case 'profile':
@@ -1095,7 +1107,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     }
                     await bocchi.sendFileFromUrl(from, pfps, `${username}.jpg`, eng.profile(username, status, premi, benet, adm, levelMe, req, xpMe), id)
                 }
-            break
+                break
             case 'triggered':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (isMedia && isImage || isQuotedImage) {
@@ -1135,7 +1147,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'trash':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, eng.groupOnly(), id)
@@ -1161,7 +1173,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     console.error(err)
                     await bocchi.reply(from, 'Error!', id)
                 }
-            break
+                break
             case 'hitler':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, eng.groupOnly(), id)
@@ -1187,7 +1199,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     console.error(err)
                     await bocchi.reply(from, 'Error!', id)
                 }
-            break
+                break
             case 'kiss':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 try {
@@ -1216,7 +1228,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     console.error(err)
                     await bocchi.reply(from, 'Error!', id)
                 }
-            break
+                break
 
             // Sticker
             case 'stikernobg':
@@ -1233,7 +1245,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'stickerwm': // By Slavyan
             case 'stcwm':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
@@ -1254,7 +1266,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'stickermeme': // Chika Chantexx
             case 'stcmeme':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
@@ -1275,7 +1287,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'takestick': // By: VideFrelan, Chika Chantexx
             case 'take':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
@@ -1292,7 +1304,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'sticker':
             case 'stiker':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
@@ -1307,7 +1319,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'stickergif':
             case 'stikergif':
             case 'sgif':
@@ -1333,7 +1345,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'stickertoimg':
             case 'stikertoimg':
             case 'toimg':
@@ -1353,7 +1365,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
 
             // Moderation command
             case 'revoke':
@@ -1365,7 +1377,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 await bocchi.revokeGroupInviteLink(groupId)
                 await bocchi.sendTextWithMentions(from, `Group link revoked by @${sender.id.replace('@c.us', '')}`)
-            break
+                break
             case 'grouplink':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, eng.groupOnly(), id)
@@ -1375,7 +1387,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 const gcLink = await bocchi.getGroupInviteLink(groupId)
                 await bocchi.reply(from, gcLink, id)
-            break
+                break
             case 'mutegc':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!isGroupMsg) return bocchi.reply(from, eng.groupOnly(), id)
@@ -1394,7 +1406,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'add':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, eng.groupOnly(), id)
@@ -1410,7 +1422,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     console.error(err)
                     await bocchi.reply(from, 'Error!', id)
                 }
-            break
+                break
             case 'kick':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, eng.groupOnly(), id)
@@ -1425,7 +1437,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     if (groupAdmins.includes(i)) return await bocchi.sendText(from, eng.wrongFormat())
                     await bocchi.removeParticipant(groupId, i)
                 }
-            break
+                break
             case 'promote':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, eng.groupOnly(), id)
@@ -1438,7 +1450,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 await bocchi.promoteParticipant(groupId, mentionedJidList[0])
                 await bocchi.reply(from, eng.ok(), id)
-            break
+                break
             case 'demote':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, eng.groupOnly(), id)
@@ -1451,14 +1463,14 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 await bocchi.demoteParticipant(groupId, mentionedJidList[0])
                 await bocchi.reply(from, eng.ok(), id)
-            break
+                break
             case 'leave':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, eng.groupOnly(), id)
                 if (!isGroupAdmins) return await bocchi.reply(from, eng.adminOnly(), id)
                 await bocchi.sendText(from, 'Bye~ 👋')
                 await bocchi.leaveGroup(groupId)
-            break
+                break
             case 'everyone':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, eng.groupOnly(), id)
@@ -1488,7 +1500,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.sendTextWithMentions(from, txt)
                     daily.addLimit(sender.id, _daily)
                 }
-            break
+                break
             case 'groupicon':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, eng.groupOnly(), id)
@@ -1507,7 +1519,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'antilink':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, eng.groupOnly(), id)
@@ -1529,7 +1541,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'leveling':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, eng.groupOnly(), id)
@@ -1550,7 +1562,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'welcome':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, eng.groupOnly(), id)
@@ -1571,7 +1583,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'autosticker':
             case 'autostiker':
             case 'autostik':
@@ -1594,7 +1606,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'antinsfw':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!isGroupMsg) return await bocchi.reply(from, eng.groupOnly(), id)
@@ -1616,7 +1628,45 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
+            case 'badwords':
+            case 'badword':
+                if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
+                if (!isGroupMsg) return await bocchi.reply(from, eng.groupOnly(), id)
+                if (!isGroupAdmins) return await bocchi.reply(from, eng.adminOnly(), id)
+                if (!isBotGroupAdmins) return await bocchi.reply(from, eng.botNotAdmin(), id)
+                if (ar[0] === 'enable') {
+                    if (isAntiBadWords) return await bocchi.reply(from, eng.antiBadWordsOnAlready(), id)
+                    if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, eng.limit(), id)
+                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                    _badwords.push(groupId)
+                    fs.writeFileSync('./database/group/badwords.json', JSON.stringify(_badwords))
+                    await bocchi.reply(from, eng.antiBadWordsOn(name, formattedTitle), id)
+                } else if (ar[0] === 'disable') {
+                    console.log(ar.splice(1).toString())
+                    if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, eng.limit(), id)
+                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                    _badwords.splice(groupId, 1)
+                    fs.writeFileSync('./database/group/badwords.json', JSON.stringify(_badwords))
+                    await bocchi.reply(from, eng.antiBadWordsOff(), id)
+                } else if (ar[0] === 'add') {
+                    const newBadwords = ar.splice(1)
+                    if (newBadwords.length === 0) return await bocchi.reply(from, eng.wrongFormat(), id)
+                    if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, eng.limit(), id)
+                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                    badwords.addWords(...newBadwords)
+                    await bocchi.reply(from, eng.ok(), id)
+                } else if (ar[0] === 'remove') {
+                    const newBadwords = ar.splice(1)
+                    if (newBadwords.length === 0) return await bocchi.reply(from, eng.wrongFormat(), id)
+                    if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, eng.limit(), id)
+                    limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                    badwords.removeWords(...newBadwords)
+                    await bocchi.reply(from, eng.ok(), id)
+                } else {
+                    await bocchi.reply(from, eng.wrongFormat(), id)
+                }
+                break
 
             // Owner command
             case 'block':
@@ -1634,7 +1684,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'unblock':
             case 'unblok':
                 if (!isOwner) return await bocchi.reply(from, eng.ownerOnly(), id)
@@ -1650,17 +1700,17 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'bc':
                 if (!isOwner) return await bocchi.reply(from, eng.ownerOnly(), id)
                 if (!q) return await bocchi.reply(from, eng.emptyMess(), id)
                 const chats = await bocchi.getAllChatIds()
                 for (let bcs of chats) {
                     let cvk = await bocchi.getChatById(bcs)
-                    if (!cvk.isReadOnly) await bocchi.sendText(bcs, `${q}\n\n- Slavyan (Kal)\n_Broadcasted message_`)
+                    if (!cvk.isReadOnly) await bocchi.sendText(bcs, `${q}\n\n- Bot Admin\n_Broadcasted message_`)
                 }
                 await bocchi.reply(from, eng.ok(), id)
-            break
+                break
             case 'clearall':
                 if (!isOwner) return await bocchi.reply(from, eng.ownerOnly(), id)
                 const allChats = await bocchi.getAllChats()
@@ -1668,7 +1718,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.deleteChat(delChats.id)
                 }
                 await bocchi.reply(from, eng.ok(), id)
-            break
+                break
             case 'leaveall':
                 if (!isOwner) return await bocchi.reply(from, eng.ownerOnly(), id)
                 if (!q) return await bocchi.reply(from, eng.emptyMess(), id)
@@ -1678,12 +1728,12 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.leaveGroup(gclist.contact.id)
                 }
                 await bocchi.reply(from, eng.ok())
-            break
+                break
             case 'getses':
                 if (!isOwner) return await bocchi.reply(from, eng.ownerOnly(), id)
                 const ses = await bocchi.getSnapshot()
                 await bocchi.sendFile(from, ses, 'session.png', eng.ok())
-            break
+                break
             case 'ban':
                 if (!isOwner) return await bocchi.reply(from, eng.ownerOnly(), id)
                 if (ar[0] === 'add') {
@@ -1713,7 +1763,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'eval':
             case 'ev':
                 if (!isOwner) return await bocchi.reply(from, eng.ownerOnly(), id)
@@ -1726,13 +1776,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     console.error(err)
                     await bocchi.reply(from, err, id)
                 }
-            break
+                break
             case 'shutdown':
                 if (!isOwner) return await bocchi.reply(from, eng.ownerOnly(), id)
-                await bocchi.sendText(from, 'Otsukaresama deshita~ 👋')
+                await bocchi.sendText(from, 'Good bye~ 👋')
                     .then(async () => await bocchi.kill())
                     .catch(() => new Error('Target closed.'))
-            break
+                break
             case 'premium':
                 if (!isOwner) return await bocchi.reply(from, eng.ownerOnly(), id)
                 if (ar[0] === 'add') {
@@ -1760,7 +1810,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'setstatus':
             case 'setstats':
             case 'setstat':
@@ -1768,7 +1818,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (!q) return await bocchi.reply(from, eng.emptyMess(), id)
                 await bocchi.setMyStatus(q)
                 await bocchi.reply(from, eng.ok(), id)
-            break
+                break
             case 'mute':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(pushname), id)
                 if (!isGroupMsg) return await bocchi.reply(from, eng.groupOnly(), id)
@@ -1785,13 +1835,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
-            break
+                break
             case 'setname':
                 if (!isOwner) return await bocchi.reply(from, eng.ownerOnly(), id)
                 if (!q || q.length > 25) return await bocchi.reply(from, eng.wrongFormat(), id)
                 await bocchi.setMyName(q)
                 await bocchi.reply(from, eng.nameChanged(q), id)
-            break
+                break
             case 'grouplist':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 const getGroups = await bocchi.getAllGroups()
@@ -1800,22 +1850,20 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     txtGc += `\n\n❏ *Name*: ${getGroups[i].name}\n❏ *Unread messages*: ${getGroups[i].unreadCount} messages`
                 }
                 await bocchi.sendText(from, txtGc)
-            break
+                break
             case 'reset':
                 if (!isOwner) return await bocchi.reply(from, eng.ownerOnly(), id)
-                const reset = []
-                _limit = reset
+                _limit = []
                 console.log('Hang tight, it\'s time to reset usage limits...')
                 fs.writeFileSync('./database/user/limit.json', JSON.stringify(_limit))
                 await bocchi.reply(from, eng.ok(), id)
                 console.log('Success!')
-            break
-            
+                break
             default:
                 if (isCmd) {
                     await bocchi.reply(from, eng.cmdNotFound(command), id)
                 }
-            break
+                break
         }
     } catch (err) {
         console.error(color('[ERROR]', 'red'), err)

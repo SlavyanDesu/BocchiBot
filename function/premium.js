@@ -3,9 +3,9 @@ const toMs = require('ms')
 
 /**
  * Add premium user.
- * @param {string} userId 
- * @param {string} expired 
- * @param {object} _dir 
+ * @param {string} userId
+ * @param {string} expired
+ * @param {object} _dir
  */
 const addPremiumUser = (userId, expired, _dir) => {
     const obj = { id: userId, expired: Date.now() + toMs(expired) }
@@ -15,8 +15,8 @@ const addPremiumUser = (userId, expired, _dir) => {
 
 /**
  * Get premium user index position.
- * @param {string} userId 
- * @param {object} _dir 
+ * @param {string} userId
+ * @param {object} _dir
  * @returns {Number}
  */
 const getPremiumPosition = (userId, _dir) => {
@@ -33,8 +33,8 @@ const getPremiumPosition = (userId, _dir) => {
 
 /**
  * Get premium user expired.
- * @param {string} userId 
- * @param {object} _dir 
+ * @param {string} userId
+ * @param {object} _dir
  * @returns {Number}
  */
 const getPremiumExpired = (userId, _dir) => {
@@ -51,8 +51,8 @@ const getPremiumExpired = (userId, _dir) => {
 
 /**
  * Check if is user premium.
- * @param {string} userId 
- * @param {object} _dir 
+ * @param {string} userId
+ * @param {object} _dir
  * @returns {boolean}
  */
 const checkPremiumUser = (userId, _dir) => {
@@ -67,7 +67,7 @@ const checkPremiumUser = (userId, _dir) => {
 
 /**
  * Constantly checking premium.
- * @param {object} _dir 
+ * @param {object} _dir
  */
 const expiredCheck = (_dir) => {
     setInterval(() => {
@@ -87,7 +87,7 @@ const expiredCheck = (_dir) => {
 
 /**
  * Get all premium user ID.
- * @param {object} _dir 
+ * @param {object} _dir
  * @returns {string[]}
  */
 const getAllPremiumUser = (_dir) => {

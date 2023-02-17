@@ -1,6 +1,6 @@
 const { create, Client } = require('@open-wa/wa-automate')
 const { color, options } = require('./tools')
-const { eng } = require('./message/text/lang/')
+const { eng, ind } = require('./message/text/lang/')
 const { loader } = require('./function')
 const { version, bugs } = require('./package.json')
 const { ownerBot } = require('./config.json')
@@ -59,7 +59,7 @@ const start = (bocchi = new Client()) => {
         }
     })
 
-    bocchi.onMessage((message) => {        
+    bocchi.onMessage((message) => {
         // Comment code below to activate auto-update. Then, uncomment require code below msgHandler.
         msgHandler(bocchi, message)
         // require('./message/index.js')(bocchi, message)
@@ -70,7 +70,7 @@ const start = (bocchi = new Client()) => {
         await bocchi.contactBlock(callData.peerJid)
         console.log(color('[BLOCK]', 'red'), color(`${callData.peerJid} has been blocked.`, 'yellow'))
     })
-    
+
     // Clear chats every 12 hour
     cron.schedule('0 */12 * * *', async () => {
         const allChats = await bocchi.getAllChats()

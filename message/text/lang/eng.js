@@ -9,6 +9,10 @@ exports.ok = () => {
     return `Done!`
 }
 
+exports.videoLimit = () => {
+    return `Video/GIF size is too large!`
+}
+
 exports.wrongFormat = () => {
     return `Incorrect format! Please check usage at *${prefix}menu*`
 }
@@ -38,7 +42,7 @@ exports.adminOnly = () => {
 }
 
 exports.addedGroup = (chat) => {
-    return `Thanks for inviting me, members of *${chat.contact.name}*!\n\nPlease register by typing:\n*${prefix}register* name`
+    return `Thanks for inviting me, members of *${chat.contact.name}*!\n\nPlease register in *private chat* by typing:\n*${prefix}register* name`
 }
 
 exports.listBlock = (blockNumber) => {
@@ -70,22 +74,22 @@ exports.botNotAdmin = () => {
 }
 
 exports.notRegistered = () => {
-    return `You haven't registered in our database!\n\nPlease register by typing:\n*${prefix}register* name`
+    return `You haven't registered in our database!\n\nPlease register in *private chat* by typing:\n*${prefix}register* name`
 }
 
 exports.registered = (name, userId, time, serial) => {
     return `
 *── 「 REGISTRATION 」 ──*
-    
+
 Your account has been created with data below:
 ➸ *Name*: ${name}
 ➸ *ID*: ${userId}
 ➸ *Registered on*: ${time}
 ➸ *Serial*: ${serial}
-    
+
 Note:
 Don't share your *serial* to anyone!
-    
+
 Type *${prefix}rules* to see the rules.
     `
 }
@@ -126,10 +130,19 @@ exports.detectorOn = (name, formattedTitle) => {
 *── 「 ANTI GROUP LINK 」 ──*
 
 Announcement for all *${(name || formattedTitle)}* members.
-This group has an anti-group link detector, if someone sends a group link then he'll be kicked out immediately.
+This group has a group link detector, if someone sends a group link then he'll be kicked out immediately.
 
 Thanks for your attention.
 - Admin *${(name || formattedTitle)}*
+    `
+}
+
+exports.linkDetected = () => {
+    return `
+*── 「 ANTI GROUP LINK 」 ──*
+
+You sent a group chat link!
+Sorry, but you have to leave...
     `
 }
 
@@ -146,7 +159,7 @@ exports.antiNsfwOn = (name, formattedTitle) => {
 *── 「 ANTI NSFW LINK 」 ──*
 
 Announcement for all *${(name || formattedTitle)}* members.
-This group has an anti-NSFW link detector, if someone sends a NSFW link then he'll be kicked out immediately.
+This group has a NSFW link detector, if someone sends a NSFW link then he'll be kicked out immediately.
 
 Thanks for your attention.
 - Admin *${(name || formattedTitle)}*
@@ -161,13 +174,28 @@ exports.antiNsfwOnAlready = () => {
     return `Anti-NSFW link feature has been enabled before.`
 }
 
-exports.linkDetected = () => {
+exports.antiBadWordsOn = (name, formattedTitle) => {
     return `
-*── 「 ANTI GROUP LINK 」 ──*
+*── 「 ANTI BAD WORDS 」 ──*
 
-You sent a group chat link!
-Sorry, but you have to leave...
+Announcement for all *${(name || formattedTitle)}* members.
+This group has a bad words detector, if someone sends a bad words/profane words then the related message will be deleted.
+
+Thanks for your attention.
+- Admin *${(name || formattedTitle)}*
     `
+}
+
+exports.antiBadWordsOff = () => {
+    return `Anti-bad words feature was successfully *disabled*!`
+}
+
+exports.antiBadWordsOnAlready = () => {
+    return `Anti-bad words feature has been enabled before.`
+}
+
+exports.antiBadWordsError = () => {
+    return `Anti-bad words feature is currently *off*, please enable it first.`
 }
 
 exports.levelingOn = () => {
@@ -215,7 +243,7 @@ exports.autoStikOn = () => {
 }
 
 exports.autoStikOff = () => {
-    return `Auto-sticker feature was successfully *enabled*!`
+    return `Auto-sticker feature was successfully *disabled*!`
 }
 
 exports.autoStikOnAlready = () => {
@@ -225,7 +253,7 @@ exports.autoStikOnAlready = () => {
 exports.afkOn = (pushname, reason) => {
     return `
 *── 「 AFK MODE 」 ──*
-    
+
 AFK feature has been successfully *enabled*!
 ➸ *Username*: ${pushname}
 ➸ *Reason*: ${reason}
@@ -253,7 +281,7 @@ exports.afkDone = (pushname) => {
 exports.gcMute = () => {
     return `
 *── 「 MUTED 」 ──*
-    
+
 Only admins who can send message in this group.
     `
 }
@@ -272,7 +300,7 @@ exports.notNum = (q) => {
 
 exports.registeredFound = (name, time, serial, userId) => {
     return `
-*── 「 REGISTERED 」 ──* 
+*── 「 REGISTERED 」 ──*
 
 Account has been found!
 ➸ *Name*: ${name}
@@ -327,7 +355,7 @@ You ran out of usage limit! Please do the following:
 exports.reminderOn = (messRemind, parsedTime, sender) => {
     return `
 *── 「 REMINDER 」 ──*
-    
+
 Reminder has been set!
 ➸ *Message*: ${messRemind}
 ➸ *Duration*: ${parsedTime.hours} hour(s) ${parsedTime.minutes} minute(s) ${parsedTime.seconds} second(s)
@@ -385,7 +413,12 @@ exports.menuDownloader = () => {
 1. *${prefix}twitter*
 Download Twitter media.
 Aliases: *twt*
-Usage: *${prefix}twiter* link
+Usage: *${prefix}twitter* link
+
+2. *${prefix}youtube*
+Download YouTube video.
+Aliases: *yt*
+Usage: *${prefix}youtube* link
 
 _Index of [1]_
     `
@@ -508,7 +541,7 @@ Aliases: -
 Usage: *${prefix}math* 12*12
 
 5. *${prefix}reminder*
-Reminder. 
+Reminder.
 *s* - seconds
 *m* - minutes
 *h* - hours
@@ -597,7 +630,7 @@ Usage: Reply to the stickers with a caption *${prefix}takestick* pack_name | aut
 7. *${prefix}stickernobg*
 Create stickers from images sent or replied with blank background.
 Aliases: *take*
-Usage: Send images with caption *${prefix}sticker* or reply to the images with a caption *${prefix}sticker*
+Usage: Send images with caption *${prefix}stickernobg* or reply to the images with a caption *${prefix}stickernobg*
 
 _Index of [4]_
     `
@@ -656,7 +689,7 @@ Aliases: -
 Usage: Send image with caption *${prefix}kiss* or reply image with caption *${prefix}kiss*
 
 3. *${prefix}profile*
-Create a triggered effect.
+Check my profile.
 Aliases: *me*
 Usage: *${prefix}profile*
 
@@ -666,7 +699,7 @@ Aliases: -
 Usage: *${prefix}trash*
 
 5. *${prefix}hitler*
-Worse than hitler
+Worse than hitler.
 Aliases: -
 Usage: *${prefix}hitler*
 
@@ -753,6 +786,11 @@ Toogle leveling feature.
 Aliases: -
 Usage: *${prefix}leveling* enable/disable
 
+16. *${prefix}badwords*
+Setting up anti-bad words feature.
+Aliases: *badword*
+Usage: *${prefix}badwords* enable/disable or add/remove to add/remove a blacklist words.
+
 _Index of [7]_
     `
 }
@@ -762,7 +800,7 @@ exports.menuOwner = () => {
 *── 「 OWNER 」 ──*
 
 1. *${prefix}bc*
-Make a broadcast.
+Create a broadcast.
 Aliases: -
 Usage: *${prefix}bc* text
 
@@ -797,9 +835,13 @@ Aliases: -
 Usage: *${prefix}shutdown*
 
 8. *${prefix}premium*
-Add/remove premium users.
+Add/remove premium user.
+*s* - seconds
+*m* - minutes
+*h* - hours
+*d* - days
 Aliases: -
-Usage: *${prefix}premium* add/del @user
+Usage: *${prefix}premium* add/del @user/62812xxxxxxxx 30d
 
 9. *${prefix}setstatus*
 Set about me.
@@ -862,7 +904,7 @@ exports.rules = () => {
     return `
 *── 「 RULES 」 ──*
 
-1. Do NOT spam bot. 
+1. Do NOT spam bot.
 Penalty: *WARN/SOFT BLOCK*
 
 2. Do NOT call bot.
