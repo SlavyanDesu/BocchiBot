@@ -42,7 +42,7 @@
         "parse-ms": "2.1.0",
         "sagiri": "^3.4.0",
         "video-url-link": "^0.1.5",
-        "ytdl-core": "^4.11.2"
+        "ytdl-core": "^4.11.3"
     },
     "devDependencies": {
         "eslint": "^8.37.0"
