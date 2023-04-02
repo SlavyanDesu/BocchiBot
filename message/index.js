@@ -337,7 +337,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (isMedia && isImage || isQuotedImage) {
                     await bocchi.reply(from, eng.wait(), id)
                     const encryptMedia = isQuotedImage ? quotedMsg : message
-                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    const mediaData = await decryptMedia(encryptMedia)
                     fs.writeFileSync(`./${sender.id}.jpg`, mediaData)
                     ocrtess.recognize(`./${sender.id}.jpg`, ocrconf)
                     .then(text => {
@@ -350,7 +350,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
             } else if (quotedMsg && quotedMsg.type == 'sticker') {
                     await bocchi.reply(from, eng.wait(), id)
-                    const mediaData = await decryptMedia(quotedMsg, uaOverride)
+                    const mediaData = await decryptMedia(quotedMsg)
                     fs.writeFileSync(`./${sender.id}.jpg`, mediaData)
                     ocrtess.recognize(`./${sender.id}.jpg`, ocrconf)
                     .then(text => {
