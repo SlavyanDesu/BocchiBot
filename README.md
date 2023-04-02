@@ -83,6 +83,21 @@ It will give us a callback like `SUCCESS: specified value was saved`.
 > ffmpeg -version
 ```
 
+## 🛠️ Installing the Tesserract
+* Download the Tesseract program [here](https://s.id/vftesseract).
+* Run the Tesseract program with run As Administrator.
+* Make sure the Tesseract installation is in the `C:\` folder
+* Run Command Prompt as Administrator.
+* Run this command:
+```cmd
+> setx /m PATH "C:\Tesseract-OCR;%PATH%"
+```
+It will give us a callback like `SUCCESS: specified value was saved`.
+* Now that you've Tesseract installed, verify that it's working by running this command to see version number:
+```cmd
+> tesseract -version
+```
+
 ## 🔍 Installing the dependencies
 ```cmd
 > npm install
