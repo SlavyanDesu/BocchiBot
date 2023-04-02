@@ -25,6 +25,7 @@ moment.tz.setDefault('Asia/Jakarta').locale('id')
 const genshin = require('genshin')
 const google = require('google-it')
 const cron = require('node-cron')
+const ocrtess = require('node-tesseract-ocr')
 /********** END OF MODULES **********/
 
 /********** UTILS **********/
@@ -325,6 +326,45 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         if (isCmd && !isPremium && !isOwner) msgFilter.addFilter(from)
 
         switch (command) {
+            // OCR by VideFrelan
+            case 'ocr':
+                if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(pushname), id)
+                const ocrconf = {
+                    lang: 'eng',
+                    oem: '1',
+                    psm: '3'
+                }
+                if (isMedia && isImage || isQuotedImage) {
+                    await bocchi.reply(from, eng.wait(), id)
+                    const encryptMedia = isQuotedImage ? quotedMsg : message
+                    const mediaData = await decryptMedia(encryptMedia, uaOverride)
+                    fs.writeFileSync(`./${sender.id}.jpg`, mediaData)
+                    ocrtess.recognize(`./${sender.id}.jpg`, ocrconf)
+                    .then(text => {
+                    bocchi.reply(from, `*...:* *OCR RESULT* *:...*\n\n${text}`, id)
+                    fs.unlinkSync(`./${sender.id}.jpg`)
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await bocchi.reply(from, 'Error!', id)
+                    })
+            } else if (quotedMsg && quotedMsg.type == 'sticker') {
+                    await bocchi.reply(from, eng.wait(), id)
+                    const mediaData = await decryptMedia(quotedMsg, uaOverride)
+                    fs.writeFileSync(`./${sender.id}.jpg`, mediaData)
+                    ocrtess.recognize(`./${sender.id}.jpg`, ocrconf)
+                    .then(text => {
+                    bocchi.reply(from, `*...:* *OCR RESULT* *:...*\n\n${text}`, id)
+                    fs.unlinkSync(`./${sender.id}.jpg`)
+                })
+                .catch(async (err) => {
+                    console.error(err)
+                    await bocchi.reply(from, 'Error!', id)
+                })
+            } else {
+                await bocchi.reply(from, `Untuk menggunakan ocr\nsilahkan upload atau reply foto dengan perintah ${prefix}ocr\n\nAtau anda juga bisa reply sticker dengan perintah ${prefix}ocr`, id)
+            }
+            break
             // Register by Slavyan
             case 'register':
                 if (isGroupMsg) return await bocchi.reply(from, eng.pcOnly(), id)
@@ -1288,7 +1328,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
                 break
-            case 'takestick': // By: VideFrelan, Chika Chantexx
+            case 'takestick': // By: VideFrelan
             case 'take':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (!q.includes('|')) return await bocchi.reply(from, eng.wrongFormat(), id)
