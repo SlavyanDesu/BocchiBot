@@ -33,7 +33,7 @@ const { msgFilter, color, processTime, isUrl, createSerial } = require('../tools
 const { weeaboo, downloader } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
 const { eng, ind } = require('./text/lang/')
-const { daily, level, register, afk, reminder, premium, limit} = require('../function')
+const { daily, level, register, afk, reminder, premium, limit, quizizz} = require('../function')
 const cd = 4.32e+7
 const limitCount = 25
 const errorImg = 'https://i.ibb.co/jRCpLfn/user.png'
@@ -747,6 +747,21 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }
+                break
+            case 'quizizz':
+                if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
+                if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, eng.limit(), id)
+                limit.addLimit(sender.id, _limit, isPremium, isOwner)
+                await bocchi.reply(from, eng.wait(), id)
+                if (!q) return await bocchi.reply(from, eng.wrongFormat(), id)
+                quizizz(q)
+                    .then(async (result) => {
+                    const ResultText = `Quizizz Hack Berhasil\n\nSilahkan Cek Jawabannya Di Link ${result.url}`
+                    await bocchi.sendLinkWithAutoPreview(from, result.url, ResultText, null, id)
+                    })
+                    .catch((err) => {
+                    await bocchi.sendText(from, 'Link Quizizz Tidak Di Temukan atau Api Sedang Error' , id)
+                    })
                 break
             case 'nightcore':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
