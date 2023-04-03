@@ -591,6 +591,12 @@ Buat audio PTT.
 Aliases: *ptt*
 Usage: Reply audio/voice dengan caption *${prefix}toptt*
 
+14. *${prefix}quizizz*
+Mengambil Data Quizizz 
+Aliases: *quizizz hack*
+Usage: *${prefix}quizizz* query
+
+
 _Index of [3]_
     `
 }
