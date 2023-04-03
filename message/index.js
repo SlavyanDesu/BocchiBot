@@ -759,7 +759,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 const ResultText = `Quizizz Hack Berhasil\n\nSilahkan Cek Jawabannya Di Link ${result.url}`
                 await bocchi.sendLinkWithAutoPreview(from, result.url, ResultText, null, id)
                 })
-                .catch(async (err) => {
+                .catch(async () => {
                 await bocchi.sendText(from, 'Link Quizizz Tidak Di Temukan atau Api Sedang Error' , id)
                 })
                 break
