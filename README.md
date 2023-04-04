@@ -10,7 +10,7 @@
 <h3 align="center">Made with ❤️ by</h3>
 <p align="center">
   <a href="https://github.com/SlavyanDesu"><img src="https://avatars3.githubusercontent.com/u/28254882?s=400&u=25765902db0b709938966cf4127ac11af5eafb5d&v=4" height="128" width="128" /></a>
-  <a href="https://github.com/AlvioAdjiJanuar"><img src="https://avatars2.githubusercontent.com/u/68207798?s=400&u=29439908cd661d11443391cb74f5b07267b71117&v=4" height="128" width="128" /></a>
+  <a href="https://github.com/Piyoxz"><img src="https://avatars2.githubusercontent.com/u/68207798?s=400&u=29439908cd661d11443391cb74f5b07267b71117&v=4" height="128" width="128" /></a>
   <a href="https://github.com/VideFrelan"><img src="https://avatars1.githubusercontent.com/u/76523793?s=400&u=365f732cd3fc09ce75f6556715a00386005db57c&v=4" height="128" width="128" /></a>
 </p>
 
@@ -128,7 +128,7 @@ Type `.help` to your bot number to see the list of commands.
 * [`Pahri123`](https://github.com/Pahri123)
 * [`LeviathanH`](https://github.com/LeviathanH)
 * [`ferlitopym`](https://github.com/ferlitopym)
-* [`AlvioAdjiJanuar`](https://github.com/AlvioAdjiJanuar)
+* [`AlvioAdjiJanuar`](https://github.com/Piyoxz)
 * [`VirusLauncher`](https://github.com/VirusLauncher)
 * [`Sansekai`](https://github.com/Sansekai)
 * [`Baguettou`](https://github.com/Baguettou)
