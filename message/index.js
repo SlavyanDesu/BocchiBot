@@ -2,6 +2,7 @@
 
 /********** MODULES **********/
 const { decryptMedia, Client } = require('@open-wa/wa-automate')
+const { Configuration, OpenAIApi } = require('openai')
 const fs = require('fs-extra')
 const Nekos = require('nekos.life')
 const neko = new Nekos()
@@ -326,6 +327,46 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         if (isCmd && !isPremium && !isOwner) msgFilter.addFilter(from)
 
         switch (command) {
+          //openAi API Implementation by: VideFrelan
+          case 'ai':
+            if (config.openAiKey == 'api-key') return await bocchi.reply(from, `Invalid OpenAi Apikey. Please get your ApiKey at: https://platform.openai.com/account/api-keys `, id)
+            if (!q) return await bocchi.reply(from, eng.wrongFormat(), id)
+            await bocchi.reply(from, eng.wait(), id)
+            try {
+            configuration = new Configuration({
+                apiKey: config.openAiKey
+              })
+              openai = new OpenAIApi(configuration)
+		      completion = await openai.createChatCompletion({
+		      model: "gpt-3.5-turbo",
+		      messages: [{role: "user", content: q}],
+		    })
+		    await bocchi.reply(from, `${completion.data.choices[0].message.content}`, id)
+	    } catch (err) {
+            console.error(err)
+            await bocchi.reply(from, `Error: ${err.message}`, id)
+        }
+		break
+        case 'img':
+            if (config.openAiKey == 'api-key') return await bocchi.reply(from, `Invalid OpenAi Apikey. Please get your ApiKey at: https://platform.openai.com/account/api-keys `, id)
+            if (!q) return await bocchi.reply(from, eng.wrongFormat(), id)
+            await bocchi.reply(from, eng.wait(), id)
+            try {
+            configuration = new Configuration({
+                apiKey: config.openAiKey
+              })
+              openai = new OpenAIApi(configuration)
+              completion = await openai.createImage({
+                prompt: q,
+                n: 1,
+                size: "1024x1024",
+              })
+              bocchi.sendFileFromUrl(from, completion.data.data[0].url, 'BOCCHIOPENAI.jpg', '', id)
+            } catch (err) {
+                console.error(err)
+                await bocchi.reply(from, `Error: ${err.message}`, id)
+            }
+        break
             // OCR by VideFrelan
             case 'ocr':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(pushname), id)
