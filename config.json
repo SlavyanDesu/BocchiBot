@@ -2,6 +2,7 @@
     "ownerBot": "62xxxxxxx@c.us",
     "prefix": ".",
     "nao": "api-key",
+    "openAiKey": "api-key",
     "authorStick": "@SlavyanDesu",
     "packStick": "BocchiBot"
 }
