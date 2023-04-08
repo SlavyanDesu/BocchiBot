@@ -113,7 +113,7 @@ Regular node:
 
 PM2:
 ```cmd
-> pm2 start index.js cluster max
+> pm2 start index.js -i max
 > pm2 monit
 ```
 
