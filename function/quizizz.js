@@ -11,7 +11,7 @@ const fetch = require('node-fetch')
  * @returns {Promise<QuizizzData>} answers
  */
 
-const quizizz = async (pin) => new Promise((resolve, reject) => {
+const quizizz = (pin) => new Promise(async (resolve, reject) => {
   if (!pin) return reject('Require Pin Query.')
   const Data = await fetch('https://piyo.my.id/hack', {
         method: 'POST',
