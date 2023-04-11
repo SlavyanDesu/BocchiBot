@@ -878,6 +878,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.sendText(from, eng.rules())
                 break
             case 'status':
+            case 'stats':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 await bocchi.sendText(from, `*RAM*: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB / ${Math.round(os.totalmem / 1024 / 1024)} MB\n*CPU*: ${os.cpus()[0].model}`)
                 break
