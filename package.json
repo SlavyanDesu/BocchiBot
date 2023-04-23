@@ -18,7 +18,7 @@
     "homepage": "https://github.com/SlavyanDesu/BocchiBot",
     "license": "MIT",
     "dependencies": {
-        "@open-wa/wa-automate": "^4.64.1",
+        "@open-wa/wa-automate": "^4.64.5",
         "@vitalets/google-translate-api": "^9.1.0",
         "await-exec": "^0.1.2",
         "bad-words": "^3.0.4",
@@ -44,7 +44,7 @@
         "parse-ms": "2.1.0",
         "sagiri": "^3.4.0",
         "video-url-link": "^0.1.5",
-        "ytdl-core": "^4.11.3"
+        "ytdl-core": "^4.11.4"
     },
     "devDependencies": {
         "eslint": "^8.38.0"
