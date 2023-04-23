@@ -33,6 +33,7 @@
 * [Node.js](https://nodejs.org/en/)
 * [Git](https://git-scm.com/downloads)
 * [FFmpeg](https://www.gyan.dev/ffmpeg/builds/)
+* [Tesseract](https://github.com/tesseract-ocr/tesseract)
 
 # Installation
 ## 📝 Cloning the repo
