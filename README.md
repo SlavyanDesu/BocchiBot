@@ -1,5 +1,5 @@
 <div align="center">
-<img src="https://images5.alphacoders.com/911/911614.png" alt="BocchiBot" width="500" />
+  <img src="https://images5.alphacoders.com/911/911614.png" alt="BocchiBot" width="500" />
 
 # **BocchiBot**
 
@@ -7,32 +7,26 @@
 >
 >
 
-<h3 align="center">Made with ❤️ by</h3>
-<p align="center">
-  <a href="https://github.com/SlavyanDesu"><img src="https://avatars3.githubusercontent.com/u/28254882?s=400&u=25765902db0b709938966cf4127ac11af5eafb5d&v=4" height="128" width="128" /></a>
-  <a href="https://github.com/Piyoxz"><img src="https://avatars2.githubusercontent.com/u/68207798?s=400&u=29439908cd661d11443391cb74f5b07267b71117&v=4" height="128" width="128" /></a>
-  <a href="https://github.com/VideFrelan"><img src="https://avatars1.githubusercontent.com/u/76523793?s=400&u=365f732cd3fc09ce75f6556715a00386005db57c&v=4" height="128" width="128" /></a>
-</p>
+  <h3>Made with ❤️ by</h3>
 
-<p align="center">
+  <a href="https://github.com/SlavyanDesu"><img src="https://avatars.githubusercontent.com/u/28254882?v=4" height="128" width="128" /></a>
+  <a href="https://github.com/Piyoxz"><img src="https://avatars.githubusercontent.com/u/102013178?v=4" height="128" width="128" /></a>
+  <a href="https://github.com/VideFrelan"><img src="https://avatars.githubusercontent.com/u/76523793?v=4" height="128" width="128" /></a>
+  <a href="https://github.com/Sansekai"><img src="https://avatars.githubusercontent.com/u/34540627?v=4" height="128" width="128" /></a>
+
   <a href="https://github.com/SlavyanDesu"><img title="Author" src="https://img.shields.io/badge/Author-SlavyanDesu-purple.svg?style=for-the-badge&logo=github" /></a>
-</p>
 
-<p align="center">
   <img src="https://img.shields.io/npm/v/@open-wa/wa-automate.svg?color=green"/>
   <img src="https://img.shields.io/node/v/@open-wa/wa-automate"/>
   <img src="https://img.shields.io/github/repo-size/SlavyanDesu/BocchiBot" /> <br>
   <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FSlavyanDesu%2FBocchiBot?ref=badge_shield" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FSlavyanDesu%2FBocchiBot.svg?type=shield"/></a>
   <a href="https://www.codefactor.io/repository/github/SlavyanDesu/BocchiBot"><img src="https://www.codefactor.io/repository/github/SlavyanDesu/BocchiBot/badge"/></a>
-</p>
 
-<p align="center">
   <a href="https://github.com/SlavyanDesu/BocchiBot#requirements">Requirements</a> •
   <a href="https://github.com/SlavyanDesu/BocchiBot#installation">Installation</a> •
   <a href="https://github.com/SlavyanDesu/BocchiBot#features">Features</a> •
   <a href="https://github.com/SlavyanDesu/BocchiBot#thanks-to">Thanks to</a> •
   <a href="https://github.com/SlavyanDesu/BocchiBot#license">License</a>
-</p>
 </div>
 
 # Requirements
@@ -63,7 +57,7 @@ Edit the required value in `config.json`.
 `ownerBot`: your WhatsApp number.   
 `prefix`: bot's prefix.   
 `nao`: SauceNAO API key. You can get it [here](https://saucenao.com/user.php) by creating an account.   
-`openAiKey`: OpenAi API key. You can get it [here](https://platform.openai.com/account/api-keys) by creating an account.   
+`openAiKey`: OpenAI API key. You can get it [here](https://platform.openai.com/account/api-keys) by creating an account.   
 `authorStick`: name of the author sticker pack.   
 `packStick`: name of the sticker pack.   
 
@@ -145,6 +139,6 @@ Type `.help` to your bot number to see the list of commands.
 **BocchiBot** © [SlavyanDesu](https://github.com/SlavyanDesu), released under the MIT License.
 Authored and maintained by SlavyanDesu.
 
-<p align="center">
+<div align="center">
   <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FSlavyanDesu%2FBocchiBot?ref=badge_large"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FSlavyanDesu%2FBocchiBot.svg?type=large" />
-</p>
+</div>
