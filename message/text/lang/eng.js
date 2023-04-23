@@ -1,6 +1,10 @@
 /* eslint-disable quotes */
 const { prefix } = require('../../../config.json')
 
+exports.unreg = () => {
+    return `Successfully unregistered!`
+}
+
 exports.wait = () => {
     return `Please wait a moment...`
 }
@@ -398,6 +402,7 @@ Total registered: *${jumlahUser}*
 *[7]* Moderation
 *[8]* Owner
 *[9]* Leveling
+*[10]* AI
 
 Type *${prefix}menu* index_number to open the selected page menu.
 
@@ -507,6 +512,11 @@ Usage: *${prefix}serial* serial
 Check your host runtime.
 Aliases: -
 Usage: *${prefix}runtime*
+
+17. *${prefix}unregister*
+Unregister your account.
+Aliases: *unreg*
+Usage: *${prefix}unregister*
 
 _Index of [2]_
     `
@@ -878,7 +888,12 @@ Unblock user.
 Aliases: *unblok*
 Usage: *${prefix}unblock* @user/62812xxxxxxxx
 
-_Index of [9]_
+16. *${prefix}xp*
+Add XP to someone.
+Aliases: -
+Usage: *${prefix}xp* @user amount_xp
+
+_Index of [8]_
     `
 }
 
@@ -895,6 +910,24 @@ Usage: *${prefix}level*
 Check leaderboard.
 Aliaases: -
 Usage: *${prefix}leaderboard*
+
+_Index of [9]_
+    `
+}
+
+exports.menuAi = () => {
+    return `
+*── 「 AI 」 ──*
+
+1. *${prefix}ai*
+ChatGPT 3.5 implementation.
+Aliases: -
+Usage: *${prefix}ai* your_question
+
+2. *${prefix}image*
+Create image from given prompt.
+Aliases: *img*
+Usage: *${prefix}image* prompt
 
 _Index of [10]_
     `

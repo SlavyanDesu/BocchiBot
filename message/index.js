@@ -338,6 +338,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 await bocchi.reply(from, eng.registered(q, sender.id, time, serialUser), id)
                 console.log(color('[REGISTER]'), color(time, 'yellow'), 'Name:', color(q, 'cyan'), 'Serial:', color(serialUser, 'cyan'))
                 break
+            case 'unregister':
+            case 'unreg':
+                if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
+                _registered.splice(register.getRegisteredPosition(sender.id, _registered), 1)
+                fs.writeFileSync('./database/bot/registered.json', JSON.stringify(_registered))
+                await bocchi.reply(from, eng.unreg(), id)
+                break
 
             // Level [BETA] by Slavyan
             case 'level':
@@ -513,6 +520,7 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.reply(from, `Error: ${err.message}`, id)
                 }
                 break
+            case 'image':
             case 'img':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
                 if (config.openAiKey == 'api-key') return await bocchi.reply(from, 'Invalid OpenAi Apikey. Please get your ApiKey at: https://platform.openai.com/account/api-keys', id)
@@ -868,6 +876,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else if (args[0] === '9') {
                     if (!isGroupMsg) return await bocchi.reply(from, eng.groupOnly(), id)
                     await bocchi.sendText(from, eng.menuLeveling())
+                } else if (args[0] === '10') {
+                    await bocchi.sendText(from, eng.menuAi())
                 } else {
                     await bocchi.sendText(from, eng.menu(jumlahUser, levelMenu, xpMenu, role, pushname, reqXpMenu, isPremium ? 'YES' : 'NO'))
                 }
@@ -1766,11 +1776,11 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 break
 
             // Owner command
-            case 'masterlevel':
+            case 'xp':
                 if (!isOwner) return await bocchi.reply(from, eng.ownerOnly(), id)
-                if (mentionedJidList.length !== 0 && typeof args[1] === 'number') {
-                    level.addLevelingLevel(mentionedJidList, args[1], _level)
-                    await bocchi.reply(from, eng.ok())
+                if (mentionedJidList.length !== 0 && typeof Number(ar[1]) === 'number') {
+                    level.addLevelingXp(mentionedJidList[0], Number(ar[1]), _level)
+                    await bocchi.reply(from, eng.ok(), id)
                 } else {
                     await bocchi.reply(from, eng.wrongFormat(), id)
                 }

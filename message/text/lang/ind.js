@@ -400,6 +400,7 @@ Berikut adalah menu yang tersedia:
 *[7]* Moderation
 *[8]* Owner
 *[9]* Leveling
+*[10]* AI
 
 Ketik *${prefix}menu* angka_index untuk membuka menu page yang dipilih.
 
@@ -509,6 +510,11 @@ Usage: *${prefix}serial* serial
 Cek runtime host.
 Aliases: -
 Usage: *${prefix}runtime*
+
+17. *${prefix}unregister*
+Unregister akun.
+Aliases: *unreg*
+Usage: *${prefix}unregister*
 
 _Index of [2]_
     `
@@ -888,7 +894,12 @@ Unblok user.
 Aliases: *unblok*
 Usage: *${prefix}unblock* @user/62812xxxxxxxx
 
-_Index of [9]_
+16. *${prefix}xp*
+Menambahkan XP ke user.
+Aliases: -
+Usage: *${prefix}xp* @user jumlah_xp
+
+_Index of [8]_
     `
 }
 
@@ -905,6 +916,24 @@ Usage: *${prefix}level*
 Untuk melihat leaderboard.
 Aliaases: -
 Usage: *${prefix}leaderboard*
+
+_Index of [9]_
+    `
+}
+
+exports.menuAi = () => {
+    return `
+*── 「 AI 」 ──*
+
+1. *${prefix}ai*
+Implementasi untuk ChatGPT 3.5
+Aliases: -
+Usage: *${prefix}ai* pertanyaan
+
+2. *${prefix}image*
+Membuat gambar dari prompt/kata kunci.
+Aliases: *img*
+Usage: *${prefix}image* prompt
 
 _Index of [10]_
     `
