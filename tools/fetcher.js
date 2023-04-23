@@ -1,3 +1,4 @@
+/* eslint-disable no-async-promise-executor */
 const fs = require('fs-extra')
 const FormData = require('form-data')
 const FileType = require('file-type')

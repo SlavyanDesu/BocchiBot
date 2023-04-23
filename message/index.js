@@ -33,6 +33,7 @@ const ocrtess = require('node-tesseract-ocr')
 const { msgFilter, color, processTime, isUrl, createSerial } = require('../tools')
 const { weeaboo, downloader } = require('../lib')
 const { uploadImages } = require('../tools/fetcher')
+// eslint-disable-next-line no-unused-vars
 const { eng, ind } = require('./text/lang/')
 const { daily, level, register, afk, reminder, premium, limit , quizizz } = require('../function')
 const cd = 4.32e+7
@@ -327,85 +328,6 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
         if (isCmd && !isPremium && !isOwner) msgFilter.addFilter(from)
 
         switch (command) {
-          //openAi API Implementation by: VideFrelan
-          case 'ai':
-            if (config.openAiKey == 'api-key') return await bocchi.reply(from, `Invalid OpenAi Apikey. Please get your ApiKey at: https://platform.openai.com/account/api-keys `, id)
-            if (!q) return await bocchi.reply(from, eng.wrongFormat(), id)
-            await bocchi.reply(from, eng.wait(), id)
-            try {
-            configuration = new Configuration({
-                apiKey: config.openAiKey
-              })
-              openai = new OpenAIApi(configuration)
-		      completion = await openai.createChatCompletion({
-		      model: "gpt-3.5-turbo",
-		      messages: [{role: "user", content: q}],
-		    })
-		    await bocchi.reply(from, `${completion.data.choices[0].message.content}`, id)
-	    } catch (err) {
-            console.error(err)
-            await bocchi.reply(from, `Error: ${err.message}`, id)
-        }
-		break
-        case 'img':
-            if (config.openAiKey == 'api-key') return await bocchi.reply(from, `Invalid OpenAi Apikey. Please get your ApiKey at: https://platform.openai.com/account/api-keys `, id)
-            if (!q) return await bocchi.reply(from, eng.wrongFormat(), id)
-            await bocchi.reply(from, eng.wait(), id)
-            try {
-            configuration = new Configuration({
-                apiKey: config.openAiKey
-              })
-              openai = new OpenAIApi(configuration)
-              completion = await openai.createImage({
-                prompt: q,
-                n: 1,
-                size: "1024x1024",
-              })
-              bocchi.sendFileFromUrl(from, completion.data.data[0].url, 'BOCCHIOPENAI.jpg', '', id)
-            } catch (err) {
-                console.error(err)
-                await bocchi.reply(from, `Error: ${err.message}`, id)
-            }
-        break
-            // OCR by VideFrelan
-            case 'ocr':
-                if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(pushname), id)
-                const ocrconf = {
-                    lang: 'eng',
-                    oem: '1',
-                    psm: '3'
-                }
-                if (isMedia && isImage || isQuotedImage) {
-                    await bocchi.reply(from, eng.wait(), id)
-                    const encryptMedia = isQuotedImage ? quotedMsg : message
-                    const mediaData = await decryptMedia(encryptMedia)
-                    fs.writeFileSync(`./${sender.id}.jpg`, mediaData)
-                    ocrtess.recognize(`./${sender.id}.jpg`, ocrconf)
-                    .then(text => {
-                    bocchi.reply(from, `*...:* *OCR RESULT* *:...*\n\n${text}`, id)
-                    fs.unlinkSync(`./${sender.id}.jpg`)
-                    })
-                    .catch(async (err) => {
-                        console.error(err)
-                        await bocchi.reply(from, 'Error!', id)
-                    })
-            } else if (quotedMsg && quotedMsg.type == 'sticker') {
-                    await bocchi.reply(from, eng.wait(), id)
-                    const mediaData = await decryptMedia(quotedMsg)
-                    fs.writeFileSync(`./${sender.id}.jpg`, mediaData)
-                    ocrtess.recognize(`./${sender.id}.jpg`, ocrconf)
-                    .then(text => {
-                    bocchi.reply(from, `*...:* *OCR RESULT* *:...*\n\n${text}`, id)
-                    fs.unlinkSync(`./${sender.id}.jpg`)
-                })
-                .catch(async (err) => {
-                    console.error(err)
-                    await bocchi.reply(from, 'Error!', id)
-                })
-            } else {
-                await bocchi.reply(from, `Untuk menggunakan ocr\nsilahkan upload atau reply foto dengan perintah ${prefix}ocr\n\nAtau anda juga bisa reply sticker dengan perintah ${prefix}ocr`, id)
-            }
-            break
             // Register by Slavyan
             case 'register':
                 if (isGroupMsg) return await bocchi.reply(from, eng.pcOnly(), id)
@@ -415,6 +337,13 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 register.addRegisteredUser(sender.id, q, time, serialUser, _registered)
                 await bocchi.reply(from, eng.registered(q, sender.id, time, serialUser), id)
                 console.log(color('[REGISTER]'), color(time, 'yellow'), 'Name:', color(q, 'cyan'), 'Serial:', color(serialUser, 'cyan'))
+                break
+            case 'unregister':
+            case 'unreg':
+                if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
+                _registered.splice(register.getRegisteredPosition(sender.id, _registered), 1)
+                fs.writeFileSync('./database/bot/registered.json', JSON.stringify(_registered))
+                await bocchi.reply(from, eng.unreg(), id)
                 break
 
             // Level [BETA] by Slavyan
@@ -558,9 +487,9 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 if (limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) return await bocchi.reply(from, eng.limit(), id)
                 limit.addLimit(sender.id, _limit, isPremium, isOwner)
                 await bocchi.reply(from, eng.wait(), id)
-                downloader.yt(url)
-                    .then(async ({ title, path }) => {
-                        await bocchi.sendFile(from, path, `${title}.mp4`, null, id)
+                downloader.yt(url, sender.id)
+                    .then(async ({ path }) => {
+                        await bocchi.sendFile(from, path, 'video.mp4', null, id)
                             .then(() => fs.unlinkSync(path))
                     })
                     .catch(async (err) => {
@@ -570,6 +499,85 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 break
 
             // Misc
+            // OpenAI API Implementation by: VideFrelan
+            case 'ai':
+                if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
+                if (config.openAiKey == 'api-key') return await bocchi.reply(from, 'Invalid OpenAi Apikey. Please get your ApiKey at: https://platform.openai.com/account/api-keys', id)
+                if (!q) return await bocchi.reply(from, eng.wrongFormat(), id)
+                try {
+                    await bocchi.simulateTyping(from, true)
+                    console.log(color('[AI]', 'cyan'), color(`Thinking the answers for "${q}"...`, 'yellow'))
+                    const configuration = new Configuration({ apiKey: config.openAiKey })
+                    const openai = new OpenAIApi(configuration)
+                    const completion = await openai.createChatCompletion({
+                        model: 'gpt-3.5-turbo',
+                        messages: [{ role: 'user', content: q }],
+                    })
+                    await bocchi.reply(from, completion.data.choices[0].message.content, id)
+                    await bocchi.simulateTyping(from, false)
+                } catch (err) {
+                    console.error(err)
+                    await bocchi.reply(from, `Error: ${err.message}`, id)
+                }
+                break
+            case 'image':
+            case 'img':
+                if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
+                if (config.openAiKey == 'api-key') return await bocchi.reply(from, 'Invalid OpenAi Apikey. Please get your ApiKey at: https://platform.openai.com/account/api-keys', id)
+                if (!q) return await bocchi.reply(from, eng.wrongFormat(), id)
+                await bocchi.reply(from, eng.wait(), id)
+                try {
+                    const configuration = new Configuration({ apiKey: config.openAiKey })
+                    const openai = new OpenAIApi(configuration)
+                    const completion = await openai.createImage({
+                        prompt: q,
+                        n: 1,
+                        size: '1024x1024',
+                    })
+                    await bocchi.sendFileFromUrl(from, completion.data.data[0].url, 'image.jpg', null, id)
+                } catch (err) {
+                    console.error(err)
+                    await bocchi.reply(from, `Error: ${err.message}`, id)
+                }
+                break
+            case 'ocr': // OCR by VideFrelan
+                if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
+                const ocrconf = {
+                    lang: 'eng',
+                    oem: '1',
+                    psm: '3'
+                }
+                if (isMedia && isImage || isQuotedImage) {
+                    await bocchi.reply(from, eng.wait(), id)
+                    const encryptMedia = isQuotedImage ? quotedMsg : message
+                    const mediaData = await decryptMedia(encryptMedia)
+                    fs.writeFileSync(`./${sender.id}.jpg`, mediaData)
+                    ocrtess.recognize(`./${sender.id}.jpg`, ocrconf)
+                        .then(async (text) => {
+                            await bocchi.reply(from, `*...:* *OCR RESULT* *:...*\n\n${text}`, id)
+                            fs.unlinkSync(`./${sender.id}.jpg`)
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, 'Error!', id)
+                        })
+                } else if (quotedMsg && quotedMsg.type == 'sticker') {
+                    await bocchi.reply(from, eng.wait(), id)
+                    const mediaData = await decryptMedia(quotedMsg)
+                    fs.writeFileSync(`./${sender.id}.jpg`, mediaData)
+                    ocrtess.recognize(`./${sender.id}.jpg`, ocrconf)
+                        .then(async (text) => {
+                            await bocchi.reply(from, `*...:* *OCR RESULT* *:...*\n\n${text}`, id)
+                            fs.unlinkSync(`./${sender.id}.jpg`)
+                        })
+                        .catch(async (err) => {
+                            console.error(err)
+                            await bocchi.reply(from, 'Error!', id)
+                        })
+                } else {
+                    await bocchi.reply(from, `Untuk menggunakan ocr\nsilahkan upload atau reply foto dengan perintah ${prefix}ocr\n\nAtau anda juga bisa reply sticker dengan perintah ${prefix}ocr`, id)
+                }
+                break
             case 'google': // chika-chantekkzz
             case 'googlesearch':
                 if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id)
@@ -868,6 +876,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 } else if (args[0] === '9') {
                     if (!isGroupMsg) return await bocchi.reply(from, eng.groupOnly(), id)
                     await bocchi.sendText(from, eng.menuLeveling())
+                } else if (args[0] === '10') {
+                    await bocchi.sendText(from, eng.menuAi())
                 } else {
                     await bocchi.sendText(from, eng.menu(jumlahUser, levelMenu, xpMenu, role, pushname, reqXpMenu, isPremium ? 'YES' : 'NO'))
                 }
@@ -1766,6 +1776,15 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                 break
 
             // Owner command
+            case 'xp':
+                if (!isOwner) return await bocchi.reply(from, eng.ownerOnly(), id)
+                if (mentionedJidList.length !== 0 && typeof Number(ar[1]) === 'number') {
+                    level.addLevelingXp(mentionedJidList[0], Number(ar[1]), _level)
+                    await bocchi.reply(from, eng.ok(), id)
+                } else {
+                    await bocchi.reply(from, eng.wrongFormat(), id)
+                }
+                break
             case 'block':
             case 'blok':
                 if (!isOwner) return await bocchi.reply(from, eng.ownerOnly(), id)

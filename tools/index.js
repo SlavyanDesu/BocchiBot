@@ -42,22 +42,22 @@ const processTime = (timestamp, now) => {
 }
 
 const chromeArgs = [
-		'--aggressive-cache-discard',
-		'--aggressive-tab-discard',
-		'--disable-accelerated-2d-canvas',
-		'--disable-application-cache',
-		'--disable-cache',
-		'--disable-dev-shm-usage',
-		'--disable-gpu',
-		'--disable-offline-load-stale-cache',
-		'--disable-setuid-sandbox',
-		'--disable-setuid-sandbox',
-		'--disk-cache-size=0',
-		'--ignore-certificate-errors',
-		'--no-first-run',
-		'--no-sandbox',
-		'--no-zygote'
-	]
+	'--aggressive-cache-discard',
+	'--aggressive-tab-discard',
+	'--disable-accelerated-2d-canvas',
+	'--disable-application-cache',
+	'--disable-cache',
+	'--disable-dev-shm-usage',
+	'--disable-gpu',
+	'--disable-offline-load-stale-cache',
+	'--disable-setuid-sandbox',
+	'--disable-setuid-sandbox',
+	'--disk-cache-size=0',
+	'--ignore-certificate-errors',
+	'--no-first-run',
+	'--no-sandbox',
+	'--no-zygote'
+]
 
 /**
  * Client options.

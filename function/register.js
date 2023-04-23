@@ -127,6 +127,22 @@ const getRegisteredRandomId = (_dir) => {
     return _dir[Math.floor(Math.random() * _dir.length)].id
 }
 
+/**
+ * Get position of registered user.
+ * @param {string} userId
+ * @param {object} _dir
+ * @returns {number}
+ */
+const getRegisteredPosition = (userId, _dir) => {
+    let position = null
+    Object.keys(_dir).forEach((i) => {
+        if (_dir[i].id === userId) {
+            position = i
+        }
+    })
+    return position
+}
+
 module.exports = {
     addRegisteredUser,
     checkRegisteredUser,
@@ -135,5 +151,6 @@ module.exports = {
     getRegisteredTimeFromSerial,
     getRegisteredIdFromSerial,
     getRegisteredRandomId,
-    getRegisteredUserId
+    getRegisteredUserId,
+    getRegisteredPosition
 }
