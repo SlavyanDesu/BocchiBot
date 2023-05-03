@@ -67,7 +67,7 @@ const chromeArgs = [
 const options = (start) => {
     const options = {
         sessionId: 'BocchiBot',
-        headless: true,
+        headless: "new",
         qrTimeout: 0,
         authTimeout: 0,
         restartOnCrash: start,
