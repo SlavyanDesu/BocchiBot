@@ -878,6 +878,8 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     await bocchi.sendText(from, eng.menuLeveling())
                 } else if (args[0] === '10') {
                     await bocchi.sendText(from, eng.menuAi())
+                } else if (args[0] === '11') {
+                    await bocchi.sendText(from, eng.menuNsfw())
                 } else {
                     await bocchi.sendText(from, eng.menu(jumlahUser, levelMenu, xpMenu, role, pushname, reqXpMenu, isPremium ? 'YES' : 'NO'))
                 }
@@ -1172,6 +1174,46 @@ module.exports = msgHandler = async (bocchi = new Client(), message) => {
                     })
                 break
 
+            // nsfw by staffFF6773
+            case 'nsfw':
+                if (!isRegistered) return await bocchi.reply(from, eng.notRegistered(), id);
+                        
+                // Check if NSFW is enabled
+                if (nsfwEnabled && !limit.isLimit(sender.id, _limit, limitCount, isPremium, isOwner)) {
+                limit.addLimit(sender.id, _limit, isPremium, isOwner);
+                await bocchi.reply(from, eng.wait(), id);
+                        
+                weeaboo.waifu(true)
+                    .then(async ({ url }) => {
+                        await bocchi.sendFileFromUrl(from, url, 'waifuNsfw.png', '', id)
+                            .then(() => console.log('Success sending Nsfw!'));
+                        })
+                        .catch(async (err) => {
+                            console.error(err);
+                            await bocchi.reply(from, 'Error!', id);
+                        });
+                    } else {
+                        await bocchi.reply(from, 'NSFW is currently disabled or you have reached the limit. Use `nsfwon` to enable it.', id);
+                    }
+                    break;
+                            
+            case 'nsfwon':
+                if (isOwner && isGroupAdmins) {
+                    nsfwEnabled = true;
+                    await bocchi.reply(from, 'NSFW has been enabled.', id);
+                } else {
+                    await bocchi.reply(from, 'Only the owner can enable NSFW.', id);
+                }
+                break;
+                            
+            case 'nsfwoff':
+                if (isOwner && isGroupAdmins) {
+                    nsfwEnabled = false;
+                    await bocchi.reply(from, 'NSFW has been disabled.', id);
+                } else {
+                    await bocchi.reply(from, 'Only the owner can disable NSFW.', id);
+                }
+                break;
             // Fun
             case 'profile':
             case 'me':
