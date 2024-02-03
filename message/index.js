@@ -39,6 +39,7 @@ const { daily, level, register, afk, reminder, premium, limit, quizizz } = requi
 const cd = 4.32e+7
 const limitCount = 25
 const errorImg = 'https://i.ibb.co/jRCpLfn/user.png'
+let nsfwEnabled = false;
 /********** END OF UTILS **********/
 
 /********** DATABASES **********/
