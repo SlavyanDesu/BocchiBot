@@ -23,7 +23,7 @@
         "await-exec": "^0.1.2",
         "bad-words": "^3.0.4",
         "canvacord": "^5.4.8",
-        "chalk": "4.1.2",
+        "chalk": "5.4.1",
         "figlet": "^1.6.0",
         "file-type": "16.5.4",
         "fluent-ffmpeg": "^2.1.2",
