@@ -40,7 +40,7 @@
         "node-fetch": "2.6.7",
         "node-gtts": "^2.0.2",
         "node-tesseract-ocr": "^2.2.1",
-        "openai": "^3.2.1",
+        "openai": "^4.91.1",
         "parse-ms": "2.1.0",
         "sagiri": "^3.4.0",
         "video-url-link": "^0.1.5",
