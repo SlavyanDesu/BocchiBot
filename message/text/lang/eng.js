@@ -403,6 +403,7 @@ Total registered: *${jumlahUser}*
 *[8]* Owner
 *[9]* Leveling
 *[10]* AI
+*[11]* Nsfw
 
 Type *${prefix}menu* index_number to open the selected page menu.
 
@@ -930,6 +931,29 @@ Aliases: *img*
 Usage: *${prefix}image* prompt
 
 _Index of [10]_
+    `
+}
+
+exports.menuNsfw = () => {
+    return `
+*── 「 NSFW 」 ──*
+    
+1. *${prefix}nsfw*
+Send random waifu nsfw photos
+Aliases: -
+Usage: *${prefix}nsfw*
+
+2. *${prefix}nsfwon*
+enables the nsfw command in the group
+Aliases: -
+Usage: *${prefix}nsfwon*
+
+3. *${prefix}nsfwoff*
+disable the nsfw command in the group
+Aliases: -
+Usage: *${prefix}nsfwoff*
+
+_Index of [11]_
     `
 }
 
